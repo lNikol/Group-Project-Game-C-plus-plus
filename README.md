@@ -1,2 +1,2 @@
-# Group-Project-Game-C-
+# Group-Project-Game-C-plus-plus
 Realization of Group Project on Gdańsk University of Technology 
