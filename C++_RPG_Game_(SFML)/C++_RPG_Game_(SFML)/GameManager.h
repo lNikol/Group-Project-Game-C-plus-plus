@@ -1,5 +1,7 @@
 #pragma once
 #include <SFML/Graphics.hpp>
+#include <iostream>
+#include "Constants.h"
 
 namespace RPG {
 
@@ -7,6 +9,10 @@ namespace RPG {
 
 		bool running;
 		sf::RenderWindow window;
+
+		void update(float dt);
+		void draw();
+		void handleEvents();
 
 	public:
 		GameManager();

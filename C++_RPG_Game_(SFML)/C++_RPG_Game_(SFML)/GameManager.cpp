@@ -3,33 +3,53 @@
 namespace RPG {
 
 	GameManager::GameManager() 
-		: window(sf::VideoMode({ 800, 600 }), "My Game"),
+		: window(sf::VideoMode({ Window::WIDTH, Window::HEIGHT }), Window::TITLE),
 		running(false)
 	{
-
+		window.setFramerateLimit(Window::BASE_FPS);
 	}
 
 	void GameManager::run() {
 		running = true;
 
-		while (window.isOpen() && running) {
-			while (const std::optional event = window.pollEvent()) {
-				if (event->is<sf::Event::Closed>()) {
-					window.close();
-				}
-				else if (const auto* keyPressed = event->getIf<sf::Event::KeyPressed>()) {
-					if (keyPressed->scancode == sf::Keyboard::Scancode::Escape) {
-						window.close();
-					}
-				}
-			}
-			//Render
-			window.clear(sf::Color(0x4B0082FF));
+		sf::Clock clock;
 
-			//Drawing
-			window.display();
+		while (window.isOpen() && running) {
+			
+			float dt = clock.restart().asSeconds();
+
+			handleEvents();
+			update(dt);
+			draw();
 
 		}
+	}
+
+	void GameManager::handleEvents() {
+
+		// Eventy - przeklejony z bazowego kodu SFML narazie
+		while (const std::optional event = window.pollEvent()) {
+			if (event->is<sf::Event::Closed>()) {
+				window.close();
+			}
+			else if (const auto* keyPressed = event->getIf<sf::Event::KeyPressed>()) {
+				if (keyPressed->scancode == sf::Keyboard::Scancode::Escape) {
+					window.close();
+				}
+			}
+		}
+
+	}
+
+	void GameManager::update(float dt) {
+
+		std::cout << (1.f / dt) << " \n";
+
+	}
+
+	void GameManager::draw() {
+		window.clear(sf::Color(0x4B0082FF));
+		window.display();
 	}
 
 }
