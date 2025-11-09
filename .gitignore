@@ -42,4 +42,10 @@
 
 
 #.vs
-C++_RPG_Game_(SFML)/.vs/
+/C++_RPG_Game_(SFML)/.vs/
+
+#unignore
+!/C++_RPG_Game_(SFML)/External/
+!/C++_RPG_Game_(SFML)/External/*
+!/C++_RPG_Game_(SFML)/External/**/*
+!/C++_RPG_Game_(SFML)/C++_RPG_Game_(SFML)/*dll
