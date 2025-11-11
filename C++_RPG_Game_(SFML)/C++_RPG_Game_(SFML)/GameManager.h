@@ -2,6 +2,7 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include "Constants.h"
+#include "SpritesheetManager.h"
 
 namespace RPG {
 
@@ -9,6 +10,8 @@ namespace RPG {
 
 		bool running;
 		sf::RenderWindow window;
+		SpritesheetManager spritesheetManager;
+		sf::RectangleShape rect;
 
 		void update(float dt);
 		void draw();

@@ -7,6 +7,10 @@ namespace RPG {
 		running(false)
 	{
 		window.setFramerateLimit(Window::BASE_FPS);
+		spritesheetManager.addSpritesheet("test", "test.jpg");
+		rect.setTexture(spritesheetManager.getSpritesheet("test"));
+		rect.setPosition({0,0});
+		rect.setSize({ 64, 64 });
 	}
 
 	void GameManager::run() {
@@ -49,6 +53,7 @@ namespace RPG {
 
 	void GameManager::draw() {
 		window.clear(sf::Color(0x4B0082FF));
+		window.draw(rect);
 		window.display();
 	}
 
