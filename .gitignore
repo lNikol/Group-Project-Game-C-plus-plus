@@ -43,6 +43,20 @@
 
 #.vs
 /C++_RPG_Game_(SFML)/.vs/
+#build output
+x64/
+x86/
+Debug/
+Release/
+
+#visual studio user settings
+*.user
+*.suo
+*.opensdf
+*.sdf
+*.cache
+*.db
+*.opdb
 
 #unignore
 !/C++_RPG_Game_(SFML)/External/
