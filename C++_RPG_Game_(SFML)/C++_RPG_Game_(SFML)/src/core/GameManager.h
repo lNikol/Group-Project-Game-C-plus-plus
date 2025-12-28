@@ -1,8 +1,8 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include <iostream>
-#include "Constants.h"
-#include "SpritesheetManager.h"
+#include "core/Constants.h"
+#include "core/SpritesheetManager.h"
 
 namespace RPG {
 

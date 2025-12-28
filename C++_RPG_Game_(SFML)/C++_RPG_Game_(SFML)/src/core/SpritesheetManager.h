@@ -2,7 +2,7 @@
 #include <unordered_map>
 #include <string>
 #include <iostream>
-#include "Constants.h"
+#include "core/Constants.h"
 
 namespace RPG {
 

@@ -1,5 +1,4 @@
-#include "GameManager.h"
-
+#include "core/GameManager.h"
 namespace RPG {
 
 	GameManager::GameManager() 
@@ -7,7 +6,7 @@ namespace RPG {
 		running(false)
 	{
 		window.setFramerateLimit(Window::BASE_FPS);
-		spritesheetManager.addSpritesheet("test", "test.jpg");
+		spritesheetManager.addSpritesheet("test", "assets/textures/placeholders/test.jpg");
 		rect.setTexture(spritesheetManager.getSpritesheet("test"));
 		rect.setPosition({0,0});
 		rect.setSize({ 64, 64 });

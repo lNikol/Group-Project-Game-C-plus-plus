@@ -1,4 +1,4 @@
-#include "SpritesheetManager.h"
+#include "core/SpritesheetManager.h"
 
 namespace RPG {
 
