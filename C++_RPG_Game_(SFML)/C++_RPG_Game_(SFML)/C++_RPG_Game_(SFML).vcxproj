@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -136,13 +136,30 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\core\GameManager.cpp" />
-    <ClCompile Include="src\core\SpritesheetManager.cpp" />
+    <ClCompile Include="src\core\AssetManager.cpp" />
+    <ClCompile Include="src\drawable\IsoGrid.cpp" />
+    <ClCompile Include="src\GUI\widgets\ActionSlot.cpp" />
+    <ClCompile Include="src\GUI\widgets\StatBar.cpp" />
+    <ClCompile Include="src\GUI\widgets\Tooltip.cpp" />
+    <ClCompile Include="src\GUI\windows\BattleHud.cpp" />
+    <ClCompile Include="src\GUI\windows\WindowBase.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\placeholder\TestActor.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\core\Constants.h" />
     <ClInclude Include="src\core\GameManager.h" />
-    <ClInclude Include="src\core\SpritesheetManager.h" />
+    <ClInclude Include="src\core\AssetManager.h" />
+    <ClInclude Include="src\drawable\IsoGrid.h" />
+    <ClInclude Include="src\GUI\widgets\ActionSlot.h" />
+    <ClInclude Include="src\GUI\widgets\IGuiElement.h" />
+    <ClInclude Include="src\GUI\widgets\StatBar.h" />
+    <ClInclude Include="src\GUI\widgets\Tooltip.h" />
+    <ClInclude Include="src\GUI\windows\BattleHUD.h" />
+    <ClInclude Include="src\GUI\windows\OpenWindowCommand.h" />
+    <ClInclude Include="src\GUI\windows\WindowBase.h" />
+    <ClInclude Include="src\interfaces\IAbility.h" />
+    <ClInclude Include="src\interfaces\ICombatActor.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
