@@ -138,11 +138,24 @@
     <ClCompile Include="src\core\GameManager.cpp" />
     <ClCompile Include="src\core\SpritesheetManager.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\worldmap\AssetManager.cpp" />
+    <ClCompile Include="src\worldmap\Player.cpp" />
+    <ClCompile Include="src\worldmap\Tile.cpp" />
+    <ClCompile Include="src\worldmap\WorldMap.cpp" />
+    <ClCompile Include="src\worldmap\WorldMapRenderer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\core\Constants.h" />
+    <ClInclude Include="src\core\GameConfig.h" />
     <ClInclude Include="src\core\GameManager.h" />
     <ClInclude Include="src\core\SpritesheetManager.h" />
+    <ClInclude Include="src\worldmap\AssetManager.h" />
+    <ClInclude Include="src\worldmap\DifficultySettings.h" />
+    <ClInclude Include="src\worldmap\Player.h" />
+    <ClInclude Include="src\worldmap\StructureDefinition.h" />
+    <ClInclude Include="src\worldmap\Tile.h" />
+    <ClInclude Include="src\worldmap\WorldMap.h" />
+    <ClInclude Include="src\worldmap\WorldMapRenderer.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

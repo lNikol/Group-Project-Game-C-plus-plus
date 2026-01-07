@@ -13,27 +13,78 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Pliki źródłowe\worldmap">
+      <UniqueIdentifier>{4a04ce87-f68e-41f1-ae14-6b8707cc58a2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pliki nagłówkowe\worldmap">
+      <UniqueIdentifier>{628133e8-cd23-4545-8408-ebf3af674d99}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pliki nagłówkowe\core">
+      <UniqueIdentifier>{cda53558-732e-402e-8c7b-1a48dba902ee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pliki źródłowe\core">
+      <UniqueIdentifier>{d4f7cf84-f3f7-4761-ac98-379e2614b4cb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\core\GameManager.cpp">
-      <Filter>Pliki źródłowe</Filter>
-    </ClCompile>
-    <ClCompile Include="src\core\SpritesheetManager.cpp">
-      <Filter>Pliki źródłowe</Filter>
-    </ClCompile>
     <ClCompile Include="src\main.cpp">
       <Filter>Pliki źródłowe</Filter>
     </ClCompile>
+    <ClCompile Include="src\worldmap\AssetManager.cpp">
+      <Filter>Pliki źródłowe\worldmap</Filter>
+    </ClCompile>
+    <ClCompile Include="src\worldmap\Player.cpp">
+      <Filter>Pliki źródłowe\worldmap</Filter>
+    </ClCompile>
+    <ClCompile Include="src\worldmap\Tile.cpp">
+      <Filter>Pliki źródłowe\worldmap</Filter>
+    </ClCompile>
+    <ClCompile Include="src\worldmap\WorldMap.cpp">
+      <Filter>Pliki źródłowe\worldmap</Filter>
+    </ClCompile>
+    <ClCompile Include="src\worldmap\WorldMapRenderer.cpp">
+      <Filter>Pliki źródłowe\worldmap</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\GameManager.cpp">
+      <Filter>Pliki źródłowe\core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\SpritesheetManager.cpp">
+      <Filter>Pliki źródłowe\core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\core\GameManager.h">
-      <Filter>Pliki nagłówkowe</Filter>
+    <ClInclude Include="src\worldmap\AssetManager.h">
+      <Filter>Pliki nagłówkowe\worldmap</Filter>
     </ClInclude>
-    <ClInclude Include="src\core\SpritesheetManager.h">
-      <Filter>Pliki nagłówkowe</Filter>
+    <ClInclude Include="src\worldmap\DifficultySettings.h">
+      <Filter>Pliki nagłówkowe\worldmap</Filter>
+    </ClInclude>
+    <ClInclude Include="src\worldmap\Player.h">
+      <Filter>Pliki nagłówkowe\worldmap</Filter>
+    </ClInclude>
+    <ClInclude Include="src\worldmap\StructureDefinition.h">
+      <Filter>Pliki nagłówkowe\worldmap</Filter>
+    </ClInclude>
+    <ClInclude Include="src\worldmap\Tile.h">
+      <Filter>Pliki nagłówkowe\worldmap</Filter>
+    </ClInclude>
+    <ClInclude Include="src\worldmap\WorldMap.h">
+      <Filter>Pliki nagłówkowe\worldmap</Filter>
+    </ClInclude>
+    <ClInclude Include="src\worldmap\WorldMapRenderer.h">
+      <Filter>Pliki nagłówkowe\worldmap</Filter>
     </ClInclude>
     <ClInclude Include="src\core\Constants.h">
-      <Filter>Pliki nagłówkowe</Filter>
+      <Filter>Pliki nagłówkowe\core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\GameManager.h">
+      <Filter>Pliki nagłówkowe\core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\SpritesheetManager.h">
+      <Filter>Pliki nagłówkowe\core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\GameConfig.h">
+      <Filter>Pliki nagłówkowe\core</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

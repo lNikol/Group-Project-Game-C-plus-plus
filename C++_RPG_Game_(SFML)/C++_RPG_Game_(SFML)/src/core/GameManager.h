@@ -3,6 +3,10 @@
 #include <iostream>
 #include "core/Constants.h"
 #include "core/SpritesheetManager.h"
+#include "./worldmap/AssetManager.h"
+#include "./worldmap/WorldMap.h"
+#include "./worldmap/WorldMapRenderer.h"
+#include "./worldmap/Player.h"
 
 namespace RPG {
 
@@ -10,16 +14,22 @@ namespace RPG {
 
 		bool running;
 		sf::RenderWindow window;
-		SpritesheetManager spritesheetManager;
-		sf::RectangleShape rect;
+		sf::View camera;
 
+		SpritesheetManager spritesheetManager;
+		AssetManager assetManager;
+		WorldMapRenderer worldRenderer;
+
+		std::unique_ptr<WorldMap> worldMap;
+		std::unique_ptr<Player> player;
+
+
+		void handleEvents();
 		void update(float dt);
 		void draw();
-		void handleEvents();
 
 	public:
 		GameManager();
-
 		void run();
 
 	};

@@ -4,7 +4,6 @@
 #include <string>
 
 namespace RPG {
-
 	using Spritesheet = sf::Texture;
 
 	namespace Window {

@@ -12,6 +12,9 @@ namespace RPG {
 	public:
 		void addSpritesheet(const std::string& name, const std::string& filepath);
 		const Spritesheet* getSpritesheet(const std::string& name) const;
+
+		std::string getTextureKey(const std::string& filepath);
+		void addSpritesheet(const std::string& filepath);
 	};
 
 }

@@ -1,4 +1,5 @@
 #include "core/SpritesheetManager.h"
+#include <filesystem>
 
 namespace RPG {
 
@@ -29,4 +30,22 @@ namespace RPG {
 		return &it->second;
 	}
 
+	std::string SpritesheetManager::getTextureKey(const std::string& filepath) {
+		std::filesystem::path path(filepath);
+		return path.stem().string(); // "path/to/rock.png" -> "rock"
+	}
+
+	void SpritesheetManager::addSpritesheet(const std::string& filepath) {
+		std::string name = std::filesystem::path(filepath).stem().string();
+    
+		if (spritesheetMap.count(name) > 0) return;
+
+		Spritesheet spritesheet;
+		if (!spritesheet.loadFromFile(filepath)) {
+			std::cerr << "Loading error: " << filepath << std::endl;
+			return;
+		}
+
+		spritesheetMap.emplace(name, std::move(spritesheet));
+	}
 }
