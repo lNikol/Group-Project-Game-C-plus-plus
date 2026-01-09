@@ -3,13 +3,14 @@
 #include <cstdint>
 
 namespace RPG {
+
     /** @brief Defines the visual and physical properties of a map structure */
     enum class StructureType {
         None,
         InvisibleBlock, // To block the neighborhood of the center point of a large object
         Rock, Tree, Wall,           // Obstacles
         Water, River, Swamp, Grass, Sand, // Ground types
-        Camp, SaveZone, FactionBase // Special zones
+        Camp, SaveZone, FactionBase, // Special zones
     };
 
     /** @brief Defines the grid size of a structure (e.g., 1x1, 2x2) */

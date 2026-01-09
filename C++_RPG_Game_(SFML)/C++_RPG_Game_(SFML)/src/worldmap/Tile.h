@@ -1,6 +1,6 @@
 #pragma once
 #include "StructureDefinition.h"
-#include "core/GameConfig.h"
+#include "core/Constants.h"
 #include <cstdint>
 
 namespace RPG {

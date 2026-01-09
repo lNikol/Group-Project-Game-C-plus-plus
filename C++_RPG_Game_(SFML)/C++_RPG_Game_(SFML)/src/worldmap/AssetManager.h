@@ -4,6 +4,7 @@
 #include "core/SpritesheetManager.h"
 
 namespace RPG {
+
     class AssetManager {
     private:
         /** @brief Map storing definitions for each structure type */

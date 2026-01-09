@@ -25,6 +25,12 @@
     <Filter Include="Pliki źródłowe\core">
       <UniqueIdentifier>{d4f7cf84-f3f7-4761-ac98-379e2614b4cb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Pliki nagłówkowe\entities">
+      <UniqueIdentifier>{0a7b1098-0923-4ab2-9aa3-9dfd3685fea6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pliki źródłowe\entities">
+      <UniqueIdentifier>{5597866f-5626-449b-8b44-e85ff265e711}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -50,6 +56,9 @@
     </ClCompile>
     <ClCompile Include="src\core\SpritesheetManager.cpp">
       <Filter>Pliki źródłowe\core</Filter>
+    </ClCompile>
+    <ClCompile Include="Monster.cpp">
+      <Filter>Pliki źródłowe\entities</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -83,8 +92,8 @@
     <ClInclude Include="src\core\SpritesheetManager.h">
       <Filter>Pliki nagłówkowe\core</Filter>
     </ClInclude>
-    <ClInclude Include="src\core\GameConfig.h">
-      <Filter>Pliki nagłówkowe\core</Filter>
+    <ClInclude Include="Monster.h">
+      <Filter>Pliki nagłówkowe\entities</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -1,5 +1,5 @@
 #pragma once
-#include "core/GameConfig.h"
+#include "core/Constants.h"
 #include "core/SpritesheetManager.h"
 #include "WorldMap.h"
 #include <SFML/Graphics.hpp>
@@ -7,6 +7,7 @@
 #include <cmath>
 
 namespace RPG {
+
 	class Player {
 	private:
 		sf::Vector2f position; // Position in pixels

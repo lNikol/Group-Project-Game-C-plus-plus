@@ -6,6 +6,7 @@
 #include <vector>
 
 namespace RPG {
+
 	class WorldMap {
 	private:
 		uint16_t width, height;
@@ -28,7 +29,7 @@ namespace RPG {
 		 * @param margin The distance from the map edge (number of tiles) to be excluded.
 		 * @return true if (x,y) is inside the spawn zone, false if it's within the margin or out of bounds.
 		 */
-		bool isInsideSpawnZone(int16_t x, int16_t y, int16_t margin) const;
+		bool isInsideSpawnZone(int16_t x, int16_t y, uint8_t margin) const;
 		
 		/**
 		 * @brief Accesses a tile at specific coordinates by converting 2D to 1D index.
@@ -47,7 +48,7 @@ namespace RPG {
 		 */
 		bool isBlockingAtPixel(float pixelX, float pixelY) const;
 
-		void refreshMonsters(const DifficultyLevel& level);
+		void refreshMonsters(const DifficultyLevel& level, uint8_t mapEdgeOffset = 5);
 
 		float getTileSpeedModifier(int16_t tx, int16_t ty) const;
 
@@ -62,7 +63,7 @@ namespace RPG {
 		bool placeStructure(int16_t startX, int16_t startY, StructureType type);
 
 
-		void generateObstacles(float density);
+		void generateObstacles(float density, const sf::Vector2f& playerStartPos, uint8_t playerSafeRadius = 2);
 	};
 
 }

@@ -5,6 +5,7 @@
 #include "core/SpritesheetManager.h"
 
 namespace RPG {
+
     /** @brief Handles the visual representation of the WorldMap */
     class WorldMapRenderer {
     private:
@@ -17,6 +18,6 @@ namespace RPG {
          * @param assetManager Definitions for structure properties
          * @param sm Texture storage
          */
-        void draw(sf::RenderWindow& window, const WorldMap& worldMap, const AssetManager& assetManager, const SpritesheetManager& sm);
+        void draw(sf::RenderWindow& window, const WorldMap& worldMap, const AssetManager& assetManager, const SpritesheetManager& sm, float percentView = 0.9f);
     };
 }

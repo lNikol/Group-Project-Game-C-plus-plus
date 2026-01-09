@@ -3,6 +3,7 @@
 #include <cstdint>
 
 namespace RPG {
+
 	struct DifficultyLevel {
 		std::string name;
 		int8_t spawnChance; // in %

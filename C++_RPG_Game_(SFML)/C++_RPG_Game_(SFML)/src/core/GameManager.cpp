@@ -11,16 +11,17 @@ namespace RPG {
         // Assets and structures init
         assetManager.init(spritesheetManager);
 
-        spritesheetManager.addSpritesheet(GameConfig::TEXTURES_PATH + "hero.png");
+        spritesheetManager.addSpritesheet(GameConfig::TEXTURES_PATH + "hero.png"); 
 
         worldMap = std::make_unique<WorldMap>(50, 50, assetManager);
-        worldMap->generateObstacles(0.07f);
-
-        // Test building placement
-        worldMap->placeStructure(15, 15, StructureType::Camp);
 
         // Create a player in the middle of the map
         player = std::make_unique<Player>(200.0f, 200.0f);
+
+        worldMap->generateObstacles(0.07f, player->getPosition(), 3);
+
+        // Test building placement
+        worldMap->placeStructure(15, 15, StructureType::Camp);
 
         // Set camera
         camera.setSize(sf::Vector2f(Window::WIDTH, Window::HEIGHT));
@@ -62,7 +63,7 @@ namespace RPG {
         window.setView(camera);
 
         if (worldMap && player) {
-            worldRenderer.draw(window, *worldMap, assetManager, spritesheetManager);
+            worldRenderer.draw(window, *worldMap, assetManager, spritesheetManager, 0.15f); // set view in percents depends on scene (enum) each scene has own % of view
 
             player->draw(window, spritesheetManager);
         }
