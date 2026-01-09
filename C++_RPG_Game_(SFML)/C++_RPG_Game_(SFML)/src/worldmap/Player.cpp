@@ -8,8 +8,11 @@ namespace RPG {
 
     sf::Vector2f Player::getPosition() const { return position; }
 
-    sf::Vector2f Player::getInputDirection() const {
+    sf::Vector2f Player::getInputDirection(const sf::RenderWindow& window) const {
+
         sf::Vector2f dir(0.0f, 0.0f);
+
+        if (!window.hasFocus()) return dir;
 
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W) || sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Up))    dir.y -= 1.0f;
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S) || sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Down))  dir.y += 1.0f;
@@ -19,8 +22,8 @@ namespace RPG {
         return dir;
     }
 
-    void Player::update(float deltaTime, const WorldMap& worldMap) {
-        sf::Vector2f direction = getInputDirection();
+    void Player::update(float deltaTime, const WorldMap& worldMap, const sf::RenderWindow& window) {
+        sf::Vector2f direction = getInputDirection(window);
 
         // Normalization (diagonal movement)
         float length = std::sqrt(direction.x * direction.x + direction.y * direction.y);

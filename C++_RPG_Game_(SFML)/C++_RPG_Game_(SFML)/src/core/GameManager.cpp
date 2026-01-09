@@ -51,7 +51,7 @@ namespace RPG {
 
     void GameManager::update(float dt) {
         if (player && worldMap) {
-            player->update(dt, *worldMap);
+            player->update(dt, *worldMap, window);
 
             camera.setCenter(player->getPosition());
         }
@@ -63,7 +63,7 @@ namespace RPG {
         window.setView(camera);
 
         if (worldMap && player) {
-            worldRenderer.draw(window, *worldMap, assetManager, spritesheetManager, 0.15f); // set view in percents depends on scene (enum) each scene has own % of view
+            worldRenderer.draw(window, *worldMap, assetManager, spritesheetManager, 0.8f); // set view in percents depends on scene (enum) each scene has own % of view
 
             player->draw(window, spritesheetManager);
         }

@@ -15,7 +15,7 @@ namespace RPG {
 
 		GameConfig::Faction faction = GameConfig::Faction::NEUTRAL;
 
-		sf::Vector2f getInputDirection() const;
+		sf::Vector2f getInputDirection(const sf::RenderWindow& window) const;
 	public:
 		Player(float startX, float startY);
 
@@ -24,7 +24,7 @@ namespace RPG {
 		 * @param deltaTime Time elapsed since last frame
 		 * @param worldMap Reference to check collisions and speed modifiers
 		 */
-		void update(float deltaTime, const WorldMap& worldMap);
+		void update(float deltaTime, const WorldMap& worldMap, const sf::RenderWindow& window);
 		void draw(sf::RenderWindow& window, const SpritesheetManager& sm);
 		sf::Vector2f getPosition() const;
 	};

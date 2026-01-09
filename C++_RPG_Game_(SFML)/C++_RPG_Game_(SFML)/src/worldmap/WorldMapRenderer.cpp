@@ -14,7 +14,7 @@ namespace RPG {
         sf::Vector2f center = currentView.getCenter();
         sf::Vector2f size = currentView.getSize();
 
-        float maxVisibleDist = (size.x / 2.0f) * percentView; // 90% of view
+        float maxVisibleDist = (size.x / 2.0f) * percentView; // X% of view
         float fadeRange = 150.0f;
 
 
