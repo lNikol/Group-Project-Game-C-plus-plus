@@ -22,6 +22,13 @@ namespace RPG {
         return dir;
     }
 
+    void Player::setPosition(sf::Vector2f pos) {
+        position = pos;
+    }
+
+
+
+
     void Player::update(float deltaTime, const WorldMap& worldMap, const sf::RenderWindow& window) {
         sf::Vector2f direction = getInputDirection(window);
 

@@ -39,7 +39,7 @@ namespace RPG {
         addStruct(StructureType::InvisibleBlock, "Reserved", "", { 1, 1 }, 0.0f, false, true, false);
 
         // Obstacles (0.0f speed = impassable if blocksMovement is true)
-        addStruct(StructureType::Rock, "Rock", "rock.png", { 1, 1 }, 0.0f, false, true, false);
+        addStruct(StructureType::Rock, "Rock", "rock.png", { 1, 1}, 0.0f, false, true, false);
         addStruct(StructureType::Tree, "Tree", "tree.png", { 1, 1 }, 0.0f, false, true, false);
         addStruct(StructureType::Wall, "Wall", "wall.png", { 1, 1 }, 0.0f, false, true, false);
 

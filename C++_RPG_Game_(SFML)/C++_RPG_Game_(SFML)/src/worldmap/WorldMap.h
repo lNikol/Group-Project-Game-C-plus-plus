@@ -1,7 +1,9 @@
 #pragma once
+// #include "entities/NPC.h"
 #include "DifficultySettings.h"
 #include "AssetManager.h"
 #include "Tile.h"
+#include <memory>
 #include <stdexcept>
 #include <vector>
 
@@ -12,6 +14,8 @@ namespace RPG {
 		uint16_t width, height;
 		std::vector<Tile> tiles;
 		AssetManager& assetManager;
+		// for future
+		// std::vector<std::unique_ptr<NPC>> npcs;
 	
 	public:
 		WorldMap(uint16_t w, uint16_t h, AssetManager& am);
@@ -64,6 +68,13 @@ namespace RPG {
 
 
 		void generateObstacles(float density, const sf::Vector2f& playerStartPos, uint8_t playerSafeRadius = 2);
+
+
+		// example of future code
+		// void addNPC(std::unique_ptr<NPC> npc) { npcs.push_back(std::move(npc)); }
+		// const std::vector<std::unique_ptr<NPC>>& getNPCs() const { return npcs; }
+		// std::vector<std::unique_ptr<NPC>>& getNPCs() { return npcs; }
+
 	};
 
 }

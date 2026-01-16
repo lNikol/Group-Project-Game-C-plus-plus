@@ -27,5 +27,6 @@ namespace RPG {
 		void update(float deltaTime, const WorldMap& worldMap, const sf::RenderWindow& window);
 		void draw(sf::RenderWindow& window, const SpritesheetManager& sm);
 		sf::Vector2f getPosition() const;
+		void setPosition(sf::Vector2f pos);
 	};
 }

@@ -19,5 +19,7 @@ namespace RPG {
 		inline const std::string TEXTURES_PATH = ASSETS_PATH + "textures/";
 		enum class Faction { NEUTRAL, LIGHT, DARK };
 		const uint8_t TILE_SIZE = 32;
+		const uint16_t WORLD_WIDTH = 50;
+		const uint16_t WORLD_HEIGHT = 50;
 	}
 }

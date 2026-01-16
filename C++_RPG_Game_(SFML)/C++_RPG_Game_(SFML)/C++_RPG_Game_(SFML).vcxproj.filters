@@ -31,6 +31,12 @@
     <Filter Include="Pliki źródłowe\entities">
       <UniqueIdentifier>{5597866f-5626-449b-8b44-e85ff265e711}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Pliki nagłówkowe\scenes">
+      <UniqueIdentifier>{3c9233ae-58e7-4314-adbf-a961977caeb5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pliki źródłowe\scenes">
+      <UniqueIdentifier>{70d0e4f5-47a5-43c0-9101-b27b56b7f5ff}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -57,8 +63,17 @@
     <ClCompile Include="src\core\SpritesheetManager.cpp">
       <Filter>Pliki źródłowe\core</Filter>
     </ClCompile>
-    <ClCompile Include="Monster.cpp">
+    <ClCompile Include="src\entities\Monster.cpp">
       <Filter>Pliki źródłowe\entities</Filter>
+    </ClCompile>
+    <ClCompile Include="src\scenes\WorldScene.cpp">
+      <Filter>Pliki źródłowe\scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="src\scenes\FactionScene.cpp">
+      <Filter>Pliki źródłowe\scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="src\scenes\BaseGameScene.cpp">
+      <Filter>Pliki źródłowe\scenes</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -92,8 +107,23 @@
     <ClInclude Include="src\core\SpritesheetManager.h">
       <Filter>Pliki nagłówkowe\core</Filter>
     </ClInclude>
-    <ClInclude Include="Monster.h">
+    <ClInclude Include="src\scenes\Scene.h">
+      <Filter>Pliki nagłówkowe\scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="src\scenes\WorldScene.h">
+      <Filter>Pliki nagłówkowe\scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="src\entities\Monster.h">
       <Filter>Pliki nagłówkowe\entities</Filter>
+    </ClInclude>
+    <ClInclude Include="src\scenes\FactionScene.h">
+      <Filter>Pliki nagłówkowe\scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="src\scenes\BaseGameScene.h">
+      <Filter>Pliki nagłówkowe\scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="src\scenes\BattlefieldScene.h">
+      <Filter>Pliki nagłówkowe\scenes</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
