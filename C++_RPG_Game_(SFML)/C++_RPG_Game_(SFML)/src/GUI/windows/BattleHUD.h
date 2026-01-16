@@ -8,24 +8,62 @@
 #include "../windows/WindowBase.h"
 #include "../../interfaces/ICombatActor.h"
 #include "../../core/Constants.h"
+
 namespace RPG {
 
+    /**
+     * @brief The master controller for the player's heads-up display.
+     * * It manages the layout, rendering, and event handling for:
+     * - Vitals Bars (HP/MP/Stamina)
+     * - Action Bar (Skills)
+     * - System Buttons (Inventory/Journal)
+     * - Floating Windows
+     * - Tooltips
+     */
     class BattleHUD : public sf::Drawable {
     public:
         BattleHUD(const Spritesheet& iconSet, const sf::Font& font);
 
+        /**
+         * @brief Links a specific actor (usually the player) to the HUD.
+         * * The HUD will pull data from this actor every frame to update the UI.
+         */
         void setCombatActor(ICombatActor* actor);
 
+        /**
+         * @brief Handles mouse events.
+         * * Converts window coordinates to UI View coordinates.
+         * * Passes events to Windows -> Buttons -> Slots -> Vitals (in that order).
+         */
         void handleEvent(const sf::RenderWindow& window, const sf::Event& event);
 
+        /**
+         * @brief Recalculates the position of all UI elements.
+         * * Should be called whenever the window is resized to keep elements anchored
+         * (e.g., Vitals bottom-left, Buttons bottom-right).
+         */
         void onResize(const sf::Vector2u& newSize);
 
+        /**
+         * @brief Syncs UI state with the Actore data.
+         * * Updates cooldowns, charges, and vital bar percentages.
+         */
         void update(float dt);
 
     protected:
-        // SFML Drawable override
+        /**
+         * @brief Renders the UI.
+         * * Temporarily switches the RenderTarget's view to m_uiView to ensure
+         * the UI draws over the game world and ignores camera movement.
+         */
         void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
+
+        /**
+         * @brief Helper to determine which tooltip string should be displayed.
+         * * Checks all UI elements in Z-order (Windows -> Buttons -> Grid -> Vitals).
+         */
         std::string resolveTooltipText() const;
+
     private:
         // Resources
         const Spritesheet& m_iconSet;

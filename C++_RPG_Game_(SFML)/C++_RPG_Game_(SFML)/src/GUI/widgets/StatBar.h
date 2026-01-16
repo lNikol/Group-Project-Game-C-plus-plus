@@ -6,10 +6,26 @@
 
 namespace RPG {
 
+    /**
+     * @brief A dynamic graphical bar used to represent stats (Health, Mana, Stamina).
+     * * Renders using a custom VertexArray to create a gradient "glassy" effect
+     * without needing external textures.
+     */
     class StatBar : public IGuiElement {
     public:
+        /**
+         * @brief Constructs the stat bar.
+         * @param size The width and height of the bar.
+         * @param baseColor The primary color of the filled portion (gradients are calculated automatically).
+         */
         StatBar(const sf::Vector2f& size, sf::Color baseColor);
 
+        /**
+         * @brief Updates the current fill level of the bar.
+         * * Also automatically updates the tooltip to show "Current / Max".
+         * * @param current The current value (e.g., current HP).
+         * @param max The maximum value (e.g., max HP).
+         */
         void setValues(float current, float max);
 
         void update(float dt) override {}
@@ -22,6 +38,9 @@ namespace RPG {
         void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 
     private:
+        /**
+         * @brief Recalculates vertex positions and colors based on current values.
+         */
         void updateGeometry();
 
         sf::Vector2f m_size;
@@ -30,7 +49,8 @@ namespace RPG {
         float m_currentVal = 100.f;
         float m_maxVal = 100.f;
 
-        sf::VertexArray m_backgroundVertices; 
+        // Uses TriangleStrip for efficient gradient rendering
+        sf::VertexArray m_backgroundVertices;
         sf::VertexArray m_coloredVertices;
     };
 }
