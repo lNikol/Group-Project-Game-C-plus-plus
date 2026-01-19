@@ -1,7 +1,7 @@
 #pragma once
 #include "IGuiElement.h"
-#include "../../Interfaces/IAbility.h"
-#include "../../core/Constants.h"
+#include "Interfaces/IAbility.h"
+#include "core/Constants.h"
 #include <SFML/Graphics.hpp>
 #include <memory>
 

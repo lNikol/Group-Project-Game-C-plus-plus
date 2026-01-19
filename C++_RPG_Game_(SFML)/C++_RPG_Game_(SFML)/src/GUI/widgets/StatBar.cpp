@@ -1,5 +1,6 @@
 #include "StatBar.h"
 #include <algorithm>
+
 namespace RPG {
 
     StatBar::StatBar(const sf::Vector2f& size, sf::Color baseColor)

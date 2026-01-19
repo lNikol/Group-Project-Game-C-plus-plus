@@ -1,5 +1,5 @@
 #pragma once
-#include "../Widgets/IGuiElement.h"
+#include "GUI/Widgets/IGuiElement.h"
 #include <SFML/Graphics.hpp>
 #include <vector>
 #include <memory>

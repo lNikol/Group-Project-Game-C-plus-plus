@@ -1,4 +1,5 @@
 #include "GameManager.h"
+
 namespace RPG {
 
 	GameManager::GameManager() 

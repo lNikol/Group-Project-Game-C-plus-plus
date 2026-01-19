@@ -2,12 +2,12 @@
 #include <SFML/Graphics.hpp>
 #include <vector>
 #include <memory>
-#include "../widgets/StatBar.h"
-#include "../widgets/Tooltip.h"
-#include "../widgets/ActionSlot.h"
-#include "../windows/WindowBase.h"
-#include "../../interfaces/ICombatActor.h"
-#include "../../core/Constants.h"
+#include "GUI/widgets/StatBar.h"
+#include "GUI/widgets/Tooltip.h"
+#include "GUI/widgets/ActionSlot.h"
+#include "GUI/windows/WindowBase.h"
+#include "interfaces/ICombatActor.h"
+#include "core/Constants.h"
 
 namespace RPG {
 

@@ -1,5 +1,7 @@
 #include "IsoGrid.h"
+
 namespace RPG {
+
     IsoGrid::IsoGrid(int rows, int cols, float tileSize, sf::Color baseColor) {
         m_vertices.setPrimitiveType(sf::PrimitiveType::Triangles);
         rebuild(rows, cols, tileSize, baseColor);

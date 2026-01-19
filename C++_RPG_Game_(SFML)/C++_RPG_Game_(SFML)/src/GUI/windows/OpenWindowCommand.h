@@ -1,5 +1,5 @@
 #pragma once
-#include "../../Interfaces/IAbility.h"
+#include "Interfaces/IAbility.h"
 #include <functional>
 #include <string>
 

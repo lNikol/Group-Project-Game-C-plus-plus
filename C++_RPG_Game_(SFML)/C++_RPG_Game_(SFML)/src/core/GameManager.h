@@ -6,6 +6,7 @@
 #include "GUI/windows/BattleHUD.h"
 #include "drawable/IsoGrid.h"
 #include "placeholder/TestActor.cpp"
+
 namespace RPG {
 
 	class GameManager {
