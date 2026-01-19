@@ -3,8 +3,19 @@
 
 namespace RPG {
 
+    /**
+     * @brief Scene dedicated to faction management and diplomatic relations.
+     */
     class FactionScene : public BaseGameScene {
     public:
+        /**
+         * @brief Constructs the FactionScene with required managers.
+         * @param ctrl Scene controller.
+         * @param am Asset manager for fonts/textures.
+         * @param sm Spritesheet manager for faction icons.
+         * @param wm The world map data.
+         * @param p The player instance.
+         */
         FactionScene(ISceneController& ctrl, AssetManager& am, SpritesheetManager& sm,
             std::shared_ptr<WorldMap> wm, std::shared_ptr<Player> p);
 
