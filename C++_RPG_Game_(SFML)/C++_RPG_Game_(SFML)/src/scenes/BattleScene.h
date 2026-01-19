@@ -21,21 +21,12 @@ namespace RPG {
          * @param ctrl Reference to the scene controller for state transitions.
          * @param map Shared pointer to the map where the battle takes place.
          */
-        BattleScene(ISceneController& ctrl, std::shared_ptr<WorldMap> map)
-            : controller(ctrl), battleMap(map) {
-            // Battle UI
-        }
+        BattleScene(ISceneController& ctrl, std::shared_ptr<WorldMap> map);
 
-        void update(float dt, const sf::RenderWindow& window) override {
-            // if (turn == PLAYER) { ... }
-        }
+        void update(float dt, const sf::RenderWindow& window) override;
 
-        void handleEvents(const sf::Event& event) override {
-            // Mouse handler (choosing skills/targets)
-        }
+        void handleEvents(const sf::Event& event) override;
 
-        void draw(sf::RenderWindow& window) override {
-            // Draw map and battlefield units
-        }
+        void draw(sf::RenderWindow& window) override;
     };
 }

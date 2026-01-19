@@ -1,4 +1,4 @@
-#include "core/GameManager.h"
+#include "GameManager.h"
 #include "scenes/WorldScene.h"
 #include "scenes/FactionScene.h"
 #include "scenes/BattleScene.h"
