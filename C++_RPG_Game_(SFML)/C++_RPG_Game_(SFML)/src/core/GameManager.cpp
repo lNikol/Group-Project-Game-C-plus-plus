@@ -43,7 +43,6 @@ namespace RPG {
             sf::Vector2f(320.0f, 200.0f), "hero", 0, "White Orange BattleField Envoy", true, FactionID::BattleScene
         ));
 
-
         allMaps[FactionID::MainWorld] = mainMap;
 
         // --- 2. WHITE ORDER BASE (Small, organized) ---

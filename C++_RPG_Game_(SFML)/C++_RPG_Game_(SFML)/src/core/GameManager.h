@@ -3,8 +3,9 @@
 #include <iostream>
 #include <map>
 #include <memory>
-#include "core/Constants.h"
-#include "core/SpritesheetManager.h"
+
+#include "Constants.h"
+#include "SpritesheetManager.h"
 #include "worldmap/AssetManager.h"
 #include "worldmap/WorldMap.h"
 #include "worldmap/WorldMapRenderer.h"
@@ -27,7 +28,6 @@ namespace RPG {
 		sf::RenderWindow window;
 		SpritesheetManager spritesheetManager;
 		AssetManager assetManager;
-
 		// shared info between scenes
 		std::shared_ptr<Player> player;
 		std::map<FactionID, std::shared_ptr<WorldMap>> allMaps;
