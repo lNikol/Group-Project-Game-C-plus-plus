@@ -75,6 +75,12 @@
     <ClCompile Include="src\scenes\BaseGameScene.cpp">
       <Filter>Pliki źródłowe\scenes</Filter>
     </ClCompile>
+    <ClCompile Include="src\entities\NPC.cpp">
+      <Filter>Pliki źródłowe\entities</Filter>
+    </ClCompile>
+    <ClCompile Include="src\scenes\BattleScene.cpp">
+      <Filter>Pliki źródłowe\scenes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\worldmap\AssetManager.h">
@@ -122,8 +128,17 @@
     <ClInclude Include="src\scenes\BaseGameScene.h">
       <Filter>Pliki nagłówkowe\scenes</Filter>
     </ClInclude>
-    <ClInclude Include="src\scenes\BattlefieldScene.h">
+    <ClInclude Include="src\scenes\BattleScene.h">
       <Filter>Pliki nagłówkowe\scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="src\entities\NPC.h">
+      <Filter>Pliki nagłówkowe\entities</Filter>
+    </ClInclude>
+    <ClInclude Include="src\scenes\ISceneController.h">
+      <Filter>Pliki nagłówkowe\scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="src\worldmap\enums.h">
+      <Filter>Pliki nagłówkowe\worldmap</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

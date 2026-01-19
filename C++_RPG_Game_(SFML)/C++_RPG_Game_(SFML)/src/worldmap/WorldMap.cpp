@@ -148,6 +148,54 @@ namespace RPG {
 		}
 	}
 
+	sf::Vector2f WorldMap::findNearestSafeTile(sf::Vector2f startPos) {
+		int16_t startX = static_cast<int16_t>(startPos.x / GameConfig::TILE_SIZE);
+		int16_t startY = static_cast<int16_t>(startPos.y / GameConfig::TILE_SIZE);
+
+		for (int radius = 0; radius <= 5; ++radius) {
+			for (int dy = -radius; dy <= radius; ++dy) {
+				for (int dx = -radius; dx <= radius; ++dx) {
+					if (std::abs(dx) != radius && std::abs(dy) != radius) continue;
+
+					int16_t checkX = startX + dx;
+					int16_t checkY = startY + dy;
+
+					if (checkX >= 0 && checkX < width && checkY >= 0 && checkY < height) {
+						if (at(checkX, checkY).structure == StructureType::Grass) {
+							return sf::Vector2f(
+								checkX * GameConfig::TILE_SIZE,
+								checkY * GameConfig::TILE_SIZE
+							);
+						}
+					}
+				}
+			}
+		}
+		return startPos; 
+	}
+
+	void WorldMap::addNPC(std::unique_ptr<NPC> npc) {
+		int16_t tx = static_cast<int16_t>(npc->getPosition().x / GameConfig::TILE_SIZE);
+		int16_t ty = static_cast<int16_t>(npc->getPosition().y / GameConfig::TILE_SIZE);
+
+		if (tx < 0 || tx >= width || ty < 0 || ty >= height || at(tx, ty).structure != StructureType::Grass) {
+
+			sf::Vector2f safePos = findNearestSafeTile(npc->getPosition());
+
+			std::cout << "[WorldMap] NPC " << npc->getName()
+				<< " moved from blocked tile to safe pos: "
+				<< safePos.x << "," << safePos.y << std::endl;
+
+			npc->setPosition(safePos); 
+		}
+
+		npcs.push_back(std::move(npc));
+	}
+
+	const std::vector<std::unique_ptr<NPC>>& WorldMap::getNPCs() const { return npcs; }
+	std::vector<std::unique_ptr<NPC>>& WorldMap::getNPCs() { return npcs; }
+
+
 	//void WorldMap::generateMonsters(float density) {
 	//
 	//}

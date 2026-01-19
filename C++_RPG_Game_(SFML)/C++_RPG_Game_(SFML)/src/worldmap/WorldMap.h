@@ -1,5 +1,5 @@
 #pragma once
-// #include "entities/NPC.h"
+#include "entities/NPC.h"
 #include "DifficultySettings.h"
 #include "AssetManager.h"
 #include "Tile.h"
@@ -15,7 +15,7 @@ namespace RPG {
 		std::vector<Tile> tiles;
 		AssetManager& assetManager;
 		// for future
-		// std::vector<std::unique_ptr<NPC>> npcs;
+		std::vector<std::unique_ptr<NPC>> npcs;
 	
 	public:
 		WorldMap(uint16_t w, uint16_t h, AssetManager& am);
@@ -69,12 +69,17 @@ namespace RPG {
 
 		void generateObstacles(float density, const sf::Vector2f& playerStartPos, uint8_t playerSafeRadius = 2);
 
+		sf::Vector2f findNearestSafeTile(sf::Vector2f startPos);
 
-		// example of future code
-		// void addNPC(std::unique_ptr<NPC> npc) { npcs.push_back(std::move(npc)); }
-		// const std::vector<std::unique_ptr<NPC>>& getNPCs() const { return npcs; }
-		// std::vector<std::unique_ptr<NPC>>& getNPCs() { return npcs; }
-
+		/**
+		 * @brief Adds a new NPC to this specific map instance.
+		 * * The NPC is stored as a unique_ptr, meaning the map takes full ownership
+		 * of the NPC's lifecycle.
+		 * * @param npc A unique_ptr to the NPC object.
+		 */
+		void addNPC(std::unique_ptr<NPC> npc);
+		const std::vector<std::unique_ptr<NPC>>& getNPCs() const;
+		std::vector<std::unique_ptr<NPC>>& getNPCs();
 	};
 
 }

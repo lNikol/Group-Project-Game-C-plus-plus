@@ -5,6 +5,7 @@
 namespace RPG {
 
     Player::Player(float startX, float startY) : position(startX, startY) {}
+    Player::Player(sf::Vector2f pos) : Player(pos.x, pos.y) {}
 
     sf::Vector2f Player::getPosition() const { return position; }
 
