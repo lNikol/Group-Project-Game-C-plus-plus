@@ -38,6 +38,33 @@
     <Filter Include="Pliki źródłowe\scenes">
       <UniqueIdentifier>{70d0e4f5-47a5-43c0-9101-b27b56b7f5ff}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Pliki nagłówkowe\GUI">
+      <UniqueIdentifier>{56adefbe-3a04-4978-bb62-707d61faf77b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pliki nagłówkowe\GUI\windows">
+      <UniqueIdentifier>{8d71ccad-e4ec-4724-8ff9-c241afa08b6e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pliki nagłówkowe\GUI\widgets">
+      <UniqueIdentifier>{7933e200-23e0-45e1-b558-528bd3679bbc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pliki źródłowe\GUI">
+      <UniqueIdentifier>{05009786-89ac-4ce1-ba59-43b06db05596}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pliki źródłowe\GUI\widgets">
+      <UniqueIdentifier>{ee8fc7eb-9dd9-4841-b338-3309f796c77c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pliki źródłowe\GUI\windows">
+      <UniqueIdentifier>{8272bc74-485d-4ed7-99f9-4e466c1ca90a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pliki nagłówkowe\interfaces">
+      <UniqueIdentifier>{f09251d1-cc1f-4772-b817-19978d70d161}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pliki nagłówkowe\drawable">
+      <UniqueIdentifier>{6b92cd02-f5fc-4b22-a6ba-6115cc9d23f8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pliki źródłowe\drawable">
+      <UniqueIdentifier>{2ac2f39f-67a7-45aa-81ca-5ccdfcc80cfe}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -85,32 +112,26 @@
     <ClCompile Include="src\core\GameManager.cpp">
       <Filter>Pliki źródłowe</Filter>
     </ClCompile>
-    <ClCompile Include="src\core\AssetManager.cpp">
-      <Filter>Pliki źródłowe</Filter>
-    </ClCompile>
     <ClCompile Include="src\main.cpp">
       <Filter>Pliki źródłowe</Filter>
     </ClCompile>
-    <ClCompile Include="src\GUI\widgets\StatBar.cpp">
-      <Filter>Pliki źródłowe</Filter>
-    </ClCompile>
-    <ClCompile Include="src\GUI\windows\BattleHud.cpp">
-      <Filter>Pliki źródłowe</Filter>
-    </ClCompile>
-    <ClCompile Include="src\drawable\IsoGrid.cpp">
-      <Filter>Pliki źródłowe</Filter>
-    </ClCompile>
     <ClCompile Include="src\GUI\widgets\ActionSlot.cpp">
-      <Filter>Pliki źródłowe</Filter>
-    </ClCompile>
-    <ClCompile Include="src\GUI\windows\WindowBase.cpp">
-      <Filter>Pliki źródłowe</Filter>
-    </ClCompile>
-    <ClCompile Include="src\placeholder\TestActor.cpp">
-      <Filter>Pliki źródłowe</Filter>
+      <Filter>Pliki źródłowe\GUI\widgets</Filter>
     </ClCompile>
     <ClCompile Include="src\GUI\widgets\Tooltip.cpp">
-      <Filter>Pliki źródłowe</Filter>
+      <Filter>Pliki źródłowe\GUI\widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GUI\windows\BattleHud.cpp">
+      <Filter>Pliki źródłowe\GUI\widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GUI\widgets\StatBar.cpp">
+      <Filter>Pliki źródłowe\GUI\windows</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GUI\windows\WindowBase.cpp">
+      <Filter>Pliki źródłowe\GUI\windows</Filter>
+    </ClCompile>
+    <ClCompile Include="src\drawable\IsoGrid.cpp">
+      <Filter>Pliki źródłowe\drawable</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -134,9 +155,6 @@
     </ClInclude>
     <ClInclude Include="src\worldmap\WorldMapRenderer.h">
       <Filter>Pliki nagłówkowe\worldmap</Filter>
-    </ClInclude>
-    <ClInclude Include="src\core\AssetManager.h">
-      <Filter>Pliki nagłówkowe</Filter>
     </ClInclude>
     <ClInclude Include="src\core\Constants.h">
       <Filter>Pliki nagłówkowe\core</Filter>
@@ -174,35 +192,35 @@
     <ClInclude Include="src\worldmap\enums.h">
       <Filter>Pliki nagłówkowe\worldmap</Filter>
     </ClInclude>
-    <ClInclude Include="src\GUI\widgets\IGuiElement.h">
-      <Filter>Pliki nagłówkowe</Filter>
+    <ClInclude Include="src\GUI\widgets\ActionSlot.h">
+      <Filter>Pliki nagłówkowe\GUI\widgets</Filter>
     </ClInclude>
     <ClInclude Include="src\GUI\widgets\StatBar.h">
-      <Filter>Pliki nagłówkowe</Filter>
-    </ClInclude>
-    <ClInclude Include="src\GUI\windows\BattleHUD.h">
-      <Filter>Pliki nagłówkowe</Filter>
-    </ClInclude>
-    <ClInclude Include="src\drawable\IsoGrid.h">
-      <Filter>Pliki nagłówkowe</Filter>
-    </ClInclude>
-    <ClInclude Include="src\interfaces\IAbility.h">
-      <Filter>Pliki nagłówkowe</Filter>
-    </ClInclude>
-    <ClInclude Include="src\GUI\widgets\ActionSlot.h">
-      <Filter>Pliki nagłówkowe</Filter>
-    </ClInclude>
-    <ClInclude Include="src\GUI\windows\WindowBase.h">
-      <Filter>Pliki nagłówkowe</Filter>
-    </ClInclude>
-    <ClInclude Include="src\GUI\windows\OpenWindowCommand.h">
-      <Filter>Pliki nagłówkowe</Filter>
-    </ClInclude>
-    <ClInclude Include="src\interfaces\ICombatActor.h">
-      <Filter>Pliki nagłówkowe</Filter>
+      <Filter>Pliki nagłówkowe\GUI\widgets</Filter>
     </ClInclude>
     <ClInclude Include="src\GUI\widgets\Tooltip.h">
-      <Filter>Pliki nagłówkowe</Filter>
+      <Filter>Pliki nagłówkowe\GUI\widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GUI\widgets\IGuiElement.h">
+      <Filter>Pliki nagłówkowe\GUI\widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GUI\windows\BattleHUD.h">
+      <Filter>Pliki nagłówkowe\GUI\windows</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GUI\windows\OpenWindowCommand.h">
+      <Filter>Pliki nagłówkowe\GUI\windows</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GUI\windows\WindowBase.h">
+      <Filter>Pliki nagłówkowe\GUI\windows</Filter>
+    </ClInclude>
+    <ClInclude Include="src\interfaces\IAbility.h">
+      <Filter>Pliki nagłówkowe\interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="src\interfaces\ICombatActor.h">
+      <Filter>Pliki nagłówkowe\interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="src\drawable\IsoGrid.h">
+      <Filter>Pliki nagłówkowe\drawable</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

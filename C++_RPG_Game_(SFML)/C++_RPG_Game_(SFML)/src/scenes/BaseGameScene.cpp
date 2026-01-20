@@ -43,12 +43,12 @@
         void BaseGameScene::handleEvents(const sf::Event& event) {
             if (const auto* keyPressed = event.getIf<sf::Event::KeyPressed>()) {
                 if (keyPressed->scancode == sf::Keyboard::Scancode::E) {
-                    std::cout << "[" << sceneName << "]" << "Key 'E' was pressed: " << std::endl;
+                    std::cout << "[" << sceneName << "]" << " Key 'E' was pressed: " << std::endl;
                     this->checkNPCInteraction();
                 }
 
                 if (keyPressed->scancode == sf::Keyboard::Scancode::I) {
-                    std::cout << "[" << sceneName << "]" << "Key 'I' was pressed: " << std::endl;
+                    std::cout << "[" << sceneName << "]" << " Key 'I' was pressed: " << std::endl;
                     isInventoryOpen = !isInventoryOpen;
                 }
             }

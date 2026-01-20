@@ -11,7 +11,6 @@ namespace RPG {
     {
         lastWorldPosition = sf::Vector2f(200.0f, 200.0f); 
         activeFaction = FactionID::MainWorld;
-
         window.setFramerateLimit(Window::BASE_FPS);
 
         // Assets and structures init
@@ -20,6 +19,20 @@ namespace RPG {
 
         // Init start scene
         initGameData();
+
+        assetManager.addSpritesheet("AbilityIcons", GameConfig::TEXTURES_PATH + "placeholders/IconSet.png");
+        assetManager.addFont("PixelFont", GameConfig::ASSETS_PATH + "fonts/m5x7.ttf");
+
+        m_globalFont = assetManager.getFont("PixelFont");
+        m_iconSet = assetManager.getSpritesheet("AbilityIcons");
+
+        if (m_iconSet && m_globalFont) {
+            m_hud = std::make_unique<BattleHUD>(*m_iconSet, *m_globalFont);
+            m_hud->setCombatActor(player.get());
+            m_hud->onResize(window.getSize());
+        }
+
+
         changeScene(FactionID::MainWorld);
     }
 
@@ -137,8 +150,26 @@ namespace RPG {
 
     void GameManager::handleEvents() {
         while (const std::optional event = window.pollEvent()) {
-            if (event->is<sf::Event::Closed>()) window.close();
+            sf::View sceneView = window.getView();
+            window.setView(window.getDefaultView());
 
+            if (event->is<sf::Event::Closed>()) window.close();
+            if (const auto* resized = event->getIf<sf::Event::Resized>()) {
+                sf::Vector2f newSize = { (float)resized->size.x, (float)resized->size.y };
+                window.setView(sf::View(sf::FloatRect({ 0.f, 0.f }, newSize)));
+                if (m_hud) m_hud->onResize(resized->size);
+            }
+
+            if (m_hud) {
+                m_hud->handleEvent(window, *event);
+            }
+            window.setView(sceneView);
+
+            bool uiConsumed = false;
+            if (m_hud && m_hud->isMouseOverUI()) {
+                uiConsumed = true;
+            }
+            
             if (const auto* keyPressed = event->getIf<sf::Event::KeyPressed>()) {
                 if (keyPressed->scancode == sf::Keyboard::Scancode::Escape) running = false;
                 
@@ -148,7 +179,7 @@ namespace RPG {
                     changeScene(FactionID::WhiteOrder);
                 }*/
 
-                if (currentScene) {
+                if (!uiConsumed && currentScene) {
                     currentScene->handleEvents(*event);
                 }
             }
@@ -157,12 +188,17 @@ namespace RPG {
 
     void GameManager::update(float dt) {
         if (currentScene) currentScene->update(dt, window);
+        if (m_hud) m_hud->update(dt);
     }
 
     void GameManager::draw() {
         window.clear(sf::Color(0x4B0082FF));
         
         if (currentScene) currentScene->draw(window);
+
+        if (m_hud) {
+            window.draw(*m_hud);
+        }
 
         window.display();
     }

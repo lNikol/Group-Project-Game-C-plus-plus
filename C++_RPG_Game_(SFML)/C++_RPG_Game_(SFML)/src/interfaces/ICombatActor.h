@@ -40,8 +40,8 @@ namespace RPG {
          * @param index The slot index (0-based).
          * @return std::shared_ptr<IAbility> The ability, or nullptr if empty.
          */
-        virtual std::shared_ptr<IAbility> getHotbarAbility(int index) const = 0;
-        virtual int getHotbarSize() const = 0;
+        virtual std::shared_ptr<IAbility> getHotbarAbility(uint8_t index) const = 0;
+        virtual uint8_t getHotbarSize() const = 0;
 
         // ==============================
         // Inventory
@@ -51,8 +51,8 @@ namespace RPG {
          * @brief Retrieves the item at a specific inventory index.
          * * Note: In this system, Items are treated as IAbility (consumables/equipables).
          */
-        virtual std::shared_ptr<IAbility> getInventoryItem(int index) const = 0;
-        virtual int getInventorySize() const = 0;
+        virtual std::shared_ptr<IAbility> getInventoryItem(uint8_t index) const = 0;
+        virtual uint8_t getInventorySize() const = 0;
 
         // ==============================
         // Equipment

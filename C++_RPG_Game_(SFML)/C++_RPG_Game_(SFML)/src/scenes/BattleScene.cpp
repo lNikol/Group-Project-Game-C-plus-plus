@@ -7,15 +7,17 @@ namespace RPG {
         // Battle UI
     }
 
-    void BattleScene::update(float dt, const sf::RenderWindow& window) override {
+    void BattleScene::update(float dt, const sf::RenderWindow& window) {
         // if (turn == PLAYER) { ... }
     }
 
-    void BattleScene::handleEvents(const sf::Event& event) override {
-        // Mouse handler (choosing skills/targets)
+    void BattleScene::handleEvents(const sf::Event& event) {
+        if (const auto* keyPressed = event.getIf<sf::Event::KeyPressed>()) {
+
+        }
     }
 
-    void BattleScene::draw(sf::RenderWindow& window) override {
+    void BattleScene::draw(sf::RenderWindow& window) {
         // Draw map and battlefield units
     }
 }

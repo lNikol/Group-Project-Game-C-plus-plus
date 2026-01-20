@@ -50,6 +50,9 @@ namespace RPG {
          */
         void update(float dt);
 
+        bool isMouseOverUI() const;
+
+
     protected:
         /**
          * @brief Renders the UI.

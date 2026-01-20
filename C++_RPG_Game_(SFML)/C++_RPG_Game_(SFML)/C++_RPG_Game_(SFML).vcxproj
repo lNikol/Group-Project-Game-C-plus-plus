@@ -58,24 +58,16 @@
   <ImportGroup Label="Shared">
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props"
-      Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')"
-      Label="LocalAppDataPlatform" />
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props"
-      Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')"
-      Label="LocalAppDataPlatform" />
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props"
-      Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')"
-      Label="LocalAppDataPlatform" />
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props"
-      Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')"
-      Label="LocalAppDataPlatform" />
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -148,50 +140,37 @@
   <ItemGroup>
     <ClCompile Include="src\core\GameManager.cpp" />
     <ClCompile Include="src\core\SpritesheetManager.cpp" />
-    <ClCompile Include="src\core\AssetManager.cpp" />
-
     <ClCompile Include="src\entities\Monster.cpp" />
     <ClCompile Include="src\entities\NPC.cpp" />
-
     <ClCompile Include="src\scenes\BaseGameScene.cpp" />
     <ClCompile Include="src\scenes\BattleScene.cpp" />
     <ClCompile Include="src\scenes\FactionScene.cpp" />
     <ClCompile Include="src\scenes\WorldScene.cpp" />
-
     <ClCompile Include="src\worldmap\AssetManager.cpp" />
     <ClCompile Include="src\worldmap\Player.cpp" />
     <ClCompile Include="src\worldmap\Tile.cpp" />
     <ClCompile Include="src\worldmap\WorldMap.cpp" />
     <ClCompile Include="src\worldmap\WorldMapRenderer.cpp" />
-
     <ClCompile Include="src\drawable\IsoGrid.cpp" />
-
     <ClCompile Include="src\GUI\widgets\ActionSlot.cpp" />
     <ClCompile Include="src\GUI\widgets\StatBar.cpp" />
     <ClCompile Include="src\GUI\widgets\Tooltip.cpp" />
-
     <ClCompile Include="src\GUI\windows\BattleHud.cpp" />
     <ClCompile Include="src\GUI\windows\WindowBase.cpp" />
-
-    <ClCompile Include="src\placeholder\TestActor.cpp" />
     <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\core\Constants.h" />
     <ClInclude Include="src\core\GameManager.h" />
     <ClInclude Include="src\core\SpritesheetManager.h" />
-    <ClInclude Include="src\core\AssetManager.h" />
-
     <ClInclude Include="src\entities\Monster.h" />
     <ClInclude Include="src\entities\NPC.h" />
-
     <ClInclude Include="src\scenes\BaseGameScene.h" />
     <ClInclude Include="src\scenes\BattleScene.h" />
     <ClInclude Include="src\scenes\FactionScene.h" />
     <ClInclude Include="src\scenes\ISceneController.h" />
     <ClInclude Include="src\scenes\Scene.h" />
     <ClInclude Include="src\scenes\WorldScene.h" />
-
     <ClInclude Include="src\worldmap\AssetManager.h" />
     <ClInclude Include="src\worldmap\DifficultySettings.h" />
     <ClInclude Include="src\worldmap\enums.h" />
@@ -200,18 +179,14 @@
     <ClInclude Include="src\worldmap\Tile.h" />
     <ClInclude Include="src\worldmap\WorldMap.h" />
     <ClInclude Include="src\worldmap\WorldMapRenderer.h" />
-
     <ClInclude Include="src\drawable\IsoGrid.h" />
-
     <ClInclude Include="src\GUI\widgets\IGuiElement.h" />
     <ClInclude Include="src\GUI\widgets\ActionSlot.h" />
     <ClInclude Include="src\GUI\widgets\StatBar.h" />
     <ClInclude Include="src\GUI\widgets\Tooltip.h" />
-
     <ClInclude Include="src\GUI\windows\BattleHUD.h" />
     <ClInclude Include="src\GUI\windows\OpenWindowCommand.h" />
     <ClInclude Include="src\GUI\windows\WindowBase.h" />
-
     <ClInclude Include="src\interfaces\IAbility.h" />
     <ClInclude Include="src\interfaces\ICombatActor.h" />
   </ItemGroup>

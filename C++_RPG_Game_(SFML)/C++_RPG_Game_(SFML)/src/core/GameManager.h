@@ -13,6 +13,7 @@
 #include "worldmap/enums.h"
 #include "scenes/Scene.h"
 #include "scenes/ISceneController.h"
+#include "GUI/windows/BattleHud.h"
 
 namespace RPG {
 	
@@ -28,10 +29,16 @@ namespace RPG {
 		sf::RenderWindow window;
 		SpritesheetManager spritesheetManager;
 		AssetManager assetManager;
+
 		// shared info between scenes
 		std::shared_ptr<Player> player;
 		std::map<FactionID, std::shared_ptr<WorldMap>> allMaps;
-		
+
+		// UI & Data
+		std::unique_ptr<BattleHUD> m_hud;
+		const Spritesheet* m_iconSet;
+		const sf::Font* m_globalFont;
+
 		std::unique_ptr<Scene> currentScene;
 		FactionID activeFaction;
 
