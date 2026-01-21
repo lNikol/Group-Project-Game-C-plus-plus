@@ -65,6 +65,9 @@
     <Filter Include="Pliki źródłowe\drawable">
       <UniqueIdentifier>{2ac2f39f-67a7-45aa-81ca-5ccdfcc80cfe}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Pliki nagłówkowe\animation">
+      <UniqueIdentifier>{7477fc85-5e14-421d-a187-eefbff078922}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -86,9 +89,6 @@
       <Filter>Pliki źródłowe\worldmap</Filter>
     </ClCompile>
     <ClCompile Include="src\core\GameManager.cpp">
-      <Filter>Pliki źródłowe\core</Filter>
-    </ClCompile>
-    <ClCompile Include="src\core\SpritesheetManager.cpp">
       <Filter>Pliki źródłowe\core</Filter>
     </ClCompile>
     <ClCompile Include="src\entities\Monster.cpp">
@@ -160,9 +160,6 @@
       <Filter>Pliki nagłówkowe\core</Filter>
     </ClInclude>
     <ClInclude Include="src\core\GameManager.h">
-      <Filter>Pliki nagłówkowe\core</Filter>
-    </ClInclude>
-    <ClInclude Include="src\core\SpritesheetManager.h">
       <Filter>Pliki nagłówkowe\core</Filter>
     </ClInclude>
     <ClInclude Include="src\scenes\Scene.h">

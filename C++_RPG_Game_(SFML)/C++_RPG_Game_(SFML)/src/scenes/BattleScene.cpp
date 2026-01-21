@@ -17,7 +17,7 @@ namespace RPG {
         }
     }
 
-    void BattleScene::draw(sf::RenderWindow& window) {
+    void BattleScene::draw(sf::RenderWindow& window, const AssetManager& am) {
         // Draw map and battlefield units
     }
 }

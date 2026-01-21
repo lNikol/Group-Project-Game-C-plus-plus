@@ -1,5 +1,6 @@
 #pragma once
 #include <SFML/Graphics.hpp>
+#include "../worldmap/AssetManager.h"
 
 namespace RPG {
 
@@ -30,6 +31,6 @@ namespace RPG {
          * @brief Renders the scene's visual components to the window.
          * @param window The target SFML RenderWindow.
          */
-        virtual void draw(sf::RenderWindow& window) = 0;
+        virtual void draw(sf::RenderWindow& window, const AssetManager& assetManager) = 0;
     };
 }

@@ -49,7 +49,7 @@ namespace RPG {
          * obstacles, and special zones, and loads required textures into
          * the spritesheet manager.
          */
-        void init(SpritesheetManager& sm);
+        void init();
 
         /**
          * @brief Retrieves the definition for a specific structure type.

@@ -3,9 +3,10 @@
 
     namespace RPG {
 
-        BaseGameScene::BaseGameScene(ISceneController& ctrl, AssetManager& am, SpritesheetManager& sm,
-            std::shared_ptr<WorldMap> wm, std::shared_ptr<Player> p)
-            : sceneController(ctrl),assetManager(am), spritesheetManager(sm), worldMap(wm), player(p), viewVisibility(1.0f)
+        BaseGameScene::BaseGameScene(
+            ISceneController& ctrl, std::shared_ptr<WorldMap> wm, std::shared_ptr<Player> p
+        )
+            : sceneController(ctrl), worldMap(wm), player(p), viewVisibility(1.0f)
         {
             camera.setSize(sf::Vector2f(static_cast<float>(Window::WIDTH), static_cast<float>(Window::HEIGHT)));
         }
@@ -24,19 +25,19 @@
             }*/
         }
 
-        void BaseGameScene::draw(sf::RenderWindow& window) {
+        void BaseGameScene::draw(sf::RenderWindow& window, const AssetManager& am) {
             window.setView(camera);
 
             if (worldMap) {
-                worldRenderer.draw(window, *worldMap, assetManager, spritesheetManager, viewVisibility);
+                worldRenderer.draw(window, *worldMap, am, viewVisibility);
             }
 
             for (auto& npc : worldMap->getNPCs()) {
-                    npc->draw(window, spritesheetManager);
+                    npc->draw(window, am);
             }
 
             if (player) {
-                player->draw(window, spritesheetManager);
+                player->draw(window, am);
             }
         }
 

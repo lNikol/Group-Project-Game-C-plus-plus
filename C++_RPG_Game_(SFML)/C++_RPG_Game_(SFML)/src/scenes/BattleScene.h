@@ -26,6 +26,6 @@ namespace RPG {
         void update(float dt, const sf::RenderWindow& window) override;
         void handleEvents(const sf::Event& event) override;
 
-        void draw(sf::RenderWindow& window) override;
+        void draw(sf::RenderWindow& window, const AssetManager& am) override;
     };
 }

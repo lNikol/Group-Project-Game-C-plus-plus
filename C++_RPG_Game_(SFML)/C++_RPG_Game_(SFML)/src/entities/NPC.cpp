@@ -1,5 +1,4 @@
 #include "NPC.h"
-#include "core/SpritesheetManager.h"
 #include "core/Constants.h" 
 
 namespace RPG {
@@ -10,7 +9,7 @@ namespace RPG {
     {
     }
 
-    void NPC::draw(sf::RenderWindow& window, const SpritesheetManager& sm) {
+    void NPC::draw(sf::RenderWindow& window, const AssetManager& sm) {
         const sf::Texture* texture = sm.getSpritesheet(textureKey);
         const uint8_t ts = GameConfig::TILE_SIZE;
 

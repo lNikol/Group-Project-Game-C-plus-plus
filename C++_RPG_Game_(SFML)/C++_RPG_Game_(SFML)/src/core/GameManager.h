@@ -27,7 +27,6 @@ namespace RPG {
 
 		bool running;
 		sf::RenderWindow window;
-		SpritesheetManager spritesheetManager;
 		AssetManager assetManager;
 
 		// shared info between scenes

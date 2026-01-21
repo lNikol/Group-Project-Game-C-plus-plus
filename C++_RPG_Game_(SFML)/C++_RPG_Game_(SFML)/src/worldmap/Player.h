@@ -4,7 +4,6 @@
 #include <cmath>
 
 #include "core/Constants.h"
-#include "core/SpritesheetManager.h"
 #include "WorldMap.h"
 #include "interfaces/ICombatActor.h"
 
@@ -42,7 +41,7 @@ namespace RPG {
 		 * @param worldMap Reference to check collisions and speed modifiers
 		 */
 		void update(float deltaTime, const WorldMap& worldMap, const sf::RenderWindow& window);
-		void draw(sf::RenderWindow& window, const SpritesheetManager& sm);
+		void draw(sf::RenderWindow& window, const AssetManager& sm);
 		sf::Vector2f getPosition() const;
 
 		/**

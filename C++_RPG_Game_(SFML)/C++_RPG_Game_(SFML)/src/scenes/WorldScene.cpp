@@ -3,9 +3,8 @@
 
 namespace RPG {
 
-    WorldScene::WorldScene(ISceneController& ctrl,AssetManager& am, SpritesheetManager& sm,
-        std::shared_ptr<WorldMap> wm, std::shared_ptr<Player> p)
-        : BaseGameScene(ctrl, am, sm, wm, p) 
+    WorldScene::WorldScene(ISceneController& ctrl, std::shared_ptr<WorldMap> wm, std::shared_ptr<Player> p)
+        : BaseGameScene(ctrl, wm, p) 
     {
         sceneName = "WorldScene";
         viewVisibility = 0.8f;

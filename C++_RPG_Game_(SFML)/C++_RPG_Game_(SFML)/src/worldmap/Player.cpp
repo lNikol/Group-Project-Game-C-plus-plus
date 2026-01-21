@@ -58,8 +58,8 @@ namespace RPG {
         }
     }
 
-    void Player::draw(sf::RenderWindow& window, const SpritesheetManager& sm) {
-        const sf::Texture* tex = sm.getSpritesheet("hero"); //  "hero.png" -> "hero"
+    void Player::draw(sf::RenderWindow& window, const AssetManager& am) {
+        const sf::Texture* tex = am.getSpritesheet("hero"); //  "hero.png" -> "hero"
         float halfSize = GameConfig::TILE_SIZE / 2.0f;
         if (tex) {
             sf::Sprite s(*tex);

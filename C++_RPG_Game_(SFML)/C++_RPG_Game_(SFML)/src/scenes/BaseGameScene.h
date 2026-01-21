@@ -25,9 +25,6 @@ namespace RPG {
         std::string sceneName;
         // std::unique_ptr<GameUI> gameUI; // Or smth like that
 
-        AssetManager& assetManager;
-        SpritesheetManager& spritesheetManager;
-
         std::shared_ptr<WorldMap> worldMap;
         std::shared_ptr<Player> player;
         
@@ -40,8 +37,7 @@ namespace RPG {
         void checkNPCInteraction();
 
     public:
-        BaseGameScene(ISceneController& ctrl, AssetManager& am, SpritesheetManager& sm,
-            std::shared_ptr<WorldMap> wm, std::shared_ptr<Player> p);
+        BaseGameScene(ISceneController& ctrl, std::shared_ptr<WorldMap> wm, std::shared_ptr<Player> p);
 
         virtual ~BaseGameScene() = default;
         /**
@@ -59,7 +55,7 @@ namespace RPG {
          * and draws the player and NPCs. Resets view to default for UI rendering.
          * * @param window Reference to the render window.
          */
-        void draw(sf::RenderWindow& window) override;
+        void draw(sf::RenderWindow& window, const AssetManager& assetManager) override;
 
         /**
          * @brief Default event handling for map-based scenes (World, Faction).

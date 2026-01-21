@@ -8,7 +8,12 @@ namespace RPG {
         tileRect.setSize(sf::Vector2f(static_cast<float>(GameConfig::TILE_SIZE), static_cast<float>(GameConfig::TILE_SIZE)));
     }
 
-    void WorldMapRenderer::draw(sf::RenderWindow& window, const WorldMap& worldMap, const AssetManager& assetManager, const SpritesheetManager& sm, float percentView) {
+    void WorldMapRenderer::draw(
+        sf::RenderWindow& window, 
+        const WorldMap& worldMap, 
+        const AssetManager& assetManager, 
+        float percentView
+    ) {
         // 1. Get the current view for Culling (rendering only what's visible)
         sf::View currentView = window.getView();
         sf::Vector2f center = currentView.getCenter();
@@ -69,7 +74,7 @@ namespace RPG {
                 }
 
                 // 5. Rendering
-                const sf::Texture* tex = sm.getSpritesheet(def.textureKey);
+                const sf::Texture* tex = assetManager.getSpritesheet(def.textureKey);
                 tileRect.setTexture(tex);
 
                 sf::Color finalColor = (tex) ? sf::Color::White : (def.blocksMovement ? sf::Color(100, 100, 100) : sf::Color(50, 150, 50));

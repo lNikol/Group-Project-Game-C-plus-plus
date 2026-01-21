@@ -139,7 +139,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\core\GameManager.cpp" />
-    <ClCompile Include="src\core\SpritesheetManager.cpp" />
     <ClCompile Include="src\entities\Monster.cpp" />
     <ClCompile Include="src\entities\NPC.cpp" />
     <ClCompile Include="src\scenes\BaseGameScene.cpp" />
@@ -162,7 +161,6 @@
   <ItemGroup>
     <ClInclude Include="src\core\Constants.h" />
     <ClInclude Include="src\core\GameManager.h" />
-    <ClInclude Include="src\core\SpritesheetManager.h" />
     <ClInclude Include="src\entities\Monster.h" />
     <ClInclude Include="src\entities\NPC.h" />
     <ClInclude Include="src\scenes\BaseGameScene.h" />

@@ -14,8 +14,8 @@ namespace RPG {
         window.setFramerateLimit(Window::BASE_FPS);
 
         // Assets and structures init
-        assetManager.init(spritesheetManager);
-        spritesheetManager.addSpritesheet(GameConfig::TEXTURES_PATH + "hero.png"); 
+        assetManager.init();
+        // spritesheetManager.addSpritesheet(GameConfig::TEXTURES_PATH + "hero.png"); 
 
         // Init start scene
         initGameData();
@@ -107,17 +107,17 @@ namespace RPG {
         switch (targetFaction) {
         case FactionID::WhiteOrder:
             player->setPosition(sf::Vector2f(400.0f, 520.0f));
-            currentScene = std::make_unique<FactionScene>(*this, assetManager, spritesheetManager, selectedMap, player);
+            currentScene = std::make_unique<FactionScene>(*this, selectedMap, player);
             break;
 
         case FactionID::DarkOrder:
             player->setPosition(sf::Vector2f(400.0f, 480.0f));
-            currentScene = std::make_unique<FactionScene>(*this, assetManager, spritesheetManager, selectedMap, player);
+            currentScene = std::make_unique<FactionScene>(*this, selectedMap, player);
             break;
 
         case FactionID::NeutralOrder:
             player->setPosition(sf::Vector2f(440.0f, 620.0f));
-            currentScene = std::make_unique<FactionScene>(*this, assetManager, spritesheetManager, selectedMap, player);
+            currentScene = std::make_unique<FactionScene>(*this, selectedMap, player);
             break;
 
         case FactionID::BattleScene:
@@ -127,7 +127,7 @@ namespace RPG {
         default:
         case FactionID::MainWorld:
             player->setPosition(sf::Vector2f(lastWorldPosition));
-            currentScene = std::make_unique<WorldScene>(*this, assetManager, spritesheetManager, selectedMap, player);
+            currentScene = std::make_unique<WorldScene>(*this, selectedMap, player);
             break;
         }
     }
@@ -194,7 +194,7 @@ namespace RPG {
     void GameManager::draw() {
         window.clear(sf::Color(0x4B0082FF));
         
-        if (currentScene) currentScene->draw(window);
+        if (currentScene) currentScene->draw(window, assetManager);
 
         if (m_hud) {
             window.draw(*m_hud);
