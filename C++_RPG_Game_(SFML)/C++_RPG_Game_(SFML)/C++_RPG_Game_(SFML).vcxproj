@@ -104,7 +104,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard>stdcpp20</LanguageStandard>
       <AdditionalIncludeDirectories>
         $(ProjectDir)src;%(AdditionalIncludeDirectories);$(SolutionDir)\External\include</AdditionalIncludeDirectories>
     </ClCompile>
@@ -138,6 +138,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\combat\BattleManager.cpp" />
+    <ClCompile Include="src\combat\CombatAbility.cpp" />
+    <ClCompile Include="src\combat\CombatMap.cpp" />
+    <ClCompile Include="src\combat\Unit.cpp" />
     <ClCompile Include="src\animation\Animation.cpp" />
     <ClCompile Include="src\animation\AnimationBuilder.cpp" />
     <ClCompile Include="src\animation\AnimationManager.cpp" />
@@ -163,6 +167,14 @@
     <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\combat\BattleManager.h" />
+    <ClInclude Include="src\combat\CombatAbility.h" />
+    <ClInclude Include="src\combat\CombatMap.h" />
+    <ClInclude Include="src\combat\CombatWorldObject.h" />
+    <ClInclude Include="src\combat\EndTurnCommand.h" />
+    <ClInclude Include="src\combat\MoveCommand.h" />
+    <ClInclude Include="src\combat\Prop.h" />
+    <ClInclude Include="src\combat\Unit.h" />
     <ClInclude Include="src\animation\Animation.h" />
     <ClInclude Include="src\animation\AnimationBuilder.h" />
     <ClInclude Include="src\animation\AnimationManager.h" />

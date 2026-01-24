@@ -90,7 +90,7 @@ namespace RPG {
         }
     }
 
-    bool ActionSlot::handleEvent(const sf::RenderWindow& window, const sf::Event& event) {
+    bool ActionSlot::handleEvent(sf::RenderWindow& window, const sf::Event& event) {
         if (const auto* mouseEvent = event.getIf<sf::Event::MouseMoved>()) {
             updateHoverState(window, mouseEvent->position);
         }
@@ -98,8 +98,12 @@ namespace RPG {
         // Click Logic
         if (const auto* mouseClick = event.getIf<sf::Event::MouseButtonPressed>()) {
             if (mouseClick->button == sf::Mouse::Button::Left && m_isHovered) {
-                m_ability->execute();
-                return true;
+                updateHoverState(window, mouseClick->position);
+                if (m_ability != nullptr)
+                {
+                    m_ability->execute();
+                    return true;
+                }
             }
         }
         return false;

@@ -18,6 +18,7 @@
 #include "animation/Animation.h"
 #include "animation/AnimationBuilder.h"
 
+#include "combat/Unit.h"
 namespace RPG {
 	
 	/**
@@ -36,7 +37,7 @@ namespace RPG {
 		// shared info between scenes
 		std::shared_ptr<Player> player;
 		std::map<FactionID, std::shared_ptr<WorldMap>> allMaps;
-
+		std::shared_ptr<Unit> playerUnit;
 		// UI & Data
 		std::unique_ptr<BattleHUD> m_hud;
 		const Spritesheet* m_iconSet;

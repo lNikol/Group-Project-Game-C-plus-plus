@@ -30,7 +30,7 @@ namespace RPG {
 
         void update(float dt) override {}
 
-        bool handleEvent(const sf::RenderWindow& window, const sf::Event& event) override;
+        bool handleEvent(sf::RenderWindow& window, const sf::Event& event) override;
 
         sf::FloatRect getGlobalBounds() const override;
 

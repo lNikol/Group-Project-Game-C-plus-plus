@@ -61,7 +61,7 @@ namespace RPG {
          * @brief Default event handling for map-based scenes (World, Faction).
          * Can be overridden by BattleScene to disable NPC interactions.
          */
-        void handleEvents(const sf::Event& event) override;
+        bool handleEvent(sf::RenderWindow& window, const sf::Event& event) override;
 
         /**
          * @brief Logic triggered when 'E' is pressed near an NPC.

@@ -14,11 +14,16 @@ namespace RPG {
     public:
         virtual ~Scene() = default;
         
+
         /**
-         * @brief Processes input events specific to the scene.
-         * @param event The SFML event to handle (keyboard, mouse, etc.).
+         * @brief Processes input events (mouse clicks, movement, etc.).
+         * * @param window The window reference (used for coordinate mapping).
+         * @param event The specific SFML event to process.
+         * @return true if the event was consumed by this element (stops propagation), false otherwise.
          */
-        virtual void handleEvents(const sf::Event& event) = 0;
+        virtual bool handleEvent(sf::RenderWindow& window, const sf::Event& event) {
+            return false;
+        }
 
         /**
          * @brief Updates scene logic and state.

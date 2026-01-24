@@ -11,8 +11,8 @@ namespace RPG {
         viewVisibility = 1.0f; 
     }
 
-    void FactionScene::handleEvents(const sf::Event& event) {
-        BaseGameScene::handleEvents(event);
+    bool FactionScene::handleEvent(sf::RenderWindow& window, const sf::Event& event) {
+        BaseGameScene::handleEvent(window, event);
         if (const auto* keyPressed = event.getIf<sf::Event::KeyPressed>()) {
         }
 
@@ -20,6 +20,7 @@ namespace RPG {
         if (const auto* mousePressed = event.getIf<sf::Event::MouseButtonPressed>()) {
             // sf::Mouse::Left ...
         }
+        return false;
     }
 
     void FactionScene::draw(sf::RenderWindow& window, const AssetManager& am) {

@@ -19,7 +19,7 @@ namespace RPG {
          */
         WorldScene(ISceneController& ctrl, std::shared_ptr<WorldMap> wm, std::shared_ptr<Player> p);
 
-        void handleEvents(const sf::Event& event) override;
+        bool handleEvent(sf::RenderWindow& window, const sf::Event& event) override;
     };
 
 }
