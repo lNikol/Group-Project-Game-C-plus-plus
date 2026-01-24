@@ -27,7 +27,7 @@ namespace RPG {
          * @param event The specific SFML event to process.
          * @return true if the event was consumed by this element (stops propagation), false otherwise.
          */
-        virtual bool handleEvent(const sf::RenderWindow& window, const sf::Event& event) {
+        virtual bool handleEvent(sf::RenderWindow& window, const sf::Event& event) {
             return false;
         }
 

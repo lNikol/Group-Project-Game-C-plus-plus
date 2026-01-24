@@ -7,7 +7,6 @@
 #include "core/SpritesheetManager.h"
 #include "WorldMap.h"
 #include "interfaces/ICombatActor.h"
-
 namespace RPG {
 
 	class Player : public ICombatActor {

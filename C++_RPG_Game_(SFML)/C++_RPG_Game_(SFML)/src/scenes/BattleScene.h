@@ -1,31 +1,49 @@
 #pragma once
-#include "BaseGameScene.h"
+#include "scenes/Scene.h"
+#include "scenes/ISceneController.h"
+#include "worldmap/WorldMap.h"
+#include "worldmap/Player.h"
+#include "worldmap/AssetManager.h"
+#include "combat/BattleManager.h"
+#include <memory>
 
 namespace RPG {
 
     /**
-     * @brief Handles the turn-based combat gameplay.
-     * * This scene manages combat actors, turn sequencing, and the tactical
-     * user interface during a fight. It uses the battle map as its background.
+     * @brief The high-level Scene wrapper for the Combat Phase.
+     * * Responsibilities:
+     * 1. Owns the BattleManager (the actual combat logic).
+     * 2. Bridges global resources (AssetManager, Player) into the combat system.
+     * 3. Forwards Update/Draw/Event calls from the main loop to the BattleManager.
      */
-
     class BattleScene : public Scene {
-    private:
-        ISceneController& controller;
-        std::shared_ptr<WorldMap> battleMap;
-        // your objects: std::vector<Enemy>, TurnManager itp.
-
     public:
         /**
-         * @brief Constructs the BattleScene.
-         * @param ctrl Reference to the scene controller for state transitions.
-         * @param map Shared pointer to the map where the battle takes place.
+         * @brief Constructs the Battle Scene.
+         * @param ctrl Reference to the main game controller (for switching back to World later).
+         * @param assetManager Access to fonts and textures (required for the HUD).
+         * @param player The persistent player data (HP, Inventory) to use in the fight.
+         * @param map The generic WorldMap data (can be used to generate obstacles).
          */
-        BattleScene(ISceneController& ctrl, std::shared_ptr<WorldMap> map);
+        BattleScene(ISceneController& ctrl,
+            const AssetManager& assetManager,
+            std::shared_ptr<Unit> player,
+            std::shared_ptr<WorldMap> map);
 
+        virtual ~BattleScene() = default;
+
+        // ==============================
+        // Scene Lifecycle
+        // ==============================
+
+        bool handleEvent(sf::RenderWindow& window, const sf::Event& event) override;
         void update(float dt, const sf::RenderWindow& window) override;
-        void handleEvents(const sf::Event& event) override;
-
         void draw(sf::RenderWindow& window) override;
+
+    private:
+        ISceneController& m_controller;
+
+        // The core logic controller for the battle
+        std::unique_ptr<BattleManager> m_battleManager;
     };
 }

@@ -61,7 +61,7 @@ namespace RPG {
         return getTransform().transformRect(bounds);
     }
 
-    bool WindowBase::handleEvent(const sf::RenderWindow& window, const sf::Event& event) {
+    bool WindowBase::handleEvent(sf::RenderWindow& window, const sf::Event& event) {
         if (!m_isVisible) return false;
 
         // Convert mouse to view coordinates for checks

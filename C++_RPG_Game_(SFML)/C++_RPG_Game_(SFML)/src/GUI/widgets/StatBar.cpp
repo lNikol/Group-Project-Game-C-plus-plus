@@ -95,7 +95,7 @@ namespace RPG {
         return sf::FloatRect({ minX, minY }, { maxX - minX, maxY - minY });
     }
 
-    bool StatBar::handleEvent(const sf::RenderWindow& window, const sf::Event& event) {
+    bool StatBar::handleEvent(sf::RenderWindow& window, const sf::Event& event) {
         if (const auto* mouseEvent = event.getIf<sf::Event::MouseMoved>()) {
             updateHoverState(window, mouseEvent->position);
         }

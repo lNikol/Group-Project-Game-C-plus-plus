@@ -65,6 +65,12 @@
     <Filter Include="Pliki źródłowe\drawable">
       <UniqueIdentifier>{2ac2f39f-67a7-45aa-81ca-5ccdfcc80cfe}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Pliki nagłówkowe\combat">
+      <UniqueIdentifier>{fd536323-b54a-4284-accb-811ccd16eb33}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pliki źródłowe\combat">
+      <UniqueIdentifier>{38138cb9-2af4-454f-b727-40abb29a2cf4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -132,6 +138,18 @@
     </ClCompile>
     <ClCompile Include="src\drawable\IsoGrid.cpp">
       <Filter>Pliki źródłowe\drawable</Filter>
+    </ClCompile>
+    <ClCompile Include="src\combat\CombatMap.cpp">
+      <Filter>Pliki źródłowe\combat</Filter>
+    </ClCompile>
+    <ClCompile Include="src\combat\CombatAbility.cpp">
+      <Filter>Pliki źródłowe\combat</Filter>
+    </ClCompile>
+    <ClCompile Include="src\combat\BattleManager.cpp">
+      <Filter>Pliki źródłowe\combat</Filter>
+    </ClCompile>
+    <ClCompile Include="src\combat\Unit.cpp">
+      <Filter>Pliki źródłowe\combat</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -221,6 +239,33 @@
     </ClInclude>
     <ClInclude Include="src\drawable\IsoGrid.h">
       <Filter>Pliki nagłówkowe\drawable</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\IsoHelpers.h">
+      <Filter>Pliki nagłówkowe\core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\combat\CombatMap.h">
+      <Filter>Pliki nagłówkowe\combat</Filter>
+    </ClInclude>
+    <ClInclude Include="src\combat\CombatWorldObject.h">
+      <Filter>Pliki nagłówkowe\combat</Filter>
+    </ClInclude>
+    <ClInclude Include="src\combat\Prop.h">
+      <Filter>Pliki nagłówkowe\combat</Filter>
+    </ClInclude>
+    <ClInclude Include="src\combat\Unit.h">
+      <Filter>Pliki nagłówkowe\combat</Filter>
+    </ClInclude>
+    <ClInclude Include="src\combat\BattleManager.h">
+      <Filter>Pliki nagłówkowe\combat</Filter>
+    </ClInclude>
+    <ClInclude Include="src\combat\CombatAbility.h">
+      <Filter>Pliki nagłówkowe\combat</Filter>
+    </ClInclude>
+    <ClInclude Include="src\combat\EndTurnCommand.h">
+      <Filter>Pliki nagłówkowe\combat</Filter>
+    </ClInclude>
+    <ClInclude Include="src\combat\MoveCommand.h">
+      <Filter>Pliki nagłówkowe\combat</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

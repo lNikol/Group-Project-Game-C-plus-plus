@@ -40,7 +40,7 @@
             }
         }
 
-        void BaseGameScene::handleEvents(const sf::Event& event) {
+        bool BaseGameScene::handleEvent(sf::RenderWindow& window, const sf::Event& event) {
             if (const auto* keyPressed = event.getIf<sf::Event::KeyPressed>()) {
                 if (keyPressed->scancode == sf::Keyboard::Scancode::E) {
                     std::cout << "[" << sceneName << "]" << " Key 'E' was pressed: " << std::endl;
@@ -52,6 +52,7 @@
                     isInventoryOpen = !isInventoryOpen;
                 }
             }
+            return false;
         }
 
         void BaseGameScene::checkNPCInteraction() {
