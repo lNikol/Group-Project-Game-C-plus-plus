@@ -118,12 +118,6 @@
     <ClCompile Include="src\scenes\BattleScene.cpp">
       <Filter>Pliki źródłowe\scenes</Filter>
     </ClCompile>
-    <ClCompile Include="src\core\GameManager.cpp">
-      <Filter>Pliki źródłowe</Filter>
-    </ClCompile>
-    <ClCompile Include="src\main.cpp">
-      <Filter>Pliki źródłowe</Filter>
-    </ClCompile>
     <ClCompile Include="src\GUI\widgets\ActionSlot.cpp">
       <Filter>Pliki źródłowe\GUI\widgets</Filter>
     </ClCompile>

@@ -35,7 +35,7 @@ namespace RPG {
         if (m_battleManager->isBattleOver()) m_controller.changeScene(FactionID::MainWorld);
     }
 
-    void BattleScene::draw(sf::RenderWindow& window) {
+    void BattleScene::draw(sf::RenderWindow& window, const AssetManager& am) {
         if (m_battleManager) {
             m_battleManager->render(window);
         }
