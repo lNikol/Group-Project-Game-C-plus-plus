@@ -2,16 +2,15 @@
 #include <SFML/Graphics.hpp>
 #include <cstdint>
 #include <cmath>
-
 #include "core/Constants.h"
 #include "WorldMap.h"
 #include "interfaces/ICombatActor.h"
+#include "entities/AnimatedEntity.h"
 
 namespace RPG {
 
-	class Player : public ICombatActor {
+	class Player : public ICombatActor, public AnimatedEntity {
 	private:
-		sf::Vector2f position; // Position in pixels
 		float moveSpeed = 250.0f; // px/s
 
 		std::string name;
@@ -42,15 +41,6 @@ namespace RPG {
 		 */
 		void update(float deltaTime, const WorldMap& worldMap, const sf::RenderWindow& window);
 		void draw(sf::RenderWindow& window, const AssetManager& sm);
-		sf::Vector2f getPosition() const;
-
-		/**
-		 * @brief Updates the player's world position and synchronizes the sprite.
-		 * * Use this method for teleporting the player between maps or responding
-		 * to scene changes.
-		 * * @param pos The new 2D coordinates (in pixels) for the player.
-		 */
-		void setPosition(sf::Vector2f pos);
 
 
 		// --- ICombatActor Implementation ---

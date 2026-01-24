@@ -4,13 +4,16 @@
 
 namespace RPG {
 
-    Player::Player(float startX, float startY, std::string name) : position(startX, startY), name(name) {
+    Player::Player(float startX, float startY, std::string name) 
+        : name(name)
+    {
+        setPosition(startX, startY);
         hotbar.resize(hotBarSize, nullptr);
         inventory.resize(inventorySize, nullptr);
     }
-    Player::Player(sf::Vector2f pos, std::string name) : Player(pos.x, pos.y, name){}
-
-    sf::Vector2f Player::getPosition() const { return position; }
+    Player::Player(sf::Vector2f pos, std::string name) : 
+        Player(pos.x, pos.y, name)
+    {}
 
     sf::Vector2f Player::getInputDirection(const sf::RenderWindow& window) const {
 
@@ -26,46 +29,112 @@ namespace RPG {
         return dir;
     }
 
-    void Player::setPosition(sf::Vector2f pos) {
-        position = pos;
-    }
 
     void Player::update(float deltaTime, const WorldMap& worldMap, const sf::RenderWindow& window) {
         sf::Vector2f direction = getInputDirection(window);
 
-        // Normalization (diagonal movement)
+        // --- 1. COORDINATE CONVERSION ---
+        // Since Origin is Center, getPosition() returns the Center.
+        sf::Vector2f centerPos = getPosition();
+        sf::Vector2f origin = sprite.getOrigin();
+
+        // Calculate the actual Top-Left for hitbox logic
+        sf::Vector2f topLeft = centerPos - origin;
+
+        // --- 2. DEFINE HITBOX ---
+        sf::FloatRect spriteBounds = sprite.getLocalBounds();
+        float marginX = 4.0f;
+        float marginY = 4.0f;
+
+        sf::FloatRect hitbox;
+        // Hitbox is relative to the calculated Top-Left
+        hitbox.position.x = topLeft.x + marginX;
+        hitbox.position.y = topLeft.y + marginY;
+
+        hitbox.size.x = spriteBounds.size.x - (marginX * 2);
+        hitbox.size.y = spriteBounds.size.y - (marginY * 2);
+
+        // --- 3. MOVEMENT MATH ---
+        // ... normalization ...
         float length = std::sqrt(direction.x * direction.x + direction.y * direction.y);
         if (length > 0.0f) direction /= length;
 
-        // Getting a tile under the player's position
-        int16_t tx = static_cast<int16_t>(position.x / GameConfig::TILE_SIZE);
-        int16_t ty = static_cast<int16_t>(position.y / GameConfig::TILE_SIZE);
+        sf::Vector2f velocity = direction * moveSpeed * deltaTime;
 
-        float terrainModifier = 1.0f;
-        if (tx >= 0 && tx < worldMap.getWidth() && ty >= 0 && ty < worldMap.getHeight()) {
-            terrainModifier = worldMap.getTileSpeedModifier(tx, ty);
+        // --- 4. COLLISION CHECKS ---
+        // (Logic stays mostly the same, but we update 'topLeft' instead of 'currentPos')
+
+        // X AXIS
+        float nextHitboxX = hitbox.position.x + velocity.x;
+        bool collisionX = false;
+
+        // Use your existing checking logic...
+        if (velocity.x > 0) { /* Check Right */
+            if (worldMap.isBlockingAtPixel(nextHitboxX + hitbox.size.x, hitbox.position.y) ||
+                worldMap.isBlockingAtPixel(nextHitboxX + hitbox.size.x, hitbox.position.y + hitbox.size.y))
+                collisionX = true;
+        }
+        else if (velocity.x < 0) { /* Check Left */
+            if (worldMap.isBlockingAtPixel(nextHitboxX, hitbox.position.y) ||
+                worldMap.isBlockingAtPixel(nextHitboxX, hitbox.position.y + hitbox.size.y))
+                collisionX = true;
         }
 
-        sf::Vector2f velocity = direction * moveSpeed * terrainModifier * deltaTime;
-
-        // Collision check
-        if (!worldMap.isBlockingAtPixel(position.x + velocity.x, position.y)) {
-            position.x += velocity.x;
+        if (!collisionX) {
+            topLeft.x += velocity.x;        // Move our reference Top-Left
+            hitbox.position.x += velocity.x; // Update hitbox for Y check
         }
 
-        if (!worldMap.isBlockingAtPixel(position.x, position.y + velocity.y)) {
-            position.y += velocity.y;
+        // Y AXIS
+        float nextHitboxY = hitbox.position.y + velocity.y;
+        bool collisionY = false;
+
+        // Use your existing checking logic...
+        if (velocity.y > 0) { /* Check Down */
+            if (worldMap.isBlockingAtPixel(hitbox.position.x, nextHitboxY + hitbox.size.y) ||
+                worldMap.isBlockingAtPixel(hitbox.position.x + hitbox.size.x, nextHitboxY + hitbox.size.y))
+                collisionY = true;
         }
+        else if (velocity.y < 0) { /* Check Up */
+            if (worldMap.isBlockingAtPixel(hitbox.position.x, nextHitboxY) ||
+                worldMap.isBlockingAtPixel(hitbox.position.x + hitbox.size.x, nextHitboxY))
+                collisionY = true;
+        }
+
+        if (!collisionY) {
+            topLeft.y += velocity.y;
+        }
+
+        // --- 5. ANIMATION & FLIP ---
+        // (Your existing flip logic works perfectly now because Origin is Center!)
+        if (velocity.x != 0.0f || velocity.y != 0.0f) {
+            play("player_running");
+            if (velocity.x < 0) sprite.setScale({ -1.0f, 1.0f });
+            else if (velocity.x > 0) sprite.setScale({ 1.0f, 1.0f });
+        }
+        else {
+            play("player_idle");
+        }
+
+        // --- 6. FINALIZE ---
+        AnimatedEntity::update(deltaTime);
+
+        // CRITICAL: Convert Top-Left back to Center before setting sprite position
+        setPosition(topLeft + origin);
     }
 
     void Player::draw(sf::RenderWindow& window, const AssetManager& am) {
-        const sf::Texture* tex = am.getSpritesheet("hero"); //  "hero.png" -> "hero"
+        AnimatedEntity::draw(window);
+        /*
+        const sf::Texture* tex = am.getSpritesheet("player"); //  "hero.png" -> "hero"
         float halfSize = GameConfig::TILE_SIZE / 2.0f;
         if (tex) {
             sf::Sprite s(*tex);
             s.setPosition(position);
             s.setOrigin(sf::Vector2f(halfSize, halfSize));
+            s.setScale({2.0, 2.0});
             window.draw(s);
+            
         }
         else {
             float circleCenter = halfSize - 1.0f;
@@ -75,6 +144,7 @@ namespace RPG {
             c.setOrigin(sf::Vector2f(circleCenter, circleCenter));
             window.draw(c);
         }
+        */
     }
 
     std::string Player::getName() const { return name; }

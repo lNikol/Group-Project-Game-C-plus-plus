@@ -1,6 +1,7 @@
 #pragma once
-#include "Constants.h"
 #include <cstdint>
+#include <iostream>
+#include "core/Constants.h"
 
 namespace RPG {
 
@@ -13,22 +14,33 @@ namespace RPG {
 		sf::Vector2u frameStartPos;
 		sf::Vector2u frameSize;
 		uint8_t frameCount;
-		uint8_t frameGapPx;
+		uint8_t frameGap;
 		bool looped;
-		sf::IntRect currentFrame;
+		float frameDuration;
 
-		Animation();
+		float timer;
+		uint8_t currentFrameIndex;
+		sf::IntRect currentFrame;
+		bool finished;
+
 	public:
+		Animation();
+		virtual ~Animation();
 		static AnimationBuilder builder();
 
 		void update(float dt);
+		void reset();
+
 		const sf::IntRect& getCurrentFrame() const;
+		const Spritesheet* getSpritesheet() const;
+		bool isFinished() const;
+		const uint8_t getCurrentFrameIndex() const;
 
 		friend std::ostream& operator << (std::ostream& out, const Animation& a) {
 			out << "Start pos: " << a.frameStartPos.x << " " << a.frameStartPos.y << "\n" \
 				<< "Size: " << a.frameSize.x << " " << a.frameSize.y << "\n" \
 				<< "Frame count: " << (unsigned int)a.frameCount << "\n" \
-				<< "Frame gap: " << (unsigned int)a.frameGapPx << "\n" \
+				<< "Frame gap: " << (unsigned int)a.frameGap << "\n" \
 				<< "Looped: " << a.looped << "\n";
 			return out;
 		}

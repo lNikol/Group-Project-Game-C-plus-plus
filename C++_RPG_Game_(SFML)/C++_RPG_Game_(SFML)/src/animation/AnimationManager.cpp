@@ -14,14 +14,15 @@ namespace RPG {
         
     }
 
-    const Animation* AnimationManager::getAnimation(const std::string& name) {
+    const std::optional<Animation> AnimationManager::getAnimation(const std::string& name) {
         auto it = animationMap.find(name);
 
         if (it == animationMap.end()) {
-            return nullptr;
-        }
+            std::cerr << "[Warning] Animation not found: " << name << "\n";
+            return std::nullopt;
+        }   
 
-        return &it->second;
+        return it->second;
     }
 
 }

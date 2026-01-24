@@ -68,6 +68,9 @@
     <Filter Include="Pliki nagłówkowe\animation">
       <UniqueIdentifier>{7477fc85-5e14-421d-a187-eefbff078922}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Pliki źródłowe\animation">
+      <UniqueIdentifier>{bcc739db-2117-4500-9ba9-cc89bb150adb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -132,6 +135,18 @@
     </ClCompile>
     <ClCompile Include="src\drawable\IsoGrid.cpp">
       <Filter>Pliki źródłowe\drawable</Filter>
+    </ClCompile>
+    <ClCompile Include="src\entities\AnimatedEntity.cpp">
+      <Filter>Pliki źródłowe\entities</Filter>
+    </ClCompile>
+    <ClCompile Include="src\animation\Animation.cpp">
+      <Filter>Pliki źródłowe\animation</Filter>
+    </ClCompile>
+    <ClCompile Include="src\animation\AnimationBuilder.cpp">
+      <Filter>Pliki źródłowe\animation</Filter>
+    </ClCompile>
+    <ClCompile Include="src\animation\AnimationManager.cpp">
+      <Filter>Pliki źródłowe\animation</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -219,5 +234,22 @@
     <ClInclude Include="src\drawable\IsoGrid.h">
       <Filter>Pliki nagłówkowe\drawable</Filter>
     </ClInclude>
+    <ClInclude Include="src\entities\AnimatedEntity.h">
+      <Filter>Pliki nagłówkowe\entities</Filter>
+    </ClInclude>
+    <ClInclude Include="src\animation\Animation.h">
+      <Filter>Pliki nagłówkowe\animation</Filter>
+    </ClInclude>
+    <ClInclude Include="src\animation\AnimationBuilder.h">
+      <Filter>Pliki nagłówkowe\animation</Filter>
+    </ClInclude>
+    <ClInclude Include="src\animation\AnimationManager.h">
+      <Filter>Pliki nagłówkowe\animation</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="assets\animations\player.png">
+      <Filter>Pliki zasobów</Filter>
+    </Image>
   </ItemGroup>
 </Project>

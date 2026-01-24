@@ -22,8 +22,8 @@ namespace RPG {
 		return *this;
 	}
 
-	AnimationBuilder& AnimationBuilder::frameGapPx(uint8_t px) {
-		animation.frameGapPx = px;
+	AnimationBuilder& AnimationBuilder::frameGap(uint8_t px) {
+		animation.frameGap = px;
 		return *this;
 	}
 
@@ -32,10 +32,24 @@ namespace RPG {
 		return *this;
 	}
 
+	AnimationBuilder& AnimationBuilder::frameDuration(float duration) {
+		animation.frameDuration = duration;
+		return *this;
+	}
+
 	Animation AnimationBuilder::build() {
 		animation.currentFrame.position = static_cast<sf::Vector2i>(animation.frameStartPos);
 		animation.currentFrame.size = static_cast<sf::Vector2i>(animation.frameSize);
 
-		return std::move(animation);
+		std::cout << "[Build] Size: " << animation.frameSize.x << "x" << animation.frameSize.y
+			<< " | Count: " << (int)animation.frameCount << "\n";
+
+		assert(animation.spritesheet != nullptr && "Cannot build animation with no spritesheet!");
+		assert(animation.frameCount > 0 && "Animation must have at least 1 frame!");
+		assert((animation.frameSize.x > 0 && animation.frameSize.y > 0) && "Animation frame size must be positive!");
+
+		Animation result = std::move(animation);
+		animation = Animation();
+		return std::move(result);
 	}
 }

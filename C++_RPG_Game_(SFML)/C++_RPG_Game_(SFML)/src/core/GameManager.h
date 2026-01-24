@@ -14,6 +14,9 @@
 #include "scenes/Scene.h"
 #include "scenes/ISceneController.h"
 #include "GUI/windows/BattleHud.h"
+#include "animation/AnimationManager.h"
+#include "animation/Animation.h"
+#include "animation/AnimationBuilder.h"
 
 namespace RPG {
 	
@@ -28,6 +31,7 @@ namespace RPG {
 		bool running;
 		sf::RenderWindow window;
 		AssetManager assetManager;
+		AnimationManager animationManager;
 
 		// shared info between scenes
 		std::shared_ptr<Player> player;

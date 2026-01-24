@@ -138,6 +138,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\animation\Animation.cpp" />
+    <ClCompile Include="src\animation\AnimationBuilder.cpp" />
+    <ClCompile Include="src\animation\AnimationManager.cpp" />
+    <ClCompile Include="src\entities\AnimatedEntity.cpp" />
     <ClCompile Include="src\core\GameManager.cpp" />
     <ClCompile Include="src\entities\Monster.cpp" />
     <ClCompile Include="src\entities\NPC.cpp" />
@@ -159,6 +163,10 @@
     <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\animation\Animation.h" />
+    <ClInclude Include="src\animation\AnimationBuilder.h" />
+    <ClInclude Include="src\animation\AnimationManager.h" />
+    <ClInclude Include="src\entities\AnimatedEntity.h" />
     <ClInclude Include="src\core\Constants.h" />
     <ClInclude Include="src\core\GameManager.h" />
     <ClInclude Include="src\entities\Monster.h" />
@@ -187,6 +195,9 @@
     <ClInclude Include="src\GUI\windows\WindowBase.h" />
     <ClInclude Include="src\interfaces\IAbility.h" />
     <ClInclude Include="src\interfaces\ICombatActor.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="assets\animations\player.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

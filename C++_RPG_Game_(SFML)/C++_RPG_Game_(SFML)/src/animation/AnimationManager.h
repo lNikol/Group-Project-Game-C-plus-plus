@@ -3,6 +3,7 @@
 #include <unordered_map>
 #include <iostream>
 #include "Animation.h"
+#include <optional>
 
 namespace RPG {
 
@@ -11,7 +12,7 @@ namespace RPG {
 
 	public:
 		void addAnimation(const std::string& name, Animation animation);
-		const Animation* getAnimation(const std::string& name);
+		const std::optional<Animation> getAnimation(const std::string& name);
 	};
 
 }
