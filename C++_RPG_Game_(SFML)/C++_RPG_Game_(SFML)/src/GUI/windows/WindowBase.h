@@ -53,7 +53,7 @@ namespace RPG {
          * 2. Child Widgets
          * 3. Window Background (swallows clicks to prevent clicking objects behind the window).
          */
-        bool handleEvent(const sf::RenderWindow& window, const sf::Event& event) override;
+        bool handleEvent(sf::RenderWindow& window, const sf::Event& event) override;
 
         sf::FloatRect getGlobalBounds() const override;
 

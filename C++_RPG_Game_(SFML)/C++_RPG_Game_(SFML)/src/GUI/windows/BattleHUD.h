@@ -35,7 +35,7 @@ namespace RPG {
          * * Converts window coordinates to UI View coordinates.
          * * Passes events to Windows -> Buttons -> Slots -> Vitals (in that order).
          */
-        void handleEvent(const sf::RenderWindow& window, const sf::Event& event);
+        void handleEvent(sf::RenderWindow& window, const sf::Event& event);
 
         /**
          * @brief Recalculates the position of all UI elements.

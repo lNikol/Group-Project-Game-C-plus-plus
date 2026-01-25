@@ -51,7 +51,7 @@ namespace RPG {
          * @brief Handles mouse clicks.
          * * Left-clicking a hovered slot executes the bound ability.
          */
-        bool handleEvent(const sf::RenderWindow& window, const sf::Event& event) override;
+        bool handleEvent(sf::RenderWindow& window, const sf::Event& event) override;
 
         sf::FloatRect getGlobalBounds() const override;
 

@@ -117,12 +117,13 @@ namespace RPG {
             });
     }
 
-    void BattleHUD::handleEvent(const sf::RenderWindow& window, const sf::Event& event) {
+    void BattleHUD::handleEvent(sf::RenderWindow& window, const sf::Event& event) {
         // Update Mouse position
         if (const auto* move = event.getIf<sf::Event::MouseMoved>()) {
             m_mousePos = window.mapPixelToCoords(move->position, m_uiView);
         }
-
+        sf::View previousView = window.getView();
+        window.setView(m_uiView);
         // Pass to Windows first
         if (m_inventoryWindow->handleEvent(window, event)) return;
         if (m_journalWindow->handleEvent(window, event)) return;
@@ -140,6 +141,8 @@ namespace RPG {
         m_hpBar->handleEvent(window, event);
         m_mpBar->handleEvent(window, event);
         m_staminaBar->handleEvent(window, event);
+
+        window.setView(m_uiView);
     }
 
     void BattleHUD::update(float dt) {

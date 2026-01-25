@@ -3,10 +3,9 @@
 #include <string>
 #include <cstdint>
 #include "worldmap/enums.h"
+#include "worldmap/AssetManager.h"
 
 namespace RPG {
-
-    class SpritesheetManager;
 
     /**
      * @class NPC
@@ -36,7 +35,7 @@ namespace RPG {
          * @param window Reference to the render window.
          * @param sm Reference to the SpritesheetManager.
          */
-        void draw(sf::RenderWindow& window, const SpritesheetManager& sm);
+        void draw(sf::RenderWindow& window, const AssetManager& sm);
 
         sf::Vector2f getPosition() const;
         float getInteractionRadius() const;

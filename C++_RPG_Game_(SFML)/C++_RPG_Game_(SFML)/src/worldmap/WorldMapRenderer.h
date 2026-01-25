@@ -2,7 +2,6 @@
 #include <SFML/Graphics.hpp>
 #include "WorldMap.h"
 #include "AssetManager.h"
-#include "core/SpritesheetManager.h"
 
 namespace RPG {
 
@@ -18,6 +17,6 @@ namespace RPG {
          * @param assetManager Definitions for structure properties
          * @param sm Texture storage
          */
-        void draw(sf::RenderWindow& window, const WorldMap& worldMap, const AssetManager& assetManager, const SpritesheetManager& sm, float percentView = 0.9f);
+        void draw(sf::RenderWindow& window, const WorldMap& worldMap, const AssetManager& assetManager, float percentView = 0.9f);
     };
 }

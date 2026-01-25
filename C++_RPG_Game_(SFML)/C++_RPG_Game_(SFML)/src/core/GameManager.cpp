@@ -14,32 +14,41 @@ namespace RPG {
         window.setFramerateLimit(Window::BASE_FPS);
 
         // Assets and structures init
-        assetManager.init(spritesheetManager);
-        spritesheetManager.addSpritesheet(GameConfig::TEXTURES_PATH + "hero.png"); 
+        assetManager.init();
+        assetManager.addSpritesheet("player", GameConfig::ANIMATIONS_PATH + "/player.png");
 
         // Init start scene
         initGameData();
 
         assetManager.addSpritesheet("AbilityIcons", GameConfig::TEXTURES_PATH + "placeholders/IconSet.png");
         assetManager.addFont("PixelFont", GameConfig::ASSETS_PATH + "fonts/m5x7.ttf");
-
+        assetManager.addSpritesheet("BattleChars", GameConfig::TEXTURES_PATH + "placeholders/characters1.png");
+        assetManager.addSpritesheet("BattleEnemies", GameConfig::TEXTURES_PATH + "placeholders/Monster1.png");
+        assetManager.addSpritesheet("BattleProps", GameConfig::TEXTURES_PATH + "placeholders/!Other1.png");
+        assetManager.addSpritesheet("BattleTiles", GameConfig::TEXTURES_PATH + "placeholders/Outside_A2.png");
+        assetManager.addSpritesheet("BattleBG", GameConfig::TEXTURES_PATH + "placeholders/Mountains3.png");
         m_globalFont = assetManager.getFont("PixelFont");
         m_iconSet = assetManager.getSpritesheet("AbilityIcons");
 
-        if (m_iconSet && m_globalFont) {
+        /*if (m_iconSet && m_globalFont) {
             m_hud = std::make_unique<BattleHUD>(*m_iconSet, *m_globalFont);
             m_hud->setCombatActor(player.get());
             m_hud->onResize(window.getSize());
-        }
+        }*/
 
-
+        //DEBUG
         changeScene(FactionID::MainWorld);
+        //changeScene(FactionID::BattleScene);
     }
 
     void GameManager::initGameData() {
-        // Shared player initialization
-        player = std::make_shared<Player>(lastWorldPosition);
 
+        // Shared player initialization
+        player = std::make_shared<Player>(lastWorldPosition, assetManager);
+
+        // Shared player initialization
+        Vitals startStats = { 100.f, 100.f, 50.f, 50.f, 100.f, 100.f }; // HP, MP, Stamina
+        playerUnit = std::make_shared<Unit>("Hero", Team::Player, startStats);
         // --- 1. MAIN WORLD ---
         auto mainMap = std::make_shared<WorldMap>(GameConfig::WORLD_WIDTH, GameConfig::WORLD_HEIGHT, assetManager);
         mainMap->generateObstacles(0.07f, player->getPosition(), 3);
@@ -107,27 +116,27 @@ namespace RPG {
         switch (targetFaction) {
         case FactionID::WhiteOrder:
             player->setPosition(sf::Vector2f(400.0f, 520.0f));
-            currentScene = std::make_unique<FactionScene>(*this, assetManager, spritesheetManager, selectedMap, player);
+            currentScene = std::make_unique<FactionScene>(*this, selectedMap, player);
             break;
 
         case FactionID::DarkOrder:
             player->setPosition(sf::Vector2f(400.0f, 480.0f));
-            currentScene = std::make_unique<FactionScene>(*this, assetManager, spritesheetManager, selectedMap, player);
+            currentScene = std::make_unique<FactionScene>(*this, selectedMap, player);
             break;
 
         case FactionID::NeutralOrder:
             player->setPosition(sf::Vector2f(440.0f, 620.0f));
-            currentScene = std::make_unique<FactionScene>(*this, assetManager, spritesheetManager, selectedMap, player);
+            currentScene = std::make_unique<FactionScene>(*this, selectedMap, player);
             break;
 
         case FactionID::BattleScene:
-            currentScene = std::make_unique<BattleScene>(*this, selectedMap);
+            currentScene = std::make_unique<BattleScene>(*this,assetManager,playerUnit, selectedMap);
             break;
 
         default:
         case FactionID::MainWorld:
             player->setPosition(sf::Vector2f(lastWorldPosition));
-            currentScene = std::make_unique<WorldScene>(*this, assetManager, spritesheetManager, selectedMap, player);
+            currentScene = std::make_unique<WorldScene>(*this, selectedMap, player);
             break;
         }
     }
@@ -152,17 +161,16 @@ namespace RPG {
         while (const std::optional event = window.pollEvent()) {
             sf::View sceneView = window.getView();
             window.setView(window.getDefaultView());
-
+ 
             if (event->is<sf::Event::Closed>()) window.close();
             if (const auto* resized = event->getIf<sf::Event::Resized>()) {
                 sf::Vector2f newSize = { (float)resized->size.x, (float)resized->size.y };
                 window.setView(sf::View(sf::FloatRect({ 0.f, 0.f }, newSize)));
-                if (m_hud) m_hud->onResize(resized->size);
             }
 
-            if (m_hud) {
+           /* if (m_hud) {
                 m_hud->handleEvent(window, *event);
-            }
+            }*/
             window.setView(sceneView);
 
             bool uiConsumed = false;
@@ -178,27 +186,27 @@ namespace RPG {
                 /*if (keyPressed->scancode == sf::Keyboard::Scancode::F) {
                     changeScene(FactionID::WhiteOrder);
                 }*/
-
-                if (!uiConsumed && currentScene) {
-                    currentScene->handleEvents(*event);
-                }
+            }
+            if (!uiConsumed && currentScene) {
+                currentScene->handleEvent(window, *event);
             }
         }
     }
 
     void GameManager::update(float dt) {
         if (currentScene) currentScene->update(dt, window);
-        if (m_hud) m_hud->update(dt);
+        //if (m_hud) m_hud->update(dt);
+        //if (m_hud) draw();
     }
 
     void GameManager::draw() {
         window.clear(sf::Color(0x4B0082FF));
         
-        if (currentScene) currentScene->draw(window);
+        if (currentScene) currentScene->draw(window, assetManager);
 
-        if (m_hud) {
-            window.draw(*m_hud);
-        }
+        //if (m_hud) {
+        //    window.draw(*m_hud);
+        //}
 
         window.display();
     }

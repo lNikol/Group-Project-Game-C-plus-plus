@@ -6,7 +6,7 @@ namespace RPG {
     // Structure Management
     // ==============================
 
-    void AssetManager::init(SpritesheetManager& sm) {
+    void AssetManager::init() {
         /**
          * @brief Helper lambda to register structure definitions
          *        and handle texture registration.
@@ -20,11 +20,11 @@ namespace RPG {
                     // Construct full path using global config
                     std::string fullPath = GameConfig::TEXTURES_PATH + fileName;
 
-                    // Register in SpritesheetManager
-                    sm.addSpritesheet(fullPath);
-
                     // Extract key from filename (e.g., "blue_water.png" -> "blue_water")
                     key = std::filesystem::path(fileName).stem().string();
+
+                    // Register spritesheet
+                    addSpritesheet(key, fullPath);
                 }
 
                 // Store definition in library
