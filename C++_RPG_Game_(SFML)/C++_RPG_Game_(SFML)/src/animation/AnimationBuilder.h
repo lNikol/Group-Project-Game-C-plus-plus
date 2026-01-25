@@ -8,6 +8,7 @@ namespace RPG {
 		Animation animation;
 
 	public:
+		AnimationBuilder& base(Animation animation);
 		AnimationBuilder& spritesheet(const Spritesheet* spritesheet);
 		AnimationBuilder& frameStartPos(const sf::Vector2u& vec);
 		AnimationBuilder& frameSize(const sf::Vector2u& vec);

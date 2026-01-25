@@ -3,6 +3,7 @@
 #include <map>
 #include <optional>
 #include "animation/Animation.h"
+#include "animation/AnimationBuilder.h"
 
 namespace RPG {
 
@@ -19,7 +20,7 @@ namespace RPG {
 		void loadAnimation(const std::string& name, Animation animation);
 		void play(const std::string& name);
 		virtual void update(float dt);
-		void draw(sf::RenderWindow& window);
+		virtual void draw(sf::RenderWindow& window);
 
 		sf::Vector2f getPosition() const;
 		sf::FloatRect getGlobalBounds() const;

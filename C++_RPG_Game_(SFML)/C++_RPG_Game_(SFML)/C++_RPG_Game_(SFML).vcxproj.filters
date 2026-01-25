@@ -160,6 +160,9 @@
     <ClCompile Include="src\animation\AnimationManager.cpp">
       <Filter>Pliki źródłowe\animation</Filter>
     </ClCompile>
+    <ClCompile Include="src\entities\CollidingEntity.cpp">
+      <Filter>Pliki źródłowe\entities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\worldmap\AssetManager.h">
@@ -246,9 +249,6 @@
     <ClInclude Include="src\drawable\IsoGrid.h">
       <Filter>Pliki nagłówkowe\drawable</Filter>
     </ClInclude>
-    <ClInclude Include="src\core\IsoHelpers.h">
-      <Filter>Pliki nagłówkowe\core</Filter>
-    </ClInclude>
     <ClInclude Include="src\combat\CombatMap.h">
       <Filter>Pliki nagłówkowe\combat</Filter>
     </ClInclude>
@@ -284,6 +284,9 @@
     </ClInclude>
     <ClInclude Include="src\animation\AnimationManager.h">
       <Filter>Pliki nagłówkowe\animation</Filter>
+    </ClInclude>
+    <ClInclude Include="src\entities\CollidingEntity.h">
+      <Filter>Pliki nagłówkowe\entities</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

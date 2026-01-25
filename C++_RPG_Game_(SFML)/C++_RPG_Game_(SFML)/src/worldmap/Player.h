@@ -5,13 +5,15 @@
 #include "core/Constants.h"
 #include "WorldMap.h"
 #include "interfaces/ICombatActor.h"
-#include "entities/AnimatedEntity.h"
+#include "entities/CollidingEntity.h"
+#include "enums.h"
 
 namespace RPG {
 
-	class Player : public ICombatActor, public AnimatedEntity {
+	class Player : public ICombatActor, public CollidingEntity {
 	private:
 		float moveSpeed = 250.0f; // px/s
+		Facing facingDirection;
 
 		std::string name;
 		uint8_t hotBarSize = 18;
@@ -29,8 +31,8 @@ namespace RPG {
 
 		sf::Vector2f getInputDirection(const sf::RenderWindow& window) const;
 	public:
-		Player(float startX, float startY, std::string name = "hero");
-		Player(sf::Vector2f pos, std::string name = "hero");
+		Player(float startX, float startY, const AssetManager& assetManager);
+		Player(sf::Vector2f pos, const AssetManager& assetManager);
 
 		// --- World Logic ---
 
@@ -40,7 +42,7 @@ namespace RPG {
 		 * @param worldMap Reference to check collisions and speed modifiers
 		 */
 		void update(float deltaTime, const WorldMap& worldMap, const sf::RenderWindow& window);
-		void draw(sf::RenderWindow& window, const AssetManager& sm);
+		void draw(sf::RenderWindow& window) override;
 
 
 		// --- ICombatActor Implementation ---

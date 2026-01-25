@@ -138,6 +138,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\entities\CollidingEntity.cpp" />
     <ClCompile Include="src\combat\BattleManager.cpp" />
     <ClCompile Include="src\combat\CombatAbility.cpp" />
     <ClCompile Include="src\combat\CombatMap.cpp" />
@@ -167,6 +168,7 @@
     <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\entities\CollidingEntity.h" />
     <ClInclude Include="src\combat\BattleManager.h" />
     <ClInclude Include="src\combat\CombatAbility.h" />
     <ClInclude Include="src\combat\CombatMap.h" />

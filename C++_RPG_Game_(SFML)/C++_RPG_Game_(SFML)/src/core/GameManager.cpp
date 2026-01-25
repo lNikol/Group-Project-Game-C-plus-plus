@@ -13,32 +13,9 @@ namespace RPG {
         activeFaction = FactionID::MainWorld;
         window.setFramerateLimit(Window::BASE_FPS);
 
-        // Shared player initialization
-        player = std::make_shared<Player>(lastWorldPosition);
-
         // Assets and structures init
         assetManager.init();
-
-        assetManager.addSpritesheet("player", GameConfig::ASSETS_PATH + "animations/player.png");
-        Animation playerRunningAnimation = Animation::builder()
-            .frameCount(8)
-            .frameStartPos({ 0, 3 * 32 })
-            .spritesheet(assetManager.getSpritesheet("player"))
-            .build();
-        animationManager.addAnimation("player_running", playerRunningAnimation);
-        player->loadAnimation("player_running", playerRunningAnimation);
-        //player->play("player_running");
-
-        Animation playerIdle = Animation::builder()
-            .frameCount(2)
-            .frameStartPos({ 0,0 })
-            .frameDuration(0.2)
-            .spritesheet(assetManager.getSpritesheet("player"))
-            .build();
-        animationManager.addAnimation("player_idle", playerIdle);
-        player->loadAnimation("player_idle", playerIdle);
-        player->play("player_idle");
-        
+        assetManager.addSpritesheet("player", GameConfig::ANIMATIONS_PATH + "/player.png");
 
         // Init start scene
         initGameData();
@@ -60,11 +37,15 @@ namespace RPG {
         }*/
 
         //DEBUG
-        //changeScene(FactionID::MainWorld);
-        changeScene(FactionID::BattleScene);
+        changeScene(FactionID::MainWorld);
+        //changeScene(FactionID::BattleScene);
     }
 
     void GameManager::initGameData() {
+
+        // Shared player initialization
+        player = std::make_shared<Player>(lastWorldPosition, assetManager);
+
         // Shared player initialization
         Vitals startStats = { 100.f, 100.f, 50.f, 50.f, 100.f, 100.f }; // HP, MP, Stamina
         playerUnit = std::make_shared<Unit>("Hero", Team::Player, startStats);

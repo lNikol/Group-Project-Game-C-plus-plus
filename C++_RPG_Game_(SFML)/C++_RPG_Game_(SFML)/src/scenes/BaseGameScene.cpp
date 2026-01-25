@@ -37,7 +37,7 @@
             }
 
             if (player) {
-                player->draw(window, am);
+                player->draw(window);
             }
         }
 

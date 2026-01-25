@@ -7,6 +7,11 @@ namespace RPG {
 		return *this;
 	}
 
+	AnimationBuilder& AnimationBuilder::base(Animation animation) {
+		this->animation = std::move(animation);
+		return *this;
+	}
+
 	AnimationBuilder& AnimationBuilder::frameStartPos(const sf::Vector2u& vec) {
 		animation.frameStartPos = vec;
 		return *this;
