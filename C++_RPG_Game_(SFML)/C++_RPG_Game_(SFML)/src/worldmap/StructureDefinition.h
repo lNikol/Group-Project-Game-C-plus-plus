@@ -28,5 +28,6 @@ namespace RPG {
         bool canSpawnMob;        // Enemy spawn flag
         bool blocksMovement;     // Collision flag
         bool allowsRegeneration; // Healing/Save zone flag
+        uint8_t collisionHeight;
     };
 }

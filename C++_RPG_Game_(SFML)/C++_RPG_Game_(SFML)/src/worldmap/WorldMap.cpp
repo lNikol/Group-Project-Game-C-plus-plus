@@ -18,13 +18,15 @@ namespace RPG {
 			for (uint16_t x = 0; x < width; ++x) {
 				uint32_t index = static_cast<uint32_t>(y) * width + x;
 				tiles[index].pos = { static_cast<int16_t>(x), static_cast<int16_t>(y), 0 };
+				
+				// Always set ground as Grass
+				tiles[index].groundType = StructureType::Grass;
 
-				// bounds
+				// Set objects (walls at borders)
 				if ((x == 0 || x == width - 1) || (y == 0 || y == height - 1)) {
-					tiles[index].structure = StructureType::Wall;
+					tiles[index].objectType = StructureType::Wall;
 				}
-				// internal
-				else tiles[index].structure = StructureType::Grass;
+				else tiles[index].objectType = StructureType::None;
 			}
 		}
 	}
@@ -52,14 +54,26 @@ namespace RPG {
 		// Check the borders of the map
 		if (tx < 0 || tx >= width || ty < 0 || ty >= height) return true;
 
-		return assetManager.getDefinition(at(tx, ty).structure).blocksMovement;
+		const auto& def = assetManager.getDefinition(at(tx, ty).objectType);
+		if (!def.blocksMovement) return false;
+
+		if (def.collisionHeight >= GameConfig::TILE_SIZE) return true;
+
+		float tileTopY = static_cast<float>(ty * GameConfig::TILE_SIZE);
+		float solidStartY = tileTopY + (GameConfig::TILE_SIZE - def.collisionHeight);
+
+		if (pixelY < solidStartY) {
+			return false;
+		}
+
+		return true;
 	}
 
 
 	float WorldMap::getTileSpeedModifier(int16_t x, int16_t y) const {
 		if (x < 0 || x >= width || y < 0 || y >= height) return 1.0f;
 
-		return assetManager.getDefinition(at(x, y).structure).speedModifier;
+		return assetManager.getDefinition(at(x, y).groundType).speedModifier;
 	}
 
 	bool WorldMap::isInsideSpawnZone(int16_t x, int16_t y, uint8_t margin) const {
@@ -71,9 +85,13 @@ namespace RPG {
 		for (int16_t y = 0; y < height; ++y) {
 			for (int16_t x = 0; x < width; ++x) {
 				Tile& tile = at(x, y);
-				const auto& def = assetManager.getDefinition(tile.structure);
 
-				if (def.canSpawnMob && isInsideSpawnZone(x, y, mapEdgeOffset) && tile.isAvailableForSpawn()) {
+				const auto& groundDef = assetManager.getDefinition(tile.groundType);
+
+				if (groundDef.canSpawnMob && 
+					isInsideSpawnZone(x, y, mapEdgeOffset) &&
+					tile.objectType == StructureType::None
+				) {
 					if (tile.isAvailableForSpawn()) {
 						if ((std::rand() % 100) < level.spawnChance) {
 							tile.hasMonster = true;
@@ -94,13 +112,11 @@ namespace RPG {
 			return false;
 		}
 
-		// 2. Optional: Check if the area is clear (only Grass/None allowed)
+		// 2. Check if the area is clear (no blocking objects)
 		for (int16_t y = startY; y < startY + def.size.height; ++y) {
 			for (int16_t x = startX; x < startX + def.size.width; ++x) {
-				StructureType current = at(x, y).structure;
-				// TODO remake this if coznot only on grass it can be spawned
-				if (current != StructureType::Grass && current != StructureType::None) {
-					return false; // Something is already here
+				if (at(x, y).objectType != StructureType::None) {
+					return false;
 				}
 			}
 		}
@@ -110,11 +126,11 @@ namespace RPG {
 			for (int16_t x = startX; x < startX + def.size.width; ++x) {
 				if (x == startX && y == startY) {
 					// This is the anchor tile - it holds the actual structure and texture
-					at(x, y).structure = type;
+					at(x, y).objectType = type;
 				}
 				else {
 					// These are "under" the building - we just block movement
-					at(x, y).structure = StructureType::InvisibleBlock;
+					at(x, y).objectType = StructureType::InvisibleBlock;
 				}
 			}
 		}
@@ -139,9 +155,9 @@ namespace RPG {
 					// Randomly choose between Tree and Rock
 					StructureType randomType = (std::rand() % 2 == 0) ? StructureType::Tree : StructureType::Rock;
 
-					// Only place if the tile is currently Grass
-					if (at(x, y).structure == StructureType::Grass) {
-						at(x, y).structure = randomType;
+					// Only place if object layer is empty
+					if (at(x, y).objectType == StructureType::None) {
+						at(x, y).objectType = randomType;
 					}
 				}
 			}
@@ -161,7 +177,11 @@ namespace RPG {
 					int16_t checkY = startY + dy;
 
 					if (checkX >= 0 && checkX < width && checkY >= 0 && checkY < height) {
-						if (at(checkX, checkY).structure == StructureType::Grass) {
+
+						const Tile& t = at(checkX, checkY);
+
+						if (t.objectType == StructureType::None && 
+							t.groundType == StructureType::Grass) {
 							return sf::Vector2f(
 								checkX * GameConfig::TILE_SIZE,
 								checkY * GameConfig::TILE_SIZE
@@ -178,7 +198,12 @@ namespace RPG {
 		int16_t tx = static_cast<int16_t>(npc->getPosition().x / GameConfig::TILE_SIZE);
 		int16_t ty = static_cast<int16_t>(npc->getPosition().y / GameConfig::TILE_SIZE);
 
-		if (tx < 0 || tx >= width || ty < 0 || ty >= height || at(tx, ty).structure != StructureType::Grass) {
+		if (tx < 0 || 
+			tx >= width || 
+			ty < 0 || 
+			ty >= height || 
+			at(tx, ty).objectType != StructureType::None) 
+		{
 
 			sf::Vector2f safePos = findNearestSafeTile(npc->getPosition());
 
@@ -194,9 +219,4 @@ namespace RPG {
 
 	const std::vector<std::unique_ptr<NPC>>& WorldMap::getNPCs() const { return npcs; }
 	std::vector<std::unique_ptr<NPC>>& WorldMap::getNPCs() { return npcs; }
-
-
-	//void WorldMap::generateMonsters(float density) {
-	//
-	//}
 }

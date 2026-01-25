@@ -6,7 +6,7 @@ namespace RPG {
         : name("hero"), CollidingEntity()
     {
         setPosition(startX, startY);
-        setHitbox(14.f, 8.f, 12.f);
+        setHitbox(14.f, 6.f, 8.f);
 
         hotbar.resize(hotBarSize, nullptr);
         inventory.resize(inventorySize, nullptr);
@@ -70,7 +70,6 @@ namespace RPG {
         if (length > 0.0f) direction /= length;
 
         sf::Vector2f velocity = direction * moveSpeed * deltaTime;
-        std::cout << "X: " << velocity.x << " Y: " << velocity.y << "\n";
 
         // Move (derived from CollidingEntity)
         moveWithCollision(velocity, worldMap);
@@ -107,6 +106,7 @@ namespace RPG {
 
     void Player::draw(sf::RenderWindow& window) {
         AnimatedEntity::draw(window);
+        CollidingEntity::drawHitbox(window);
     }
 
     std::string Player::getName() const { return name; }

@@ -8,7 +8,6 @@ namespace RPG {
 	/**
 	 * @brief Represents a 3D coordinate point in the grid system.
 	 */
-	
 	struct Position {
 		int16_t x, y, z;
 	};
@@ -20,12 +19,13 @@ namespace RPG {
 	 */
 	class Tile {
 	public:
-		StructureType structure;     //< Type of building or terrain on this tile.
-		Position pos;                //< Grid coordinates of the tile.
-		bool hasPlayer = false;      //< True if the player is currently on this tile.
-		bool hasMonster = false;     //< True if a hostile entity is present.
-		float localDangerLvl = 0.0f; //< Procedural or static danger rating.
-		GameConfig::Faction faction = GameConfig::Faction::NEUTRAL; //< Ownership status.
+		StructureType groundType;    // Type of terrain on this tile.
+		StructureType objectType;    // Type of structure/object on this tile
+		Position pos;                // Grid coordinates of the tile.
+		bool hasPlayer = false;      // True if the player is currently on this tile.
+		bool hasMonster = false;     // True if a hostile entity is present.
+		float localDangerLvl = 0.0f; // Procedural or static danger rating.
+		GameConfig::Faction faction = GameConfig::Faction::NEUTRAL; // Ownership status.
 		
 		/**
 		 * @brief Default constructor initializing an empty neutral tile.
@@ -39,7 +39,7 @@ namespace RPG {
 		 * @param y Y coordinate.
 		 * @param z Z coordinate (height/layer).
 		 */
-		Tile(StructureType structure, int16_t x, int16_t y, int16_t z);
+		Tile(StructureType ground, StructureType object, int16_t x, int16_t y, int16_t z);
 		
 		/**
          * @brief Checks if the tile is clear of obstacles and actors for spawning.

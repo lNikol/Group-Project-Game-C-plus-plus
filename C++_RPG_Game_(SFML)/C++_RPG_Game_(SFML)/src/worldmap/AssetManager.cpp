@@ -11,50 +11,67 @@ namespace RPG {
          * @brief Helper lambda to register structure definitions
          *        and handle texture registration.
          */
-        auto addStruct = [&](StructureType type, const std::string& name, const std::string& fileName,
-            StructureSize size, float speed, bool canSpawn,
-            bool blocks, bool allowsRegen) {
+        auto addStruct = [&](
+            StructureType type, 
+            const std::string& name, 
+            const std::string& fileName,
+            StructureSize size, 
+            float speed, 
+            bool canSpawn,
+            bool blocks, 
+            bool allowsRegen,
+            uint8_t collisionHeight
+        ) {
 
-                std::string key;
-                if (!fileName.empty()) {
-                    // Construct full path using global config
-                    std::string fullPath = GameConfig::TEXTURES_PATH + fileName;
+            std::string key;
+            if (!fileName.empty()) {
+                // Construct full path using global config
+                std::string fullPath = GameConfig::TEXTURES_PATH + fileName;
 
-                    // Extract key from filename (e.g., "blue_water.png" -> "blue_water")
-                    key = std::filesystem::path(fileName).stem().string();
+                // Extract key from filename (e.g., "blue_water.png" -> "blue_water")
+                key = std::filesystem::path(fileName).stem().string();
 
-                    // Register spritesheet
-                    addSpritesheet(key, fullPath);
-                }
+                // Register spritesheet
+                addSpritesheet(key, fullPath);
+            }
 
-                // Store definition in library
-                structureLibrary[type] = { name, key, size, speed, canSpawn, blocks, allowsRegen };
+            // Store definition in library
+            structureLibrary[type] = { 
+                name, 
+                key, 
+                size, 
+                speed, 
+                canSpawn, 
+                blocks, 
+                allowsRegen,
+                collisionHeight
             };
+        };
 
         structureLibrary.clear();
 
         // --- DATA REGISTRATION ---
         // Syntax: Type, Name, Filename, Size {W,H}, Speed, CanSpawn, Blocks, AllowsRegen
 
-        addStruct(StructureType::None, "Empty", "", { 1,1 }, 1.0f, false, false, false);
-        addStruct(StructureType::InvisibleBlock, "Reserved", "", { 1,1 }, 0.0f, false, true, false);
+        addStruct(StructureType::None, "Empty", "", { 1,1 }, 1.0f, false, false, false, 0);
+        addStruct(StructureType::InvisibleBlock, "Reserved", "", { 1,1 }, 0.0f, false, true, false, GameConfig::TILE_SIZE);
 
         // Obstacles
-        addStruct(StructureType::Rock, "Rock", "rock.png", { 1,1 }, 0.0f, false, true, false);
-        addStruct(StructureType::Tree, "Tree", "tree.png", { 1,1 }, 0.0f, false, true, false);
-        addStruct(StructureType::Wall, "Wall", "wall.png", { 1,1 }, 0.0f, false, true, false);
+        addStruct(StructureType::Rock, "Rock", "rock.png", { 1,1 }, 0.0f, false, true, false, 12);
+        addStruct(StructureType::Tree, "Tree", "tree.png", { 1,1 }, 0.0f, false, true, false, 12);
+        addStruct(StructureType::Wall, "Wall", "wall.png", { 1,1 }, 0.0f, false, true, false, GameConfig::TILE_SIZE);
 
         // Normal Terrain
-        addStruct(StructureType::Water, "Water", "blue_water.png", { 1,1 }, 0.65f, false, false, false);
-        addStruct(StructureType::River, "River", "river.png", { 1,1 }, 0.85f, false, false, false);
-        addStruct(StructureType::Swamp, "Swamp", "swamp.png", { 1,1 }, 0.40f, false, false, false);
-        addStruct(StructureType::Grass, "Grass", "grass.png", { 1,1 }, 1.0f, true, false, false);
-        addStruct(StructureType::Sand, "Sand", "sand.png", { 1,1 }, 0.90f, true, false, false);
+        addStruct(StructureType::Water, "Water", "blue_water.png", { 1,1 }, 0.65f, false, false, false, 0);
+        addStruct(StructureType::River, "River", "river.png", { 1,1 }, 0.85f, false, false, false, 0);
+        addStruct(StructureType::Swamp, "Swamp", "swamp.png", { 1,1 }, 0.40f, false, false, false, 0);
+        addStruct(StructureType::Grass, "Grass", "grass.png", { 1,1 }, 1.0f, true, false, false, 0);
+        addStruct(StructureType::Sand, "Sand", "sand.png", { 1,1 }, 0.90f, true, false, false, 0);
 
         // Special Zones
-        addStruct(StructureType::SaveZone, "Save Zone", "saveZone.png", { 1,1 }, 1.25f, false, false, true);
-        addStruct(StructureType::Camp, "Camp", "camp.png", { 2,2 }, 1.25f, false, true, true);
-        addStruct(StructureType::FactionBase, "Faction Base", "factionBase.png", { 3,3 }, 1.15f, false, true, true);
+        addStruct(StructureType::SaveZone, "Save Zone", "saveZone.png", { 1,1 }, 1.25f, false, false, true, 0);
+        addStruct(StructureType::Camp, "Camp", "camp.png", { 2,2 }, 1.25f, false, true, true, 0);
+        addStruct(StructureType::FactionBase, "Faction Base", "factionBase.png", { 3,3 }, 1.15f, false, true, true, 0);
 
         std::cout << "AssetManager: Successfully initialized "
             << structureLibrary.size() << " structures.\n";
