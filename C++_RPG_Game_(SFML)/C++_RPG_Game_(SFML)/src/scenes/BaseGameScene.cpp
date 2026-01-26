@@ -18,11 +18,11 @@
                 camera.setCenter(player->getPosition());
             }
 
-            /*
+            
             // Update all NPCs on the assigned map
             for (auto& npc : worldMap->getNPCs()) {
-                npc->update(dt, *worldMap);
-            }*/
+                npc->update(dt);
+            }
         }
 
         void BaseGameScene::draw(sf::RenderWindow& window, const AssetManager& am) {

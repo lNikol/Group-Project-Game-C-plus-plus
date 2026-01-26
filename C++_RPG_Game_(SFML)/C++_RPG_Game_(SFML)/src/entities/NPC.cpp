@@ -3,13 +3,17 @@
 
 namespace RPG {
 
-    NPC::NPC(sf::Vector2f pos, std::string texKey, uint8_t tileIdx, std::string npcName, bool isLeader, FactionID target )
-        : position(pos), textureKey(texKey), tileIndex(tileIdx), name(npcName), 
+    NPC::NPC(uint8_t tileIdx, std::string npcName, bool isLeader, FactionID target )
+        : tileIndex(tileIdx), name(npcName), 
         isFactionLeader(isLeader), interactionRadius(GameConfig::TILE_SIZE * 2), targetFaction(target)
     {
     }
 
     void NPC::draw(sf::RenderWindow& window, const AssetManager& sm) {
+
+        AnimatedEntity::draw(window);
+
+        /*
         const sf::Texture* texture = sm.getSpritesheet(textureKey);
         const uint8_t ts = GameConfig::TILE_SIZE;
 
@@ -21,11 +25,9 @@ namespace RPG {
             int16_t y = (tileIndex / columns) * ts;
 
             sprite.setTextureRect(sf::IntRect({ x, y }, { ts, ts }));
-            sprite.setPosition(position);
+            setPosition()
 
-            if (isFactionLeader) {
-                sprite.setColor(sf::Color(255, 255, 200)); 
-            }
+            
 
             window.draw(sprite);
         }
@@ -45,19 +47,18 @@ namespace RPG {
 
             window.draw(debugRect);
         }
+        */
     }
 
 
 
-    sf::Vector2f NPC::getPosition() const { return position; }
+    //sf::Vector2f NPC::getPosition() const { return position; }
     float NPC::getInteractionRadius() const { return interactionRadius; }
     const std::string& NPC::getName() const { return name; }
     bool NPC::getIsFactionLeader() const { return isFactionLeader; }
     FactionID NPC::getTargetFaction() const { return targetFaction; }
 
 
-    void NPC::setPosition(sf::Vector2f pos) {
-        position = pos;
-    }
+    //void NPC::setPosition(sf::Vector2f pos) {position = pos;}
 
 }

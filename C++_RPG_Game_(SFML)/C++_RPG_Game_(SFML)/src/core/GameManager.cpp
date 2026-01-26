@@ -16,6 +16,7 @@ namespace RPG {
         // Assets and structures init
         assetManager.init();
         assetManager.addSpritesheet("player", GameConfig::ANIMATIONS_PATH + "/player.png");
+        assetManager.addSpritesheet("npc", GameConfig::ANIMATIONS_PATH + "/npc.png");
 
         // Init start scene
         initGameData();
@@ -53,17 +54,37 @@ namespace RPG {
         auto mainMap = std::make_shared<WorldMap>(GameConfig::WORLD_WIDTH, GameConfig::WORLD_HEIGHT, assetManager);
         mainMap->generateObstacles(0.07f, player->getPosition(), 3);
 
-        // Add a Leader to MainWorld that sends you to WhiteOrder
-        mainMap->addNPC(std::make_unique<NPC>(
-            sf::Vector2f(520.0f, 520.0f), "hero", 0, "White Order Envoy", true, FactionID::WhiteOrder
-        ));
-        mainMap->addNPC(std::make_unique<NPC>(
-            sf::Vector2f(300.0f, 420.0f), "hero", 0, "White Orange Order Envoy", false, FactionID::WhiteOrder
-        ));
 
-        mainMap->addNPC(std::make_unique<NPC>(
-            sf::Vector2f(320.0f, 200.0f), "hero", 0, "White Orange BattleField Envoy", true, FactionID::BattleScene
-        ));
+        Animation npcAnimation = Animation::builder()
+            .frameCount(8)
+            .frameGap(16)
+            .frameStartPos({ 16, 16 })
+            .spritesheet(assetManager.getSpritesheet("npc"))
+            .build();
+
+
+        auto addNpc = [&](
+            uint8_t tileIdx, 
+            const std::string& name, 
+            bool isLeader, 
+            FactionID faction,
+            sf::Vector2f pos,
+            const std::shared_ptr<WorldMap>& map
+        ) {
+            auto npc1 = std::make_unique<NPC>(
+                tileIdx, name, isLeader, faction
+            );
+            npc1->setPosition(pos);
+
+            npc1->loadAnimation("idle", npcAnimation);
+            npc1->play("idle");
+            map->addNPC(std::move(npc1));
+        };
+
+        // Add a Leader to MainWorld that sends you to WhiteOrder
+        addNpc(0, "White Order Envoy", true, FactionID::WhiteOrder, sf::Vector2f{ 520.f, 520.f }, mainMap);
+        addNpc(0, "White Orange Order Envoy", false, FactionID::WhiteOrder, sf::Vector2f{ 300.0f, 420.0f }, mainMap);
+        addNpc(0, "hite Orange BattleField Envoy", true, FactionID::BattleScene, sf::Vector2f{ 320.0f, 200.0f }, mainMap);
 
         allMaps[FactionID::MainWorld] = mainMap;
 
@@ -74,9 +95,8 @@ namespace RPG {
         whiteMap->placeStructure(10, 10, StructureType::Camp);        // Guard camp nearby
 
         // NPC to go back to MainWorld
-        whiteMap->addNPC(std::make_unique<NPC>(
-            sf::Vector2f(560.0f, 560.0f), "hero", 1, "White Order Gatekeeper", true, FactionID::MainWorld
-        ));
+        addNpc(0, "White Order Gatekeeper", true, FactionID::MainWorld, sf::Vector2f{ 560.0f, 560.0f }, whiteMap);
+        
         allMaps[FactionID::WhiteOrder] = whiteMap;
 
         // --- 3. DARK ORDER BASE (Cramped, dangerous) ---
@@ -200,7 +220,7 @@ namespace RPG {
     }
 
     void GameManager::draw() {
-        window.clear(sf::Color(0x4B0082FF));
+        window.clear(sf::Color(0x606030FF));
         
         if (currentScene) currentScene->draw(window, assetManager);
 

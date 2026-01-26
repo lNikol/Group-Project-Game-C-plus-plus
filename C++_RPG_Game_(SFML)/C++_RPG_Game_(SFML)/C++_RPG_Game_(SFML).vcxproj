@@ -211,6 +211,7 @@
     <ClInclude Include="src\interfaces\ICombatActor.h" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="assets\animations\npc.png" />
     <Image Include="assets\animations\player.png" />
     <Image Include="assets\textures\grass.png" />
     <Image Include="assets\textures\rock.png" />

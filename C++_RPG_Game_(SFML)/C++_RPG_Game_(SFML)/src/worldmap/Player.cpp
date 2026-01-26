@@ -106,7 +106,7 @@ namespace RPG {
 
     void Player::draw(sf::RenderWindow& window) {
         AnimatedEntity::draw(window);
-        CollidingEntity::drawHitbox(window);
+        //CollidingEntity::drawHitbox(window);
     }
 
     std::string Player::getName() const { return name; }
