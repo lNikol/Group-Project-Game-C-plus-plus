@@ -2,6 +2,7 @@
 #include "BattleManager.h" // Full definition needed here
 #include "combat/Unit.h"
 #include <iostream>
+#include <cstdlib> // rand()
 namespace RPG {
 
     CombatAbility::CombatAbility(std::string name, int iconIndex, BattleManager& manager, Unit* owner)
@@ -56,15 +57,29 @@ namespace RPG {
         if (!m_owner->consumeMana(m_manaCost)) return;
         m_currentCooldown = m_maxCooldown;
 
-        // 2. Apply Effect
-        std::cout << m_owner->getName() << " casts " << m_name << " on " << target->getName() << "!" << std::endl;
+        // 2. Calculate Damage & Critical Hit
+        float finalDamage = m_damage;
+        bool isCrit = false;
 
-        // Simple damage logic for now
-        target->takeDamage(m_damage);
+        // Generate a random float between 0.0 and 1.0
+        float roll = static_cast<float>(rand()) / static_cast<float>(RAND_MAX);
 
-        // 3. Optional: Play Sound/Animation here
+        if (roll < m_owner->getCritChance()) {
+            isCrit = true;
+            finalDamage *= 2.0f; // Double damage for crit
+        }
 
-        //Check if target dead.
+        // 3. Apply Effect
+        if (isCrit) {
+            std::cout << "CRITICAL HIT! ";
+        }
+        std::cout << m_owner->getName() << " casts " << m_name
+            << " on " << target->getName()
+            << " for " << finalDamage << " damage!" << std::endl;
+
+        target->takeDamage(finalDamage);
+
+        // 4. Check Death
         if (target->isDead()) {
             m_manager.onUnitDeath(target);
         }

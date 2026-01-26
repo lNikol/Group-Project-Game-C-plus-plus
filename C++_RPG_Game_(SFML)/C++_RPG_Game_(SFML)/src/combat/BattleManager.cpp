@@ -93,58 +93,94 @@ namespace RPG {
     }
 
     void BattleManager::initTestLevel() {
-        // Define the End Turn Logic
-        // We capture 'this' so the command can call our private method
+        // Define common actions
         auto endTurnAction = std::make_shared<EndTurnCommand>([this]() {
             this->endTurn();
             });
         auto moveAction = std::make_shared<MoveCommand>(*this);
-        // 1. Setup Player
+
+        // ==========================================
+        // 1. Setup Player (Hero)
+        // ==========================================
         if (m_playerUnit) {
-            m_playerUnit->setLogicalPosition(100.f, 100.f);
-            m_playerUnit->setInitiative(20); // Player acts first
+            m_playerUnit->setLogicalPosition(50.f, 100.f);
+            m_playerUnit->setInitiative(20);
             m_playerUnit->setSprite(*m_charTexture, sf::IntRect({ 0, 0 }, { 32, 32 }));
-            // Give Fireball (Slot 0)
+
+            // High Stats: 50% Crit, 30% Double Turn
+            m_playerUnit->setCritChance(0.5f);
+            m_playerUnit->setDoubleTurnChance(0.3f);
+
+            // Give Fireball (Slot 0) - Cooldown increased to 2
             if (m_playerUnit->getHotbarAbility(0) == nullptr) {
                 auto fireball = std::make_shared<CombatAbility>("Fireball", 96, *this, m_playerUnit.get());
-                fireball->setStats(40.f, 250.f, 10.f, 1);
+                fireball->setStats(40.f, 250.f, 10.f, 2); // 2 Turns Cooldown
                 m_playerUnit->setHotbarAbility(0, fireball);
             }
 
-            // Give End Turn (Slot 17 - Last Slot)
+            // Standard Actions
             m_playerUnit->setHotbarAbility(17, endTurnAction);
             m_playerUnit->setHotbarAbility(9, moveAction);
             m_map->addObject(m_playerUnit);
         }
 
-        // 2. Setup Enemy (skeleton)
-        Vitals skeletonStats = { 50, 50, 0, 0, 20, 20 };
-        auto skeleton = std::make_shared<Unit>("skeleton", Team::Enemy, skeletonStats);
-        skeleton->setLogicalPosition(300.f, 200.f);
-        skeleton->setInitiative(10); // Acts second
-        skeleton->setSprite(*m_monsterTexture, sf::IntRect({ 128, 0 }, { 32, 32 }));
-        // Give skeleton a simple attack
-        auto slash = std::make_shared<CombatAbility>("Slash", 1, *this, skeleton.get());
-        slash->setStats(10.f, 30.f, 0.f, 0);
-        skeleton->setHotbarAbility(0, slash);
+        // ==========================================
+        // 2. Setup Enemies
+        // ==========================================
+        Vitals skelStats = { 50, 50, 0, 0, 20, 20 }; // HP, MP, etc.
 
-        // Give skeleton End Turn
-        skeleton->setHotbarAbility(17, endTurnAction);
-        skeleton->setHotbarAbility(9, moveAction);
-        m_map->addObject(skeleton);
+        // Helper lambda to create a skeleton to reduce code repetition
+        auto spawnSkeleton = [&](std::string name, float x, float y, int initiative, bool isFast) {
+            auto skel = std::make_shared<Unit>(name, Team::Enemy, skelStats);
+            skel->setLogicalPosition(x, y);
+            skel->setInitiative(initiative);
 
-        // 3. Props
-        auto wall = std::make_shared<Prop>(true, true, "Stone Pillar");
-        wall->setLogicalPosition(150.f, 150.f);
-        wall->setColliderSize(40.f, 40.f);
-        wall->setSprite(*m_propTexture, sf::IntRect({ 32, 32 }, { 32, 32 }));
-        m_map->addObject(wall);
+            // Visuals: Fast skeleton uses a slightly different sprite index 
+            int spriteX = isFast ? 160 : 128;
+            skel->setSprite(*m_monsterTexture, sf::IntRect({ spriteX, 0 }, { 32, 32 }));
+
+            // Low Stats: 5% Crit, 5% Double Turn
+            skel->setCritChance(0.05f);
+            skel->setDoubleTurnChance(0.05f);
+
+            // Give Slash 
+            auto slash = std::make_shared<CombatAbility>("Slash", 1, *this, skel.get());
+            slash->setStats(10.f, 30.f, 0.f, 1); // 1 Turn Cooldown
+            skel->setHotbarAbility(0, slash);
+
+            skel->setHotbarAbility(17, endTurnAction);
+            skel->setHotbarAbility(9, moveAction);
+            m_map->addObject(skel);
+            };
+
+        // Spawn 3 Skeletons
+        spawnSkeleton("Skeleton Grunt A", 300.f, 200.f, 10, false);
+        spawnSkeleton("Skeleton Grunt B", 350.f, 100.f, 12, false);
+
+        // Fast Skeleton: Higher Initiative than player (25 vs 20)
+        spawnSkeleton("Fast Skeleton", 200.f, 250.f, 25, true);
+
+        // ==========================================
+        // 3. Setup Props (Stone Pillars)
+        // ==========================================
+        auto placePillar = [&](float x, float y) {
+            auto prop = std::make_shared<Prop>(true, true, "Stone Pillar");
+            prop->setLogicalPosition(x, y);
+            prop->setColliderSize(40.f, 40.f);
+            prop->setSprite(*m_propTexture, sf::IntRect({ 32, 32 }, { 32, 32 }));
+            m_map->addObject(prop);
+            };
+
+        placePillar(150.f, 150.f); 
+        placePillar(250.f, 180.f); 
+        placePillar(180.f, 280.f); 
 
         // 4. HUD Init
         if (m_hud) {
-            m_hud->onResize({Window::WIDTH, Window::HEIGHT});
+            m_hud->onResize({ Window::WIDTH, Window::HEIGHT });
         }
         m_map->onResize({ Window::WIDTH, Window::HEIGHT });
+
         // 5. Start the Battle Loop
         startBattle();
     }
@@ -218,7 +254,24 @@ namespace RPG {
 
         // Cancel any pending targeting
         cancelTargeting();
+        // --- Double Turn Check ---
+        if (m_activeUnit) {
+            // Generate random float 0.0 to 1.0
+            float roll = static_cast<float>(rand()) / static_cast<float>(RAND_MAX);
 
+            if (roll < m_activeUnit->getDoubleTurnChance()) {
+                std::cout << ">>> DOUBLE TURN! " << m_activeUnit->getName() << " acts again! <<<" << std::endl;
+
+                // Refill resources and reduce cooldowns (as if a new turn started)
+                m_activeUnit->onTurnStart();
+
+                // Visually re-select the unit to update UI
+                selectUnit(m_activeUnit);
+
+                // RETURN EARLY: Do not rotate the queue (nextTurn)
+                return;
+            }
+        }
         nextTurn();
     }
 
@@ -394,6 +447,7 @@ namespace RPG {
     }
 
     void BattleManager::render(sf::RenderWindow& window) {
+        const float VISUAL_CORRECTION = 1.31f;
         //grid logic
         const int gridSize = 15;
         const float tileSize = 32.f;
@@ -479,7 +533,7 @@ namespace RPG {
         // 3. Draw Range Indicator
         // ==============================
         if (m_state == GameState::TargetingMode && m_selectedUnit && m_pendingAbility) {
-            float r = m_pendingAbility->getRange();
+            float r = m_pendingAbility->getRange()*VISUAL_CORRECTION;
 
             // Adjust radius for visual scale if needed. 
             // Since Iso::worldToScreen squashes Y by 0.5, we scale the circle shape:
@@ -499,7 +553,7 @@ namespace RPG {
             sf::Vector2f mouseWorld = window.mapPixelToCoords(mousePixel); // Uses current CameraView
             sf::Vector2f mouseLogic = Iso::screenToWorld(mouseWorld);
             // 1. Draw Max Range Circle (In World Space)
-            float maxDist = m_selectedUnit->getVitals().stamina / STAMINA_COST_PER_UNIT;
+            float maxDist = m_selectedUnit->getVitals().stamina / STAMINA_COST_PER_UNIT*VISUAL_CORRECTION;
             m_rangeIndicator.setRadius(maxDist);
             m_rangeIndicator.setScale({ 1.f, 0.5f });
             m_rangeIndicator.setOrigin({ maxDist, maxDist });
@@ -522,8 +576,10 @@ namespace RPG {
 
             // --- SCREEN SPACE DRAWING ---
             // Switch to Default View so Tooltip text isn't affected by Camera Zoom/Pan
-            window.setView(window.getDefaultView());
-
+            //window.setView(window.getDefaultView());
+            sf::Vector2f currentWindowSize((float)window.getSize().x, (float)window.getSize().y);
+            sf::View uiView(sf::FloatRect({ 0.f, 0.f }, currentWindowSize));
+            window.setView(uiView);
             std::stringstream ss;
             if (valid) {
                 ss << (int)cost << " STAMINA";

@@ -146,7 +146,14 @@ namespace RPG {
         * Resets resources and reduces cooldowns.
         */
         void onTurnStart();
+        // ==============================
+        // Simple chance events
+        // ==============================
+        void setCritChance(float chance) { m_critChance = chance; }
+        float getCritChance() const { return m_critChance; }
 
+        void setDoubleTurnChance(float chance) { m_doubleTurnChance = chance; }
+        float getDoubleTurnChance() const { return m_doubleTurnChance; }
     private:
         std::string m_name;
         Team m_team;
@@ -167,5 +174,8 @@ namespace RPG {
         std::vector<std::shared_ptr<IAbility>> m_hotbar;
         std::vector<std::shared_ptr<IAbility>> m_inventory;
         std::map<EquipSlot, std::shared_ptr<IAbility>> m_equipment;
+        //chances
+        float m_critChance = 0.f;       
+        float m_doubleTurnChance = 0.f;
     };
 }
