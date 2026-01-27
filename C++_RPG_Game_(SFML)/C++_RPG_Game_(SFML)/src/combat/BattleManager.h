@@ -11,7 +11,18 @@
 #include <deque>
 #include"worldmap/AssetManager.h"
 namespace RPG {
+    /** * @brief Represents a temporary text label floating in the world.
+     */
+    struct FloatingText {
+        sf::Text text;           ///< The drawable text object.
+        sf::Vector2f position;   ///< Current world coordinates.
+        sf::Vector2f velocity;   ///< Movement vector (pixels per second).
+        float lifetime;          ///< Time remaining before destruction.
+        float maxLifetime;       ///< Total lifespan (used for fade calculations).
 
+        // SFML 3 requires Font in constructor, so we need a constructor here
+        FloatingText(const sf::Font& font) : text(font) {}
+    };
     enum class GameState {
         Idle,           ///< Free selection mode.
         UnitSelected,   ///< A unit is selected, HUD is active.
@@ -35,9 +46,18 @@ namespace RPG {
 
         /**
          * @brief Sets up the battlefield (Spawns enemies, walls, places Player).
+         * @param window Reference to the window to calculate initial background scaling.
          */
-        void initTestLevel();
-
+        void initTestLevel(const sf::RenderWindow& window);
+        /**
+         * @brief Spawns a floating text number in the world (e.g., Damage, Healing).
+         * @param location The world coordinates to spawn at (usually unit's head).
+         * @param content The string to display.
+         * @param color The text color (e.g., White for normal, Gold for crit).
+         * @param fontSize Character size of the text.
+         * @param velocity Direction and speed of the float (default is Up).
+         */
+        void spawnFloatingText(sf::Vector2f location, std::string content, sf::Color color, int fontSize = 20, sf::Vector2f velocity = { 0.f, -50.f });
         // ==============================
         // Game Loop
         // ==============================
@@ -128,9 +148,10 @@ namespace RPG {
         Tooltip m_movementTooltip; // For showing "Cost: 15"
         const float STAMINA_COST_PER_UNIT = 0.5f; // 1 pixel = 0.5 stamina
 
-        // --- NEW DEBUG FLAG ---
+        // Debug visuals
         bool m_showDebug = false;
-
+        // Floating Text Container
+        std::vector<FloatingText> m_floatingTexts;
         // Helper to draw a projected box
         void drawDebugBox(sf::RenderWindow& window, const sf::FloatRect& rect, sf::Color color);
 

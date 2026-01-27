@@ -57,27 +57,52 @@ namespace RPG {
         if (!m_owner->consumeMana(m_manaCost)) return;
         m_currentCooldown = m_maxCooldown;
 
-        // 2. Calculate Damage & Critical Hit
-        float finalDamage = m_damage;
+        // 2. Calculate Potency & Critical Hit
+        // We use absolute value for calculation so crits scale correctly
+        float baseAmount = std::abs(m_damage);
+        float finalAmount = baseAmount;
         bool isCrit = false;
 
-        // Generate a random float between 0.0 and 1.0
         float roll = static_cast<float>(rand()) / static_cast<float>(RAND_MAX);
-
         if (roll < m_owner->getCritChance()) {
             isCrit = true;
-            finalDamage *= 2.0f; // Double damage for crit
+            finalAmount *= 2.0f;
         }
 
-        // 3. Apply Effect
-        if (isCrit) {
-            std::cout << "CRITICAL HIT! ";
-        }
-        std::cout << m_owner->getName() << " casts " << m_name
-            << " on " << target->getName()
-            << " for " << finalDamage << " damage!" << std::endl;
+        // 3. Apply Effect (Heal vs Damage)
+        sf::Vector2f spawnPos = target->getRenderPosition();
+        bool isHeal = (m_damage < 0); // Convention: Negative damage = Heal
 
-        target->takeDamage(finalDamage);
+        if (isHeal) {
+            // Apply Heal
+            target->heal(finalAmount);
+
+            // HEAL STYLE: Green, Floats Up Slowly
+            std::string msg = "+" + std::to_string((int)finalAmount);
+            if (isCrit) msg += "!";
+
+            // Standard Green for heal, Bright Lime for Crit Heal
+            sf::Color healColor = isCrit ? sf::Color(50, 255, 50) : sf::Color(100, 255, 100);
+
+            m_manager.spawnFloatingText(spawnPos, msg, healColor, isCrit ? 22 : 18, { 0.f, -30.f });
+
+            std::cout << m_owner->getName() << " heals " << target->getName() << " for " << finalAmount << std::endl;
+        }
+        else {
+            // Apply Damage
+            target->takeDamage(finalAmount);
+
+            // DAMAGE STYLE
+            if (isCrit) {
+                std::string msg = "CRIT " + std::to_string((int)finalAmount) + "!";
+                m_manager.spawnFloatingText(spawnPos, msg, sf::Color(255, 215, 0), 26, { 0.f, -80.f });
+            }
+            else {
+                std::string msg = std::to_string((int)finalAmount);
+                m_manager.spawnFloatingText(spawnPos, msg, sf::Color::White, 18, { 0.f, -50.f });
+            }
+            std::cout << m_owner->getName() << " hits " << target->getName() << " for " << finalAmount << std::endl;
+        }
 
         // 4. Check Death
         if (target->isDead()) {

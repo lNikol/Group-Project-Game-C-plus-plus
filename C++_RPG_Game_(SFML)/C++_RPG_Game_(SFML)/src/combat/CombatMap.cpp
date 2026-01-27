@@ -179,7 +179,7 @@ namespace RPG {
 
         // 1. Draw Static Background
         // Reset view for background so it stays static on screen
-        /*if (m_backgroundSprite.has_value()) {
+        if (m_backgroundSprite.has_value()) {
             sf::View currentView = target.getView();
 
             sf::Vector2f targetSize((float)target.getSize().x, (float)target.getSize().y);
@@ -189,7 +189,7 @@ namespace RPG {
             target.draw(*m_backgroundSprite);
 
             target.setView(currentView);
-        }*/
+        }
 
         // 2. Draw Floor
         if (m_mode == MapMode::SingleImage && m_singleFloorSprite.has_value()) {
