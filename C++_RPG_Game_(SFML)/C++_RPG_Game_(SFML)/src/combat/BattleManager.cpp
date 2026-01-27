@@ -42,14 +42,14 @@ namespace RPG {
         m_selector.setOrigin({ 20.f, 20.f });
         m_selector.setFillColor(sf::Color::Transparent);
         m_selector.setOutlineColor(sf::Color::Green);
-        m_selector.setOutlineThickness(2.f);
+        m_selector.setOutlineThickness(4.f);
 
         // Setup Range Indicator
         m_rangeIndicator.setRadius(1.f);
         m_rangeIndicator.setScale({ 1.f, 0.5f });
         m_rangeIndicator.setFillColor(sf::Color(255, 0, 0, 40));
         m_rangeIndicator.setOutlineColor(sf::Color::Red);
-        m_rangeIndicator.setOutlineThickness(1.f);
+        m_rangeIndicator.setOutlineThickness(3.f);
         if (m_bgTexture) {
             m_map->setBackground(*m_bgTexture);
         }
@@ -71,7 +71,7 @@ namespace RPG {
 
                     if (x == 6) {
                         // Left edge of the road
-                        floorData.push_back(roadLeft);
+                        floorData.push_back(roadMiddle);
                     }
                     else if (x == 7) {
                         // Center of the road
@@ -79,7 +79,7 @@ namespace RPG {
                     }
                     else if (x == 8) {
                         // Right edge of the road
-                        floorData.push_back(roadRight);
+                        floorData.push_back(roadMiddle);
                     }
                     else {
                         // Everywhere else is grass
@@ -92,96 +92,155 @@ namespace RPG {
         }
     }
 
-    void BattleManager::initTestLevel() {
-        // Define common actions
-        auto endTurnAction = std::make_shared<EndTurnCommand>([this]() {
-            this->endTurn();
-            });
+    void BattleManager::initTestLevel(const sf::RenderWindow& window) {
+        // Define common actions (Move/End Turn)
+        auto endTurnAction = std::make_shared<EndTurnCommand>([this]() { this->endTurn(); });
         auto moveAction = std::make_shared<MoveCommand>(*this);
 
         // ==========================================
-        // 1. Setup Player (Hero)
+        // 1. THE HERO PARTY (Holy Trinity)
         // ==========================================
-        if (m_playerUnit) {
-            m_playerUnit->setLogicalPosition(50.f, 100.f);
-            m_playerUnit->setInitiative(20);
-            m_playerUnit->setSprite(*m_charTexture, sf::IntRect({ 0, 0 }, { 32, 32 }));
 
-            // High Stats: 50% Crit, 30% Double Turn
-            m_playerUnit->setCritChance(0.5f);
-            m_playerUnit->setDoubleTurnChance(0.3f);
+        // --- A. THE KNIGHT (Tank) ---
+        // High HP, High Stamina, Low Initiative
+        Vitals vKnight = { 120.f, 120.f, 40.f, 40.f, 50.f, 50.f };
+        auto knight = std::make_shared<Unit>("Sir Tankalot", Team::Player, vKnight);
 
-            // Give Fireball (Slot 0) - Cooldown increased to 2
-            if (m_playerUnit->getHotbarAbility(0) == nullptr) {
-                auto fireball = std::make_shared<CombatAbility>("Fireball", 96, *this, m_playerUnit.get());
-                fireball->setStats(40.f, 250.f, 10.f, 2); // 2 Turns Cooldown
-                m_playerUnit->setHotbarAbility(0, fireball);
-            }
+        knight->setLogicalPosition(150.f, 150.f); // Frontline
+        knight->setInitiative(10); // Slow
+        knight->setCritChance(0.10f);
+        knight->setDoubleTurnChance(0.10f);
+        knight->setSprite(*m_charTexture, sf::IntRect({ 0, 0 }, { 32, 32 }));
 
-            // Standard Actions
-            m_playerUnit->setHotbarAbility(17, endTurnAction);
-            m_playerUnit->setHotbarAbility(9, moveAction);
-            m_map->addObject(m_playerUnit);
+        // Ability 1: Sword Slash
+        auto sword = std::make_shared<CombatAbility>("Slash", 115, *this, knight.get());
+        sword->setStats(25.f, 40.f, 0.f, 1);
+        knight->setHotbarAbility(0, sword);
+
+        // Ability 2: Shield Bash (High Dmg, Cooldown)
+        auto bash = std::make_shared<CombatAbility>("Shield Bash", 123, *this, knight.get());
+        bash->setStats(45.f, 40.f, 10.f, 3);
+        knight->setHotbarAbility(1, bash);
+
+        // --- B. THE ROGUE (DPS) ---
+        // Fast, High Crit, Fragile
+        Vitals vRogue = { 70.f, 70.f, 30.f, 30.f, 40.f, 40.f };
+        auto rogue = std::make_shared<Unit>("Dagger Dan", Team::Player, vRogue);
+
+        rogue->setLogicalPosition(100.f, 180.f); // Flank
+        rogue->setInitiative(30); // Acts First
+        rogue->setCritChance(0.50f);       // 50% Crit!
+        rogue->setDoubleTurnChance(0.30f); // 30% Double Turn!
+        rogue->setSprite(*m_charTexture, sf::IntRect({ 96, 0 }, { 32, 32 })); 
+
+        // Ability 1: Quick Shank (Low cost, fish for crits)
+        auto shank = std::make_shared<CombatAbility>("Shank", 385, *this, rogue.get());
+        shank->setStats(15.f, 40.f, 0.f, 1);
+        rogue->setHotbarAbility(0, shank);
+
+        // Ability 2: Throwing Knife (Range)
+        auto throwKnife = std::make_shared<CombatAbility>("Throw Knife", 115, *this, rogue.get());
+        throwKnife->setStats(20.f, 180.f, 5.f, 1);
+        rogue->setHotbarAbility(1, throwKnife);
+
+        // --- C. THE MAGE (Healer/Nuker) ---
+        // Squishy, High Mana, Ranged
+        Vitals vMage = { 50.f, 50.f, 100.f, 100.f, 30.f, 30.f };
+        auto mage = std::make_shared<Unit>("Merlin", Team::Player, vMage);
+
+        mage->setLogicalPosition(80.f, 80.f); // Backline
+        mage->setInitiative(15);
+        mage->setCritChance(0.10f);
+        mage->setDoubleTurnChance(0.10f);
+        mage->setSprite(*m_charTexture, sf::IntRect({ 96, 224 }, { 32, 32 }));
+
+        // Ability 1: Fireball
+        auto fireball = std::make_shared<CombatAbility>("Fireball", 96, *this, mage.get());
+        fireball->setStats(35.f, 250.f, 15.f, 1);
+        mage->setHotbarAbility(0, fireball);
+
+        // Ability 2: Greater Heal (Negative Damage)
+        auto heal = std::make_shared<CombatAbility>("Heal", 122, *this, mage.get());
+        heal->setStats(-40.f, 200.f, 20.f, 2); // Negative = Heal
+        mage->setHotbarAbility(1, heal);
+
+        // Add standard moves
+        for (auto u : { knight, rogue, mage }) {
+            u->setHotbarAbility(9, moveAction);
+            u->setHotbarAbility(17, endTurnAction);
+            m_map->addObject(u);
         }
+        m_playerUnit = knight;
 
         // ==========================================
-        // 2. Setup Enemies
+        // 2. THE ENEMY SQUAD (Dark Mage & Minions)
         // ==========================================
-        Vitals skelStats = { 50, 50, 0, 0, 20, 20 }; // HP, MP, etc.
 
-        // Helper lambda to create a skeleton to reduce code repetition
-        auto spawnSkeleton = [&](std::string name, float x, float y, int initiative, bool isFast) {
-            auto skel = std::make_shared<Unit>(name, Team::Enemy, skelStats);
+        // --- Minions: Skeletons ---
+        Vitals vSkel = { 40.f, 40.f, 0.f, 0.f, 20.f, 20.f };
+        auto spawnSkeleton = [&](float x, float y) {
+            auto skel = std::make_shared<Unit>("Skeleton", Team::Enemy, vSkel);
             skel->setLogicalPosition(x, y);
-            skel->setInitiative(initiative);
-
-            // Visuals: Fast skeleton uses a slightly different sprite index 
-            int spriteX = isFast ? 160 : 128;
-            skel->setSprite(*m_monsterTexture, sf::IntRect({ spriteX, 0 }, { 32, 32 }));
-
-            // Low Stats: 5% Crit, 5% Double Turn
+            skel->setInitiative(12);
             skel->setCritChance(0.05f);
             skel->setDoubleTurnChance(0.05f);
+            skel->setSprite(*m_monsterTexture, sf::IntRect({ 128, 0 }, { 32, 32 }));
 
-            // Give Slash 
-            auto slash = std::make_shared<CombatAbility>("Slash", 1, *this, skel.get());
-            slash->setStats(10.f, 30.f, 0.f, 1); // 1 Turn Cooldown
-            skel->setHotbarAbility(0, slash);
-
+            auto bonk = std::make_shared<CombatAbility>("Bonk", 143, *this, skel.get());
+            bonk->setStats(8.f, 30.f, 0.f, 1);
+            skel->setHotbarAbility(0, bonk);
             skel->setHotbarAbility(17, endTurnAction);
             skel->setHotbarAbility(9, moveAction);
             m_map->addObject(skel);
             };
 
-        // Spawn 3 Skeletons
-        spawnSkeleton("Skeleton Grunt A", 300.f, 200.f, 10, false);
-        spawnSkeleton("Skeleton Grunt B", 350.f, 100.f, 12, false);
+        spawnSkeleton(300.f, 200.f);
+        spawnSkeleton(320.f, 240.f);
+        spawnSkeleton(280.f, 300.f);
+        spawnSkeleton(350.f, 180.f);
 
-        // Fast Skeleton: Higher Initiative than player (25 vs 20)
-        spawnSkeleton("Fast Skeleton", 200.f, 250.f, 25, true);
+        // --- Boss: Dark Mage ---
+        Vitals vBoss = { 150.f, 150.f, 150.f, 150.f, 30.f, 30.f };
+        auto darkMage = std::make_shared<Unit>("Dark Mage", Team::Enemy, vBoss);
+        darkMage->setLogicalPosition(400.f, 400.f); // Far back
+        darkMage->setInitiative(18); // Faster than Knight/Mage, slower than Rogue
+        darkMage->setCritChance(0.05f);
+        darkMage->setDoubleTurnChance(0.05f);
+
+        darkMage->setSprite(*m_monsterTexture, sf::IntRect({ 0, 0 }, { 32, 32 }));
+        // Boss Ability 1: Shadow Bolt
+        auto shadowBolt = std::make_shared<CombatAbility>("Shadow Bolt", 8, *this, darkMage.get());
+        shadowBolt->setStats(25.f, 300.f, 10.f, 1);
+        darkMage->setHotbarAbility(0, shadowBolt);
+
+        // Boss Ability 2: Life Drain (Big damage)
+        auto drain = std::make_shared<CombatAbility>("Life Drain", 1, *this, darkMage.get());
+        drain->setStats(50.f, 200.f, 30.f, 4);
+        darkMage->setHotbarAbility(1, drain);
+
+        darkMage->setHotbarAbility(17, endTurnAction);
+        darkMage->setHotbarAbility(9, moveAction);
+        m_map->addObject(darkMage);
 
         // ==========================================
-        // 3. Setup Props (Stone Pillars)
+        // 3. PROPS
         // ==========================================
         auto placePillar = [&](float x, float y) {
-            auto prop = std::make_shared<Prop>(true, true, "Stone Pillar");
+            auto prop = std::make_shared<Prop>(true, true, "Pillar");
             prop->setLogicalPosition(x, y);
-            prop->setColliderSize(40.f, 40.f);
+            prop->setColliderSize(30.f, 30.f);
             prop->setSprite(*m_propTexture, sf::IntRect({ 32, 32 }, { 32, 32 }));
             m_map->addObject(prop);
             };
 
-        placePillar(150.f, 150.f); 
-        placePillar(250.f, 180.f); 
-        placePillar(180.f, 280.f); 
+        // Create a choke point in the middle
+        placePillar(200.f, 250.f);
+        placePillar(240.f, 220.f);
 
-        // 4. HUD Init
-        if (m_hud) {
-            m_hud->onResize({ Window::WIDTH, Window::HEIGHT });
-        }
-        m_map->onResize({ Window::WIDTH, Window::HEIGHT });
+        // Setup HUD & Map Scaling
+        if (m_hud) m_hud->onResize(window.getSize());
+        m_map->onResize(window.getSize());
 
-        // 5. Start the Battle Loop
         startBattle();
     }
 
@@ -344,9 +403,40 @@ namespace RPG {
         sf::Vector2f logicalPos = Iso::screenToWorld(mouseWorld);
 
         // 2. Query Map
-        auto clickedObj = m_map->getHitObject(logicalPos);
-        auto clickedUnit = std::dynamic_pointer_cast<Unit>(clickedObj);
+        std::shared_ptr<Unit> clickedUnit = nullptr;
+        // =========================================================
+        // SPRITE-BASED SELECTION (Visual)
+        // Check if mouse is hovering over the actual sprite image
+        // =========================================================
+        auto allObjects = m_map->getAllObjects();
 
+        // Sort by Render Depth Descending (Front to Back)
+        // We want to check the object "closest" to the camera first.
+        std::sort(allObjects.begin(), allObjects.end(), [](const auto& a, const auto& b) {
+            return a->getRenderDepth() > b->getRenderDepth();
+            });
+
+        for (const auto& obj : allObjects) {
+            auto unit = std::dynamic_pointer_cast<Unit>(obj);
+            if (!unit) continue;
+
+            if (const auto* sprite = unit->getSprite()) {
+                // getGlobalBounds returns the rect in World Coordinates (where the sprite is drawn)
+                if (sprite->getGlobalBounds().contains(mouseWorld)) {
+                    clickedUnit = unit;
+                    break; // Found the top-most unit
+                }
+            }
+        }
+
+        // =========================================================
+        // 2. FALLBACK: TILE-BASED SELECTION (Logical)
+        // If we didn't click a sprite body, did we click their feet?
+        // =========================================================
+        if (!clickedUnit) {
+            auto clickedObj = m_map->getHitObject(logicalPos);
+            clickedUnit = std::dynamic_pointer_cast<Unit>(clickedObj);
+        }
         // --- TARGETING MODE ---
         if (m_state == GameState::TargetingMode && m_pendingAbility) {
             if (clickedUnit) {
@@ -380,16 +470,6 @@ namespace RPG {
                 std::cout << "Invalid Move!" << std::endl;
             }
             return; // Stop processing click
-        }
-        // --- SELECTION MODE ---
-        if (clickedUnit) {
-            selectUnit(clickedUnit);
-        }
-        else {
-            // Clicked ground -> Deselect
-            m_selectedUnit = nullptr;
-            m_state = GameState::Idle;
-            // TODO: Move command logic here later
         }
     }
 
@@ -435,8 +515,36 @@ namespace RPG {
                 unit->update(dt);
             }
         }
+        // 2. Update Floating Texts
+        // Iterate backwards to allow safe removal
+        for (int i = m_floatingTexts.size() - 1; i >= 0; i--) {
+            auto& ft = m_floatingTexts[i];
 
-        // 2. State Management: Busy -> UnitSelected
+            // 1. Physics
+            ft.position += ft.velocity * dt;
+            ft.text.setPosition(ft.position);
+
+            // 2. Age
+            ft.lifetime -= dt;
+
+            // 3. Fade Out
+            float ratio = ft.lifetime / ft.maxLifetime;
+            if (ratio < 0) ratio = 0;
+
+            sf::Color c = ft.text.getFillColor();
+            c.a = static_cast<uint8_t>(255 * ratio);
+            ft.text.setFillColor(c);
+
+            sf::Color o = ft.text.getOutlineColor();
+            o.a = static_cast<uint8_t>(255 * ratio);
+            ft.text.setOutlineColor(o);
+
+            // 4. Cleanup
+            if (ft.lifetime <= 0.f) {
+                m_floatingTexts.erase(m_floatingTexts.begin() + i);
+            }
+        }
+        // 3. State Management: Busy -> UnitSelected
         if (m_state == GameState::Busy) {
             // Check if the unit we are controlling has finished walking
             if (m_selectedUnit && !m_selectedUnit->isMoving()) {
@@ -494,8 +602,24 @@ namespace RPG {
             }
             window.draw(gridLines);
         }
+
+
         // ==============================
-        // 2. Draw Objects (Sorted by Depth)
+        // 2. Draw Range Indicator
+        // ==============================
+        if (m_state == GameState::TargetingMode && m_selectedUnit && m_pendingAbility) {
+            float r = m_pendingAbility->getRange()*VISUAL_CORRECTION;
+
+            m_rangeIndicator.setRadius(r);
+            m_rangeIndicator.setScale({ 1.f, 0.5f });
+            m_rangeIndicator.setOrigin({ r, r }); // Center it
+
+            m_rangeIndicator.setPosition(m_selectedUnit->getRenderPosition());
+            window.draw(m_rangeIndicator);
+        }
+
+        // ==============================
+        // 3. Draw Objects (Sorted by Depth)
         // ==============================
         auto objects = m_map->getAllObjects();
 
@@ -506,6 +630,15 @@ namespace RPG {
             });
 
         for (const auto& obj : objects) {
+            // Draw Selector Ring UNDER the unit if selected
+            if (auto u = std::dynamic_pointer_cast<Unit>(obj)) {
+                if (u == m_selectedUnit) {
+                    // Move selector to unit's visual feet
+                    m_selector.setPosition(obj->getRenderPosition());
+                    window.draw(m_selector);
+                }
+            }
+
             // Recalculate sprite position based on logical position
             obj->updateVisuals();
 
@@ -518,32 +651,9 @@ namespace RPG {
                 debug.setPosition(obj->getRenderPosition());
                 window.draw(debug);
             }
-            // Draw Selector Ring UNDER the unit if selected
-            // (Actually, to draw under, we should draw before sprite, but for rings it's okay)
-            if (auto u = std::dynamic_pointer_cast<Unit>(obj)) {
-                if (u == m_selectedUnit) {
-                    // Move selector to unit's visual feet
-                    m_selector.setPosition(obj->getRenderPosition());
-                    window.draw(m_selector);
-                }
-            }
+
         }
 
-        // ==============================
-        // 3. Draw Range Indicator
-        // ==============================
-        if (m_state == GameState::TargetingMode && m_selectedUnit && m_pendingAbility) {
-            float r = m_pendingAbility->getRange()*VISUAL_CORRECTION;
-
-            // Adjust radius for visual scale if needed. 
-            // Since Iso::worldToScreen squashes Y by 0.5, we scale the circle shape:
-            m_rangeIndicator.setRadius(r);
-            m_rangeIndicator.setScale({ 1.f, 0.5f });
-            m_rangeIndicator.setOrigin({ r, r }); // Center it
-
-            m_rangeIndicator.setPosition(m_selectedUnit->getRenderPosition());
-            window.draw(m_rangeIndicator);
-        }
         // ==========================================================
         // Draw Movement Visuals
         // ==========================================================
@@ -560,6 +670,7 @@ namespace RPG {
             m_rangeIndicator.setPosition(m_selectedUnit->getRenderPosition());
             m_rangeIndicator.setFillColor(sf::Color::Transparent);
             m_rangeIndicator.setOutlineColor(sf::Color(50, 255, 255, 100)); // Cyan
+            m_rangeIndicator.setOutlineThickness(3.f);
             window.draw(m_rangeIndicator);
 
             // 2. Draw Trajectory Line (In World Space)
@@ -626,7 +737,13 @@ namespace RPG {
             }
         }
 
-        // 5. Draw HUD
+
+        // 5. Floating Text
+        for (const auto& ft : m_floatingTexts) {
+            window.draw(ft.text);
+        }
+
+        // 6. Draw HUD
         if (!m_hasInitializedHUD && m_hud) {
             m_hud->onResize(window.getSize());
             m_hasInitializedHUD = true;
@@ -727,5 +844,32 @@ namespace RPG {
             // TODO: showDefeatScreen
             m_battleOver = true;
         }
+    }
+
+    void BattleManager::spawnFloatingText(sf::Vector2f location, std::string content, sf::Color color, int fontSize, sf::Vector2f velocity) {
+        if (!m_font) return;
+
+        // SFML 3: Font must be passed to constructor
+        FloatingText ft(*m_font);
+
+        ft.text.setString(content);
+        ft.text.setCharacterSize(fontSize);
+        ft.text.setFillColor(color);
+
+        // Outline for readability
+        ft.text.setOutlineColor(sf::Color::Black);
+        ft.text.setOutlineThickness(1.5f);
+
+        // Center origin
+        sf::FloatRect bounds = ft.text.getLocalBounds();
+        ft.text.setOrigin({bounds.size.x / 2.f, bounds.size.y / 2.f});
+
+        ft.position = location;
+        ft.position.y -= 50.f; // Offset to appear slightly above the anchor point
+        ft.velocity = velocity;
+        ft.lifetime = 1.2f;
+        ft.maxLifetime = 1.2f;
+
+        m_floatingTexts.push_back(ft);
     }
 }

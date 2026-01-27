@@ -3,6 +3,7 @@
 namespace RPG {
 
     BattleScene::BattleScene(ISceneController& ctrl,
+        const sf::RenderWindow& window,
         const AssetManager& assetManager,
         std::shared_ptr<Unit> player,
         std::shared_ptr<WorldMap> map)
@@ -14,8 +15,7 @@ namespace RPG {
         m_battleManager = std::make_unique<BattleManager>(assetManager, player);
 
         // 2. Setup the initial state (Generate enemies, props)
-        // In the future, 'map' would be used to decide terrain layout
-        m_battleManager->initTestLevel();
+        m_battleManager->initTestLevel(window);
     }
 
     bool BattleScene::handleEvent(sf::RenderWindow& window, const sf::Event& event) {

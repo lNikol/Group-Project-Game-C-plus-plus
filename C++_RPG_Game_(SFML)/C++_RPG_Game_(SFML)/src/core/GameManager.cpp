@@ -130,7 +130,7 @@ namespace RPG {
             break;
 
         case FactionID::BattleScene:
-            currentScene = std::make_unique<BattleScene>(*this,assetManager,playerUnit, selectedMap);
+            currentScene = std::make_unique<BattleScene>(*this,window, assetManager,playerUnit, selectedMap);
             break;
 
         default:

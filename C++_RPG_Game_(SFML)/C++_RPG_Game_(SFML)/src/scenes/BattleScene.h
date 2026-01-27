@@ -26,6 +26,7 @@ namespace RPG {
          * @param map The generic WorldMap data (can be used to generate obstacles).
          */
         BattleScene(ISceneController& ctrl,
+            const sf::RenderWindow& window,
             const AssetManager& assetManager,
             std::shared_ptr<Unit> player,
             std::shared_ptr<WorldMap> map);
