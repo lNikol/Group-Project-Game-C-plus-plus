@@ -3,6 +3,7 @@
 #include "DifficultySettings.h"
 #include "AssetManager.h"
 #include "Tile.h"
+#include "entities/WorldObject.h"
 #include <memory>
 #include <stdexcept>
 #include <vector>
@@ -11,17 +12,19 @@ namespace RPG {
 
 	class WorldMap {
 	private:
-		uint16_t width, height;
-		std::vector<Tile> tiles;
+		uint32_t width, height;
 		AssetManager& assetManager;
-		// for future
-		std::vector<std::unique_ptr<NPC>> npcs;
+		
+		std::vector<Tile> tiles; // Only holds ground
+		std::vector<std::unique_ptr<WorldObject>> structures; // Holds structues (trees, houses, rocks)
+		std::vector<std::unique_ptr<NPC>> npcs; // Holds active npcs
 	
 	public:
-		WorldMap(uint16_t w, uint16_t h, AssetManager& am);
+		WorldMap(uint32_t w, uint32_t h, AssetManager& am);
 
-		uint16_t getWidth() const;
-		uint16_t getHeight() const;
+		uint32_t getWidth() const;
+		uint32_t getHeight() const;
+
 
 		/**
 		 * @brief Checks if a given coordinate is within the internal spawnable area.
@@ -33,7 +36,7 @@ namespace RPG {
 		 * @param margin The distance from the map edge (number of tiles) to be excluded.
 		 * @return true if (x,y) is inside the spawn zone, false if it's within the margin or out of bounds.
 		 */
-		bool isInsideSpawnZone(int16_t x, int16_t y, uint8_t margin) const;
+		bool isInsideSpawnZone(int32_t x, int32_t y, uint8_t margin) const;
 		
 		/**
 		 * @brief Accesses a tile at specific coordinates by converting 2D to 1D index.
@@ -41,8 +44,8 @@ namespace RPG {
 		 * @param y Y coordinate
 		 * @return Reference to the Tile at the given position
 		 */
-		Tile& at(int16_t x, int16_t y);
-		const Tile& at(int16_t x, int16_t y) const;
+		Tile& at(int32_t x, int32_t y);
+		const Tile& at(int32_t x, int32_t y) const;
 		
 		/**
 		 * @brief Checks if a pixel position is blocked by a structure.
@@ -54,7 +57,7 @@ namespace RPG {
 
 		void refreshMonsters(const DifficultyLevel& level, uint8_t mapEdgeOffset = 5);
 
-		float getTileSpeedModifier(int16_t tx, int16_t ty) const;
+		float getTileSpeedModifier(int32_t tx, int32_t ty) const;
 
 
 		/**
@@ -64,8 +67,8 @@ namespace RPG {
 		 * @param type The type of structure to place
 		 * @return true if placement was successful
 		 */
-		bool placeStructure(int16_t startX, int16_t startY, StructureType type);
-
+		bool placeStructure(float worldX, float worldY, const std::string& name);
+		bool placeStructureAtTile(int32_t tileX, int32_t tileY, const std::string& name);
 
 		void generateObstacles(float density, const sf::Vector2f& playerStartPos, uint8_t playerSafeRadius = 2);
 
@@ -80,6 +83,8 @@ namespace RPG {
 		void addNPC(std::unique_ptr<NPC> npc);
 		const std::vector<std::unique_ptr<NPC>>& getNPCs() const;
 		std::vector<std::unique_ptr<NPC>>& getNPCs();
+
+		const std::vector<std::unique_ptr<WorldObject>>& getStructures() const;
 	};
 
 }

@@ -7,10 +7,13 @@ namespace RPG {
     // ==============================
 
     void AssetManager::init() {
+
+        
         /**
          * @brief Helper lambda to register structure definitions
          *        and handle texture registration.
          */
+        /*
         auto addStruct = [&](
             StructureType type, 
             const std::string& name, 
@@ -47,8 +50,74 @@ namespace RPG {
                 collisionHeight
             };
         };
+        */
 
         structureLibrary.clear();
+
+        auto addStructDef = [&](
+            const std::string& name,
+            StructureType type,
+            const std::string& textureKey,
+            sf::Vector2u textureStartPos,
+            sf::Vector2u size,
+            sf::Vector2f hitboxSize,
+            sf::Vector2f hitboxOffset,
+            StructureMetadata metadata
+        ) {
+            if (!textureKey.empty()) {
+                std::string fullPath = GameConfig::TEXTURES_PATH + textureKey;
+                addSpritesheet(name, fullPath);
+            }
+
+            structureLibrary[name] = {
+                name,
+                type,
+                textureKey,
+                textureStartPos,
+                size,
+                hitboxSize,
+                hitboxOffset,
+                metadata
+            };
+        };
+
+        StructureMetadata meta;
+        meta.blocksMovement = true;
+
+        addStructDef(
+            "rock",
+            StructureType::Rock,
+            "rock.png",
+            { 0, 0 },
+            { 32, 32 },
+            { 20.f, 10.f },
+            { 6.f, 15.f },
+            meta
+        );
+
+        addStructDef(
+            "big_tree",
+            StructureType::Tree,
+            "trees.png",
+            { 16, 0 },
+            { 128, 160 },
+            { 16.f, 16.f },
+            { 56.f, 140.f },
+            meta
+        );
+
+        addStructDef(
+            "house",
+            StructureType::Camp,
+            "house.png",
+            { 0, 0 },
+            { 96, 128 },
+            { 72.f, 48.f },
+            { 12.f, 70.f },
+            meta
+        );
+
+        /*
 
         // --- DATA REGISTRATION ---
         // Syntax: Type, Name, Filename, Size {W,H}, Speed, CanSpawn, Blocks, AllowsRegen
@@ -73,13 +142,14 @@ namespace RPG {
         addStruct(StructureType::Camp, "Camp", "camp.png", { 2,2 }, 1.25f, false, true, true, 0);
         addStruct(StructureType::FactionBase, "Faction Base", "factionBase.png", { 3,3 }, 1.15f, false, true, true, 0);
 
+        */
         std::cout << "AssetManager: Successfully initialized "
             << structureLibrary.size() << " structures.\n";
     }
 
-    const StructureDefinition& AssetManager::getDefinition(StructureType type) const {
-        auto it = structureLibrary.find(type);
-        return (it != structureLibrary.end()) ? it->second : structureLibrary.at(StructureType::None);
+    const StructureDefinition& AssetManager::getDefinition(const std::string& name) const {
+        auto it = structureLibrary.find(name);
+        return (it != structureLibrary.end()) ? it->second : structureLibrary.at(name);
     }
 
     // ==============================
@@ -98,12 +168,20 @@ namespace RPG {
             return;
         }
 
+        std::cout << "Spritesheet \"" + name + "\" loaded from: \"" + filepath + "\".\n";
         spritesheetMap.emplace(name, std::move(spritesheet));
     }
 
     const Spritesheet* AssetManager::getSpritesheet(const std::string& name) const {
         auto it = spritesheetMap.find(name);
-        return (it != spritesheetMap.end()) ? &it->second : nullptr;
+        
+        if (it != spritesheetMap.end()) {
+            std::cout << "Loading spritesheet \"" + name + "\"\n";
+            return &it->second;
+        }
+
+        std::cout << "Failed to load spritesheet \"" + name + "\"\n";
+        return nullptr;
     }
 
     // ==============================

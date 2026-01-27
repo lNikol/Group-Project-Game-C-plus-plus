@@ -1,14 +1,28 @@
 #pragma once
-#include "AnimatedEntity.h"
-#include "worldmap/Player.h"
+#include <SFML/Graphics.hpp>
+#include "worldmap/StructureDefinition.h"
 
 namespace RPG {
 
-	class WorldObject : public AnimatedEntity {
+	class AssetManager;
+
+	class WorldObject {
+		const StructureDefinition* definition;
+		sf::Sprite sprite;
 	public:
-		virtual void onInteract(Player& player) = 0;
-		virtual bool isSolid() const;
+		WorldObject(
+			const StructureDefinition* definition,
+			sf::Vector2f position,
+			const AssetManager& am
+		);
+
+		virtual ~WorldObject() = default;
+
+		const StructureDefinition& getDefinition() const;
+		float getSortY() const;
+		sf::FloatRect getHitbox() const;
+		sf::Vector2f getPosition() const;
+		void draw(sf::RenderWindow& window) const;
 	};
 
 }
-

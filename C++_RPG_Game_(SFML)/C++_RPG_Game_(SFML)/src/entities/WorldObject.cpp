@@ -1,9 +1,63 @@
 #include "WorldObject.h"
+#include "../worldmap/AssetManager.h"
 
 namespace RPG {
 
-	bool WorldObject::isSolid() const {
-		return true;
+	static sf::Texture dummyTexture;
+
+	WorldObject::WorldObject(
+		const StructureDefinition* definition, 
+		sf::Vector2f position,
+		const AssetManager& am
+	)
+		: definition(definition), sprite(dummyTexture)
+	{
+		const Spritesheet* spritesheet = am.getSpritesheet(definition->name);
+		if (spritesheet) {
+			sf::IntRect rect(
+				{
+					static_cast<int>(definition->textureStartPos.x),
+					static_cast<int>(definition->textureStartPos.y)
+				},
+				{
+					static_cast<int>(definition->size.x),
+					static_cast<int>(definition->size.y)
+				}
+			);
+			sprite.setTexture(*spritesheet);
+			sprite.setTextureRect(rect);
+		}
+		sprite.setPosition(position);
+	}
+
+
+	const StructureDefinition& WorldObject::getDefinition() const {
+		return *definition;
+	}
+
+	float WorldObject::getSortY() const {
+		return sprite.getPosition().y + definition->size.y;
+	}
+
+	sf::Vector2f WorldObject::getPosition() const {
+		return sprite.getPosition();
+	}
+
+	sf::FloatRect WorldObject::getHitbox() const {
+		return sf::FloatRect(
+			{
+				sprite.getPosition().x + definition->hitboxOffset.x, 
+				sprite.getPosition().y + definition->hitboxOffset.y
+			},
+			{
+				definition->hitboxSize.x, 
+				definition->hitboxSize.y
+			}
+		);
+	}
+
+	void WorldObject::draw(sf::RenderWindow& window) const {
+		window.draw(sprite);
 	}
 
 }

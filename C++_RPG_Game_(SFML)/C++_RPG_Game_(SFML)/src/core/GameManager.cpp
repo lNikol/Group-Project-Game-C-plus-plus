@@ -18,6 +18,8 @@ namespace RPG {
         assetManager.addSpritesheet("player", GameConfig::ANIMATIONS_PATH + "/player.png");
         assetManager.addSpritesheet("npc", GameConfig::ANIMATIONS_PATH + "/npc.png");
 
+        assetManager.addTexture("grass", GameConfig::TEXTURES_PATH + "grass.png");
+
         // Init start scene
         initGameData();
 
@@ -53,6 +55,7 @@ namespace RPG {
         // --- 1. MAIN WORLD ---
         auto mainMap = std::make_shared<WorldMap>(GameConfig::WORLD_WIDTH, GameConfig::WORLD_HEIGHT, assetManager);
         mainMap->generateObstacles(0.07f, player->getPosition(), 3);
+        mainMap->placeStructureAtTile(12, 12, "house");
 
 
         Animation npcAnimation = Animation::builder()
@@ -91,8 +94,8 @@ namespace RPG {
         // --- 2. WHITE ORDER BASE (Small, organized) ---
         auto whiteMap = std::make_shared<WorldMap>(25, 25, assetManager);
         whiteMap->generateObstacles(0.02f, sf::Vector2f(400, 520), 2);
-        whiteMap->placeStructure(12, 12, StructureType::FactionBase); // Large base in the center
-        whiteMap->placeStructure(10, 10, StructureType::Camp);        // Guard camp nearby
+        //whiteMap->placeStructure(12, 12, StructureType::FactionBase); // Large base in the center
+        //whiteMap->placeStructure(10, 10, StructureType::Camp);        // Guard camp nearby
 
         // NPC to go back to MainWorld
         addNpc(0, "White Order Gatekeeper", true, FactionID::MainWorld, sf::Vector2f{ 560.0f, 560.0f }, whiteMap);
@@ -104,22 +107,22 @@ namespace RPG {
         // Dark Order has many walls/rocks
         darkMap->generateObstacles(0.15f, sf::Vector2f(400, 480), 2); 
 
-        darkMap->placeStructure(5, 5, StructureType::Wall);
-        darkMap->placeStructure(5, 6, StructureType::Wall);
-        darkMap->placeStructure(15, 15, StructureType::FactionBase);
+        //darkMap->placeStructure(5, 5, StructureType::Wall);
+        //darkMap->placeStructure(5, 6, StructureType::Wall);
+        //darkMap->placeStructure(15, 15, StructureType::FactionBase);
 
         allMaps[FactionID::DarkOrder] = darkMap;
 
         // --- 4. NEUTRAL ORDER (Wide, empty) ---
         auto neutralMap = std::make_shared<WorldMap>(40, 40, assetManager);
         neutralMap->generateObstacles(0.25f, sf::Vector2f(440, 620), 4);
-        neutralMap->placeStructure(5, 5, StructureType::Camp);
-        neutralMap->placeStructure(35, 35, StructureType::Camp);
+        //neutralMap->placeStructure(5, 5, StructureType::Camp);
+        //neutralMap->placeStructure(35, 35, StructureType::Camp);
 
         // Add many trees for "Nature" feel if your generator allows it, 
         // or manually place a few:
-        neutralMap->placeStructure(20, 20, StructureType::Tree);
-        neutralMap->placeStructure(21, 20, StructureType::Tree);
+        //neutralMap->placeStructure(20, 20, StructureType::Tree);
+        //neutralMap->placeStructure(21, 20, StructureType::Tree);
 
         allMaps[FactionID::NeutralOrder] = neutralMap;
 

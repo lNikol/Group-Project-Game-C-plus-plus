@@ -28,7 +28,7 @@ namespace RPG {
     void Animation::update(float dt) {
         if (finished) return;
 
-        std::cout << "Frame: " << (int)currentFrameIndex << "\n";
+        // std::cout << "Frame: " << (int)currentFrameIndex << "\n";
 
 
         timer += dt;

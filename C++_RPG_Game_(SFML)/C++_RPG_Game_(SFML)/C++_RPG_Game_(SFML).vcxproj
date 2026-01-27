@@ -150,6 +150,7 @@
     <ClCompile Include="src\core\GameManager.cpp" />
     <ClCompile Include="src\entities\Monster.cpp" />
     <ClCompile Include="src\entities\NPC.cpp" />
+    <ClCompile Include="src\entities\WorldObject.cpp" />
     <ClCompile Include="src\scenes\BaseGameScene.cpp" />
     <ClCompile Include="src\scenes\BattleScene.cpp" />
     <ClCompile Include="src\scenes\FactionScene.cpp" />
@@ -185,6 +186,7 @@
     <ClInclude Include="src\core\GameManager.h" />
     <ClInclude Include="src\entities\Monster.h" />
     <ClInclude Include="src\entities\NPC.h" />
+    <ClInclude Include="src\entities\WorldObject.h" />
     <ClInclude Include="src\scenes\BaseGameScene.h" />
     <ClInclude Include="src\scenes\BattleScene.h" />
     <ClInclude Include="src\scenes\FactionScene.h" />
@@ -214,7 +216,9 @@
     <Image Include="assets\animations\npc.png" />
     <Image Include="assets\animations\player.png" />
     <Image Include="assets\textures\grass.png" />
+    <Image Include="assets\textures\house.png" />
     <Image Include="assets\textures\rock.png" />
+    <Image Include="assets\textures\trees.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

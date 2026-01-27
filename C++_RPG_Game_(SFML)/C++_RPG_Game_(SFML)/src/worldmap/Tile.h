@@ -1,6 +1,7 @@
 #pragma once
 #include "StructureDefinition.h"
 #include "core/Constants.h"
+#include "entities/WorldObject.h"
 #include <cstdint>
 
 namespace RPG {
@@ -9,7 +10,7 @@ namespace RPG {
 	 * @brief Represents a 3D coordinate point in the grid system.
 	 */
 	struct Position {
-		int16_t x, y, z;
+		int32_t x, y, z;
 	};
 
 	/**
@@ -20,12 +21,17 @@ namespace RPG {
 	class Tile {
 	public:
 		StructureType groundType;    // Type of terrain on this tile.
-		StructureType objectType;    // Type of structure/object on this tile
 		Position pos;                // Grid coordinates of the tile.
-		bool hasPlayer = false;      // True if the player is currently on this tile.
-		bool hasMonster = false;     // True if a hostile entity is present.
+		float speedModifier = 1.f;
+		// bool hasPlayer = false;      // True if the player is currently on this tile.
+		// bool hasMonster = false;     // True if a hostile entity is present.
 		float localDangerLvl = 0.0f; // Procedural or static danger rating.
 		GameConfig::Faction faction = GameConfig::Faction::NEUTRAL; // Ownership status.
+
+		bool isWalkable = true;
+		bool isOccupied = false;
+
+		std::vector<WorldObject*> residentObjects;
 		
 		/**
 		 * @brief Default constructor initializing an empty neutral tile.
@@ -39,7 +45,7 @@ namespace RPG {
 		 * @param y Y coordinate.
 		 * @param z Z coordinate (height/layer).
 		 */
-		Tile(StructureType ground, StructureType object, int16_t x, int16_t y, int16_t z);
+		Tile(StructureType object, int32_t x, int32_t y, int32_t z);
 		
 		/**
          * @brief Checks if the tile is clear of obstacles and actors for spawning.
@@ -50,7 +56,7 @@ namespace RPG {
 		/**
 		 * @brief Removes the monster flag from the tile.
 		 */
-		void clearMonster();
+		// void clearMonster();
 	};
 
 }

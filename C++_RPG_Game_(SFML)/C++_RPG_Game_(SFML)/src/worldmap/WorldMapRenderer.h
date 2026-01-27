@@ -2,8 +2,21 @@
 #include <SFML/Graphics.hpp>
 #include "WorldMap.h"
 #include "AssetManager.h"
+#include "Player.h"
+#include <functional>
+#include <algorithm>
 
 namespace RPG {
+
+    struct RenderPacket {
+        float sortY; // The Y coordinate of the "feet"
+        std::function<void(sf::RenderWindow&)> drawFunc; // How to draw it
+
+        // Sort operator: Smaller Y (top of screen) draws first
+        bool operator<(const RenderPacket& other) const {
+            return sortY < other.sortY;
+        }
+    };
 
     /** @brief Handles the visual representation of the WorldMap */
     class WorldMapRenderer {
@@ -17,6 +30,12 @@ namespace RPG {
          * @param assetManager Definitions for structure properties
          * @param sm Texture storage
          */
-        void draw(sf::RenderWindow& window, const WorldMap& worldMap, const AssetManager& assetManager, float percentView = 0.9f);
+        void draw(
+            sf::RenderWindow& window, 
+            const WorldMap& worldMap, 
+            const AssetManager& assetManager, 
+            const Player& player,
+            float percentView = 0.9f
+        );
     };
 }

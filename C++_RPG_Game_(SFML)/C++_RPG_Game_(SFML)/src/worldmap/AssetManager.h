@@ -25,7 +25,7 @@ namespace RPG {
         // ==============================
         // Structure Definitions
         // ==============================
-        std::unordered_map<StructureType, StructureDefinition> structureLibrary;
+        std::unordered_map<std::string, StructureDefinition> structureLibrary;
 
         // ==============================
         // Spritesheets, Textures, Fonts
@@ -58,7 +58,7 @@ namespace RPG {
          *
          * If the type is not found, it returns the definition for `StructureType::None`.
          */
-        const StructureDefinition& getDefinition(StructureType type) const;
+        const StructureDefinition& getDefinition(const std::string& name) const;
 
         // ==============================
         // Spritesheets

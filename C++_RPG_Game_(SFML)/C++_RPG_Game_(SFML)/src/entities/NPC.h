@@ -34,7 +34,7 @@ namespace RPG {
          * @param window Reference to the render window.
          * @param sm Reference to the SpritesheetManager.
          */
-        void draw(sf::RenderWindow& window, const AssetManager& sm);
+        void draw(sf::RenderWindow& window);
 
         //sf::Vector2f getPosition() const;
         float getInteractionRadius() const;

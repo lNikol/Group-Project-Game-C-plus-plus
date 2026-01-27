@@ -1,4 +1,5 @@
 #pragma once
+#include <SFML/Graphics.hpp>
 #include <string>
 #include <cstdint>
 
@@ -13,21 +14,24 @@ namespace RPG {
         Camp, SaveZone, FactionBase, // Special zones
     };
 
-    /** @brief Defines the grid size of a structure (e.g., 1x1, 2x2) */
-    struct StructureSize {
-        uint16_t width, height;
+    struct StructureMetadata {
+        float maxHealth = 0.f;
+        bool isDestructable = false;
+        bool blocksMovement = false;
+        bool allowsRegeneration = false;
+        bool canSpawnMob = false;
+        float speedModifier = 1.f;
     };
 
-    /** @brief Data container for tile/structure properties */
     class StructureDefinition {
     public:
         std::string name;
-        std::string textureKey;  // Key used to fetch texture from SpritesheetManager
-        StructureSize size;      // Grid dimensions
-        float speedModifier;     // Movement speed multiplier (1.0f = normal)
-        bool canSpawnMob;        // Enemy spawn flag
-        bool blocksMovement;     // Collision flag
-        bool allowsRegeneration; // Healing/Save zone flag
-        uint8_t collisionHeight;
+        StructureType type;
+        std::string textureKey;
+        sf::Vector2u textureStartPos;
+        sf::Vector2u size;
+        sf::Vector2f hitboxSize;
+        sf::Vector2f hitboxOffset;
+        struct StructureMetadata meta;
     };
 }

@@ -9,7 +9,7 @@ namespace RPG {
     {
     }
 
-    void NPC::draw(sf::RenderWindow& window, const AssetManager& sm) {
+    void NPC::draw(sf::RenderWindow& window) {
 
         AnimatedEntity::draw(window);
 

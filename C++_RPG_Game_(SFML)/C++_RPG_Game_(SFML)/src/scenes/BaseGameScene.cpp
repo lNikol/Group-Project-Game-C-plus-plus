@@ -29,16 +29,9 @@
             window.setView(camera);
 
             if (worldMap) {
-                worldRenderer.draw(window, *worldMap, am, viewVisibility);
+                worldRenderer.draw(window, *worldMap, am, *player, viewVisibility);
             }
 
-            for (auto& npc : worldMap->getNPCs()) {
-                    npc->draw(window, am);
-            }
-
-            if (player) {
-                player->draw(window);
-            }
         }
 
         bool BaseGameScene::handleEvent(sf::RenderWindow& window, const sf::Event& event) {

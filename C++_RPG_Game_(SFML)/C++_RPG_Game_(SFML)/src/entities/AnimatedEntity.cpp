@@ -31,6 +31,7 @@ namespace RPG {
 	}
 
 	void AnimatedEntity::draw(sf::RenderWindow& window) {
+		//sprite.setScale({ 1.3f, 1.3f });
 		window.draw(sprite);
 	}
 

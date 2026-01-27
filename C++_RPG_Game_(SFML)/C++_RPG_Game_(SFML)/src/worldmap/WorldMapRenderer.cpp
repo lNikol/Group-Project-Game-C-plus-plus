@@ -12,86 +12,79 @@ namespace RPG {
         sf::RenderWindow& window,
         const WorldMap& worldMap,
         const AssetManager& assetManager,
-        float percentView
+        const Player& player,
+        float precentView
     ) {
-        // 1. View & Culling Calculations
+        // --- 1. DRAW GROUND (Layer 0) ---
+        // Ground is always behind everything, so just draw it first. No sorting needed.
+
         sf::View currentView = window.getView();
         sf::Vector2f center = currentView.getCenter();
         sf::Vector2f size = currentView.getSize();
 
-        bool isFogActive = (percentView < 1.0f);
-        float maxVisibleDist = (size.x / 2.0f) * percentView;
-        float fadeRange = 150.0f;
+        // Calculate visible range to avoid drawing the whole world
+        int32_t startX = std::max<int32_t>(0, (center.x - size.x / 2) / GameConfig::TILE_SIZE);
+        int32_t startY = std::max<int32_t>(0, (center.y - size.y / 2) / GameConfig::TILE_SIZE);
+        int32_t endX = std::min<int32_t>(worldMap.getWidth(), (center.x + size.x / 2) / GameConfig::TILE_SIZE + 1);
+        int32_t endY = std::min<int32_t>(worldMap.getHeight(), (center.y + size.y / 2) / GameConfig::TILE_SIZE + 1);
 
-        // 2. Bounds Calculation (Optimization)
-        int16_t startX = std::max<int16_t>(0, static_cast<int16_t>((center.x - size.x / 2.0f) / GameConfig::TILE_SIZE));
-        int16_t startY = std::max<int16_t>(0, static_cast<int16_t>((center.y - size.y / 2.0f) / GameConfig::TILE_SIZE));
-
-        int16_t endX = std::min<int16_t>(worldMap.getWidth(), static_cast<int16_t>((center.x + size.x / 2.0f) / GameConfig::TILE_SIZE) + 1);
-        int16_t endY = std::min<int16_t>(worldMap.getHeight(), static_cast<int16_t>((center.y + size.y / 2.0f) / GameConfig::TILE_SIZE) + 1);
-
-        // 3. Render Loop
-        for (int16_t y = startY; y < endY; ++y) {
-            for (int16_t x = startX; x < endX; ++x) {
-
+        for (int32_t y = startY; y < endY; ++y) {
+            for (int32_t x = startX; x < endX; ++x) {
                 const Tile& tile = worldMap.at(x, y);
 
-                // --- CALC POSITION & FOG ---
-                float drawX = static_cast<float>(x * GameConfig::TILE_SIZE);
-                float drawY = static_cast<float>(y * GameConfig::TILE_SIZE);
-                sf::Vector2f tilePos(drawX, drawY);
+                const sf::Texture* tex = assetManager.getTexture("grass");
+                if (tex) {
+                    sf::Sprite groundSprite(*tex);
 
-                uint8_t alpha = 255;
-                if (isFogActive) {
-                    float dx = (drawX + GameConfig::TILE_SIZE / 2.0f) - center.x;
-                    float dy = (drawY + GameConfig::TILE_SIZE / 2.0f) - center.y;
-                    float distSq = dx * dx + dy * dy;
-
-                    float maxDistSq = maxVisibleDist * maxVisibleDist;
-                    float totalRangeSq = (maxVisibleDist + fadeRange) * (maxVisibleDist + fadeRange);
-
-                    if (distSq > totalRangeSq) continue; // Culling
-                    else if (distSq > maxDistSq) {
-                        float distance = std::sqrt(distSq);
-                        float fadeFactor = (distance - maxVisibleDist) / fadeRange;
-                        alpha = static_cast<uint8_t>(255.0f * (1.0f - std::clamp(fadeFactor, 0.0f, 1.0f)));
-                    }
-                }
-
-                // --- LAYER 0: GROUND (Always Draw) ---
-                const StructureDefinition& groundDef = assetManager.getDefinition(tile.groundType);
-                const sf::Texture* groundTex = assetManager.getSpritesheet(groundDef.textureKey);
-
-                if (groundTex) {
-                    tileRect.setSize(sf::Vector2f(static_cast<float>(GameConfig::TILE_SIZE), static_cast<float>(GameConfig::TILE_SIZE)));
-                    tileRect.setPosition(tilePos);
-                    tileRect.setTexture(groundTex);
-                    tileRect.setFillColor(sf::Color(255, 255, 255, alpha));
-                    tileRect.setOutlineThickness(0);
-                    window.draw(tileRect);
-                }
-
-                // --- LAYER 1: OBJECT (Draw on top) ---
-                if (tile.objectType != StructureType::None) {
-                    const StructureDefinition& objDef = assetManager.getDefinition(tile.objectType);
-
-                    // Only draw if it's a visual object (has a texture key)
-                    if (!objDef.textureKey.empty()) {
-                        const sf::Texture* objTex = assetManager.getSpritesheet(objDef.textureKey);
-
-                        if (objTex) {
-                            float objW = static_cast<float>(objDef.size.width * GameConfig::TILE_SIZE);
-                            float objH = static_cast<float>(objDef.size.height * GameConfig::TILE_SIZE);
-
-                            tileRect.setSize(sf::Vector2f(objW, objH));
-                            tileRect.setPosition(tilePos);
-                            tileRect.setTexture(objTex);
-                            tileRect.setFillColor(sf::Color(255, 255, 255, alpha));
-                            window.draw(tileRect);
-                        }
-                    }
+                    // If the definition specifies a cut of the texture, use it
+                    groundSprite.setPosition({
+                        static_cast<float>(x * GameConfig::TILE_SIZE),
+                        static_cast<float>(y * GameConfig::TILE_SIZE)
+                    });
+                    window.draw(groundSprite);
                 }
             }
+        }
+
+        // --- 2. COLLECT EVERYTHING ELSE (Layer 1) ---
+        std::vector<RenderPacket> renderQueue;
+
+        // A. Add Trees/Rocks (World Objects)
+        for (const auto& obj : worldMap.getStructures()) {
+            RenderPacket packet;
+            packet.sortY = obj->getSortY(); // Uses position.y + height
+
+            // Capture the object by reference and draw it
+            packet.drawFunc = [&](sf::RenderWindow& w) {
+                // Casting away const just to call draw (if your draw isn't const)
+                const_cast<WorldObject&>(*obj).draw(w);
+                };
+            renderQueue.push_back(packet);
+        }
+
+        // B. Add NPCs
+        for (const auto& npc : worldMap.getNPCs()) {
+            RenderPacket packet;
+            packet.sortY = npc->getPosition().y + npc->getGlobalBounds().size.y; // Feet Y
+            packet.drawFunc = [&](sf::RenderWindow& w) { npc->draw(w); };
+            renderQueue.push_back(packet);
+        }
+
+        // C. Add Player
+        RenderPacket playerPacket;
+        playerPacket.sortY = player.getPosition().y + player.getGlobalBounds().size.y; // Feet Y
+        playerPacket.drawFunc = [&](sf::RenderWindow& w) {
+            const_cast<Player&>(player).draw(w);
+            };
+        renderQueue.push_back(playerPacket);
+
+        // --- 3. SORT ---
+        // This is the magic. Sorts everything by their 'sortY' value.
+        std::sort(renderQueue.begin(), renderQueue.end());
+
+        // --- 4. RENDER ---
+        for (const auto& packet : renderQueue) {
+            packet.drawFunc(window);
         }
     }
 }
