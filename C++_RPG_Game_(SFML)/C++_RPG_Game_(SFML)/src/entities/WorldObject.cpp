@@ -36,7 +36,7 @@ namespace RPG {
 	}
 
 	float WorldObject::getSortY() const {
-		return sprite.getPosition().y + definition->size.y;
+		return sprite.getPosition().y + definition->hitboxSize.y + definition->hitboxOffset.y;
 	}
 
 	sf::Vector2f WorldObject::getPosition() const {
@@ -58,6 +58,19 @@ namespace RPG {
 
 	void WorldObject::draw(sf::RenderWindow& window) const {
 		window.draw(sprite);
+		if (debugHitbox) {
+			sf::Vector2f pos = getPosition() + definition->hitboxOffset;
+			sf::Vector2f size = definition->hitboxSize;
+			sf::RectangleShape rect(size);
+			rect.setPosition(pos);
+			rect.setFillColor(sf::Color::Transparent);
+			rect.setOutlineColor(sf::Color::Red);
+			rect.setOutlineThickness(1.f);
+			window.draw(rect);
+		}
 	}
 
+	void WorldObject::toggleDebugHitbox() {
+		debugHitbox = !debugHitbox;
+	}
 }

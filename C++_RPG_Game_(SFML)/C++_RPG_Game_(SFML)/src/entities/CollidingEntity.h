@@ -13,6 +13,7 @@ namespace RPG {
 		CollidingEntity();
 		virtual ~CollidingEntity();
 
+		sf::FloatRect getHitbox() const;
 		void setHitbox(float width, float height, float offsetY);
 		void moveWithCollision(sf::Vector2f velocity, const WorldMap& map);
 		void drawHitbox(sf::RenderWindow& window);

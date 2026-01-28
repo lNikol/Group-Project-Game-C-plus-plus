@@ -9,6 +9,8 @@ namespace RPG {
 	class WorldObject {
 		const StructureDefinition* definition;
 		sf::Sprite sprite;
+
+		bool debugHitbox = false;
 	public:
 		WorldObject(
 			const StructureDefinition* definition,
@@ -23,6 +25,8 @@ namespace RPG {
 		sf::FloatRect getHitbox() const;
 		sf::Vector2f getPosition() const;
 		void draw(sf::RenderWindow& window) const;
+
+		void toggleDebugHitbox();
 	};
 
 }

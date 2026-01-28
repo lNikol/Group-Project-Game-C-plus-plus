@@ -6,7 +6,7 @@
         BaseGameScene::BaseGameScene(
             ISceneController& ctrl, std::shared_ptr<WorldMap> wm, std::shared_ptr<Player> p
         )
-            : sceneController(ctrl), worldMap(wm), player(p), viewVisibility(1.0f)
+            : sceneController(ctrl), worldMap(wm), player(p), viewVisibility(0.5f)
         {
             camera.setSize(sf::Vector2f(static_cast<float>(Window::WIDTH), static_cast<float>(Window::HEIGHT)));
         }

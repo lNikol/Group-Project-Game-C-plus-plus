@@ -8,6 +8,10 @@ namespace RPG {
 
 	CollidingEntity::~CollidingEntity() {}
 
+	sf::FloatRect CollidingEntity::getHitbox() const {
+		return hitbox;
+	}
+
 	void CollidingEntity::setHitbox(float width, float height, float offsetY) {
 		sf::Vector2f pos = { -width / 2.f, offsetY };
 		sf::Vector2f size = { width, height };
@@ -81,10 +85,10 @@ namespace RPG {
 		rect.setPosition(globalPos);
 
 		rect.setFillColor(sf::Color::Transparent);
-		rect.setOutlineColor(sf::Color::White);
+		rect.setOutlineColor(sf::Color::Red);
 		rect.setOutlineThickness(1.f);
 
 		window.draw(rect);
 	}
 
-}
+}	

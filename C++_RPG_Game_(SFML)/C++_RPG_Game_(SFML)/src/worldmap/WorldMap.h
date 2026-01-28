@@ -85,6 +85,8 @@ namespace RPG {
 		std::vector<std::unique_ptr<NPC>>& getNPCs();
 
 		const std::vector<std::unique_ptr<WorldObject>>& getStructures() const;
+
+		void toggleDebugHitbox();
 	};
 
 }

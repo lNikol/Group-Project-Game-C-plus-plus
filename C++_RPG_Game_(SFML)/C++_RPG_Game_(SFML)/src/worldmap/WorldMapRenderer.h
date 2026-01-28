@@ -35,7 +35,7 @@ namespace RPG {
             const WorldMap& worldMap, 
             const AssetManager& assetManager, 
             const Player& player,
-            float percentView = 0.9f
+            float percentView = .9f
         );
     };
 }

@@ -24,6 +24,8 @@ namespace RPG {
 		float currentMp = 50.0f;
 		float maxMp = 50.0f;
 
+		bool debugHitbox = false;
+
 		std::vector<std::shared_ptr<IAbility>> hotbar;
 		std::vector<std::shared_ptr<IAbility>> inventory;
 
@@ -46,6 +48,8 @@ namespace RPG {
 
 
 		// --- ICombatActor Implementation ---
+
+		void toggleDebugHitbox();
 
 		Vitals getVitals() const override;
 

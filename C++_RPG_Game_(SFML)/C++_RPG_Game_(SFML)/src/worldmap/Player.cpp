@@ -104,9 +104,15 @@ namespace RPG {
         AnimatedEntity::update(deltaTime);
     }
 
+    void Player::toggleDebugHitbox() {
+        debugHitbox = !debugHitbox;
+    }
+
     void Player::draw(sf::RenderWindow& window) {
         AnimatedEntity::draw(window);
-        //CollidingEntity::drawHitbox(window);
+        if (debugHitbox) {
+            CollidingEntity::drawHitbox(window);
+        }
     }
 
     std::string Player::getName() const { return name; }

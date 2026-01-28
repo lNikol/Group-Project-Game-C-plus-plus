@@ -218,4 +218,9 @@ namespace RPG {
 	const std::vector<std::unique_ptr<WorldObject>>& WorldMap::getStructures() const {
 		return structures;
 	}
+	void WorldMap::toggleDebugHitbox() {
+		for (auto& e : structures) {
+			e->toggleDebugHitbox();
+		}
+	}
 }

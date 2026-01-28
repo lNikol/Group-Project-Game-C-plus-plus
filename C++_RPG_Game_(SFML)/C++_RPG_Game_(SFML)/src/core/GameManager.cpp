@@ -63,6 +63,7 @@ namespace RPG {
             .frameGap(16)
             .frameStartPos({ 16, 16 })
             .spritesheet(assetManager.getSpritesheet("npc"))
+            .looped(true)
             .build();
 
 
@@ -81,6 +82,8 @@ namespace RPG {
 
             npc1->loadAnimation("idle", npcAnimation);
             npc1->play("idle");
+
+
             map->addNPC(std::move(npc1));
         };
 
@@ -209,6 +212,12 @@ namespace RPG {
                 /*if (keyPressed->scancode == sf::Keyboard::Scancode::F) {
                     changeScene(FactionID::WhiteOrder);
                 }*/
+                if (keyPressed->scancode == sf::Keyboard::Scancode::F3) {
+                    player->toggleDebugHitbox();
+                    for (auto& e : allMaps) {
+                        e.second->toggleDebugHitbox();
+                    }
+                }
             }
             if (!uiConsumed && currentScene) {
                 currentScene->handleEvent(window, *event);
