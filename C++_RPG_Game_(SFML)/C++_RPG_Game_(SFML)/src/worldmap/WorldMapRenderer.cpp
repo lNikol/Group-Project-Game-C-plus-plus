@@ -72,7 +72,8 @@ namespace RPG {
 
         // C. Add Player
         RenderPacket playerPacket;
-        playerPacket.sortY = player.getPosition().y + player.getGlobalBounds().size.y; // Feet Y
+        // TODO: FIX /2
+        playerPacket.sortY = player.getPosition().y + player.getGlobalBounds().size.y / 2; // Feet Y
         playerPacket.drawFunc = [&](sf::RenderWindow& w) {
             const_cast<Player&>(player).draw(w);
             };
