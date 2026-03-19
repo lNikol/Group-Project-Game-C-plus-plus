@@ -176,7 +176,7 @@ namespace RPG {
         auto it = spritesheetMap.find(name);
         
         if (it != spritesheetMap.end()) {
-            std::cout << "Loading spritesheet \"" + name + "\"\n";
+            //std::cout << "Loading spritesheet \"" + name + "\"\n";
             return &it->second;
         }
 

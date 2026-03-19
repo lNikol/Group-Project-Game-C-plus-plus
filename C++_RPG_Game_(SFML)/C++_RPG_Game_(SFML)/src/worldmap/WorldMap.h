@@ -12,7 +12,7 @@ namespace RPG {
 
 	class WorldMap {
 	private:
-		uint32_t width, height;
+		uint32_t width, width_gen, height, height_gen;
 		AssetManager& assetManager;
 		
 		std::vector<Tile> tiles; // Only holds ground

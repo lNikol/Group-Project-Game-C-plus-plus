@@ -164,5 +164,34 @@ namespace RPG {
         }
 
         window.draw(fogLayer);
+
+
+        // ==============================
+        // 4. DRAW DEBUG INFO (UI Layer)
+        // ==============================
+
+        sf::View worldView = window.getView();
+
+        window.setView(window.getDefaultView());
+
+        const sf::Font* font = assetManager.getFont("PixelFont");
+        if (font) {
+            sf::Text posText(*font);
+
+            std::string info = "Player Pos: X: " + std::to_string(static_cast<int>(playerPos.x / GameConfig::TILE_SIZE)) +
+                " Y: " + std::to_string(static_cast<int>(playerPos.y / GameConfig::TILE_SIZE));
+
+            posText.setString(info);
+            posText.setCharacterSize(24);
+            posText.setFillColor(sf::Color::White);
+            posText.setOutlineColor(sf::Color::Black);
+            posText.setOutlineThickness(1.f);
+
+            posText.setPosition({ 10.f, 10.f });
+
+            window.draw(posText);
+        }
+
+        window.setView(worldView);
     }
 }

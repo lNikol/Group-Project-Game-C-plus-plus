@@ -22,5 +22,6 @@ namespace RPG {
 		const uint8_t TILE_SIZE = 32;
 		const uint16_t WORLD_WIDTH = 50;
 		const uint16_t WORLD_HEIGHT = 50;
+		const uint16_t WORLD_GENERATE_MARGIN = 2;
 	}
 }
