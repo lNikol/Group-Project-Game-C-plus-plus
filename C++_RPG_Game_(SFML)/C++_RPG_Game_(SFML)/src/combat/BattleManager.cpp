@@ -630,13 +630,44 @@ namespace RPG {
             });
 
         for (const auto& obj : objects) {
-            // Draw Selector Ring UNDER the unit if selected
+            // Draw Health Bar and Selector Ring UNDER the unit if selected
             if (auto u = std::dynamic_pointer_cast<Unit>(obj)) {
                 if (u == m_selectedUnit) {
                     // Move selector to unit's visual feet
                     m_selector.setPosition(obj->getRenderPosition());
                     window.draw(m_selector);
                 }
+                // Draw Health Bar above units
+                const auto* sprite = obj->getSprite();
+
+                float hp = u->getVitals().hp;
+                float maxHp = u->getVitals().maxHp;
+                float ratio = hp / maxHp;
+
+                // Get sprite position
+                sf::Vector2f pos = sprite->getPosition();
+
+                float barWidth = 40.f;
+                float barHeight = 5.f;
+                float offsetY = -70.f;
+
+                // black part
+                sf::RectangleShape bg;
+                bg.setSize({ barWidth, barHeight });
+                bg.setFillColor(sf::Color::Black);
+                bg.setOrigin({ barWidth / 2.f, barHeight / 2.f });
+                bg.setPosition({ pos.x, pos.y + offsetY });
+
+                // red part
+                sf::RectangleShape hpBar;
+                hpBar.setSize({ barWidth * ratio, barHeight });
+                hpBar.setFillColor(sf::Color::Red);
+
+                hpBar.setOrigin({ 0.f, barHeight / 2.f });
+                hpBar.setPosition({pos.x - (barWidth / 2.f),  pos.y + offsetY});
+
+                window.draw(bg);
+                window.draw(hpBar);     
             }
 
             // Recalculate sprite position based on logical position
@@ -644,6 +675,7 @@ namespace RPG {
 
             if (const auto* sprite = obj->getSprite()) {
                 window.draw(*sprite);
+
             }
             // Fallback
             else {
