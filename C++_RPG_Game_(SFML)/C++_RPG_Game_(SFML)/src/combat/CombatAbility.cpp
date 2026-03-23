@@ -52,6 +52,7 @@ namespace RPG {
 
     void CombatAbility::resolve(std::shared_ptr<Unit> target) {
         if (!m_owner || !target) return;
+        if ((m_owner->getTeam() == target->getTeam()) && m_damage > 0) return;
 
         // 1. Pay Costs
         if (!m_owner->consumeMana(m_manaCost)) return;
