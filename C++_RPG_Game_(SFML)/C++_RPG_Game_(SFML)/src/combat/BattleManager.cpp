@@ -651,7 +651,45 @@ namespace RPG {
                 debug.setPosition(obj->getRenderPosition());
                 window.draw(debug);
             }
+        }
+        // draws turn sequence of units to play in the left corner
+        float startX = -580.0f;
+        float startY = -150.0f;
+        float spacing = 60.0f;
+        for (size_t i = 0; i < m_turnQueue.size(); i++)
+        {
+            auto& unit = m_turnQueue[i];
 
+            const sf::Sprite* sprite = unit->getSprite();
+            if (!sprite) continue;
+
+            sf::Sprite icon = *sprite;
+
+            icon.setPosition({ startX + i * spacing, startY });
+            icon.setScale({ 1.3f, 1.3f });
+            icon.setOrigin({ 0.f, 0.f });
+
+            // Draw red circle for FIRST unit
+            if (i == 0)
+            {
+                sf::CircleShape highlight;
+                highlight.setRadius(25.f);
+                highlight.setFillColor(sf::Color::Transparent);
+                highlight.setOutlineColor(sf::Color::Red);
+                highlight.setOutlineThickness(3.f);
+
+                highlight.setOrigin({ 25.f, 25.f });
+
+                // center it on icon
+                highlight.setPosition({
+                    startX + i * spacing + 21.f,
+                    startY + 21.f
+                    });
+
+                window.draw(highlight);
+            }
+
+            window.draw(icon);
         }
 
         // ==========================================================
