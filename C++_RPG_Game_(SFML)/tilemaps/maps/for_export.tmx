@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.10" tiledversion="1.12.0" orientation="orthogonal" renderorder="right-down" width="30" height="20" tilewidth="32" tileheight="32" infinite="1" nextlayerid="3" nextobjectid="1">
+ <editorsettings>
+  <export target="for_export.tmj" format="json"/>
+ </editorsettings>
+ <tileset firstgid="1" name="texture-1" tilewidth="32" tileheight="32" tilecount="12" columns="3">
+  <image source="pack-result(4)/texture-1.png" width="96" height="128"/>
+  <tile id="0">
+   <properties>
+    <property name="StructureType" value="Grass"/>
+    <property name="isWalkable" type="bool" value="true"/>
+    <property name="name" value="green_ground"/>
+   </properties>
+  </tile>
+  <tile id="1">
+   <properties>
+    <property name="StructureType" value="Rock"/>
+    <property name="isWalkable" type="bool" value="true"/>
+    <property name="name" value="gray_rock"/>
+   </properties>
+  </tile>
+  <tile id="2">
+   <properties>
+    <property name="StructureType" value="Rock"/>
+    <property name="isWalkable" type="bool" value="true"/>
+    <property name="name" value="green_rock"/>
+   </properties>
+  </tile>
+  <tile id="3">
+   <properties>
+    <property name="StructureType" value="GROUND"/>
+    <property name="isWalkable" type="bool" value="true"/>
+    <property name="name" value="green_ground"/>
+   </properties>
+  </tile>
+ </tileset>
+ <layer id="1" name="Ground_layer" width="30" height="20">
+  <data encoding="csv">
+   <chunk x="0" y="0" width="16" height="16">
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
+</chunk>
+  </data>
+ </layer>
+ <layer id="2" name="Obstacles" width="30" height="20">
+  <data encoding="csv">
+   <chunk x="0" y="0" width="16" height="16">
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,2,2,2,2,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,2,0,0,0,2,0,0,0,3,3,3,3,0,
+0,0,0,2,2,2,2,2,0,0,0,0,3,3,0,0,
+0,0,0,2,2,2,2,2,0,0,0,0,3,3,0,0,
+0,0,0,2,0,0,0,2,0,0,0,3,3,3,3,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,2,0,2,0,0,0,0,0,0,0,
+0,0,0,0,0,0,2,0,2,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,2,0,0,0,0,0,0,0,2,0,0,0,0,
+0,0,0,0,0,2,0,2,0,2,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+</chunk>
+  </data>
+ </layer>
+</map>

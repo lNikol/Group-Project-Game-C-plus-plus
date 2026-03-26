@@ -1,0 +1,23 @@
+{
+    "activeFile": "",
+    "expandedProjectPaths": [
+    ],
+    "fileStates": {
+        "E:/PG/Semestr 5/Group Project/Code/Group-Project-Game-C-plus-plus/C++_RPG_Game_(SFML)/C++_RPG_Game_(SFML)/assets/assets_processed/1.tsx": {
+            "dynamicWrapping": false
+        },
+        "E:/PG/Semestr 5/Group Project/Code/Group-Project-Game-C-plus-plus/C++_RPG_Game_(SFML)/C++_RPG_Game_(SFML)/assets/assets_processed/collection.tsx": {
+            "dynamicWrapping": true,
+            "scaleInDock": 1,
+            "scaleInEditor": 0.5
+        }
+    },
+    "map.fixedSize": false,
+    "map.lastUsedFormat": "tmx",
+    "openFiles": [
+    ],
+    "project": "fasfas.tiled-project",
+    "recentFiles": [
+        "E:/PG/Semestr 5/Group Project/Code/Group-Project-Game-C-plus-plus/C++_RPG_Game_(SFML)/C++_RPG_Game_(SFML)/assets/assets_processed/collection.tsx"
+    ]
+}

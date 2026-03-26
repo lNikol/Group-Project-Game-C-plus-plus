@@ -1,0 +1,39 @@
+{
+  "frames": {
+    "house.png": {
+      "frame": {
+        "x": 0,
+        "y": 0,
+        "w": 70,
+        "h": 114
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 13,
+        "y": 1,
+        "w": 70,
+        "h": 114
+      },
+      "sourceSize": {
+        "w": 96,
+        "h": 128
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    }
+  },
+  "meta": {
+    "app": "http://free-tex-packer.com",
+    "version": "0.6.7",
+    "image": "texture-0.png",
+    "format": "RGBA8888",
+    "size": {
+      "w": 96,
+      "h": 128
+    },
+    "scale": 1
+  }
+}

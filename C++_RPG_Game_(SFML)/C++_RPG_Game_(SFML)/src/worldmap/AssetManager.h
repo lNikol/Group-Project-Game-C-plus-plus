@@ -10,6 +10,16 @@
 
 namespace RPG {
 
+
+    struct AssetDefinition {
+        std::string name;
+        int x, y, w, h;          // Pozycja w atlas.png
+        int hb_w, hb_h;          // Wymiary hitboxa
+        int off_x, off_y;        // Offset hitboxa wzgl?dem punktu (x,y)
+        bool blocks;             // Czy obiekt jest przeszkod?
+        StructureType type;      // Typ enuma rozpoznany po nazwie
+    };
+
     /**
      * @brief Centralized manager for game assets.
      *

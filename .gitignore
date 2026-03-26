@@ -1,56 +1,38 @@
-# Prerequisites
+# ==========================================
+# C++ / SFML / VISUAL STUDIO BUILD FILES
+# ==========================================
 *.d
-
-# Compiled Object files
 *.slo
 *.lo
 *.o
 *.obj
-*.vcxproj.user
-*.vs
-# Precompiled Headers
 *.gch
 *.pch
-
-# Linker files
 *.ilk
-
-# Debugger Files
 *.pdb
-
-# Compiled Dynamic libraries
 *.so
 *.dylib
 *.dll
-
-# Fortran module files
 *.mod
 *.smod
-
-# Compiled Static libraries
 *.lai
 *.la
 *.a
 *.lib
-
-# Executables
 *.exe
 *.out
 *.app
-
-# debug information files
 *.dwo
 
-
-#.vs
+# Output directories and VS-specific folders
+.vs/
 /C++_RPG_Game_(SFML)/.vs/
-#build output
 x64/
 x86/
 Debug/
 Release/
 
-#visual studio user settings
+# User-specific settings and cache
 *.user
 *.suo
 *.opensdf
@@ -58,9 +40,63 @@ Release/
 *.cache
 *.db
 *.opdb
+*.vcxproj.user
 
-#unignore
+# ==========================================
+# PYTHON (VENV & PYCACHE)
+# ==========================================
+venv/
+.venv/
+env/
+bin/
+lib/
+lib64/
+share/
+Include/
+pyvenv.cfg
+__pycache__/
+*.py[cod]
+*$py.class
+.Python
+
+# Python distribution and build artifacts
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# ==========================================
+# IDE (VS Code, PyCharm) AND SYSTEM FILES
+# ==========================================
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+*.log
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Local environment and secrets
+.env
+.secrets
+
+# ==========================================
+# UNIGNORE (EXCEPTIONS) - Must be at the end!
+# ==========================================
 !/C++_RPG_Game_(SFML)/External/
 !/C++_RPG_Game_(SFML)/External/*
 !/C++_RPG_Game_(SFML)/External/**/*
-!/C++_RPG_Game_(SFML)/C++_RPG_Game_(SFML)/*dll
+!/C++_RPG_Game_(SFML)/C++_RPG_Game_(SFML)/*.dll
