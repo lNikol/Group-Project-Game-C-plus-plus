@@ -1,6 +1,8 @@
 {
-    "activeFile": "",
+    "activeFile": "for_export.tmx",
     "expandedProjectPaths": [
+        "pack-result(4)",
+        "."
     ],
     "file.lastUsedOpenFilter": "All Files (*)",
     "fileStates": {
@@ -14,6 +16,7 @@
         },
         "E:/PG/Semestr 5/Group Project/Code/Group-Project-Game-C-plus-plus/C++_RPG_Game_(SFML)/C++_RPG_Game_(SFML)/assets/assets_processed/collection.tsx": {
             "dynamicWrapping": true,
+            "scaleInDock": 1,
             "scaleInEditor": 0.33
         },
         "E:/PG/Semestr 5/Group Project/Code/Group-Project-Game-C-plus-plus/C++_RPG_Game_(SFML)/tilemaps/texture-1.tsx": {
@@ -27,7 +30,16 @@
         "for_export — kopia.tsx": {
             "scaleInDock": 1
         },
+        "for_export.tmx": {
+            "scale": 1,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 425.5,
+                "y": 225
+            }
+        },
         "for_export.tmx#texture-1": {
+            "scaleInDock": 1,
             "scaleInEditor": 1
         },
         "for_export.tsx": {
@@ -42,10 +54,12 @@
     "map.lastUsedExportFilter": "JSON map files (*.tmj *.json)",
     "map.lastUsedFormat": "tmx",
     "openFiles": [
+        "for_export.tmx"
     ],
     "project": "for_export.tiled-project",
     "property.type": "object",
     "recentFiles": [
+        "for_export.tmx",
         "E:/PG/Semestr 5/Group Project/Code/Group-Project-Game-C-plus-plus/C++_RPG_Game_(SFML)/C++_RPG_Game_(SFML)/assets/assets_processed/collection.tsx",
         "for_export.tsx",
         "E:/PG/Semestr 5/Group Project/Code/Group-Project-Game-C-plus-plus/C++_RPG_Game_(SFML)/C++_RPG_Game_(SFML)/assets/assets_processed/atlas.tsx",

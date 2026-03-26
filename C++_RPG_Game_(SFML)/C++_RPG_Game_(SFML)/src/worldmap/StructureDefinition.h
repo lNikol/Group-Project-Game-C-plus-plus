@@ -16,7 +16,7 @@ namespace RPG {
 
     struct StructureMetadata {
         float maxHealth = 0.f;
-        bool isDestructable = false;
+        bool isDestructible = false;
         bool blocksMovement = false;
         bool allowsRegeneration = false;
         bool canSpawnMob = false;
