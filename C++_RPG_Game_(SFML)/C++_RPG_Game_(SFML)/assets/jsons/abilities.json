@@ -1,0 +1,71 @@
+{
+  "abilities": [
+    {
+      "id": "slash",
+      "name": "Slash",
+      "description": "A basic melee attack.\nScales with Strength.",
+      "iconIndex": 115,
+      "targetType": "SingleEnemy",
+      "cooldownTurns": 0,
+      "range": 40.0,
+      "radius": 0.0,
+      "manaCost": 0.0,
+      "staminaCost": 15.0,
+      "effects": [
+        {
+          "type": "Damage",
+          "baseValue": 10.0,
+          "scalingStat": "Strength",
+          "scalingFactor": 1.0,
+          "targetStat": "None",
+          "baseCritChance": 0.05,
+          "critScalingStat": "Dexterity",
+          "critScalingFactor": 0.005,
+          "critMultiplier": 1.5,
+          "durationTurns": 0,
+          "applyChance": 1.0
+        }
+      ]
+    },
+    {
+      "id": "poison_dart",
+      "name": "Poison Dart",
+      "description": "Deals minor damage and poisons the target for 3 turns.",
+      "iconIndex": 120,
+      "targetType": "SingleEnemy",
+      "cooldownTurns": 3,
+      "range": 200.0,
+      "radius": 0.0,
+      "manaCost": 10.0,
+      "staminaCost": 10.0,
+      "effects": [
+        {
+          "type": "Damage",
+          "baseValue": 5.0,
+          "scalingStat": "Dexterity",
+          "scalingFactor": 0.5,
+          "targetStat": "None",
+          "baseCritChance": 0.1,
+          "critScalingStat": "None",
+          "critScalingFactor": 0.0,
+          "critMultiplier": 2.0,
+          "durationTurns": 0,
+          "applyChance": 1.0
+        },
+        {
+          "type": "Damage",
+          "baseValue": 15.0,
+          "scalingStat": "Intellect",
+          "scalingFactor": 0.2,
+          "targetStat": "None",
+          "baseCritChance": 0.0,
+          "critScalingStat": "None",
+          "critScalingFactor": 0.0,
+          "critMultiplier": 1.0,
+          "durationTurns": 3,
+          "applyChance": 0.8
+        }
+      ]
+    }
+  ]
+}

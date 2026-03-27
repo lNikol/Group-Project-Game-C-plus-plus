@@ -1,5 +1,6 @@
 #pragma once
 #include "IAbility.h"
+#include "combat/AbilityData.h" // Needed for UnitStats
 #include <vector>
 #include <memory>
 #include <string>
@@ -30,6 +31,12 @@ namespace RPG {
 
         virtual Vitals getVitals() const = 0;
         virtual std::string getName() const = 0;
+
+        /**
+         * @brief Retrieves the unit's dynamic stats (Base + Buffs - Debuffs).
+         * @return UnitStats The array container of all stats.
+         */
+        virtual UnitStats getStats() const = 0;
 
         // ==============================
         // Hotbar

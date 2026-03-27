@@ -10,116 +10,66 @@ namespace RPG {
         Tiled,
         SingleImage
     };
+
     /**
      * @brief The container for the battle arena.
-     * * This class holds all Units and Props. It is responsible for spatial queries
-     * (collisions, clicking, line of sight).
+     * * Holds all Units and Props, responsible for spatial queries, A* Pathfinding,
+     * and Area of Effect radius scanning.
      */
-    class CombatMap : public sf::Drawable{
+    class CombatMap : public sf::Drawable {
     public:
         CombatMap() = default;
         ~CombatMap() = default;
 
-        /**
-         * @brief Adds an object to the map.
-         * @param obj A shared pointer to the object (Prop or Unit).
-         */
         void addObject(std::shared_ptr<CombatWorldObject> obj);
-
-        /**
-         * @brief Removes an object from the map (e.g., destroyed prop, dead body).
-         * @param obj The object to remove.
-         */
         void removeObject(std::shared_ptr<CombatWorldObject> obj);
-
-        /**
-         * @brief Gets the list of all objects, primarily for the Renderer.
-         * * Note: The Renderer will need to sort this list by getRenderDepth() every frame.
-         * @return const std::vector<std::shared_ptr<WorldObject>>&
-         */
         const std::vector<std::shared_ptr<CombatWorldObject>>& getAllObjects() const;
 
         // ==============================
         // Spatial Queries
         // ==============================
-
-        /**
-         * @brief Checks if a specific point in the world is blocked.
-         * * Useful for checking if a unit can walk to a target point.
-         * @param point The logical (x,y) coordinate.
-         * @param ignoreObject Optional object to ignore (e.g., the unit itself moving).
-         * @return true If the point is inside a blocking object.
-         */
         bool isBlocked(const sf::Vector2f& point, CombatWorldObject* ignoreObject = nullptr) const;
-
-        /**
-         * @brief Finds the object at a specific coordinate.
-         * * This is the core method for Mouse Selection.
-         * @param point The logical (x,y) coordinate (converted from mouse click).
-         * @return std::shared_ptr<WorldObject> The object found, or nullptr if empty ground.
-         */
         std::shared_ptr<CombatWorldObject> getHitObject(const sf::Vector2f& point) const;
+        bool hasLineOfSight(const sf::Vector2f& start, const sf::Vector2f& end) const;
+        bool canMoveDirectly(const sf::Vector2f& start, const sf::Vector2f& end, const CombatWorldObject* ignoreObj) const;
 
         /**
-         * @brief Basic Line of Sight check.
-         * * Casts a ray from start to end to see if it hits any object with blocksSight() == true.
-         * @param start Origin point.
-         * @param end Destination point.
-         * @return true If the line is clear.
+         * @brief Finds all units within a specific logical radius of a center point.
+         * @param center The logical (x,y) impact point of the spell.
+         * @param radius The logical radius of the spell.
+         * @return A list of valid Unit pointers caught in the area.
          */
-        bool hasLineOfSight(const sf::Vector2f& start, const sf::Vector2f& end) const;
+        std::vector<std::shared_ptr<Unit>> getUnitsInRadius(const sf::Vector2f& center, float radius) const;
+
         /**
-          * @brief Checks if a straight line from start to end is clear of obstacles.
-          * @param start World coordinate of start point.
-          * @param end World coordinate of target point.
-          * @param ignoreObj Pointer to the object moving (so it doesn't block itself).
-          */
-        bool canMoveDirectly(const sf::Vector2f& start, const sf::Vector2f& end, const CombatWorldObject* ignoreObj) const;
+         * @brief Finds the shortest path between two points using the A* algorithm.
+         * @param start The logical starting coordinate.
+         * @param end The logical destination coordinate.
+         * @param ignoreObj The unit that is moving.
+         * @return A list of logical coordinates (waypoints) forming the path. Empty if blocked.
+         */
+        std::vector<sf::Vector2f> findPath(const sf::Vector2f& start, const sf::Vector2f& end, const CombatWorldObject* ignoreObj = nullptr) const;
+
         // ==============================
         // Terrain / Visuals
         // ==============================
-
-        /**
-        * @brief Option A: Load a map from a grid of tiles.
-        * @param tileset The texture containing the tile images.
-        * @param tileSize The size of one tile in the texture (e.g., 32x32).
-        * @param mapWidth Width in tiles.
-        * @param mapHeight Height in tiles.
-        * @param tileData Vector of indices (pointing to which tile to draw from the set).
-        */
         void loadFromTiles(const sf::Texture& tileset, sf::Vector2u tileSize, int mapWidth, int mapHeight, const std::vector<int>& tileData);
-
-        /**
-         * @brief Option B: Load a map from a single pre-rendered image.
-         * @param image The texture of the full floor.
-         */
         void loadFromImage(const sf::Texture& image);
-
-        /**
-         * @brief Sets a static background image (sky/void).
-         */
         void setBackground(const sf::Texture& bgTexture);
-        /**
-         * @brief Updates background scaling to cover the new window size.
-         */
         void onResize(sf::Vector2u newSize);
 
     protected:
-        // Override draw to render the Floor and Background
         void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 
     private:
-        // Objects
+        int m_gridWidth = 15;
+        int m_gridHeight = 15;
+        float m_tileSize = 32.f;
+
         std::vector<std::shared_ptr<CombatWorldObject>> objects;
-
-        // Visuals
         MapMode m_mode = MapMode::None;
-
-        // Single Image Data
         std::optional<sf::Sprite> m_singleFloorSprite;
         std::optional<sf::Sprite> m_backgroundSprite;
-
-        // Tiled Data
         sf::VertexArray m_vertices;
         const sf::Texture* m_tileset = nullptr;
     };

@@ -1,100 +1,71 @@
 #pragma once
 #include "Interfaces/IAbility.h"
-#include <string>
+#include "combat/AbilityData.h"
 #include <memory>
-#include <functional>
+#include <vector>
 
 namespace RPG {
 
-    // Forward declaration to avoid circular dependency
     class BattleManager;
     class Unit;
-    enum class TargetType {
-        Self,
-        Enemy,
-        Ally,
-        Ground
-    };
 
     /**
-     * @brief Concrete implementation of IAbility for combat skills (Attacks, Heals).
-     * * Implements the "Two-Phase" execution pattern:
-     * * 1. execute() -> Switches Game State to Targeting Mode.
-     * * 2. resolve() -> Applies the actual effect to the target.
+     * @class CombatAbility
+     * @brief Represents a runtime instance of an ability tied to a specific Unit.
+     * * This class acts as the bridge between the UI (IAbility), the immutable game
+     * data (AbilityDefinition), and the active combat state.
      */
     class CombatAbility : public IAbility {
     public:
         /**
-         * @brief Constructs a combat ability.
-         * @param name Display name.
-         * @param iconIndex Icon index in the spritesheet.
-         * @param manager Reference to the BattleManager (to handle state switching).
-         * @param owner The Unit that owns this skill (used for checking Mana/Stamina).
+         * @brief Constructs a new Combat Ability instance.
+         * @param def A pointer to the shared, read-only definition of this ability.
+         * @param manager Reference to the central BattleManager for state changes.
+         * @param owner A pointer to the unit that possesses and casts this ability.
          */
-        CombatAbility(std::string name, int iconIndex, BattleManager& manager, Unit* owner);
-
+        CombatAbility(const AbilityDefinition* def, BattleManager& manager, Unit* owner);
         virtual ~CombatAbility() = default;
-
-        // ==============================
-        // Configuration
-        // ==============================
-        void setStats(float damage, float range, float manaCost, int cooldownTurns);
-        void setTargetType(TargetType type);
-
-        float getRange() const { return m_range; }
-        TargetType getTargetType() const { return m_targetType; }
-
 
         // ==============================
         // IAbility Interface
         // ==============================
-        int getIconIndex() const override { return m_iconIndex; }
+        int getIconIndex() const override { return m_def->iconIndex; }
         std::string getTooltip() const override;
-
-        // Checks if the owner has enough mana/stamina
         bool canBeCast() const override;
-
-        int getCharges() const override { return -1; } // Infinite use
+        int getCharges() const override { return -1; }
         int getCooldown() const override { return m_currentCooldown; }
 
         /**
-         * @brief Phase 1: Activation
-         * * Called by ActionSlot when clicked.
-         * * Triggers BattleManager to start targeting.
+         * @brief Initiates Phase 1 of casting: Targeting.
+         * Validates costs and signals the BattleManager to enter Targeting Mode.
          */
         void execute() override;
-
 
         // ==============================
         // Gameplay Logic
         // ==============================
 
         /**
-         * @brief Phase 2: Resolution
-         * * Called by BattleManager when a valid target is clicked.
-         * * Applies damage/healing and consumes resources.
+         * @brief Initiates Phase 2 of casting: Resolution (AOE Supported).
+         * Deducts resources, triggers cooldowns, and routes targets to the AbilityProcessor.
+         * @param targets A list of units selected to receive the ability's effects.
          */
-        void resolve(std::shared_ptr<Unit> target);
+        void resolve(const std::vector<std::shared_ptr<Unit>>& targets);
 
         /**
-         * @brief Reduces cooldown (call this at start of turn).
+         * @brief Decrements the current cooldown timer by 1.
          */
         void reduceCooldown();
 
+        float getRange() const { return m_def->range; }
+        float getRadius() const { return m_def->radius; }
+        TargetType getTargetType() const { return m_def->targetType; }
+
     private:
-        std::string m_name;
-        int m_iconIndex;
+        const AbilityDefinition* m_def; ///< Pointer to the shared blueprint data.
+        BattleManager& m_manager;       ///< Reference to the central game orchestrator.
+        Unit* m_owner;                  ///< The unit casting this ability.
 
-        BattleManager& m_manager;
-        Unit* m_owner; // weak reference to caster
-
-        // Stats
-        float m_damage = 0.f;
-        float m_range = 100.f;
-        float m_manaCost = 0.f;
-        int m_maxCooldown = 0;
-        int m_currentCooldown = 0;
-
-        TargetType m_targetType = TargetType::Enemy;
+        int m_currentCooldown = 0;      ///< Turns remaining until the ability can be cast again.
     };
 }
