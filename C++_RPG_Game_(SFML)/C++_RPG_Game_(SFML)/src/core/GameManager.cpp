@@ -16,9 +16,7 @@ namespace RPG {
         // Assets and structures init
         assetManager.init();
         assetManager.addSpritesheet("player", GameConfig::ANIMATIONS_PATH + "/player.png");
-        assetManager.addSpritesheet("npc", GameConfig::ANIMATIONS_PATH + "/npc.png");
-
-        assetManager.addTexture("grass", GameConfig::TEXTURES_PATH + "grass.png");
+        assetManager.addSpritesheet("npc", GameConfig::ANIMATIONS_PATH + "/npc.png");;
 
         // Init start scene
         initGameData();
@@ -52,11 +50,6 @@ namespace RPG {
         // Shared player initialization
         Vitals startStats = { 100.f, 100.f, 50.f, 50.f, 100.f, 100.f }; // HP, MP, Stamina
         playerUnit = std::make_shared<Unit>("Hero", Team::Player, startStats);
-        // --- 1. MAIN WORLD ---
-        auto mainMap = std::make_shared<WorldMap>(GameConfig::WORLD_WIDTH, GameConfig::WORLD_HEIGHT, assetManager);
-        mainMap->generateObstacles(0.07f, player->getPosition(), 3);
-        mainMap->placeStructureAtTile(12, 12, "house");
-
 
         Animation npcAnimation = Animation::builder()
             .frameCount(8)
@@ -87,53 +80,83 @@ namespace RPG {
             map->addNPC(std::move(npc1));
         };
 
-        // Add a Leader to MainWorld that sends you to WhiteOrder
-        addNpc(0, "White Order Envoy", true, FactionID::WhiteOrder, sf::Vector2f{ 520.f, 520.f }, mainMap);
-        addNpc(0, "White Orange Order Envoy", false, FactionID::WhiteOrder, sf::Vector2f{ 300.0f, 420.0f }, mainMap);
-        addNpc(0, "hite Orange BattleField Envoy", true, FactionID::BattleScene, sf::Vector2f{ 320.0f, 200.0f }, mainMap);
+        auto mainMap = getOrLoadMap(activeFaction);
+        /**
+         * @note IMPORTANT
+         * If this is a fresh start (no save file), we can add initial NPCs here.
+         * In a production system, NPCs would often be part of the .tmj file
+         * or a separate "world_state.json" file.
+         */
 
-        allMaps[FactionID::MainWorld] = mainMap;
+        if (mainMap->getNPCs().empty()) {
+            addNpc(0, "White Order Envoy", true, FactionID::WhiteOrder, { 520.f, 520.f }, mainMap);
+            addNpc(0, "Dark Order Envoy", true, FactionID::DarkOrder, { 300.0f, 420.0f }, mainMap);
+            addNpc(0, "BattleField Envoy", true, FactionID::BattleScene, { 320.0f, 200.0f }, mainMap);
+        }
 
-        // --- 2. WHITE ORDER BASE (Small, organized) ---
-        auto whiteMap = std::make_shared<WorldMap>(25, 25, assetManager);
-        whiteMap->generateObstacles(0.02f, sf::Vector2f(400, 520), 2);
-        //whiteMap->placeStructure(12, 12, StructureType::FactionBase); // Large base in the center
-        //whiteMap->placeStructure(10, 10, StructureType::Camp);        // Guard camp nearby
+        currentScene = std::make_unique<WorldScene>(*this, mainMap, player);
 
-        // NPC to go back to MainWorld
-        addNpc(0, "White Order Gatekeeper", true, FactionID::MainWorld, sf::Vector2f{ 560.0f, 560.0f }, whiteMap);
-        
-        allMaps[FactionID::WhiteOrder] = whiteMap;
-
-        // --- 3. DARK ORDER BASE (Cramped, dangerous) ---
-        auto darkMap = std::make_shared<WorldMap>(15, 15, assetManager);
-        // Dark Order has many walls/rocks
-        darkMap->generateObstacles(0.15f, sf::Vector2f(400, 480), 2); 
-
-        //darkMap->placeStructure(5, 5, StructureType::Wall);
-        //darkMap->placeStructure(5, 6, StructureType::Wall);
-        //darkMap->placeStructure(15, 15, StructureType::FactionBase);
-
-        allMaps[FactionID::DarkOrder] = darkMap;
-
-        // --- 4. NEUTRAL ORDER (Wide, empty) ---
-        auto neutralMap = std::make_shared<WorldMap>(40, 40, assetManager);
-        neutralMap->generateObstacles(0.25f, sf::Vector2f(440, 620), 4);
-        //neutralMap->placeStructure(5, 5, StructureType::Camp);
-        //neutralMap->placeStructure(35, 35, StructureType::Camp);
-
-        // Add many trees for "Nature" feel if your generator allows it, 
-        // or manually place a few:
-        //neutralMap->placeStructure(20, 20, StructureType::Tree);
-        //neutralMap->placeStructure(21, 20, StructureType::Tree);
-
-        allMaps[FactionID::NeutralOrder] = neutralMap;
-
-        std::cout << "GameManager: All faction maps initialized with unique layouts.\n";
+        std::cout << "[GameManager] Initialized with Lazy Loading. Map: " << (int)activeFaction << "\n";
     }
 
+    std::shared_ptr<WorldMap> GameManager::getOrLoadMap(FactionID id) {
+        // 1. Check if already in memory
+        if (allMaps.count(id)) return allMaps[id];
+
+        // 2. Determine path for potential binary save
+        std::string saveDir = GameConfig::SAVES_PATH;
+        std::string savePath = saveDir + "map_" + std::to_string(static_cast<int>(id)) + ".bin";
+
+        if (!std::filesystem::exists(saveDir)) std::filesystem::create_directories(saveDir);
+
+        sf::Vector2u size = getMapSize(id);
+        auto newMap = std::make_shared<WorldMap>(size.x, size.y, assetManager);
+
+        // 3. Load Source: Binary Save > Tiled Template > Procedural Generation
+        if (std::filesystem::exists(savePath)) {
+            std::cout << "[GameManager] Loading persistent state for map " << (int)id << "\n";
+            newMap->loadFromFile(savePath);
+        }
+        else if (id == FactionID::MainWorld) {
+            newMap->loadMap(GameConfig::WORLD_PATH + "world.tmj");
+        }
+        else {
+            std::cout << "[GameManager] Generating new procedural map for faction " << (int)id << "\n";
+            newMap->generateObstacles(0.1f, { 1000.f, 1000.f }); // Example density and pos
+        }
+
+        // 4. Memory Management: If too many maps, unload the least recently used
+        if (allMaps.size() >= 5) {
+            for (auto it = allMaps.begin(); it != allMaps.end(); ) {
+                // Protect the Main World and the currently active map from being unloaded
+                if (it->first != FactionID::MainWorld && it->first != activeFaction) {
+                    std::string unloadPath = saveDir + "map_" + std::to_string(static_cast<int>(it->first)) + ".bin";
+                    it->second->saveToFile(unloadPath); // Save changes before purging from RAM
+                    it = allMaps.erase(it);
+                    break;
+                }
+                else {
+                    ++it;
+                }
+            }
+        }
+
+        allMaps[id] = newMap;
+        return newMap;
+    }
+
+    sf::Vector2u GameManager::getMapSize(FactionID id) {
+        switch (id) {
+        case FactionID::MainWorld:    return { 150, 150 }; 
+        case FactionID::WhiteOrder:   return { 40, 40 };   
+        case FactionID::DarkOrder:    return { 30, 30 };   
+        default:                      return { 50, 50 };
+        }
+    }
+
+
     void GameManager::changeScene(FactionID targetFaction) {
-        auto selectedMap = allMaps[targetFaction];
+        auto selectedMap = getOrLoadMap(targetFaction);
 
         if (activeFaction == FactionID::MainWorld && targetFaction != FactionID::MainWorld) {
             lastWorldPosition = player->getPosition();
@@ -141,30 +164,33 @@ namespace RPG {
 
         switch (targetFaction) {
         case FactionID::WhiteOrder:
-            player->setPosition(sf::Vector2f(400.0f, 520.0f));
+            player->setPosition({ 400.0f, 520.0f });
             currentScene = std::make_unique<FactionScene>(*this, selectedMap, player);
             break;
 
         case FactionID::DarkOrder:
-            player->setPosition(sf::Vector2f(400.0f, 480.0f));
+            player->setPosition({ 400.0f, 480.0f });
             currentScene = std::make_unique<FactionScene>(*this, selectedMap, player);
             break;
 
         case FactionID::NeutralOrder:
-            player->setPosition(sf::Vector2f(440.0f, 620.0f));
+            player->setPosition({ 440.0f, 620.0f });
             currentScene = std::make_unique<FactionScene>(*this, selectedMap, player);
             break;
 
         case FactionID::BattleScene:
-            currentScene = std::make_unique<BattleScene>(*this,window, assetManager,playerUnit, selectedMap);
+            currentScene = std::make_unique<BattleScene>(*this, window, assetManager, playerUnit, selectedMap);
             break;
 
         default:
         case FactionID::MainWorld:
-            player->setPosition(sf::Vector2f(lastWorldPosition));
+            player->setPosition(lastWorldPosition);
             currentScene = std::make_unique<WorldScene>(*this, selectedMap, player);
             break;
         }
+
+        activeFaction = targetFaction;
+        std::cout << "[GameManager] Scene changed to " << static_cast<int>(targetFaction) << ". Memory cache size: " << allMaps.size() << "\n";
     }
 
     void GameManager::run() {
@@ -241,5 +267,12 @@ namespace RPG {
         //}
 
         window.display();
+    }
+
+    GameManager::~GameManager() {
+        for (auto& [id, map] : allMaps) {
+            std::string path = "saves/map_" + std::to_string((int)id) + ".bin";
+            map->saveToFile(path);
+        }
     }
 }

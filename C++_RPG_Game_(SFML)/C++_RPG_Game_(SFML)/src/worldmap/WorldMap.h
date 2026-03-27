@@ -13,6 +13,7 @@ namespace RPG {
 	class WorldMap {
 	private:
 		uint32_t width, width_gen, height, height_gen;
+		int32_t offsetX = 0, offsetY = 0;
 		AssetManager& assetManager;
 		
 		std::vector<Tile> tiles; // Only holds ground
@@ -25,6 +26,35 @@ namespace RPG {
 		uint32_t getWidth() const;
 		uint32_t getHeight() const;
 
+		/**
+		 * @brief Loads a Tiled Map Editor file (.tmj) in JSON format.
+		 * * Supports infinite maps (chunks) and object layers for obstacles.
+		 * @param path Path to the .tmj file.
+		 */
+		void loadMap(const std::string& path);
+
+		/**
+		 * @brief Serializes the current map state to a binary file.
+		 * * Saves dimensions, tile types, and all placed structures
+		 * @param filename Destination path for the binary data.
+		 */
+		void saveToFile(const std::string& filename);
+
+		/**
+		* @brief Deserializes the map state from a binary file and restores all entities.
+		* @param filename Path to the .bin file.
+		 */
+		void loadFromFile(const std::string& filename);
+
+
+		/**
+		 * @brief Safely changes the map dimensions and reinitializes the tile grid.
+		 * @param newWidth New width in tiles.
+		 * @param newHeight New height in tiles.
+		 * @note This will clear all existing tile data but keep structures/NPCs
+		 * unless they fall outside the new boundaries.
+		 */
+		void reshape(uint32_t newWidth, uint32_t newHeight);
 
 		/**
 		 * @brief Checks if a given coordinate is within the internal spawnable area.

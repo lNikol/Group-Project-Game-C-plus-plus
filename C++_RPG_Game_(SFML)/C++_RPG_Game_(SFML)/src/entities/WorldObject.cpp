@@ -12,8 +12,11 @@ namespace RPG {
 	)
 		: definition(definition), sprite(dummyTexture)
 	{
-		const Spritesheet* spritesheet = am.getSpritesheet(definition->name);
-		if (spritesheet) {
+		const Spritesheet* dedicatedSheet = am.getSpritesheet(definition->name);
+
+		if (dedicatedSheet) {
+			sprite.setTexture(*dedicatedSheet);
+
 			sf::IntRect rect(
 				{
 					static_cast<int>(definition->textureStartPos.x),
@@ -24,9 +27,31 @@ namespace RPG {
 					static_cast<int>(definition->size.y)
 				}
 			);
-			sprite.setTexture(*spritesheet);
 			sprite.setTextureRect(rect);
 		}
+		else {
+			const sf::Texture* atlas = am.getTexture("world_atlas");
+
+			if (atlas) {
+				sprite.setTexture(*atlas);
+				sf::IntRect rect(
+					{
+						static_cast<int>(definition->textureStartPos.x),
+						static_cast<int>(definition->textureStartPos.y)
+					},
+					{
+						static_cast<int>(definition->size.x),
+						static_cast<int>(definition->size.y)
+					}
+				);
+				sprite.setTextureRect(rect);
+			}
+			else {
+				std::cerr << "[WorldObject] Critical Error: No spritesheet OR atlas found for: "
+					<< definition->name << std::endl;
+			}
+		}
+
 		sprite.setPosition(position);
 	}
 
@@ -72,5 +97,9 @@ namespace RPG {
 
 	void WorldObject::toggleDebugHitbox() {
 		debugHitbox = !debugHitbox;
+	}
+
+	std::string WorldObject::getName() const {
+		return definition->name;
 	}
 }

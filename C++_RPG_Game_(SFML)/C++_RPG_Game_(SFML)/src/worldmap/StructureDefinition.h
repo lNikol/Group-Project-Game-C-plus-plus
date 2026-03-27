@@ -11,7 +11,7 @@ namespace RPG {
         InvisibleBlock, // To block the neighborhood of the center point of a large object
         Rock, Tree, Wall,           // Obstacles
         Water, River, Swamp, Grass, Sand, // Ground types
-        Camp, SaveZone, FactionBase, // Special zones
+        Camp, SaveZone, FactionBase, House // Special zones
     };
 
     struct StructureMetadata {

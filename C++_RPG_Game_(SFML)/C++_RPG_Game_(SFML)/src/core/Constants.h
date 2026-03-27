@@ -18,6 +18,12 @@ namespace RPG {
 		inline const std::string ASSETS_PATH = "assets/";
 		inline const std::string TEXTURES_PATH = ASSETS_PATH + "textures/";
 		inline const std::string ANIMATIONS_PATH = ASSETS_PATH + "animations";
+		inline const std::string PROCESSED_PATH = ASSETS_PATH + "assets_processed/";
+		inline const std::string WORLD_PATH = PROCESSED_PATH + "world/";
+		inline const std::string FACTION_PATH = PROCESSED_PATH + "faction/";
+
+		inline const std::string SAVES_PATH = "temp/saves/";
+
 		enum class Faction { NEUTRAL, LIGHT, DARK };
 		const uint8_t TILE_SIZE = 32;
 		const uint16_t WORLD_WIDTH = 50;

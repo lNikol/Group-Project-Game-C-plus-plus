@@ -1,7 +1,11 @@
 #include "WorldMap.h"
 #include "core/Constants.h"
-#include <cstdlib> // for rand()
+#include <fstream>
+#include <nlohmann/json.hpp>
+#include <filesystem>
 
+// TODO : write helper for parser to avoid code duplication between infinite and standard map loading
+// and other helper class for loading/saving maps 
 
 namespace RPG {
 
@@ -26,6 +30,217 @@ namespace RPG {
 				// Set objects (walls at borders)
 				if ((x == 0 || x == width - 1) || (y == 0 || y == height - 1)) {
 					// TODO: Place wall structure
+					tiles[index].isWalkable = false;
+					tiles[index].occupy();
+				}
+			}
+		}
+	}
+
+	void WorldMap::loadMap(const std::string& path) {
+		std::ifstream file(path);
+		if (!file.is_open()) {
+			std::cerr << "[WorldMap] Failed to open TMJ: " << path << std::endl;
+			return;
+		}
+
+		nlohmann::json tmj;
+		file >> tmj;
+
+		int minX = 0, minY = 0, maxX = 0, maxY = 0;
+		bool isInfinite = tmj.value("infinite", false);
+
+		if (!isInfinite) {
+			maxX = tmj["width"];
+			maxY = tmj["height"];
+		}
+		else {
+			bool firstChunk = true;
+			for (auto& layer : tmj["layers"]) {
+				if (layer["type"] == "tilelayer" && layer.contains("chunks")) {
+					for (auto& chunk : layer["chunks"]) {
+						int cx = chunk["x"], cy = chunk["y"];
+						int cw = chunk["width"], ch = chunk["height"];
+
+						if (firstChunk) {
+							minX = cx; minY = cy;
+							maxX = cx + cw; maxY = cy + ch;
+							firstChunk = false;
+						}
+						else {
+							minX = std::min(minX, cx);
+							minY = std::min(minY, cy);
+							maxX = std::max(maxX, cx + cw);
+							maxY = std::max(maxY, cy + ch);
+						}
+					}
+				}
+			}
+		}
+
+		this->width = static_cast<uint32_t>(maxX - minX);
+		this->height = static_cast<uint32_t>(maxY - minY);
+		this->offsetX = minX;
+		this->offsetY = minY;
+
+		std::cout << "[WorldMap] Final dimensions: " << width << "x" << height
+			<< " Offset: [" << offsetX << "," << offsetY << "]\n";
+
+		this->reshape(width, height);
+
+		for (auto& tile : tiles) tile.release();
+		structures.clear();
+		npcs.clear();
+
+		for (auto& layer : tmj["layers"]) {
+			std::string layerName = layer["name"];
+
+			if (layer["type"] == "tilelayer" && layerName == "Ground") {
+				if (layer.contains("chunks")) {
+					for (auto& chunk : layer["chunks"]) {
+						int startX = chunk["x"], startY = chunk["y"], cWidth = chunk["width"];
+						auto data = chunk["data"];
+						for (int i = 0; i < data.size(); ++i) {
+							int gid = data[i];
+							if (gid == 0) continue;
+
+							int tx = (startX + (i % cWidth)) - offsetX;
+							int ty = (startY + (i / cWidth)) - offsetY;
+
+							std::string assetName = assetManager.getNameById(gid - 1);
+							if (!assetName.empty() && tx >= 0 && tx < (int)width && ty >= 0 && ty < (int)height) {
+								tiles[ty * width + tx].groundType = assetManager.getDefinition(assetName).type;
+								// Opcjonalnie: tiles[ty * width + tx].textureGid = gid; // Dla automatyzacji grafiki
+							}
+						}
+					}
+				}
+				else {
+					auto data = layer["data"];
+					for (int i = 0; i < data.size(); ++i) {
+						int gid = data[i];
+						if (gid == 0) continue;
+						std::string assetName = assetManager.getNameById(gid - 1);
+						if (!assetName.empty()) {
+							tiles[i].groundType = assetManager.getDefinition(assetName).type;
+						}
+					}
+				}
+			}
+			else if (layer["type"] == "objectgroup" && layerName == "Obstacles") {
+				for (auto& obj : layer["objects"]) {
+					int gid = obj["gid"];
+					float worldX = (float)obj["x"] - (offsetX * GameConfig::TILE_SIZE);
+					float correctedTopY = ((float)obj["y"] - (float)obj["height"]) - (offsetY * GameConfig::TILE_SIZE);
+
+					std::string assetName = assetManager.getNameById(gid - 1);
+					if (!assetName.empty()) {
+						this->placeStructure(worldX, correctedTopY, assetName);
+					}
+				}
+			}
+		}
+	}
+
+	void WorldMap::saveToFile(const std::string& filename) {
+		std::ofstream os(filename, std::ios::binary);
+		if (!os.is_open()) return;
+
+		// Save Header & Tiles
+		os.write(reinterpret_cast<char*>(&width), sizeof(width));
+		os.write(reinterpret_cast<char*>(&height), sizeof(height));
+		for (const auto& tile : tiles) {
+			os.write(reinterpret_cast<const char*>(&tile.groundType), sizeof(tile.groundType));
+		}
+
+		// Save Structures
+		uint16_t count = static_cast<uint16_t>(structures.size());
+		os.write(reinterpret_cast<char*>(&count), sizeof(count));
+		for (auto& s : structures) {
+			std::string n = s->getName();
+			uint16_t len = static_cast<uint16_t>(n.length());
+			os.write(reinterpret_cast<char*>(&len), sizeof(len));
+			os.write(n.c_str(), len);
+
+			sf::Vector2f pos = s->getPosition();
+			os.write(reinterpret_cast<char*>(&pos.x), sizeof(pos.x));
+			os.write(reinterpret_cast<char*>(&pos.y), sizeof(pos.y));
+		}
+
+		// NPCs
+		uint16_t npcCount = static_cast<uint16_t>(npcs.size());
+		os.write(reinterpret_cast<char*>(&npcCount), sizeof(npcCount));
+		for (auto& npc : npcs) {
+			std::string n = npc->getName();
+			uint16_t len = (uint16_t)n.length();
+			os.write(reinterpret_cast<char*>(&len), sizeof(len));
+			os.write(n.c_str(), len);
+			sf::Vector2f pos = npc->getPosition();
+			os.write(reinterpret_cast<char*>(&pos), sizeof(pos));
+			FactionID f = npc->getTargetFaction(); // TODO: change in the future for getFaction if any changes would occur
+			os.write(reinterpret_cast<char*>(&f), sizeof(f));
+		}
+
+		os.close();
+	}
+
+	void WorldMap::loadFromFile(const std::string& filename) {
+		std::ifstream is(filename, std::ios::binary);
+		if (!is.is_open()) return;
+
+		for (auto& tile : tiles) {
+			tile.residentObjects.clear();
+			tile.release();
+		}
+		structures.clear();
+		npcs.clear();
+
+
+		is.read(reinterpret_cast<char*>(&width), sizeof(width));
+		is.read(reinterpret_cast<char*>(&height), sizeof(height));
+		tiles.resize(width * height);
+
+		for (auto& tile : tiles) {
+			is.read(reinterpret_cast<char*>(&tile.groundType), sizeof(tile.groundType));
+		}
+
+		structures.clear();
+		uint16_t count;
+		is.read(reinterpret_cast<char*>(&count), sizeof(count));
+		for (uint16_t i = 0; i < count; ++i) {
+			uint16_t len;
+			is.read(reinterpret_cast<char*>(&len), sizeof(len));
+			std::string n(len, ' ');
+			is.read(&n[0], len);
+
+			sf::Vector2f pos;
+			is.read(reinterpret_cast<char*>(&pos.x), sizeof(pos.x));
+			is.read(reinterpret_cast<char*>(&pos.y), sizeof(pos.y));
+
+			this->placeStructure(pos.x, pos.y, n);
+		}
+		is.close();
+	}
+
+	void WorldMap::reshape(uint32_t newWidth, uint32_t newHeight) {
+		this->width = newWidth;
+		this->height = newHeight;
+
+		// Update generation boundaries with margins
+		this->width_gen = (width > GameConfig::WORLD_GENERATE_MARGIN) ? width - GameConfig::WORLD_GENERATE_MARGIN : width;
+		this->height_gen = (height > GameConfig::WORLD_GENERATE_MARGIN) ? height - GameConfig::WORLD_GENERATE_MARGIN : height;
+
+		tiles.clear();
+		tiles.resize(width * height);
+
+		for (uint32_t y = 0; y < height; ++y) {
+			for (uint32_t x = 0; x < width; ++x) {
+				uint32_t index = y * width + x;
+				tiles[index].pos = { static_cast<int32_t>(x), static_cast<int32_t>(y), 0 };
+				tiles[index].groundType = StructureType::Grass;
+
+				// Default border logic
+				if (x == 0 || x == width - 1 || y == 0 || y == height - 1) {
 					tiles[index].isWalkable = false;
 					tiles[index].occupy();
 				}

@@ -1,4 +1,6 @@
 #include "AssetManager.h"
+#include <fstream>
+#include <nlohmann/json.hpp>
 
 namespace RPG {
 
@@ -8,143 +10,78 @@ namespace RPG {
 
     void AssetManager::init() {
 
-        
-        /**
-         * @brief Helper lambda to register structure definitions
-         *        and handle texture registration.
-         */
-        /*
-        auto addStruct = [&](
-            StructureType type, 
-            const std::string& name, 
-            const std::string& fileName,
-            StructureSize size, 
-            float speed, 
-            bool canSpawn,
-            bool blocks, 
-            bool allowsRegen,
-            uint8_t collisionHeight
-        ) {
-
-            std::string key;
-            if (!fileName.empty()) {
-                // Construct full path using global config
-                std::string fullPath = GameConfig::TEXTURES_PATH + fileName;
-
-                // Extract key from filename (e.g., "blue_water.png" -> "blue_water")
-                key = std::filesystem::path(fileName).stem().string();
-
-                // Register spritesheet
-                addSpritesheet(key, fullPath);
-            }
-
-            // Store definition in library
-            structureLibrary[type] = { 
-                name, 
-                key, 
-                size, 
-                speed, 
-                canSpawn, 
-                blocks, 
-                allowsRegen,
-                collisionHeight
-            };
-        };
-        */
-
         structureLibrary.clear();
+        prefixes.clear();
 
-        auto addStructDef = [&](
-            const std::string& name,
-            StructureType type,
-            const std::string& textureKey,
-            sf::Vector2u textureStartPos,
-            sf::Vector2u size,
-            sf::Vector2f hitboxSize,
-            sf::Vector2f hitboxOffset,
-            StructureMetadata metadata
-        ) {
-            if (!textureKey.empty()) {
-                std::string fullPath = GameConfig::TEXTURES_PATH + textureKey;
-                addSpritesheet(name, fullPath);
+        // 1. Register the main atlas
+        addTexture("world_atlas", GameConfig::WORLD_PATH + "world_atlas.png");
+
+        // 2. Define reusable metadata templates
+        StructureMetadata obstacle;
+        obstacle.blocksMovement = true;
+        obstacle.isDestructible = true;
+        obstacle.maxHealth = 100.f;
+
+        StructureMetadata floor;
+        floor.blocksMovement = false;
+        floor.speedModifier = 1.0f;
+
+        // 3. Define Prefix Rules (Mapping file category to Game Logic)
+        prefixes["tree"] = { StructureType::Tree, obstacle };
+        prefixes["rock"] = { StructureType::Rock, obstacle };
+        prefixes["grass"] = { StructureType::Grass, floor };
+        prefixes["ground"] = { StructureType::Grass, floor };
+        prefixes["house"] = { StructureType::House, obstacle };
+        loadManifest(GameConfig::WORLD_PATH + "manifest.json", GameConfig::WORLD_PATH + "world_atlas");
+    }
+
+    void AssetManager::loadManifest(const std::string& path, const std::string& textureKey) {
+        std::ifstream file(path);
+        if (!file.is_open()) {
+            std::cerr << "[AssetManager] ERROR: Could not open manifest: " << path << std::endl;
+            return;
+        }
+
+        nlohmann::json manifest;
+        file >> manifest;
+
+        for (auto& [name, data] : manifest["definitions"].items()) {
+            int id = data["id"];
+            idToNameMap[id] = name;
+            AssetTemplate* foundTemplate = nullptr;
+
+            // Match the asset name (e.g., "trees_5") against our registered prefixes
+            for (auto& [prefix, t] : prefixes) {
+                if (name.find(prefix) != std::string::npos) {
+                    foundTemplate = &t;
+                    break;
+                }
             }
 
-            structureLibrary[name] = {
-                name,
-                type,
-                textureKey,
-                textureStartPos,
-                size,
-                hitboxSize,
-                hitboxOffset,
-                metadata
-            };
-        };
+            if (!foundTemplate) continue;
 
-        StructureMetadata meta;
-        meta.blocksMovement = true;
+            // Construct the final StructureDefinition
+            StructureDefinition def;
+            def.name = name;
+            def.type = foundTemplate->type;
+            def.textureKey = textureKey;
+            def.textureStartPos = { (uint32_t)data["x"], (uint32_t)data["y"] };
+            def.size = { (uint32_t)data["w"], (uint32_t)data["h"] };
 
-        addStructDef(
-            "rock",
-            StructureType::Rock,
-            "rock.png",
-            { 0, 0 },
-            { 32, 32 },
-            { 20.f, 10.f },
-            { 6.f, 20.f },
-            meta
-        );
+            // Precise data calculated by the Python processing script
+            def.hitboxSize = { (float)data["hb_w"], (float)data["hb_h"] };
+            def.hitboxOffset = { (float)data["off_x"], (float)data["off_y"] };
 
-        addStructDef(
-            "big_tree",
-            StructureType::Tree,
-            "trees.png",
-            { 16, 0 },
-            { 128, 160 },
-            { 12.f, 12.f },
-            { 58.f, 144.f },
-            meta
-        );
+            def.meta = foundTemplate->meta;
 
-        addStructDef(
-            "house",
-            StructureType::Camp,
-            "house.png",
-            { 0, 0 },
-            { 96, 128 },
-            { 72.f, 48.f },
-            { 12.f, 64.f },
-            meta
-        );
+            structureLibrary[name] = def;
+        }
+        std::cout << "[AssetManager] Successfully mapped " << structureLibrary.size() << " assets from manifest.\n";
+    }
 
-        /*
-
-        // --- DATA REGISTRATION ---
-        // Syntax: Type, Name, Filename, Size {W,H}, Speed, CanSpawn, Blocks, AllowsRegen
-
-        addStruct(StructureType::None, "Empty", "", { 1,1 }, 1.0f, false, false, false, 0);
-        addStruct(StructureType::InvisibleBlock, "Reserved", "", { 1,1 }, 0.0f, false, true, false, GameConfig::TILE_SIZE);
-
-        // Obstacles
-        addStruct(StructureType::Rock, "Rock", "rock.png", { 1,1 }, 0.0f, false, true, false, 12);
-        addStruct(StructureType::Tree, "Tree", "tree.png", { 1,1 }, 0.0f, false, true, false, 12);
-        addStruct(StructureType::Wall, "Wall", "wall.png", { 1,1 }, 0.0f, false, true, false, GameConfig::TILE_SIZE);
-
-        // Normal Terrain
-        addStruct(StructureType::Water, "Water", "blue_water.png", { 1,1 }, 0.65f, false, false, false, 0);
-        addStruct(StructureType::River, "River", "river.png", { 1,1 }, 0.85f, false, false, false, 0);
-        addStruct(StructureType::Swamp, "Swamp", "swamp.png", { 1,1 }, 0.40f, false, false, false, 0);
-        addStruct(StructureType::Grass, "Grass", "grass.png", { 1,1 }, 1.0f, true, false, false, 0);
-        addStruct(StructureType::Sand, "Sand", "sand.png", { 1,1 }, 0.90f, true, false, false, 0);
-
-        // Special Zones
-        addStruct(StructureType::SaveZone, "Save Zone", "saveZone.png", { 1,1 }, 1.25f, false, false, true, 0);
-        addStruct(StructureType::Camp, "Camp", "camp.png", { 2,2 }, 1.25f, false, true, true, 0);
-        addStruct(StructureType::FactionBase, "Faction Base", "factionBase.png", { 3,3 }, 1.15f, false, true, true, 0);
-
-        */
-        std::cout << "AssetManager: Successfully initialized "
-            << structureLibrary.size() << " structures.\n";
+    std::string AssetManager::getNameById(const int& id) const {
+        auto it = idToNameMap.find(id);
+        return (it != idToNameMap.end()) ? it->second : "";
     }
 
     const StructureDefinition& AssetManager::getDefinition(const std::string& name) const {
@@ -207,6 +144,18 @@ namespace RPG {
         auto it = textureMap.find(name);
         return (it != textureMap.end()) ? &it->second : nullptr;
     }
+
+
+    std::string AssetManager::getDefinitionByType(const StructureType& type) const {
+        std::string def;
+        switch (type) {
+            // TODO : add others assets for ground
+            case StructureType::Grass: def = "grass_0"; break;
+            default: def = "grass_0"; break;
+        }
+        return def;
+    }
+
 
     // ==============================
     // Fonts

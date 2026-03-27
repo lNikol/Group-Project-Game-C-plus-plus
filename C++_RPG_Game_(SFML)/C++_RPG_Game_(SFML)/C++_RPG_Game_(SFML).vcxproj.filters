@@ -163,6 +163,9 @@
     <ClCompile Include="src\entities\CollidingEntity.cpp">
       <Filter>Pliki źródłowe\entities</Filter>
     </ClCompile>
+    <ClCompile Include="src\entities\WorldObject.cpp">
+      <Filter>Pliki źródłowe</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\worldmap\AssetManager.h">
@@ -288,9 +291,27 @@
     <ClInclude Include="src\entities\CollidingEntity.h">
       <Filter>Pliki nagłówkowe\entities</Filter>
     </ClInclude>
+    <ClInclude Include="src\entities\WorldObject.h">
+      <Filter>Pliki nagłówkowe</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="assets\animations\player.png">
+      <Filter>Pliki zasobów</Filter>
+    </Image>
+    <Image Include="assets\animations\npc.png">
+      <Filter>Pliki zasobów</Filter>
+    </Image>
+    <Image Include="assets\textures\grass.png">
+      <Filter>Pliki zasobów</Filter>
+    </Image>
+    <Image Include="assets\textures\house.png">
+      <Filter>Pliki zasobów</Filter>
+    </Image>
+    <Image Include="assets\textures\rock.png">
+      <Filter>Pliki zasobów</Filter>
+    </Image>
+    <Image Include="assets\textures\trees.png">
       <Filter>Pliki zasobów</Filter>
     </Image>
   </ItemGroup>

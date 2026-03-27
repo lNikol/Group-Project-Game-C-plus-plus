@@ -59,17 +59,26 @@ namespace RPG {
 		 */
 		void initGameData();
 
+		/**
+		 * @brief Internal helper to manage the map lifecycle (Cache/Disk/Generation).
+		 * @param id The FactionID/MapID to load.
+		 * @return A shared pointer to the map instance.
+		 */
+		std::shared_ptr<WorldMap> getOrLoadMap(FactionID id);
+		sf::Vector2u getMapSize(FactionID id);
+
 	public:
 		GameManager();
 		void run();
-
-		/**
-		 * @brief Transitions the game to a new scene based on the target faction.
-		 * * This method handles memory management for the old scene and injects the correct
-		 * WorldMap and Player data into the new scene.
-		 * * @param targetFaction The ID of the faction map/world to load.
-		 */
+		 /**
+		  * @brief Handles transitions between different game areas.
+		  * @details Now uses getOrLoadMap to ensure the target map is in memory
+		  * (loaded from disk or generated) before switching the scene.
+		  * @param targetFaction The ID of the faction map/world to load.
+		  */
 		void changeScene(FactionID targetFaction) override;
+
+		~GameManager();
 	};
 
 }

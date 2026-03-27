@@ -49,17 +49,26 @@ namespace RPG {
         // ==============================
 
         // Cache texture pointer to avoid lookups in the loop
-        const sf::Texture* grassTex = assetManager.getTexture("grass");
+        const sf::Texture* atlas = assetManager.getTexture("world_atlas");
 
-        if (grassTex) {
-            sf::Sprite groundSprite(*grassTex);
+        if (atlas) {
+            sf::Sprite groundSprite(*atlas);
 
             for (int32_t y = startY; y < endY; ++y) {
                 for (int32_t x = startX; x < endX; ++x) {
+                    const auto& tile = worldMap.at(x, y);
+                    const auto& def = assetManager.getDefinition(assetManager.getDefinitionByType(tile.groundType));
+
+                    groundSprite.setTextureRect(sf::IntRect(
+                        { static_cast<int>(def.textureStartPos.x), static_cast<int>(def.textureStartPos.y) },
+                        { static_cast<int>(def.size.x), static_cast<int>(def.size.y) }
+                    ));
+
                     groundSprite.setPosition({
                         static_cast<float>(x * GameConfig::TILE_SIZE),
                         static_cast<float>(y * GameConfig::TILE_SIZE)
-                    });
+                        });
+
                     window.draw(groundSprite);
                 }
             }
@@ -114,7 +123,7 @@ namespace RPG {
 
         // Optional: Scale fade width nicely with the radius (e.g., 20% of the clear zone)
         // or keep it static. Here we make it dynamic for smoother zooming.
-        float fadeWidth = visibleRadius * 0.4;
+        float fadeWidth = visibleRadius * 1.0f;
         sf::Vector2f playerPos = player.getPosition();
 
         // ZMIANA 1: U¿ywamy Triangles zamiast Quads

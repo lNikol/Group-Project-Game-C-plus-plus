@@ -24,6 +24,7 @@ namespace RPG {
 		float getSortY() const;
 		sf::FloatRect getHitbox() const;
 		sf::Vector2f getPosition() const;
+		std::string getName() const;
 		void draw(sf::RenderWindow& window) const;
 
 		void toggleDebugHitbox();
