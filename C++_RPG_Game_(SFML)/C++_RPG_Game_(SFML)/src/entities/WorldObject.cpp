@@ -7,12 +7,11 @@ namespace RPG {
 
 	WorldObject::WorldObject(
 		const StructureDefinition* definition, 
-		sf::Vector2f position,
-		const AssetManager& am
+		sf::Vector2f position
 	)
 		: definition(definition), sprite(dummyTexture)
 	{
-		const Spritesheet* spritesheet = am.getSpritesheet(definition->name);
+		const Spritesheet* spritesheet = AssetManager::getInstance().getSpritesheet(definition->name);
 		if (spritesheet) {
 			sf::IntRect rect(
 				{

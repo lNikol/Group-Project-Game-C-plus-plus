@@ -19,9 +19,22 @@ namespace RPG {
 		return !isOccupied && isWalkable;
 	}
 
+	bool Tile::isAvailableForPlace() const {
+		return !isOccupied;
+	}
+
+	void Tile::occupy() {
+		isOccupied = true;
+	}
+
+	void Tile::release() {
+		isOccupied = false;
+		residentObjects.clear();
+	}
 	/*
 	void Tile::clearMonster() {
 		hasMonster = false;
+		release();
 	}
 	*/
 }

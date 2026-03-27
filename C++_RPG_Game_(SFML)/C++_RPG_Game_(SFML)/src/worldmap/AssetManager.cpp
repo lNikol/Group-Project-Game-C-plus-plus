@@ -3,6 +3,17 @@
 namespace RPG {
 
     // ==============================
+    // Singleton Access
+    // ==============================
+
+    AssetManager& AssetManager::getInstance() {
+        // Guaranteed to be destroyed and instantiated on first use.
+        // Thread-safe in C++11 and above.
+        static AssetManager instance;
+        return instance;
+    }
+
+    // ==============================
     // Structure Management
     // ==============================
 
@@ -176,7 +187,7 @@ namespace RPG {
         auto it = spritesheetMap.find(name);
         
         if (it != spritesheetMap.end()) {
-            std::cout << "Loading spritesheet \"" + name + "\"\n";
+            //std::cout << "Loading spritesheet \"" + name + "\"\n";
             return &it->second;
         }
 

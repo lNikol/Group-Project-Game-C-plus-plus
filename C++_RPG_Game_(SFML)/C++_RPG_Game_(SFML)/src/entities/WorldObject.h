@@ -4,7 +4,7 @@
 
 namespace RPG {
 
-	class AssetManager;
+	//class AssetManager;
 
 	class WorldObject {
 		const StructureDefinition* definition;
@@ -14,8 +14,7 @@ namespace RPG {
 	public:
 		WorldObject(
 			const StructureDefinition* definition,
-			sf::Vector2f position,
-			const AssetManager& am
+			sf::Vector2f position
 		);
 
 		virtual ~WorldObject() = default;

@@ -12,15 +12,13 @@ namespace RPG {
 
 	class WorldMap {
 	private:
-		uint32_t width, height;
-		AssetManager& assetManager;
-		
+		uint32_t width, width_gen, height, height_gen;
 		std::vector<Tile> tiles; // Only holds ground
 		std::vector<std::unique_ptr<WorldObject>> structures; // Holds structues (trees, houses, rocks)
 		std::vector<std::unique_ptr<NPC>> npcs; // Holds active npcs
 	
 	public:
-		WorldMap(uint32_t w, uint32_t h, AssetManager& am);
+		WorldMap(uint32_t w, uint32_t h);
 
 		uint32_t getWidth() const;
 		uint32_t getHeight() const;

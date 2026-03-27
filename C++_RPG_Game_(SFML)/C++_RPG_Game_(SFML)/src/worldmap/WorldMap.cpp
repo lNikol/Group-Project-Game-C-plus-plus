@@ -8,7 +8,9 @@ namespace RPG {
 	uint32_t WorldMap::getWidth() const { return width; }
 	uint32_t WorldMap::getHeight() const { return height; }
 
-	WorldMap::WorldMap(uint32_t w, uint32_t h, AssetManager& am) : width(w), height(h), assetManager(am) {
+	WorldMap::WorldMap(uint32_t w, uint32_t h) : width(w), height(h),
+		width_gen(w - GameConfig::WORLD_GENERATE_MARGIN), height_gen(h - GameConfig::WORLD_GENERATE_MARGIN) {
+
 		// Memory reservation for all Tiles
 		tiles.resize(width * height);
 
@@ -25,6 +27,7 @@ namespace RPG {
 				if ((x == 0 || x == width - 1) || (y == 0 || y == height - 1)) {
 					// TODO: Place wall structure
 					tiles[index].isWalkable = false;
+					tiles[index].occupy();
 				}
 			}
 		}
@@ -81,9 +84,15 @@ namespace RPG {
 	}
 
 	void WorldMap::refreshMonsters(const DifficultyLevel& level, uint8_t mapEdgeOffset) {
+
+		// Monsters can also appear all over the map
+		// When obstacles are only generated in (width_gen&height_gen) zone
+
 		for (uint32_t y = 0; y < height; ++y) {
 			for (uint32_t x = 0; x < width; ++x) {
 				Tile& tile = at(x, y);
+
+				// TODO : check if it's written correctly
 
 				// Note: We need to get the Definition of the GROUND to check 'canSpawnMob'
 				// But your Tile currently stores groundType as Enum. 
@@ -112,32 +121,41 @@ namespace RPG {
 	}
 
 	bool WorldMap::placeStructure(float worldX, float worldY, const std::string& id) {
-		const StructureDefinition& def = assetManager.getDefinition(id);
+		const StructureDefinition& def = AssetManager::getInstance().getDefinition(id);
 
 		// 1. Create Object (on Heap via unique_ptr)
-		auto newObj = std::make_unique<WorldObject>(&def, sf::Vector2f(worldX, worldY), assetManager);
+		auto newObj = std::make_unique<WorldObject>(&def, sf::Vector2f(worldX, worldY));
+
+		sf::FloatRect hitbox = newObj->getHitbox();
+
+		int32_t startTx = static_cast<int32_t>(hitbox.position.x / GameConfig::TILE_SIZE);
+		int32_t startTy = static_cast<int32_t>(hitbox.position.y / GameConfig::TILE_SIZE);
+		int32_t endTx = static_cast<int32_t>((hitbox.position.x + hitbox.size.x - 0.1f) / GameConfig::TILE_SIZE);
+		int32_t endTy = static_cast<int32_t>((hitbox.position.y + hitbox.size.y - 0.1f) / GameConfig::TILE_SIZE);
+
+		if (startTx < 0 || startTy < 0 || endTx >= width_gen || endTy >= height_gen) {
+			// Beyond borders
+			return false;
+		}
+
+		// If any of those tiles is occupated - abort placement
+		for (int32_t y = startTy; y <= endTy; ++y) {
+			for (int32_t x = startTx; x <= endTx; ++x) {
+				if (!at(x, y).isAvailableForPlace()) {
+					return false; 
+				}
+			}
+		}
+
 		WorldObject* objPtr = newObj.get(); // Keep a raw pointer for the tiles
-
 		// 2. Register to Grid (Spatial Partitioning)
-		if (def.meta.blocksMovement) {
-			sf::FloatRect hitbox = newObj->getHitbox();
 
-			// Calculate range of tiles this hitbox touches
-			int32_t startTx = static_cast<int32_t>(hitbox.position.x / GameConfig::TILE_SIZE);
-			int32_t startTy = static_cast<int32_t>(hitbox.position.y / GameConfig::TILE_SIZE);
-			int32_t endTx = static_cast<int32_t>((hitbox.position.x + hitbox.size.x - 1.f) / GameConfig::TILE_SIZE);
-			int32_t endTy = static_cast<int32_t>((hitbox.position.y + hitbox.size.y - 1.f) / GameConfig::TILE_SIZE);
-
-			// Optional: Check if space is clear first?
-			// For strict collision, you might iterate the tiles and check if 'residentObjects' is empty.
-			// For now, let's just place it.
-
-			// Add pointer to all covered tiles
-			for (int32_t y = startTy; y <= endTy; ++y) {
-				for (int32_t x = startTx; x <= endTx; ++x) {
-					if (x >= 0 && x < width && y >= 0 && y < height) {
-						at(x, y).residentObjects.push_back(objPtr);
-					}
+		for (int32_t y = startTy; y <= endTy; ++y) {
+			for (int32_t x = startTx; x <= endTx; ++x) {
+				at(x, y).occupy(); 
+				// Add pointer to all covered tiles
+				if (def.meta.blocksMovement) {
+					at(x, y).residentObjects.push_back(objPtr);
 				}
 			}
 		}
@@ -145,15 +163,15 @@ namespace RPG {
 		// 3. Store ownership
 		structures.push_back(std::move(newObj));
 		return true;
+		
 	}
 
 	void WorldMap::generateObstacles(float density, const sf::Vector2f& playerStartPos, uint8_t playerSafeRadius) {
         int32_t spawnX = static_cast<int32_t>(playerStartPos.x / GameConfig::TILE_SIZE);
         int32_t spawnY = static_cast<int32_t>(playerStartPos.y / GameConfig::TILE_SIZE);
+		for (uint32_t y = GameConfig::WORLD_GENERATE_MARGIN; y <= height_gen; ++y) {
+			for (uint32_t x = GameConfig::WORLD_GENERATE_MARGIN; x <= width_gen; ++x) {
 
-        for (uint32_t y = 1; y < height - 1; ++y) {
-            for (uint32_t x = 1; x < width - 1; ++x) {
-                
                 // Safe Zone Check
                 if (std::abs((int)x - spawnX) < playerSafeRadius && 
                     std::abs((int)y - spawnY) < playerSafeRadius) continue;
@@ -163,7 +181,9 @@ namespace RPG {
                     std::string id = (std::rand() % 2 == 0) ? "big_tree" : "rock";
                     
                     // Try to place it (will fail if blocked)
-                    placeStructureAtTile(x, y, id);
+					if (!placeStructureAtTile(x, y, id)) {
+						// std::cout << "[Map WxH]: " << width <<" " << height << " Failed to place " << id << " at(x, y): " << x << " " << y << std::endl;
+					}
                 }
             }
         }
@@ -179,7 +199,7 @@ namespace RPG {
 				for (int dx = -r; dx <= r; ++dx) {
 					int32_t tx = startX + dx;
 					int32_t ty = startY + dy;
-					if (tx >= 0 && tx < width && ty >= 0 && ty < height) {
+					if (tx >= 0 && tx <= width_gen && ty >= 0 && ty <= height_gen) {
 						if (at(tx, ty).isAvailableForSpawn()) {
 							return sf::Vector2f(tx * GameConfig::TILE_SIZE, ty * GameConfig::TILE_SIZE);
 						}
@@ -195,9 +215,9 @@ namespace RPG {
 		int32_t ty = static_cast<int32_t>(npc->getPosition().y / GameConfig::TILE_SIZE);
 
 		if (tx < 0 || 
-			tx >= width || 
+			tx >= width_gen || 
 			ty < 0 || 
-			ty >= height) 
+			ty >= height_gen) 
 		{
 
 			sf::Vector2f safePos = findNearestSafeTile(npc->getPosition());

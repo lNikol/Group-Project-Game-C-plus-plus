@@ -22,6 +22,13 @@ namespace RPG {
      */
     class AssetManager {
     private:
+
+        // ==============================
+        // Singleton Core
+        // ==============================
+        // Private constructor
+        AssetManager() = default;
+
         // ==============================
         // Structure Definitions
         // ==============================
@@ -35,7 +42,22 @@ namespace RPG {
         std::unordered_map<std::string, sf::Font> fontMap;
 
     public:
-        AssetManager() = default;
+        // ==============================
+        // Singleton Access
+        // ==============================
+
+        /**
+         * @brief Gets the global Singleton instance of the AssetManager.
+         */
+        static AssetManager& getInstance();
+
+        // Delete copy constructor and assignment operator to enforce Singleton
+        AssetManager(const AssetManager&) = delete;
+        AssetManager& operator=(const AssetManager&) = delete;
+
+        // Delete move semantics
+        AssetManager(AssetManager&&) = delete;
+        AssetManager& operator=(AssetManager&&) = delete;
 
         // ==============================
         // Structure Management

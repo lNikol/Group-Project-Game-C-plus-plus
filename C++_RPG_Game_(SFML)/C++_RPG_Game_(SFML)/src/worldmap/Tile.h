@@ -47,12 +47,21 @@ namespace RPG {
 		 */
 		Tile(StructureType object, int32_t x, int32_t y, int32_t z);
 		
+		void release();
+		void occupy();
+
+
 		/**
          * @brief Checks if the tile is clear of obstacles and actors for spawning.
          * @return true If an entity can be placed here.
          */
 		bool isAvailableForSpawn() const;
 
+		/**
+		 * @brief Checks if the tile is clear of obstacles for spawning.
+		 * @return true If an obstacle can be placed here.
+		 */
+		bool isAvailableForPlace() const;
 		/**
 		 * @brief Removes the monster flag from the tile.
 		 */

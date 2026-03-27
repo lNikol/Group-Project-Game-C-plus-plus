@@ -33,7 +33,14 @@ namespace RPG {
 
     class BattleManager {
     public:
-        BattleManager(const AssetManager& assetManager, std::shared_ptr<Unit> player);
+        /**
+         * @brief Initializes the combat controller.
+         * @param iconSet The texture for ability icons (passed to HUD).
+         * @param charTexture the texture for units.
+         * @param font The font for UI text (passed to HUD).
+         * @param player The persistent player object from the GameManager.
+         */
+        BattleManager(std::shared_ptr<Unit> player);
         ~BattleManager() = default;
 
         void initTestLevel(const sf::RenderWindow& window);
@@ -82,8 +89,7 @@ namespace RPG {
         std::deque<std::shared_ptr<Unit>> m_turnQueue;
 
         bool m_hasInitializedHUD = false;
-        const AssetManager& m_assetManager;
-
+        //character textures
         const sf::Texture* m_iconSet = nullptr;
         const sf::Texture* m_charTexture = nullptr;
         const sf::Texture* m_monsterTexture = nullptr;

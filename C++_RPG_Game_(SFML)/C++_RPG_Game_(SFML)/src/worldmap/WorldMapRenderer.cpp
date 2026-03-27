@@ -11,7 +11,6 @@ namespace RPG {
     void WorldMapRenderer::draw(
         sf::RenderWindow& window,
         const WorldMap& worldMap,
-        const AssetManager& assetManager,
         const Player& player,
         float percentView
     ) {
@@ -49,7 +48,7 @@ namespace RPG {
         // ==============================
 
         // Cache texture pointer to avoid lookups in the loop
-        const sf::Texture* grassTex = assetManager.getTexture("grass");
+        const sf::Texture* grassTex = AssetManager::getInstance().getTexture("grass");
 
         if (grassTex) {
             sf::Sprite groundSprite(*grassTex);
@@ -164,5 +163,34 @@ namespace RPG {
         }
 
         window.draw(fogLayer);
+
+
+        // ==============================
+        // 4. DRAW DEBUG INFO (UI Layer)
+        // ==============================
+
+        sf::View worldView = window.getView();
+
+        window.setView(window.getDefaultView());
+
+        const sf::Font* font = AssetManager::getInstance().getFont("PixelFont");
+        if (font) {
+            sf::Text posText(*font);
+
+            std::string info = "Player Pos: X: " + std::to_string(static_cast<int>(playerPos.x / GameConfig::TILE_SIZE)) +
+                " Y: " + std::to_string(static_cast<int>(playerPos.y / GameConfig::TILE_SIZE));
+
+            posText.setString(info);
+            posText.setCharacterSize(24);
+            posText.setFillColor(sf::Color::White);
+            posText.setOutlineColor(sf::Color::Black);
+            posText.setOutlineThickness(1.f);
+
+            posText.setPosition({ 10.f, 10.f });
+
+            window.draw(posText);
+        }
+
+        window.setView(worldView);
     }
 }

@@ -20,6 +20,6 @@ namespace RPG {
 
         bool handleEvent(sf::RenderWindow& window, const sf::Event& event) override;
 
-        void draw(sf::RenderWindow& window, const AssetManager& am) override;
+        void draw(sf::RenderWindow& window) override;
     };
 }

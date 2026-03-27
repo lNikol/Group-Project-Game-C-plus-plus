@@ -12,16 +12,18 @@
 
 namespace RPG {
 
-    BattleManager::BattleManager(const AssetManager& assetManager, std::shared_ptr<Unit> player)
-        : m_assetManager(assetManager), m_playerUnit(player), m_movementTooltip(*assetManager.getFont("PixelFont"))
+    BattleManager::BattleManager(std::shared_ptr<Unit> player)
+        : m_playerUnit(player),
+        m_movementTooltip(*AssetManager::getInstance().getFont("PixelFont")) // Initialize Tooltip directly
     {
-        m_iconSet = m_assetManager.getSpritesheet("AbilityIcons");
-        m_charTexture = m_assetManager.getSpritesheet("BattleChars");
-        m_monsterTexture = m_assetManager.getSpritesheet("BattleEnemies");
-        m_propTexture = m_assetManager.getSpritesheet("BattleProps");
-        m_tileset = m_assetManager.getSpritesheet("BattleTiles");
-        m_bgTexture = m_assetManager.getSpritesheet("BattleBG");
-        m_font = m_assetManager.getFont("PixelFont");
+        // 1. Fetch Assets "In Place"
+        m_iconSet = AssetManager::getInstance().getSpritesheet("AbilityIcons");
+        m_charTexture = AssetManager::getInstance().getSpritesheet("BattleChars");
+        m_monsterTexture = AssetManager::getInstance().getSpritesheet("BattleEnemies");
+        m_propTexture = AssetManager::getInstance().getSpritesheet("BattleProps");
+        m_tileset  = AssetManager::getInstance().getSpritesheet("BattleTiles");
+        m_bgTexture = AssetManager::getInstance().getSpritesheet("BattleBG");
+        m_font = AssetManager::getInstance().getFont("PixelFont");
 
         if (!m_iconSet || !m_charTexture || !m_font) {
             std::cerr << "CRITICAL: Missing Battle Assets!" << std::endl;
@@ -455,14 +457,95 @@ namespace RPG {
             });
 
         for (const auto& obj : objects) {
+            // Draw Health Bar and Selector Ring UNDER the unit if selected
             if (auto u = std::dynamic_pointer_cast<Unit>(obj)) {
                 if (u == m_selectedUnit) {
                     m_selector.setPosition(obj->getRenderPosition());
                     window.draw(m_selector);
                 }
+                // Draw Health Bar above units
+                const auto* sprite = obj->getSprite();
+
+                float hp = u->getVitals().hp;
+                float maxHp = u->getVitals().maxHp;
+                float ratio = hp / maxHp;
+
+                // Get sprite position
+                sf::Vector2f pos = sprite->getPosition();
+
+                float barWidth = 40.f;
+                float barHeight = 5.f;
+                float offsetY = -70.f;
+
+                // black part
+                sf::RectangleShape bg;
+                bg.setSize({ barWidth, barHeight });
+                bg.setFillColor(sf::Color::Black);
+                bg.setOrigin({ barWidth / 2.f, barHeight / 2.f });
+                bg.setPosition({ pos.x, pos.y + offsetY });
+
+                // red part
+                sf::RectangleShape hpBar;
+                hpBar.setSize({ barWidth * ratio, barHeight });
+                hpBar.setFillColor(sf::Color::Red);
+
+                hpBar.setOrigin({ 0.f, barHeight / 2.f });
+                hpBar.setPosition({pos.x - (barWidth / 2.f),  pos.y + offsetY});
+
+                window.draw(bg);
+                window.draw(hpBar);     
             }
             obj->updateVisuals();
-            if (const auto* sprite = obj->getSprite()) window.draw(*sprite);
+
+            if (const auto* sprite = obj->getSprite()) {
+                window.draw(*sprite);
+
+            }
+            // Fallback
+            else {
+                sf::CircleShape debug(10.f);
+                debug.setPosition(obj->getRenderPosition());
+                window.draw(debug);
+            }
+        }
+        // draws turn sequence of units to play in the left corner
+        float startX = -580.0f;
+        float startY = -150.0f;
+        float spacing = 60.0f;
+        for (size_t i = 0; i < m_turnQueue.size(); i++)
+        {
+            auto& unit = m_turnQueue[i];
+
+            const sf::Sprite* sprite = unit->getSprite();
+            if (!sprite) continue;
+
+            sf::Sprite icon = *sprite;
+
+            icon.setPosition({ startX + i * spacing, startY });
+            icon.setScale({ 1.3f, 1.3f });
+            icon.setOrigin({ 0.f, 0.f });
+
+            // Draw red circle for FIRST unit
+            if (i == 0)
+            {
+                sf::CircleShape highlight;
+                highlight.setRadius(25.f);
+                highlight.setFillColor(sf::Color::Transparent);
+                highlight.setOutlineColor(sf::Color::Red);
+                highlight.setOutlineThickness(3.f);
+
+                highlight.setOrigin({ 25.f, 25.f });
+
+                // center it on icon
+                highlight.setPosition({
+                    startX + i * spacing + 21.f,
+                    startY + 21.f
+                    });
+
+                window.draw(highlight);
+            }
+
+            window.draw(icon);
         }
 
         if (m_state == GameState::Moving && m_selectedUnit) {
