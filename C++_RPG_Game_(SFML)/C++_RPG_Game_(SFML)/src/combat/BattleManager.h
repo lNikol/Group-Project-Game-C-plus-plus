@@ -40,8 +40,7 @@ namespace RPG {
          * @param font The font for UI text (passed to HUD).
          * @param player The persistent player object from the GameManager.
          */
-        BattleManager(const AssetManager& assetManager,
-            std::shared_ptr<Unit> player);
+        BattleManager(std::shared_ptr<Unit> player);
         ~BattleManager() = default;
 
         /**
@@ -130,8 +129,6 @@ namespace RPG {
         std::deque<std::shared_ptr<Unit>> m_turnQueue;
         //HUD
         bool m_hasInitializedHUD = false;
-        //assets
-        const AssetManager& m_assetManager;
         //character textures
         const sf::Texture* m_iconSet = nullptr;
         const sf::Texture* m_charTexture = nullptr;

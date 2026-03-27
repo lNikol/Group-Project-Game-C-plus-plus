@@ -10,19 +10,18 @@
 #include <sstream>
 namespace RPG {
 
-    BattleManager::BattleManager(const AssetManager& assetManager, std::shared_ptr<Unit> player)
-        : m_assetManager(assetManager), // Store the manager
-        m_playerUnit(player),
-        m_movementTooltip(*assetManager.getFont("PixelFont")) // Initialize Tooltip directly
+    BattleManager::BattleManager(std::shared_ptr<Unit> player)
+        : m_playerUnit(player),
+        m_movementTooltip(*AssetManager::getInstance().getFont("PixelFont")) // Initialize Tooltip directly
     {
         // 1. Fetch Assets "In Place"
-        m_iconSet = m_assetManager.getSpritesheet("AbilityIcons");
-        m_charTexture = m_assetManager.getSpritesheet("BattleChars");
-        m_monsterTexture = m_assetManager.getSpritesheet("BattleEnemies");
-        m_propTexture = m_assetManager.getSpritesheet("BattleProps");
-        m_tileset  = m_assetManager.getSpritesheet("BattleTiles");
-        m_bgTexture = m_assetManager.getSpritesheet("BattleBG");
-        m_font = m_assetManager.getFont("PixelFont");
+        m_iconSet = AssetManager::getInstance().getSpritesheet("AbilityIcons");
+        m_charTexture = AssetManager::getInstance().getSpritesheet("BattleChars");
+        m_monsterTexture = AssetManager::getInstance().getSpritesheet("BattleEnemies");
+        m_propTexture = AssetManager::getInstance().getSpritesheet("BattleProps");
+        m_tileset  = AssetManager::getInstance().getSpritesheet("BattleTiles");
+        m_bgTexture = AssetManager::getInstance().getSpritesheet("BattleBG");
+        m_font = AssetManager::getInstance().getFont("PixelFont");
 
         // Safety Check
         if (!m_iconSet || !m_charTexture || !m_font) {

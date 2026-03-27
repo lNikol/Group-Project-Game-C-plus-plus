@@ -33,8 +33,8 @@ namespace RPG {
 
 		sf::Vector2f getInputDirection(const sf::RenderWindow& window) const;
 	public:
-		Player(float startX, float startY, const AssetManager& assetManager);
-		Player(sf::Vector2f pos, const AssetManager& assetManager);
+		Player(float startX, float startY);
+		Player(sf::Vector2f pos);
 
 		// --- World Logic ---
 

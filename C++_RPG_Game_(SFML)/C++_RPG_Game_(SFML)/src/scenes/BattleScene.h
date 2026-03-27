@@ -21,13 +21,11 @@ namespace RPG {
         /**
          * @brief Constructs the Battle Scene.
          * @param ctrl Reference to the main game controller (for switching back to World later).
-         * @param assetManager Access to fonts and textures (required for the HUD).
          * @param player The persistent player data (HP, Inventory) to use in the fight.
          * @param map The generic WorldMap data (can be used to generate obstacles).
          */
         BattleScene(ISceneController& ctrl,
             const sf::RenderWindow& window,
-            const AssetManager& assetManager,
             std::shared_ptr<Unit> player,
             std::shared_ptr<WorldMap> map);
 
@@ -39,7 +37,7 @@ namespace RPG {
 
         bool handleEvent(sf::RenderWindow& window, const sf::Event& event) override;
         void update(float dt, const sf::RenderWindow& window) override;
-        void draw(sf::RenderWindow& window, const AssetManager& am) override;
+        void draw(sf::RenderWindow& window) override;
 
     private:
         ISceneController& m_controller;

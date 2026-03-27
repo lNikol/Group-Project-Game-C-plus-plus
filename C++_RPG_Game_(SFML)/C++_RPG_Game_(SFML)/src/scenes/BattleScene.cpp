@@ -4,7 +4,6 @@ namespace RPG {
 
     BattleScene::BattleScene(ISceneController& ctrl,
         const sf::RenderWindow& window,
-        const AssetManager& assetManager,
         std::shared_ptr<Unit> player,
         std::shared_ptr<WorldMap> map)
         : m_controller(ctrl)
@@ -12,7 +11,7 @@ namespace RPG {
 
         // 1. Initialize the Battle Manager
         // Pass the player so the Manager can add them to the grid
-        m_battleManager = std::make_unique<BattleManager>(assetManager, player);
+        m_battleManager = std::make_unique<BattleManager>(player);
 
         // 2. Setup the initial state (Generate enemies, props)
         m_battleManager->initTestLevel(window);
@@ -35,7 +34,7 @@ namespace RPG {
         if (m_battleManager->isBattleOver()) m_controller.changeScene(FactionID::MainWorld);
     }
 
-    void BattleScene::draw(sf::RenderWindow& window, const AssetManager& am) {
+    void BattleScene::draw(sf::RenderWindow& window) {
         if (m_battleManager) {
             m_battleManager->render(window);
         }

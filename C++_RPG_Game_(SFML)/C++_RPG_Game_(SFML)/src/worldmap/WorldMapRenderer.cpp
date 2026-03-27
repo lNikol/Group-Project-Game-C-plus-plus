@@ -11,7 +11,6 @@ namespace RPG {
     void WorldMapRenderer::draw(
         sf::RenderWindow& window,
         const WorldMap& worldMap,
-        const AssetManager& assetManager,
         const Player& player,
         float percentView
     ) {
@@ -49,7 +48,7 @@ namespace RPG {
         // ==============================
 
         // Cache texture pointer to avoid lookups in the loop
-        const sf::Texture* grassTex = assetManager.getTexture("grass");
+        const sf::Texture* grassTex = AssetManager::getInstance().getTexture("grass");
 
         if (grassTex) {
             sf::Sprite groundSprite(*grassTex);
@@ -174,7 +173,7 @@ namespace RPG {
 
         window.setView(window.getDefaultView());
 
-        const sf::Font* font = assetManager.getFont("PixelFont");
+        const sf::Font* font = AssetManager::getInstance().getFont("PixelFont");
         if (font) {
             sf::Text posText(*font);
 

@@ -8,7 +8,7 @@ namespace RPG {
 	uint32_t WorldMap::getWidth() const { return width; }
 	uint32_t WorldMap::getHeight() const { return height; }
 
-	WorldMap::WorldMap(uint32_t w, uint32_t h, AssetManager& am) : width(w), height(h), assetManager(am),
+	WorldMap::WorldMap(uint32_t w, uint32_t h) : width(w), height(h),
 		width_gen(w - GameConfig::WORLD_GENERATE_MARGIN), height_gen(h - GameConfig::WORLD_GENERATE_MARGIN) {
 
 		// Memory reservation for all Tiles
@@ -121,10 +121,10 @@ namespace RPG {
 	}
 
 	bool WorldMap::placeStructure(float worldX, float worldY, const std::string& id) {
-		const StructureDefinition& def = assetManager.getDefinition(id);
+		const StructureDefinition& def = AssetManager::getInstance().getDefinition(id);
 
 		// 1. Create Object (on Heap via unique_ptr)
-		auto newObj = std::make_unique<WorldObject>(&def, sf::Vector2f(worldX, worldY), assetManager);
+		auto newObj = std::make_unique<WorldObject>(&def, sf::Vector2f(worldX, worldY));
 
 		sf::FloatRect hitbox = newObj->getHitbox();
 

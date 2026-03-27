@@ -14,24 +14,24 @@ namespace RPG {
         window.setFramerateLimit(Window::BASE_FPS);
 
         // Assets and structures init
-        assetManager.init();
-        assetManager.addSpritesheet("player", GameConfig::ANIMATIONS_PATH + "/player.png");
-        assetManager.addSpritesheet("npc", GameConfig::ANIMATIONS_PATH + "/npc.png");
+        AssetManager::getInstance().init();
+        AssetManager::getInstance().addSpritesheet("player", GameConfig::ANIMATIONS_PATH + "/player.png");
+        AssetManager::getInstance().addSpritesheet("npc", GameConfig::ANIMATIONS_PATH + "/npc.png");
 
-        assetManager.addTexture("grass", GameConfig::TEXTURES_PATH + "grass.png");
+        AssetManager::getInstance().addTexture("grass", GameConfig::TEXTURES_PATH + "grass.png");
 
         // Init start scene
         initGameData();
 
-        assetManager.addSpritesheet("AbilityIcons", GameConfig::TEXTURES_PATH + "placeholders/IconSet.png");
-        assetManager.addFont("PixelFont", GameConfig::ASSETS_PATH + "fonts/m5x7.ttf");
-        assetManager.addSpritesheet("BattleChars", GameConfig::TEXTURES_PATH + "placeholders/characters1.png");
-        assetManager.addSpritesheet("BattleEnemies", GameConfig::TEXTURES_PATH + "placeholders/Monster1.png");
-        assetManager.addSpritesheet("BattleProps", GameConfig::TEXTURES_PATH + "placeholders/!Other1.png");
-        assetManager.addSpritesheet("BattleTiles", GameConfig::TEXTURES_PATH + "placeholders/Outside_A2.png");
-        assetManager.addSpritesheet("BattleBG", GameConfig::TEXTURES_PATH + "placeholders/Mountains3.png");
-        m_globalFont = assetManager.getFont("PixelFont");
-        m_iconSet = assetManager.getSpritesheet("AbilityIcons");
+        AssetManager::getInstance().addSpritesheet("AbilityIcons", GameConfig::TEXTURES_PATH + "placeholders/IconSet.png");
+        AssetManager::getInstance().addFont("PixelFont", GameConfig::ASSETS_PATH + "fonts/m5x7.ttf");
+        AssetManager::getInstance().addSpritesheet("BattleChars", GameConfig::TEXTURES_PATH + "placeholders/characters1.png");
+        AssetManager::getInstance().addSpritesheet("BattleEnemies", GameConfig::TEXTURES_PATH + "placeholders/Monster1.png");
+        AssetManager::getInstance().addSpritesheet("BattleProps", GameConfig::TEXTURES_PATH + "placeholders/!Other1.png");
+        AssetManager::getInstance().addSpritesheet("BattleTiles", GameConfig::TEXTURES_PATH + "placeholders/Outside_A2.png");
+        AssetManager::getInstance().addSpritesheet("BattleBG", GameConfig::TEXTURES_PATH + "placeholders/Mountains3.png");
+        m_globalFont = AssetManager::getInstance().getFont("PixelFont");
+        m_iconSet = AssetManager::getInstance().getSpritesheet("AbilityIcons");
 
         /*if (m_iconSet && m_globalFont) {
             m_hud = std::make_unique<BattleHUD>(*m_iconSet, *m_globalFont);
@@ -47,13 +47,13 @@ namespace RPG {
     void GameManager::initGameData() {
 
         // Shared player initialization
-        player = std::make_shared<Player>(lastWorldPosition, assetManager);
+        player = std::make_shared<Player>(lastWorldPosition);
 
         // Shared player initialization
         Vitals startStats = { 100.f, 100.f, 50.f, 50.f, 100.f, 100.f }; // HP, MP, Stamina
         playerUnit = std::make_shared<Unit>("Hero", Team::Player, startStats);
         // --- 1. MAIN WORLD ---
-        auto mainMap = std::make_shared<WorldMap>(GameConfig::WORLD_WIDTH, GameConfig::WORLD_HEIGHT, assetManager);
+        auto mainMap = std::make_shared<WorldMap>(GameConfig::WORLD_WIDTH, GameConfig::WORLD_HEIGHT);
         mainMap->generateObstacles(0.07f, player->getPosition(), 3);
         mainMap->placeStructureAtTile(12, 12, "house");
 
@@ -62,7 +62,7 @@ namespace RPG {
             .frameCount(8)
             .frameGap(16)
             .frameStartPos({ 16, 16 })
-            .spritesheet(assetManager.getSpritesheet("npc"))
+            .spritesheet(AssetManager::getInstance().getSpritesheet("npc"))
             .looped(true)
             .build();
 
@@ -95,7 +95,7 @@ namespace RPG {
         allMaps[FactionID::MainWorld] = mainMap;
 
         // --- 2. WHITE ORDER BASE (Small, organized) ---
-        auto whiteMap = std::make_shared<WorldMap>(25, 25, assetManager);
+        auto whiteMap = std::make_shared<WorldMap>(25, 25);
         whiteMap->generateObstacles(0.02f, sf::Vector2f(400, 520), 2);
         //whiteMap->placeStructure(12, 12, StructureType::FactionBase); // Large base in the center
         //whiteMap->placeStructure(10, 10, StructureType::Camp);        // Guard camp nearby
@@ -106,7 +106,7 @@ namespace RPG {
         allMaps[FactionID::WhiteOrder] = whiteMap;
 
         // --- 3. DARK ORDER BASE (Cramped, dangerous) ---
-        auto darkMap = std::make_shared<WorldMap>(15, 15, assetManager);
+        auto darkMap = std::make_shared<WorldMap>(15, 15);
         // Dark Order has many walls/rocks
         darkMap->generateObstacles(0.15f, sf::Vector2f(400, 480), 2); 
 
@@ -117,7 +117,7 @@ namespace RPG {
         allMaps[FactionID::DarkOrder] = darkMap;
 
         // --- 4. NEUTRAL ORDER (Wide, empty) ---
-        auto neutralMap = std::make_shared<WorldMap>(40, 40, assetManager);
+        auto neutralMap = std::make_shared<WorldMap>(40, 40);
         neutralMap->generateObstacles(0.25f, sf::Vector2f(440, 620), 4);
         //neutralMap->placeStructure(5, 5, StructureType::Camp);
         //neutralMap->placeStructure(35, 35, StructureType::Camp);
@@ -156,7 +156,7 @@ namespace RPG {
             break;
 
         case FactionID::BattleScene:
-            currentScene = std::make_unique<BattleScene>(*this,window, assetManager,playerUnit, selectedMap);
+            currentScene = std::make_unique<BattleScene>(*this,window,playerUnit, selectedMap);
             break;
 
         default:
@@ -234,7 +234,7 @@ namespace RPG {
     void GameManager::draw() {
         window.clear(sf::Color(0x606030FF));
         
-        if (currentScene) currentScene->draw(window, assetManager);
+        if (currentScene) currentScene->draw(window);
 
         //if (m_hud) {
         //    window.draw(*m_hud);
