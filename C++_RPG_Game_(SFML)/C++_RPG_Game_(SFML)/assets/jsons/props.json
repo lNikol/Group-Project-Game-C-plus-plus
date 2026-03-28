@@ -1,0 +1,54 @@
+{
+  "props": [
+    {
+      "id": "boulder_brown",
+      "name": "Brown Boulder",
+      "spritesheetId": "BattleProps",
+      "textureRect": [0, 0, 32, 32],
+      "colliderWidth": 26.0,
+      "colliderHeight": 26.0,
+      "blocksMovement": true,
+      "blocksSight": true
+    },
+    {
+      "id": "boulder_gray",
+      "name": "Gray Boulder",
+      "spritesheetId": "BattleProps",
+      "textureRect": [96, 0, 32, 32],
+      "colliderWidth": 26.0,
+      "colliderHeight": 26.0,
+      "blocksMovement": true,
+      "blocksSight": true
+    },
+    {
+      "id": "snowball_pile",
+      "name": "Giant Snowball",
+      "spritesheetId": "BattleProps",
+      "textureRect": [192, 0, 32, 32],
+      "colliderWidth": 20.0,
+      "colliderHeight": 20.0,
+      "blocksMovement": true,
+      "blocksSight": false
+    },
+    {
+      "id": "crystal_orb_blue",
+      "name": "Mystic Pearl",
+      "spritesheetId": "BattleProps",
+      "textureRect": [192, 160, 32, 32],
+      "colliderWidth": 16.0,
+      "colliderHeight": 16.0,
+      "blocksMovement": true,
+      "blocksSight": false
+    },
+    {
+      "id": "water_puddle",
+      "name": "Puddle",
+      "spritesheetId": "BattleProps",
+      "textureRect": [96, 128, 32, 32],
+      "colliderWidth": 32.0,
+      "colliderHeight": 32.0,
+      "blocksMovement": false,
+      "blocksSight": false
+    }
+  ]
+}

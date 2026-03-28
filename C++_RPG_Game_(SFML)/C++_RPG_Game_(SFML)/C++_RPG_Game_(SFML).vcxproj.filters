@@ -172,6 +172,12 @@
     <ClCompile Include="src\entities\WorldObject.cpp">
       <Filter>Pliki źródłowe\combat</Filter>
     </ClCompile>
+    <ClCompile Include="src\combat\PropFactory.cpp">
+      <Filter>Pliki źródłowe\combat</Filter>
+    </ClCompile>
+    <ClCompile Include="src\combat\UnitFactory.cpp">
+      <Filter>Pliki źródłowe\combat</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\worldmap\AssetManager.h">
@@ -313,6 +319,12 @@
       <Filter>Pliki nagłówkowe\combat</Filter>
     </ClInclude>
     <ClInclude Include="src\combat\IsoHelpers.h">
+      <Filter>Pliki nagłówkowe\combat</Filter>
+    </ClInclude>
+    <ClInclude Include="src\combat\PropFactory.h">
+      <Filter>Pliki nagłówkowe\combat</Filter>
+    </ClInclude>
+    <ClInclude Include="src\combat\UnitFactory.h">
       <Filter>Pliki nagłówkowe\combat</Filter>
     </ClInclude>
   </ItemGroup>

@@ -140,6 +140,8 @@
   <ItemGroup>
     <ClCompile Include="src\combat\AbilityFactory.cpp" />
     <ClCompile Include="src\combat\AbilityProcessor.cpp" />
+    <ClCompile Include="src\combat\PropFactory.cpp" />
+    <ClCompile Include="src\combat\UnitFactory.cpp" />
     <ClCompile Include="src\entities\CollidingEntity.cpp" />
     <ClCompile Include="src\combat\BattleManager.cpp" />
     <ClCompile Include="src\combat\CombatAbility.cpp" />
@@ -175,7 +177,9 @@
     <ClInclude Include="src\combat\AbilityFactory.h" />
     <ClInclude Include="src\combat\AbilityProcessor.h" />
     <ClInclude Include="src\combat\IsoHelpers.h" />
+    <ClInclude Include="src\combat\PropFactory.h" />
     <ClInclude Include="src\combat\StatusEffect.h" />
+    <ClInclude Include="src\combat\UnitFactory.h" />
     <ClInclude Include="src\entities\CollidingEntity.h" />
     <ClInclude Include="src\combat\BattleManager.h" />
     <ClInclude Include="src\combat\CombatAbility.h" />

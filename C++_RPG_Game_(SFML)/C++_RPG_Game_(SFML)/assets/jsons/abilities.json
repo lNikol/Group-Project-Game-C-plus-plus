@@ -2,68 +2,139 @@
   "abilities": [
     {
       "id": "slash",
-      "name": "Slash",
-      "description": "A basic melee attack.\nScales with Strength.",
-      "iconIndex": 115,
+      "name": "Heroic Slash",
+      "description": "A basic melee attack scaling with Strength.",
+      "iconIndex": 82, 
       "targetType": "SingleEnemy",
       "cooldownTurns": 0,
       "range": 40.0,
       "radius": 0.0,
       "manaCost": 0.0,
-      "staminaCost": 15.0,
+      "staminaCost": 10.0,
       "effects": [
         {
           "type": "Damage",
-          "baseValue": 10.0,
+          "baseValue": 15.0,
           "scalingStat": "Strength",
-          "scalingFactor": 1.0,
-          "targetStat": "None",
+          "scalingFactor": 1.5,
           "baseCritChance": 0.05,
-          "critScalingStat": "Dexterity",
-          "critScalingFactor": 0.005,
-          "critMultiplier": 1.5,
-          "durationTurns": 0,
-          "applyChance": 1.0
+          "critMultiplier": 1.5
+        }
+      ]
+    },
+    {
+      "id": "fireball",
+      "name": "Fireball",
+      "description": "Explodes in an AoE, scaling with Intellect.",
+      "iconIndex": 64,
+      "targetType": "AreaEnemy",
+      "cooldownTurns": 2,
+      "range": 150.0,
+      "radius": 45.0,
+      "manaCost": 25.0,
+      "staminaCost": 0.0,
+      "effects": [
+        {
+          "type": "Damage",
+          "baseValue": 30.0,
+          "scalingStat": "Intellect",
+          "scalingFactor": 2.0,
+          "baseCritChance": 0.10,
+          "critMultiplier": 2.0
         }
       ]
     },
     {
       "id": "poison_dart",
       "name": "Poison Dart",
-      "description": "Deals minor damage and poisons the target for 3 turns.",
-      "iconIndex": 120,
+      "description": "Deals minor impact damage and applies a 3-turn Poison.",
+      "iconIndex": 1,
       "targetType": "SingleEnemy",
       "cooldownTurns": 3,
-      "range": 200.0,
+      "range": 120.0,
       "radius": 0.0,
-      "manaCost": 10.0,
-      "staminaCost": 10.0,
+      "manaCost": 15.0,
+      "staminaCost": 5.0,
       "effects": [
         {
           "type": "Damage",
           "baseValue": 5.0,
           "scalingStat": "Dexterity",
-          "scalingFactor": 0.5,
-          "targetStat": "None",
-          "baseCritChance": 0.1,
-          "critScalingStat": "None",
-          "critScalingFactor": 0.0,
-          "critMultiplier": 2.0,
-          "durationTurns": 0,
-          "applyChance": 1.0
+          "scalingFactor": 0.5
         },
         {
           "type": "Damage",
-          "baseValue": 15.0,
+          "baseValue": 10.0,
           "scalingStat": "Intellect",
-          "scalingFactor": 0.2,
-          "targetStat": "None",
-          "baseCritChance": 0.0,
-          "critScalingStat": "None",
-          "critScalingFactor": 0.0,
-          "critMultiplier": 1.0,
+          "scalingFactor": 0.8,
           "durationTurns": 3,
-          "applyChance": 0.8
+          "applyChance": 0.85
+        }
+      ]
+    },
+    {
+      "id": "heal_light",
+      "name": "Flash of Light",
+      "description": "Restores HP to an ally.",
+      "iconIndex": 74,
+      "targetType": "SingleAlly",
+      "cooldownTurns": 1,
+      "range": 100.0,
+      "radius": 0.0,
+      "manaCost": 20.0,
+      "staminaCost": 0.0,
+      "effects": [
+        {
+          "type": "Heal",
+          "baseValue": 25.0,
+          "scalingStat": "Intellect",
+          "scalingFactor": 1.5,
+          "baseCritChance": 0.20,
+          "critMultiplier": 1.5
+        }
+      ]
+    },
+    {
+      "id": "shield_wall",
+      "name": "Shield Wall",
+      "description": "Buffs the caster's Vitality for 2 turns.",
+      "iconIndex": 77,
+      "targetType": "Self",
+      "cooldownTurns": 4,
+      "range": 0.0,
+      "radius": 0.0,
+      "manaCost": 10.0,
+      "staminaCost": 20.0,
+      "effects": [
+        {
+          "type": "Buff",
+          "baseValue": 15.0,
+          "scalingStat": "Vitality",
+          "scalingFactor": 0.5,
+          "targetStat": "Vitality",
+          "durationTurns": 2
+        }
+      ]
+    },
+    {
+      "id": "whirlwind",
+      "name": "Whirlwind",
+      "description": "Strikes all adjacent enemies.",
+      "iconIndex": 69,
+      "targetType": "AreaEnemy",
+      "cooldownTurns": 2,
+      "range": 0.0,
+      "radius": 50.0,
+      "manaCost": 0.0,
+      "staminaCost": 35.0,
+      "effects": [
+        {
+          "type": "Damage",
+          "baseValue": 20.0,
+          "scalingStat": "Dexterity",
+          "scalingFactor": 1.2,
+          "baseCritChance": 0.15,
+          "critMultiplier": 1.5
         }
       ]
     }

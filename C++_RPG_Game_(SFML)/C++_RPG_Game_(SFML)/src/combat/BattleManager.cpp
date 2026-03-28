@@ -1,5 +1,7 @@
 #include "BattleManager.h"
-#include "AbilityFactory.h" // Added for Data-Driven loading
+#include "AbilityFactory.h"
+#include "PropFactory.h"
+#include "UnitFactory.h"
 #include "core/IsoHelpers.h"
 #include "Prop.h"
 #include <iostream>
@@ -74,55 +76,78 @@ namespace RPG {
     }
 
     void BattleManager::initTestLevel(const sf::RenderWindow& window) {
-        // 1. Load Abilities from JSON!
-        if (!AbilityFactory::getInstance().loadFromJSON("assets/abilities.json")) {
-            std::cerr << "Failed to load combat abilities. Check assets/abilities.json" << std::endl;
+        // 1. Load Data from JSON
+        if (!AbilityFactory::getInstance().loadFromJSON("assets/jsons/abilities.json")) {
+            std::cerr << "CRITICAL: Failed to load abilities.json" << std::endl;
+        }
+        if (!UnitFactory::getInstance().loadFromJSON("assets/jsons/units.json")) {
+            std::cerr << "CRITICAL: Failed to load units.json" << std::endl;
+        }
+        if (!PropFactory::getInstance().loadFromJSON("assets/jsons/props.json")) {
+            std::cerr << "CRITICAL: Failed to load props.json" << std::endl;
         }
 
+        // 2. Create System Commands (Requires C++ lambdas/references)
         auto endTurnAction = std::make_shared<EndTurnCommand>([this]() { this->endTurn(); });
         auto moveAction = std::make_shared<MoveCommand>(*this);
 
-        Vitals vKnight = { 120.f, 120.f, 40.f, 40.f, 50.f, 50.f };
-        auto knight = std::make_shared<Unit>("Sir Tankalot", Team::Player, vKnight);
-        knight->setLogicalPosition(150.f, 150.f);
-        knight->setInitiative(10);
-        knight->setCritChance(0.10f);
-        knight->setSprite(*m_charTexture, sf::IntRect({ 0, 0 }, { 32, 32 }));
-
-        // Bind using the Factory
-        auto sword = AbilityFactory::getInstance().createAbility("slash", *this, knight.get());
-        if (sword) knight->setHotbarAbility(0, sword);
-
-        // (You can bind more Factory abilities for Rogue/Mage here similarly)
-        knight->setHotbarAbility(9, moveAction);
-        knight->setHotbarAbility(17, endTurnAction);
-        m_map->addObject(knight);
-        m_playerUnit = knight;
-
-        Vitals vBoss = { 150.f, 150.f, 150.f, 150.f, 30.f, 30.f };
-        auto darkMage = std::make_shared<Unit>("Dark Mage", Team::Enemy, vBoss);
-        darkMage->setLogicalPosition(400.f, 400.f);
-        darkMage->setInitiative(18);
-        darkMage->setSprite(*m_monsterTexture, sf::IntRect({ 0, 0 }, { 32, 32 }));
-
-        auto bossSpell = AbilityFactory::getInstance().createAbility("poison_dart", *this, darkMage.get());
-        if (bossSpell) darkMage->setHotbarAbility(0, bossSpell);
-
-        darkMage->setHotbarAbility(17, endTurnAction);
-        darkMage->setHotbarAbility(9, moveAction);
-        m_map->addObject(darkMage);
-
-        auto placePillar = [&](float x, float y) {
-            auto prop = std::make_shared<Prop>(true, true, "Pillar");
-            prop->setLogicalPosition(x, y);
-            prop->setColliderSize(30.f, 30.f);
-            prop->setSprite(*m_propTexture, sf::IntRect({ 32, 32 }, { 32, 32 }));
-            m_map->addObject(prop);
+        // Helper lambda to apply system commands and add to map
+        auto setupUnit = [&](std::shared_ptr<Unit> unit) {
+            if (unit) {
+                // Slots 9 and 17 are arbitrary, change them based on your UI layout preferences
+                unit->setHotbarAbility(9, moveAction);
+                unit->setHotbarAbility(17, endTurnAction);
+                m_map->addObject(unit);
+            }
             };
 
-        placePillar(200.f, 250.f);
-        placePillar(240.f, 220.f);
+        // ==========================================
+        // 3. Spawn Players
+        // ==========================================
+        m_playerUnit = UnitFactory::getInstance().createUnit("player_fighter", Team::Player, *this, 150.f, 150.f);
+        setupUnit(m_playerUnit);
 
+        auto mage = UnitFactory::getInstance().createUnit("player_mage", Team::Player, *this, 100.f, 200.f);
+        setupUnit(mage);
+
+
+        // ==========================================
+        // 4. Spawn Enemies
+        // ==========================================
+        // The Boss
+        auto boss = UnitFactory::getInstance().createUnit("boss_demon", Team::Enemy, *this, 350.f, 350.f);
+        setupUnit(boss);
+
+        // Skeleton Guards
+        auto skeleton1 = UnitFactory::getInstance().createUnit("enemy_skeleton", Team::Enemy, *this, 280.f, 300.f);
+        setupUnit(skeleton1);
+
+        auto skeleton2 = UnitFactory::getInstance().createUnit("enemy_skeleton", Team::Enemy, *this, 420.f, 300.f);
+        setupUnit(skeleton2);
+
+
+        // ==========================================
+        // 5. Spawn Environmental Props
+        // ==========================================
+        // A wall of boulders creating a choke point
+        auto boulder1 = PropFactory::getInstance().createProp("boulder_brown", 220.f, 250.f);
+        if (boulder1) m_map->addObject(boulder1);
+
+        auto boulder2 = PropFactory::getInstance().createProp("boulder_gray", 250.f, 220.f);
+        if (boulder2) m_map->addObject(boulder2);
+
+        // A mystical pearl for decoration
+        auto pearl = PropFactory::getInstance().createProp("crystal_orb_blue", 350.f, 200.f);
+        if (pearl) m_map->addObject(pearl);
+
+        // A puddle near the heroes
+        auto puddle = PropFactory::getInstance().createProp("water_puddle", 120.f, 150.f);
+        if (puddle) m_map->addObject(puddle);
+
+
+        // ==========================================
+        // 6. Final UI / Map Setup
+        // ==========================================
         if (m_hud) m_hud->onResize(window.getSize());
         m_map->onResize(window.getSize());
 
@@ -398,22 +423,25 @@ namespace RPG {
         window.draw(*m_map);
 
         if (m_showDebug) {
-            sf::VertexArray gridLines(sf::PrimitiveType::Lines);
+            std::vector<sf::Vertex> gridVertices;
             sf::Color gridColor(255, 255, 255, 80);
 
+            // Vertical lines
             for (int x = 0; x <= gridSize; ++x) {
                 sf::Vector2f start = Iso::worldToScreen({ x * tileSize, 0.f });
                 sf::Vector2f end = Iso::worldToScreen({ x * tileSize, gridSize * tileSize });
-                gridLines.append(sf::Vertex({ start, gridColor }));
-                gridLines.append(sf::Vertex({ end, gridColor }));
+                gridVertices.push_back(sf::Vertex{ start, gridColor });
+                gridVertices.push_back(sf::Vertex{ end, gridColor });
             }
+            // Horizontal lines
             for (int y = 0; y <= gridSize; ++y) {
                 sf::Vector2f start = Iso::worldToScreen({ 0.f, y * tileSize });
                 sf::Vector2f end = Iso::worldToScreen({ gridSize * tileSize, y * tileSize });
-                gridLines.append(sf::Vertex({ start, gridColor }));
-                gridLines.append(sf::Vertex({ end, gridColor }));
+                gridVertices.push_back(sf::Vertex{ start, gridColor });
+                gridVertices.push_back(sf::Vertex{ end, gridColor });
             }
-            window.draw(gridLines);
+
+            window.draw(gridVertices.data(), gridVertices.size(), sf::PrimitiveType::Lines);
         }
 
         if (m_state == GameState::TargetingMode && m_selectedUnit && m_pendingAbility) {
@@ -664,13 +692,15 @@ namespace RPG {
         sf::Vector2f s3 = Iso::worldToScreen(p3);
         sf::Vector2f s4 = Iso::worldToScreen(p4);
 
-        sf::VertexArray lines(sf::PrimitiveType::LineStrip, 5);
-        lines[0] = sf::Vertex(s1, color);
-        lines[1] = sf::Vertex(s2, color);
-        lines[2] = sf::Vertex(s3, color);
-        lines[3] = sf::Vertex(s4, color);
-        lines[4] = sf::Vertex(s1, color);
-        window.draw(lines);
+        // Safe std::vector approach (SFML 3 aggregate initialization)
+        std::vector<sf::Vertex> lines;
+        lines.push_back(sf::Vertex{ s1, color });
+        lines.push_back(sf::Vertex{ s2, color });
+        lines.push_back(sf::Vertex{ s3, color });
+        lines.push_back(sf::Vertex{ s4, color });
+        lines.push_back(sf::Vertex{ s1, color }); // Close the loop
+
+        window.draw(lines.data(), lines.size(), sf::PrimitiveType::LineStrip);
     }
 
     void BattleManager::onUnitDeath(std::shared_ptr<Unit> deadUnit) {

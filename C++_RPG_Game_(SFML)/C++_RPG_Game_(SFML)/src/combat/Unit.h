@@ -72,7 +72,7 @@ namespace RPG {
          * @brief Calculates current stats dynamically (Base Stats + Buffs - Debuffs).
          */
         UnitStats getStats() const override;
-
+        void setBaseStats(const UnitStats& stats) { m_baseStats = stats; }
         std::shared_ptr<IAbility> getHotbarAbility(uint8_t index) const override;
         uint8_t getHotbarSize() const override;
         std::shared_ptr<IAbility> getInventoryItem(uint8_t index) const override;

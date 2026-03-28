@@ -131,12 +131,23 @@ namespace RPG {
 
         if (foundPath) {
             sf::Vector2i curr = endGrid;
+
+            // Trace the path backward from end to start
             while (curr != startGrid) {
                 path.push_back({ curr.x * m_tileSize + m_tileSize / 2.f, curr.y * m_tileSize + m_tileSize / 2.f });
                 curr = allNodes[curr].parent;
             }
-            path.front() = end;
-            std::reverse(path.begin(), path.end());
+
+            // Check if the path is actually populated before modifying the front!
+            if (!path.empty()) {
+                path.front() = end; // Smooth out the final step to exact mouse click
+                std::reverse(path.begin(), path.end());
+            }
+            else {
+                // Edge Case: startGrid == endGrid (moving within the exact same 32x32 tile)
+                // Just add the exact clicked point as the only waypoint.
+                path.push_back(end);
+            }
         }
 
         return path;

@@ -1,0 +1,94 @@
+{
+  "units": [
+    {
+      "id": "player_fighter",
+      "name": "Sir Tankalot",
+      "spritesheetId": "BattleChars",
+      "textureRect": [0, 0, 32, 32],
+      "hp": 200.0,
+      "mp": 50.0,
+      "stamina": 120.0,
+      "stats": { "Strength": 18.0, "Dexterity": 10.0, "Intellect": 5.0, "Vitality": 20.0 },
+      "initiative": 10,
+      "critChance": 0.05,
+      "abilities": ["slash", "shield_wall", "whirlwind"]
+    },
+    {
+      "id": "player_mage",
+      "name": "Merlin",
+      "spritesheetId": "BattleChars",
+      "textureRect": [192, 0, 32, 32],
+      "hp": 90.0,
+      "mp": 200.0,
+      "stamina": 60.0,
+      "stats": { "Strength": 4.0, "Dexterity": 8.0, "Intellect": 25.0, "Vitality": 8.0 },
+      "initiative": 14,
+      "critChance": 0.05,
+      "abilities": ["fireball", "heal_light"]
+    },
+    {
+      "id": "enemy_shadow",
+      "name": "Shadow Lurker",
+      "spritesheetId": "BattleEnemies",
+      "textureRect": [0, 0, 32, 32],
+      "hp": 50.0,
+      "mp": 30.0,
+      "stamina": 80.0,
+      "stats": { "Strength": 8.0, "Dexterity": 18.0, "Intellect": 10.0, "Vitality": 5.0 },
+      "initiative": 20,
+      "critChance": 0.25,
+      "doubleTurnChance": 0.10,
+      "abilities": ["poison_dart"]
+    },
+    {
+      "id": "enemy_skeleton",
+      "name": "Skeleton Warrior",
+      "spritesheetId": "BattleEnemies",
+      "textureRect": [96, 0, 32, 32],
+      "hp": 75.0,
+      "mp": 0.0,
+      "stamina": 100.0,
+      "stats": { "Strength": 12.0, "Dexterity": 10.0, "Intellect": 0.0, "Vitality": 10.0 },
+      "initiative": 8,
+      "abilities": ["slash"]
+    },
+    {
+      "id": "enemy_orc",
+      "name": "Orc Brute",
+      "spritesheetId": "BattleEnemies",
+      "textureRect": [192, 0, 32, 32],
+      "hp": 150.0,
+      "mp": 0.0,
+      "stamina": 150.0,
+      "stats": { "Strength": 22.0, "Dexterity": 8.0, "Intellect": 2.0, "Vitality": 18.0 },
+      "initiative": 6,
+      "abilities": ["slash", "whirlwind"]
+    },
+    {
+      "id": "enemy_djinn",
+      "name": "Fire Djinn",
+      "spritesheetId": "BattleEnemies",
+      "textureRect": [0, 128, 32, 32],
+      "hp": 120.0,
+      "mp": 300.0,
+      "stamina": 50.0,
+      "stats": { "Strength": 5.0, "Dexterity": 15.0, "Intellect": 22.0, "Vitality": 12.0 },
+      "initiative": 16,
+      "abilities": ["fireball"]
+    },
+    {
+      "id": "boss_demon",
+      "name": "Baal, Lord of Ash",
+      "spritesheetId": "BattleEnemies",
+      "textureRect": [288, 128, 32, 32],
+      "hp": 400.0,
+      "mp": 300.0,
+      "stamina": 300.0,
+      "stats": { "Strength": 25.0, "Dexterity": 15.0, "Intellect": 20.0, "Vitality": 30.0 },
+      "initiative": 18,
+      "critChance": 0.15,
+      "doubleTurnChance": 0.20,
+      "abilities": ["slash", "fireball", "poison_dart", "whirlwind"]
+    }
+  ]
+}
