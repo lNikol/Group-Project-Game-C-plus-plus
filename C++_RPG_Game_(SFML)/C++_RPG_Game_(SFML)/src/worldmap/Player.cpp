@@ -120,7 +120,9 @@ namespace RPG {
     Vitals Player::getVitals() const {
         return { currentHp, maxHp, currentMp, maxMp, 100.f, 100.f };
     }
-
+    UnitStats Player::getStats() const {
+        return m_stats;
+    }
     uint8_t Player::getHotbarSize() const { return hotBarSize; }
     uint8_t Player::getInventorySize() const { return inventorySize; }
 

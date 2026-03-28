@@ -33,9 +33,8 @@ namespace RPG {
         m_manager.startTargeting(this);
     }
 
-    void CombatAbility::resolve(std::shared_ptr<Unit> target) {
-        if (!m_owner || !target) return;
-        if ((m_owner->getTeam() == target->getTeam()) && m_damage > 0) return;
+    void CombatAbility::resolve(const std::vector<std::shared_ptr<Unit>>& targets) {
+        if (!m_owner) return;
 
         // 1. Pay Resource Costs (Only once per cast!)
         if (m_def->manaCost > 0) m_owner->consumeMana(m_def->manaCost);

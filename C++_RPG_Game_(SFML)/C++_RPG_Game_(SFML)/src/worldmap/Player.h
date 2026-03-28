@@ -25,7 +25,7 @@ namespace RPG {
 		float maxMp = 50.0f;
 
 		bool debugHitbox = false;
-
+		UnitStats m_stats;
 		std::vector<std::shared_ptr<IAbility>> hotbar;
 		std::vector<std::shared_ptr<IAbility>> inventory;
 
@@ -48,6 +48,11 @@ namespace RPG {
 
 
 		// --- ICombatActor Implementation ---
+
+		/**
+		 * @brief Retrieves the player's core attributes for combat calculations.
+		 */
+		UnitStats getStats() const override;
 
 		void toggleDebugHitbox();
 
