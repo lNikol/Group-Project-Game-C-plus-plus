@@ -203,12 +203,6 @@ namespace RPG {
         // Switch View to UI Mode
         sf::View originalView = target.getView();
         target.setView(m_uiView);
-
-        sf::CircleShape debugMouse(5.f);
-        debugMouse.setFillColor(sf::Color::Yellow);
-        debugMouse.setPosition(m_mousePos);
-        target.draw(debugMouse);
-
         // Draw Bottom Layer
         target.draw(*m_hpBar);
         target.draw(*m_mpBar);
