@@ -13,16 +13,17 @@ namespace RPG {
 
     struct AssetDefinition {
         std::string name;
-        int x, y, w, h;          // Pozycja w atlas.png
-        int hb_w, hb_h;          // Wymiary hitboxa
-        int off_x, off_y;        // Offset hitboxa wzgl?dem punktu (x,y)
-        bool blocks;             // Czy obiekt jest przeszkod?
-        StructureType type;      // Typ enuma rozpoznany po nazwie
+        uint32_t x, y, w, h;          // Position at atlas.png
+        uint32_t hb_w, hb_h;          // Hitbox dimensions
+        uint32_t off_x, off_y;        // Hitbox offset relative point (x,y)
+        bool blocks;             
+        StructureType type;      
     };
 
     struct AssetTemplate {
         StructureType type;
         StructureMetadata meta;
+        PlacementLayer layer;
     };
 
 
@@ -82,7 +83,7 @@ namespace RPG {
          * @param id The ID found in manifest.json or Tiled GID.
          * @return std::string The name of the asset, or empty string if not found.
          */
-        std::string getNameById(const int& id) const;
+        std::string getNameById(const uint32_t& id) const;
 
         /**
          * @brief Retrieves the definition for a specific structure type.

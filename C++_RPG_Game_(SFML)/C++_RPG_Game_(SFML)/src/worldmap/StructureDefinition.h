@@ -14,9 +14,16 @@ namespace RPG {
         Camp, SaveZone, FactionBase, House // Special zones
     };
 
+    enum class PlacementLayer {
+        Detail,    // Flowers
+        Object,    // Chests
+        Structure  // Walls
+    };
+
     struct StructureMetadata {
         float maxHealth = 0.f;
         bool isDestructible = false;
+        bool blocksPlacement = false;
         bool blocksMovement = false;
         bool allowsRegeneration = false;
         bool canSpawnMob = false;
@@ -27,6 +34,7 @@ namespace RPG {
     public:
         std::string name;
         StructureType type;
+        PlacementLayer layer;
         std::string textureKey;
         sf::Vector2u textureStartPos;
         sf::Vector2u size;

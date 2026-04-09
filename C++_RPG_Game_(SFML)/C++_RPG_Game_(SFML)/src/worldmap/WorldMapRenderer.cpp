@@ -123,7 +123,7 @@ namespace RPG {
 
         // Optional: Scale fade width nicely with the radius (e.g., 20% of the clear zone)
         // or keep it static. Here we make it dynamic for smoother zooming.
-        float fadeWidth = visibleRadius * 1.0f;
+        float fadeWidth = visibleRadius * 0.4;
         sf::Vector2f playerPos = player.getPosition();
 
         // ZMIANA 1: U¿ywamy Triangles zamiast Quads

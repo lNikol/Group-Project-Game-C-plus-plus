@@ -6,50 +6,39 @@ namespace RPG {
 	static sf::Texture dummyTexture;
 
 	WorldObject::WorldObject(
-		const StructureDefinition* definition, 
+		const StructureDefinition* definition,
 		sf::Vector2f position,
 		const AssetManager& am
 	)
 		: definition(definition), sprite(dummyTexture)
 	{
-		const Spritesheet* dedicatedSheet = am.getSpritesheet(definition->name);
+		const sf::Texture* targetTexture = nullptr;
 
-		if (dedicatedSheet) {
-			sprite.setTexture(*dedicatedSheet);
+		const Spritesheet* dedicated = am.getSpritesheet(definition->name);
+		if (dedicated) {
+			targetTexture = dedicated;
+		}
+		else {
+			targetTexture = am.getTexture("world_atlas");
+		}
+
+		if (targetTexture) {
+			sprite.setTexture(*targetTexture);
 
 			sf::IntRect rect(
 				{
 					static_cast<int>(definition->textureStartPos.x),
-					static_cast<int>(definition->textureStartPos.y)
+					static_cast<int>(definition->textureStartPos.y),
 				},
 				{
 					static_cast<int>(definition->size.x),
-					static_cast<int>(definition->size.y)
+					static_cast<int>(definition->size.y),
 				}
 			);
 			sprite.setTextureRect(rect);
 		}
 		else {
-			const sf::Texture* atlas = am.getTexture("world_atlas");
-
-			if (atlas) {
-				sprite.setTexture(*atlas);
-				sf::IntRect rect(
-					{
-						static_cast<int>(definition->textureStartPos.x),
-						static_cast<int>(definition->textureStartPos.y)
-					},
-					{
-						static_cast<int>(definition->size.x),
-						static_cast<int>(definition->size.y)
-					}
-				);
-				sprite.setTextureRect(rect);
-			}
-			else {
-				std::cerr << "[WorldObject] Critical Error: No spritesheet OR atlas found for: "
-					<< definition->name << std::endl;
-			}
+			std::cerr << "[WorldObject] CRITICAL: No texture source for " << definition->name << std::endl;
 		}
 
 		sprite.setPosition(position);

@@ -14,21 +14,25 @@ namespace RPG {
 	{
 	}
 
-
 	bool Tile::isAvailableForSpawn() const {
-		return !isOccupied && isWalkable;
+		return !blocksMovement;
 	}
 
 	bool Tile::isAvailableForPlace() const {
-		return !isOccupied;
+		return !blocksPlacement;
 	}
 
-	void Tile::occupy() {
-		isOccupied = true;
+	bool Tile::canAccept(PlacementLayer newLayer) const {
+		if (blocksPlacement) return false; // walls block whole tile
+		// objects (e.g chests) block only movement, details (flowers) can be placed when we have object
+		if (newLayer == PlacementLayer::Object && blocksMovement) return false; 
+		return true;
 	}
+
 
 	void Tile::release() {
-		isOccupied = false;
+		blocksMovement = false;
+		blocksPlacement = false;
 		residentObjects.clear();
 	}
 	/*

@@ -28,8 +28,8 @@ namespace RPG {
 		float localDangerLvl = 0.0f; // Procedural or static danger rating.
 		GameConfig::Faction faction = GameConfig::Faction::NEUTRAL; // Ownership status.
 
-		bool isWalkable = true;
-		bool isOccupied = false;
+		bool blocksMovement = true;
+		bool blocksPlacement = true;
 
 		std::vector<WorldObject*> residentObjects;
 		
@@ -48,7 +48,6 @@ namespace RPG {
 		Tile(StructureType object, int32_t x, int32_t y, int32_t z);
 		
 		void release();
-		void occupy();
 
 
 		/**
@@ -66,6 +65,7 @@ namespace RPG {
 		 * @brief Removes the monster flag from the tile.
 		 */
 		// void clearMonster();
+		bool canAccept(PlacementLayer newLayer) const;
 	};
 
 }

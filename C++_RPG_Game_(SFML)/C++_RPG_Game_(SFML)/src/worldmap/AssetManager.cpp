@@ -19,19 +19,39 @@ namespace RPG {
         // 2. Define reusable metadata templates
         StructureMetadata obstacle;
         obstacle.blocksMovement = true;
+        obstacle.blocksPlacement = true;
         obstacle.isDestructible = true;
         obstacle.maxHealth = 100.f;
 
-        StructureMetadata floor;
-        floor.blocksMovement = false;
-        floor.speedModifier = 1.0f;
+        StructureMetadata interactiveObj;
+        interactiveObj.blocksMovement = true;
+        interactiveObj.blocksPlacement = false;
+        interactiveObj.isDestructible = true;
+        interactiveObj.maxHealth = 50.f;
+
+        StructureMetadata decoration;
+        decoration.blocksMovement = false;
+        decoration.blocksPlacement = false;
+        decoration.maxHealth = 100.f;
+        decoration.speedModifier = 1.0f;
 
         // 3. Define Prefix Rules (Mapping file category to Game Logic)
-        prefixes["tree"] = { StructureType::Tree, obstacle };
-        prefixes["rock"] = { StructureType::Rock, obstacle };
-        prefixes["grass"] = { StructureType::Grass, floor };
-        prefixes["ground"] = { StructureType::Grass, floor };
-        prefixes["house"] = { StructureType::House, obstacle };
+        prefixes["tree"] = { StructureType::Tree, obstacle, PlacementLayer::Structure };
+        prefixes["rock"] = { StructureType::Rock, obstacle, PlacementLayer::Structure };
+        prefixes["house"] = { StructureType::House, obstacle, PlacementLayer::Structure };
+        prefixes["wall"] = { StructureType::Wall, obstacle, PlacementLayer::Structure };
+
+        // TODO change on chest & barrel structuretype
+        prefixes["chest"] = { StructureType::None, interactiveObj, PlacementLayer::Object };
+        prefixes["barrel"] = { StructureType::None, interactiveObj, PlacementLayer::Object };
+
+        // TODO: change in tiled, .tmj and manifest.json decorations (flowers) -> change file names and mapping name
+
+        prefixes["IconSet"] = { StructureType::Grass, decoration, PlacementLayer::Detail };
+        prefixes["grass"] = { StructureType::Grass, decoration, PlacementLayer::Detail };
+        prefixes["flower"] = { StructureType::None, decoration, PlacementLayer::Detail };
+        prefixes["ground"] = { StructureType::Grass, decoration, PlacementLayer::Detail };
+
         loadManifest(GameConfig::WORLD_PATH + "manifest.json", GameConfig::WORLD_PATH + "world_atlas");
     }
 
@@ -46,7 +66,7 @@ namespace RPG {
         file >> manifest;
 
         for (auto& [name, data] : manifest["definitions"].items()) {
-            int id = data["id"];
+            int32_t id = data["id"];
             idToNameMap[id] = name;
             AssetTemplate* foundTemplate = nullptr;
 
@@ -73,13 +93,14 @@ namespace RPG {
             def.hitboxOffset = { (float)data["off_x"], (float)data["off_y"] };
 
             def.meta = foundTemplate->meta;
+            def.layer = foundTemplate->layer;
 
             structureLibrary[name] = def;
         }
         std::cout << "[AssetManager] Successfully mapped " << structureLibrary.size() << " assets from manifest.\n";
     }
 
-    std::string AssetManager::getNameById(const int& id) const {
+    std::string AssetManager::getNameById(const uint32_t& id) const {
         auto it = idToNameMap.find(id);
         return (it != idToNameMap.end()) ? it->second : "";
     }
@@ -117,7 +138,6 @@ namespace RPG {
             return &it->second;
         }
 
-        std::cout << "Failed to load spritesheet \"" + name + "\"\n";
         return nullptr;
     }
 

@@ -1,7 +1,6 @@
 #include "WorldMap.h"
 #include "core/Constants.h"
 #include <fstream>
-#include <nlohmann/json.hpp>
 #include <filesystem>
 
 // TODO : write helper for parser to avoid code duplication between infinite and standard map loading
@@ -14,27 +13,143 @@ namespace RPG {
 
 	WorldMap::WorldMap(uint32_t w, uint32_t h, AssetManager& am) : width(w), height(h), assetManager(am),
 		width_gen(w - GameConfig::WORLD_GENERATE_MARGIN), height_gen(h - GameConfig::WORLD_GENERATE_MARGIN) {
+		initializeGrid();
+		generateBorders();
+	}
 
+	void WorldMap::initializeGrid() {
+		tiles.clear();
 		// Memory reservation for all Tiles
 		tiles.resize(width * height);
 
-		// Default values for tiles
 		for (uint32_t y = 0; y < height; ++y) {
 			for (uint32_t x = 0; x < width; ++x) {
-				uint32_t index = static_cast<uint32_t>(y) * width + x;
-				tiles[index].pos = { static_cast<int32_t>(x), static_cast<int32_t>(y), 0 };
-				
-				// Always set ground as Grass
-				tiles[index].groundType = StructureType::Grass;
+				auto& tile = at(x, y);
+				tile.pos = { static_cast<int32_t>(x), static_cast<int32_t>(y), 0 };
 
-				// Set objects (walls at borders)
-				if ((x == 0 || x == width - 1) || (y == 0 || y == height - 1)) {
-					// TODO: Place wall structure
-					tiles[index].isWalkable = false;
-					tiles[index].occupy();
+				tile.groundType = StructureType::Grass;
+				tile.blocksMovement = false;
+				tile.blocksPlacement = false;
+				tile.residentObjects.clear(); 
+			}
+		}
+	}
+
+	void WorldMap::generateBorders() {
+		std::string wallId = "IconSet_408"; // TODO: change on 'wall' when will be a sprite
+
+		for (uint32_t x = 0; x < width; ++x) {
+			// Top and bottom borders
+			placeStructure(x * GameConfig::TILE_SIZE, 0, wallId);
+			placeStructure(x * GameConfig::TILE_SIZE, (height - 1) * GameConfig::TILE_SIZE, wallId);
+		}
+
+		for (uint32_t y = 1; y < height - 1; ++y) {
+			// Left and rigth borders
+			placeStructure(0, y * GameConfig::TILE_SIZE, wallId);
+			placeStructure((width - 1) * GameConfig::TILE_SIZE, y * GameConfig::TILE_SIZE, wallId);
+		}
+	}
+
+	void WorldMap::assignGroundType(uint32_t tx, uint32_t ty, uint32_t gid) {
+		if (tx >= 0 && tx < width && ty >= 0 && ty < height) {
+			std::string assetName = assetManager.getNameById(gid - 1);
+			if (!assetName.empty()) {
+				tiles[ty * width + tx].groundType = assetManager.getDefinition(assetName).type;
+			}
+		}
+	}
+	
+	void WorldMap::processTileLayer(const nlohmann::json& layer) {
+		// 1. Infinitive map 
+		if (layer.contains("chunks")) {
+			for (const auto& chunk : layer["chunks"]) {
+				uint32_t startX = chunk["x"];
+				uint32_t startY = chunk["y"];
+				uint32_t cWidth = chunk["width"];
+				const auto& data = chunk["data"];
+
+				for (uint32_t i = 0; i < data.size(); ++i) {
+					uint32_t gid = data[i];
+					if (gid == 0) continue; 
+
+					uint32_t tx = (startX + (i % cWidth)) - offsetX;
+					uint32_t ty = (startY + (i / cWidth)) - offsetY;
+
+					assignGroundType(tx, ty, gid);
 				}
 			}
 		}
+		// 2. Fixed size map
+		else if (layer.contains("data")) {
+			const auto& data = layer["data"];
+			for (uint32_t i = 0; i < data.size(); ++i) {
+				uint32_t gid = data[i];
+				if (gid == 0) continue;
+
+				uint32_t tx = (i % width);
+				uint32_t ty = (i / width);
+
+				assignGroundType(tx, ty, gid);
+			}
+		}
+	}
+
+	void WorldMap::processObjectLayer(const nlohmann::json& layer) {
+		for (auto& obj : layer["objects"]) {
+			uint32_t gid = obj.value("gid", 0);
+			if (gid == 0) continue;
+
+			float worldX = (float)obj["x"] - (offsetX * GameConfig::TILE_SIZE);
+			float correctedTopY = ((float)obj["y"] - (float)obj["height"]) - (offsetY * GameConfig::TILE_SIZE);
+
+			std::string assetName = assetManager.getNameById(gid - 1);
+			if (!assetName.empty()) {
+				this->placeStructure(worldX, correctedTopY, assetName);
+			}
+		}
+	}
+
+	void WorldMap::saveToFile(const std::string& filename) {
+		std::ofstream os(filename, std::ios::binary);
+		if (!os.is_open()) return;
+
+		// Save Header & Tiles
+		os.write(reinterpret_cast<char*>(&width), sizeof(width));
+		os.write(reinterpret_cast<char*>(&height), sizeof(height));
+		for (const auto& tile : tiles) {
+			os.write(reinterpret_cast<const char*>(&tile.groundType), sizeof(tile.groundType));
+		}
+
+		// Save Structures
+		uint16_t count = static_cast<uint16_t>(structures.size());
+		os.write(reinterpret_cast<char*>(&count), sizeof(count));
+		for (auto& s : structures) {
+			std::string n = s->getName();
+			uint16_t len = static_cast<uint16_t>(n.length());
+			os.write(reinterpret_cast<char*>(&len), sizeof(len));
+			os.write(n.c_str(), len);
+
+			sf::Vector2f pos = s->getPosition();
+			os.write(reinterpret_cast<char*>(&pos.x), sizeof(pos.x));
+			os.write(reinterpret_cast<char*>(&pos.y), sizeof(pos.y));
+		}
+
+		// NPCs
+		uint16_t npcCount = static_cast<uint16_t>(npcs.size());
+		os.write(reinterpret_cast<char*>(&npcCount), sizeof(npcCount));
+		for (auto& npc : npcs) {
+			std::string n = npc->getName();
+			uint16_t len = (uint16_t)n.length();
+			os.write(reinterpret_cast<char*>(&len), sizeof(len));
+			os.write(n.c_str(), len);
+			sf::Vector2f pos = npc->getPosition();
+			os.write(reinterpret_cast<char*>(&pos), sizeof(pos));
+			FactionID f = npc->getTargetFaction(); // TODO: change in the future for getFaction if any changes would occur
+			os.write(reinterpret_cast<char*>(&f), sizeof(f));
+		}
+
+		os.close();
 	}
 
 	void WorldMap::loadMap(const std::string& path) {
@@ -92,96 +207,27 @@ namespace RPG {
 		structures.clear();
 		npcs.clear();
 
+
+		// Ground
 		for (auto& layer : tmj["layers"]) {
-			std::string layerName = layer["name"];
-
-			if (layer["type"] == "tilelayer" && layerName == "Ground") {
-				if (layer.contains("chunks")) {
-					for (auto& chunk : layer["chunks"]) {
-						int startX = chunk["x"], startY = chunk["y"], cWidth = chunk["width"];
-						auto data = chunk["data"];
-						for (int i = 0; i < data.size(); ++i) {
-							int gid = data[i];
-							if (gid == 0) continue;
-
-							int tx = (startX + (i % cWidth)) - offsetX;
-							int ty = (startY + (i / cWidth)) - offsetY;
-
-							std::string assetName = assetManager.getNameById(gid - 1);
-							if (!assetName.empty() && tx >= 0 && tx < (int)width && ty >= 0 && ty < (int)height) {
-								tiles[ty * width + tx].groundType = assetManager.getDefinition(assetName).type;
-								// Opcjonalnie: tiles[ty * width + tx].textureGid = gid; // Dla automatyzacji grafiki
-							}
-						}
-					}
-				}
-				else {
-					auto data = layer["data"];
-					for (int i = 0; i < data.size(); ++i) {
-						int gid = data[i];
-						if (gid == 0) continue;
-						std::string assetName = assetManager.getNameById(gid - 1);
-						if (!assetName.empty()) {
-							tiles[i].groundType = assetManager.getDefinition(assetName).type;
-						}
-					}
-				}
-			}
-			else if (layer["type"] == "objectgroup" && layerName == "Obstacles") {
-				for (auto& obj : layer["objects"]) {
-					int gid = obj["gid"];
-					float worldX = (float)obj["x"] - (offsetX * GameConfig::TILE_SIZE);
-					float correctedTopY = ((float)obj["y"] - (float)obj["height"]) - (offsetY * GameConfig::TILE_SIZE);
-
-					std::string assetName = assetManager.getNameById(gid - 1);
-					if (!assetName.empty()) {
-						this->placeStructure(worldX, correctedTopY, assetName);
-					}
-				}
+			if (layer["type"] == "tilelayer" && layer["name"] == "Ground") {
+				processTileLayer(layer);
 			}
 		}
-	}
 
-	void WorldMap::saveToFile(const std::string& filename) {
-		std::ofstream os(filename, std::ios::binary);
-		if (!os.is_open()) return;
-
-		// Save Header & Tiles
-		os.write(reinterpret_cast<char*>(&width), sizeof(width));
-		os.write(reinterpret_cast<char*>(&height), sizeof(height));
-		for (const auto& tile : tiles) {
-			os.write(reinterpret_cast<const char*>(&tile.groundType), sizeof(tile.groundType));
+		// Decorations
+		for (auto& layer : tmj["layers"]) {
+			if (layer["type"] == "objectgroup" && layer["name"] == "Decorations") {
+				processObjectLayer(layer);
+			}
 		}
 
-		// Save Structures
-		uint16_t count = static_cast<uint16_t>(structures.size());
-		os.write(reinterpret_cast<char*>(&count), sizeof(count));
-		for (auto& s : structures) {
-			std::string n = s->getName();
-			uint16_t len = static_cast<uint16_t>(n.length());
-			os.write(reinterpret_cast<char*>(&len), sizeof(len));
-			os.write(n.c_str(), len);
-
-			sf::Vector2f pos = s->getPosition();
-			os.write(reinterpret_cast<char*>(&pos.x), sizeof(pos.x));
-			os.write(reinterpret_cast<char*>(&pos.y), sizeof(pos.y));
+		// Objects and obstacles
+		for (auto& layer : tmj["layers"]) {
+			if (layer["type"] == "objectgroup" && (layer["name"] == "Obstacles" || layer["name"] == "InteractObjects")) {
+				processObjectLayer(layer);
+			}
 		}
-
-		// NPCs
-		uint16_t npcCount = static_cast<uint16_t>(npcs.size());
-		os.write(reinterpret_cast<char*>(&npcCount), sizeof(npcCount));
-		for (auto& npc : npcs) {
-			std::string n = npc->getName();
-			uint16_t len = (uint16_t)n.length();
-			os.write(reinterpret_cast<char*>(&len), sizeof(len));
-			os.write(n.c_str(), len);
-			sf::Vector2f pos = npc->getPosition();
-			os.write(reinterpret_cast<char*>(&pos), sizeof(pos));
-			FactionID f = npc->getTargetFaction(); // TODO: change in the future for getFaction if any changes would occur
-			os.write(reinterpret_cast<char*>(&f), sizeof(f));
-		}
-
-		os.close();
 	}
 
 	void WorldMap::loadFromFile(const std::string& filename) {
@@ -230,22 +276,10 @@ namespace RPG {
 		this->width_gen = (width > GameConfig::WORLD_GENERATE_MARGIN) ? width - GameConfig::WORLD_GENERATE_MARGIN : width;
 		this->height_gen = (height > GameConfig::WORLD_GENERATE_MARGIN) ? height - GameConfig::WORLD_GENERATE_MARGIN : height;
 
-		tiles.clear();
-		tiles.resize(width * height);
+		structures.clear();
+		initializeGrid();
+		generateBorders();
 
-		for (uint32_t y = 0; y < height; ++y) {
-			for (uint32_t x = 0; x < width; ++x) {
-				uint32_t index = y * width + x;
-				tiles[index].pos = { static_cast<int32_t>(x), static_cast<int32_t>(y), 0 };
-				tiles[index].groundType = StructureType::Grass;
-
-				// Default border logic
-				if (x == 0 || x == width - 1 || y == 0 || y == height - 1) {
-					tiles[index].isWalkable = false;
-					tiles[index].occupy();
-				}
-			}
-		}
 	}
 
 	Tile& WorldMap::at(int32_t x, int32_t y) {
@@ -273,7 +307,7 @@ namespace RPG {
 
 		// 2. Check Terrain (Water/Walls)
 		// This is still a "whole tile" block, which is correct for water.
-		if (!tile.isWalkable) return true;
+		if (tile.blocksMovement) return true;
 
 		// 3. Check Objects (Pixel Perfect)
 		// Only check the objects registered to THIS tile.
@@ -285,7 +319,6 @@ namespace RPG {
 
 		return false;
 	}
-
 
 	float WorldMap::getTileSpeedModifier(int32_t x, int32_t y) const {
 		if (x < 0 || x >= width || y < 0 || y >= height) return 1.0f;
@@ -356,9 +389,7 @@ namespace RPG {
 		// If any of those tiles is occupated - abort placement
 		for (int32_t y = startTy; y <= endTy; ++y) {
 			for (int32_t x = startTx; x <= endTx; ++x) {
-				if (!at(x, y).isAvailableForPlace()) {
-					return false; 
-				}
+				if (!at(x, y).canAccept(def.layer)) return false;
 			}
 		}
 
@@ -367,11 +398,12 @@ namespace RPG {
 
 		for (int32_t y = startTy; y <= endTy; ++y) {
 			for (int32_t x = startTx; x <= endTx; ++x) {
-				at(x, y).occupy(); 
-				// Add pointer to all covered tiles
-				if (def.meta.blocksMovement) {
-					at(x, y).residentObjects.push_back(objPtr);
-				}
+				auto& tile = at(x, y);
+
+				tile.residentObjects.push_back(objPtr);
+				// |= <--> operator OR
+				tile.blocksMovement |= def.meta.blocksMovement;
+				tile.blocksPlacement |= def.meta.blocksPlacement;
 			}
 		}
 
@@ -409,9 +441,9 @@ namespace RPG {
 		int32_t startY = static_cast<int32_t>(startPos.y / GameConfig::TILE_SIZE);
 
 		// Spiral search or simple radius
-		for (int r = 0; r < 5; ++r) {
-			for (int dy = -r; dy <= r; ++dy) {
-				for (int dx = -r; dx <= r; ++dx) {
+		for (int32_t r = 0; r < 5; ++r) {
+			for (int32_t dy = -r; dy <= r; ++dy) {
+				for (int32_t dx = -r; dx <= r; ++dx) {
 					int32_t tx = startX + dx;
 					int32_t ty = startY + dy;
 					if (tx >= 0 && tx <= width_gen && ty >= 0 && ty <= height_gen) {

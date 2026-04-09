@@ -4,6 +4,7 @@
 #include "AssetManager.h"
 #include "Tile.h"
 #include "entities/WorldObject.h"
+#include <nlohmann/json.hpp>
 #include <memory>
 #include <stdexcept>
 #include <vector>
@@ -25,6 +26,46 @@ namespace RPG {
 
 		uint32_t getWidth() const;
 		uint32_t getHeight() const;
+
+		/**
+		 * @brief Initialize grid with default values
+		 */
+		void initializeGrid();
+		
+		/**
+		 * @brief Generate borders for map
+		 */
+		void generateBorders();
+
+		/**
+		 * @brief Safely assigns a ground type to a specific tile based on its GID.
+		 * * Checks if the calculated coordinates are within the current map boundaries.
+		 * Fetches the asset definition from the AssetManager using the GID (minus 1).
+		 * * @param tx Local X coordinate in the tiles array (offset-corrected).
+		 * @param ty Local Y coordinate in the tiles array (offset-corrected).
+		 * @param gid The Global ID (GID) provided by Tiled.
+		 */
+		void assignGroundType(uint32_t tx, uint32_t ty, uint32_t gid);
+
+		/**
+		 * @brief Processes tile layers from the TMJ (Tiled JSON) format.
+		 * * This function handles both fixed-size and infinite (chunked) maps.
+		 * It is responsible for setting the groundType for every tile in the grid.
+		 * * @param layer The JSON object representing a "tilelayer".
+		 */
+		void processTileLayer(const nlohmann::json& layer);
+
+		/**
+		 * @brief Processes object groups from the TMJ (Tiled JSON) format.
+		 * * Reads graphical objects (e.g., trees, chests, flowers) and attempts to
+		 * place them in the world using placeStructure. It automatically corrects
+		 * the coordinate system discrepancy between Tiled (Bottom-Left) and
+		 * SFML (Top-Left).
+		 * * @param layer The JSON object representing an "objectgroup".
+		 */
+		void processObjectLayer(const nlohmann::json& layer);
+		
+
 
 		/**
 		 * @brief Loads a Tiled Map Editor file (.tmj) in JSON format.
