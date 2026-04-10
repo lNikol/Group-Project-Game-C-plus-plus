@@ -18,7 +18,7 @@ namespace RPG {
 
     enum class PlacementLayer {
         Ground,    // Ground
-        Detail,    // Flowers
+        Decoration,    // Flowers
         Object,    // Chests
         Structure  // Walls
     };

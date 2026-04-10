@@ -6,7 +6,6 @@ import xml.etree.ElementTree as ET
 from xml.dom import minidom
 from PIL import Image
 
-# --- KONFIGURACJA PODSTAWOWA ---
 TILE_SIZE = 32
 EXTERN_DIR = "../assets/"
 RAW_DIR = os.path.join(EXTERN_DIR, "assets_raw")
@@ -73,7 +72,7 @@ def generate_tsx_image_collection(manifest, output_path, set_name):
         "name": f"{set_name}_collection", "tilecount": str(len(manifest["definitions"])), "columns": "0" 
     })
     
-    # Sortujemy po ID dla porządku w Tiled
+    # Sort by ID for order in Tiled
     sorted_defs = sorted(manifest["definitions"].items(), key=lambda x: x[1]["id"])
     for name, d in sorted_defs:
         image_path = f"images/{name}.png" 
@@ -152,11 +151,11 @@ def main():
         }
         row_h = max(row_h, h); current_x += w
 
-    # Przycinanie atlasu do faktycznej wysokości
+    # Trimming Atlas to actual height
     final_atlas = atlas.crop((0, 0, ATLAS_W, current_y + row_h))
     final_atlas.save(os.path.join(set_dir, f"{set_name}_atlas.png"))
 
-    # POPRAWKA SORTOWANIA: Sortujemy definicje wewnątrz słownika po ID
+    # Sort definitions inside the dictionary by ID
     sorted_items = sorted(manifest["definitions"].items(), key=lambda x: x[1]["id"])
     
     final_manifest = {

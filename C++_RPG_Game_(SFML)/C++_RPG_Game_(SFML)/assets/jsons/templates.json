@@ -83,7 +83,7 @@
       "comment": "--- DECOR (Non-blocking) ---",
       "prefixes": ["flower", "bush_small", "pebbles", "IconSet"],
       "type": "Decoration",
-      "layer": "Detail",
+      "layer": "Decoration",
       "meta": {
         "blocksMovement": false,
         "blocksPlacement": false

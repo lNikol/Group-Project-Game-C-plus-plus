@@ -24,7 +24,7 @@ namespace RPG {
 
 	bool Tile::canAccept(PlacementLayer newLayer) const {
 		if (blocksPlacement) return false; // walls block whole tile
-		// objects (e.g chests) block only movement, details (flowers) can be placed when we have object
+		// objects (e.g chests) block only movement, decorations (flowers) can be placed when we have object
 		if (newLayer == PlacementLayer::Object && blocksMovement) return false; 
 		return true;
 	}

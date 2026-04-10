@@ -90,7 +90,7 @@ namespace RPG {
         for (auto& item : j["templates"]) {
             AssetTemplate t;
             t.type = stringToType(item.value("type", "None"));
-            t.layer = stringToLayer(item.value("layer", "Detail"));
+            t.layer = stringToLayer(item.value("layer", "Decoration"));
 
             auto& m = item["meta"];
             t.meta.blocksMovement = m.value("blocksMovement", false);
@@ -116,7 +116,7 @@ namespace RPG {
     PlacementLayer AssetManager::stringToLayer(const std::string& str) {
         static const std::unordered_map<std::string, PlacementLayer> mapper = {
             {"Ground",    PlacementLayer::Ground},
-            {"Detail",    PlacementLayer::Detail},
+            {"Decoration",    PlacementLayer::Decoration},
             {"Object",    PlacementLayer::Object},
             {"Structure", PlacementLayer::Structure}
         };
@@ -124,8 +124,8 @@ namespace RPG {
         auto it = mapper.find(str);
         if (it != mapper.end()) return it->second;
 
-        std::cerr << "[AssetManager] WARNING: Unknown layer '" << str << "'. Defaulting to Detail.\n";
-        return PlacementLayer::Detail;
+        std::cerr << "[AssetManager] WARNING: Unknown layer '" << str << "'. Defaulting to Decoration.\n";
+        return PlacementLayer::Decoration;
     }
 
     StructureType AssetManager::stringToType(const std::string& str) {

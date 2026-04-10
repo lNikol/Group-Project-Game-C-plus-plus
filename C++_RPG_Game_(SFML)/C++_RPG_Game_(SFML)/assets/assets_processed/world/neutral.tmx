@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.12.0" orientation="orthogonal" renderorder="right-down" width="30" height="20" tilewidth="32" tileheight="32" infinite="1" nextlayerid="6" nextobjectid="38">
+<map version="1.10" tiledversion="1.12.0" orientation="orthogonal" renderorder="right-down" width="30" height="20" tilewidth="32" tileheight="32" infinite="1" nextlayerid="6" nextobjectid="53">
  <editorsettings>
   <export target="neutral.tmj" format="json"/>
  </editorsettings>
@@ -90,6 +90,11 @@
   <object id="7" gid="305" x="-117" y="184.5" width="21" height="21"/>
   <object id="8" gid="305" x="-25" y="185" width="21" height="21"/>
   <object id="9" gid="305" x="42" y="185.5" width="21" height="21"/>
+  <object id="45" gid="92" x="-413" y="249.5" width="23" height="24"/>
+  <object id="46" gid="92" x="-379.5" y="218" width="23" height="24"/>
+  <object id="47" gid="92" x="-350" y="317" width="23" height="24"/>
+  <object id="48" gid="87" x="-313.5" y="316.5" width="21" height="24"/>
+  <object id="49" gid="89" x="-283.5" y="313.5" width="24" height="24"/>
  </objectgroup>
  <objectgroup id="3" name="InteractObjects">
   <object id="30" gid="493" x="-448" y="224" width="30" height="29"/>
@@ -105,6 +110,9 @@
   <object id="23" gid="5" x="-192" y="320" width="70" height="114"/>
   <object id="24" gid="5" x="-192" y="576" width="70" height="114"/>
   <object id="25" gid="5" x="160" y="576" width="70" height="114"/>
+  <object id="50" gid="11" x="-352" y="320" width="30" height="31"/>
+  <object id="51" gid="11" x="-320" y="320" width="30" height="31"/>
+  <object id="52" gid="11" x="-288" y="320" width="30" height="31"/>
  </objectgroup>
  <objectgroup id="5" name="SpawnPoints">
   <object id="27" name="PlayerSpawn" x="-336" y="181">
