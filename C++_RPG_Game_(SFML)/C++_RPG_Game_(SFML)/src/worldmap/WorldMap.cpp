@@ -10,11 +10,19 @@ namespace RPG {
 
 	uint32_t WorldMap::getWidth() const { return width; }
 	uint32_t WorldMap::getHeight() const { return height; }
+	sf::Vector2f WorldMap::getSpawnPoint() const { return spawnPoint; }
+	bool WorldMap::getHasSpawnPoint() const { return hasSpawnPoint; }
+
 
 	WorldMap::WorldMap(uint32_t w, uint32_t h, AssetManager& am) : width(w), height(h), assetManager(am),
 		width_gen(w - GameConfig::WORLD_GENERATE_MARGIN), height_gen(h - GameConfig::WORLD_GENERATE_MARGIN) {
 		initializeGrid();
 		generateBorders();
+	}
+
+	void WorldMap::setPlayerInitialPosition(float x, float y) {
+		this->spawnPoint = { x, y };
+		hasSpawnPoint = true;
 	}
 
 	void WorldMap::initializeGrid() {
@@ -96,16 +104,39 @@ namespace RPG {
 	}
 
 	void WorldMap::processObjectLayer(const nlohmann::json& layer) {
-		for (auto& obj : layer["objects"]) {
-			uint32_t gid = obj.value("gid", 0);
-			if (gid == 0) continue;
+		for (const auto& obj : layer["objects"]) {
+			std::string objName = obj.value("name", "");
 
-			float worldX = (float)obj["x"] - (offsetX * GameConfig::TILE_SIZE);
-			float correctedTopY = ((float)obj["y"] - (float)obj["height"]) - (offsetY * GameConfig::TILE_SIZE);
+			if (!obj.contains("gid")) {
+				if (objName == "PlayerSpawn") {
+					float sx = (float)obj["x"] - (offsetX * GameConfig::TILE_SIZE);
+					float sy = (float)obj["y"] - (offsetY * GameConfig::TILE_SIZE);
+					this->setPlayerInitialPosition(sx, sy);
+				}
+				else if (objName == "Gatekeeper") {
+					float nx = (float)obj["x"] - (offsetX * GameConfig::TILE_SIZE);
+					float ny = (float)obj["y"] - (offsetY * GameConfig::TILE_SIZE);
+					std::string npcName = "World Gatekeeper";
+					auto npc = std::make_unique<NPC>(0, npcName, true);
+					npc->setPosition(nx, ny);
+					this->addNPC(std::move(npc));
 
-			std::string assetName = assetManager.getNameById(gid - 1);
-			if (!assetName.empty()) {
-				this->placeStructure(worldX, correctedTopY, assetName);
+					// TODO: add animation here, coz NPC isn't visable from tiled
+
+					std::cout << "[WorldMap] NPC " << npcName << " spawned from Tiled.\n";
+				}
+			}
+			else {
+				uint32_t gid = obj.value("gid", 0);
+				if (gid == 0) continue;
+
+				float worldX = (float)obj["x"] - (offsetX * GameConfig::TILE_SIZE);
+				float correctedTopY = ((float)obj["y"] - (float)obj["height"]) - (offsetY * GameConfig::TILE_SIZE);
+
+				std::string assetName = assetManager.getNameById(gid - 1);
+				if (!assetName.empty()) {
+					this->placeStructure(worldX, correctedTopY, assetName);
+				}
 			}
 		}
 	}
@@ -207,7 +238,6 @@ namespace RPG {
 		structures.clear();
 		npcs.clear();
 
-
 		// Ground
 		for (auto& layer : tmj["layers"]) {
 			if (layer["type"] == "tilelayer" && layer["name"] == "Ground") {
@@ -215,19 +245,13 @@ namespace RPG {
 			}
 		}
 
-		// Decorations
+		// Objects and obstacles
 		for (auto& layer : tmj["layers"]) {
-			if (layer["type"] == "objectgroup" && layer["name"] == "Decorations") {
+			if (layer["type"] == "objectgroup") {
 				processObjectLayer(layer);
 			}
 		}
 
-		// Objects and obstacles
-		for (auto& layer : tmj["layers"]) {
-			if (layer["type"] == "objectgroup" && (layer["name"] == "Obstacles" || layer["name"] == "InteractObjects")) {
-				processObjectLayer(layer);
-			}
-		}
 	}
 
 	void WorldMap::loadFromFile(const std::string& filename) {
@@ -310,9 +334,9 @@ namespace RPG {
 		if (tile.blocksMovement) return true;
 
 		// 3. Check Objects (Pixel Perfect)
-		// Only check the objects registered to THIS tile.
+		// Only check the objects, which have blocksMovement True registered to THIS tile.
 		for (const auto* obj : tile.residentObjects) {
-			if (obj->getHitbox().contains({ pixelX, pixelY })) {
+			if(obj->getDefinition().meta.blocksMovement && obj->getHitbox().contains({ pixelX, pixelY })){
 				return true; // HIT!
 			}
 		}
@@ -413,9 +437,9 @@ namespace RPG {
 		
 	}
 
-	void WorldMap::generateObstacles(float density, const sf::Vector2f& playerStartPos, uint8_t playerSafeRadius) {
-        int32_t spawnX = static_cast<int32_t>(playerStartPos.x / GameConfig::TILE_SIZE);
-        int32_t spawnY = static_cast<int32_t>(playerStartPos.y / GameConfig::TILE_SIZE);
+	void WorldMap::generateObstacles(float density, uint8_t playerSafeRadius) {
+        int32_t spawnX = static_cast<int32_t>(this->spawnPoint.x / GameConfig::TILE_SIZE);
+        int32_t spawnY = static_cast<int32_t>(this->spawnPoint.y / GameConfig::TILE_SIZE);
 		for (uint32_t y = GameConfig::WORLD_GENERATE_MARGIN; y <= height_gen; ++y) {
 			for (uint32_t x = GameConfig::WORLD_GENERATE_MARGIN; x <= width_gen; ++x) {
 

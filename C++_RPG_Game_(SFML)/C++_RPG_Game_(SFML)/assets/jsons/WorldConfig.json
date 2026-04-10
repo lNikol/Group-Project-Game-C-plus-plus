@@ -1,0 +1,15 @@
+{
+  "maps": {
+    "overworld": {
+      "defaultGround": "grass_0",
+      "borderStructure": "wall_stone",
+      "music": "forest_theme.ogg",
+      "ambientParticles": "leaves"
+    },
+    "dungeon": {
+      "defaultGround": "stone_floor",
+      "borderStructure": "dungeon_wall",
+      "music": "dark_ambient.ogg"
+    }
+  }
+}

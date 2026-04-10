@@ -12,45 +12,12 @@ namespace RPG {
 
         structureLibrary.clear();
         prefixes.clear();
+        idToNameMap.clear();
 
         // 1. Register the main atlas
         addTexture("world_atlas", GameConfig::WORLD_PATH + "world_atlas.png");
 
-        // 2. Define reusable metadata templates
-        StructureMetadata obstacle;
-        obstacle.blocksMovement = true;
-        obstacle.blocksPlacement = true;
-        obstacle.isDestructible = true;
-        obstacle.maxHealth = 100.f;
-
-        StructureMetadata interactiveObj;
-        interactiveObj.blocksMovement = true;
-        interactiveObj.blocksPlacement = false;
-        interactiveObj.isDestructible = true;
-        interactiveObj.maxHealth = 50.f;
-
-        StructureMetadata decoration;
-        decoration.blocksMovement = false;
-        decoration.blocksPlacement = false;
-        decoration.maxHealth = 100.f;
-        decoration.speedModifier = 1.0f;
-
-        // 3. Define Prefix Rules (Mapping file category to Game Logic)
-        prefixes["tree"] = { StructureType::Tree, obstacle, PlacementLayer::Structure };
-        prefixes["rock"] = { StructureType::Rock, obstacle, PlacementLayer::Structure };
-        prefixes["house"] = { StructureType::House, obstacle, PlacementLayer::Structure };
-        prefixes["wall"] = { StructureType::Wall, obstacle, PlacementLayer::Structure };
-
-        // TODO change on chest & barrel structuretype
-        prefixes["chest"] = { StructureType::None, interactiveObj, PlacementLayer::Object };
-        prefixes["barrel"] = { StructureType::None, interactiveObj, PlacementLayer::Object };
-
-        // TODO: change in tiled, .tmj and manifest.json decorations (flowers) -> change file names and mapping name
-
-        prefixes["IconSet"] = { StructureType::Grass, decoration, PlacementLayer::Detail };
-        prefixes["grass"] = { StructureType::Grass, decoration, PlacementLayer::Detail };
-        prefixes["flower"] = { StructureType::None, decoration, PlacementLayer::Detail };
-        prefixes["ground"] = { StructureType::Grass, decoration, PlacementLayer::Detail };
+        loadTemplates(GameConfig::JSON_PATH + "templates.json");
 
         loadManifest(GameConfig::WORLD_PATH + "manifest.json", GameConfig::WORLD_PATH + "world_atlas");
     }
@@ -72,13 +39,17 @@ namespace RPG {
 
             // Match the asset name (e.g., "trees_5") against our registered prefixes
             for (auto& [prefix, t] : prefixes) {
-                if (name.find(prefix) != std::string::npos) {
+                if (name.compare(0, prefix.length(), prefix) == 0) {
                     foundTemplate = &t;
                     break;
                 }
             }
 
-            if (!foundTemplate) continue;
+            if (!foundTemplate) {
+                std::cerr << "[AssetManager] Warning: No prefix match for asset: " << name
+                    << ". Skipping from structure library." << std::endl;
+                continue;
+            }
 
             // Construct the final StructureDefinition
             StructureDefinition def;
@@ -98,6 +69,79 @@ namespace RPG {
             structureLibrary[name] = def;
         }
         std::cout << "[AssetManager] Successfully mapped " << structureLibrary.size() << " assets from manifest.\n";
+    }
+
+    void AssetManager::loadTemplates(const std::string& path) {
+        std::ifstream file(path);
+        if (!file.is_open()) {
+            std::cerr << "[AssetManager] ERROR: Could not open templates file: " << path << std::endl;
+            return;
+        }
+
+        nlohmann::json j;
+        try {
+            file >> j;
+        }
+        catch (const nlohmann::json::parse_error& e) {
+            std::cerr << "[AssetManager] JSON Parse Error: " << e.what() << std::endl;
+            return;
+        }
+
+        for (auto& item : j["templates"]) {
+            AssetTemplate t;
+            t.type = stringToType(item.value("type", "None"));
+            t.layer = stringToLayer(item.value("layer", "Detail"));
+
+            auto& m = item["meta"];
+            t.meta.blocksMovement = m.value("blocksMovement", false);
+            t.meta.blocksPlacement = m.value("blocksPlacement", false);
+            t.meta.isDestructible = m.value("isDestructible", false);
+            t.meta.maxHealth = m.value("maxHealth", 100.0f);
+            t.meta.speedModifier = m.value("speedModifier", 1.0f);
+
+            if (item.contains("prefixes") && item["prefixes"].is_array()) {
+                for (const std::string& pref : item["prefixes"]) {
+                    prefixes[pref] = t;
+                }
+            }
+            else if (item.contains("prefix")) {
+                std::string pref = item["prefix"];
+                prefixes[pref] = t;
+            }
+        }
+
+        std::cout << "[AssetManager] Data-driven templates loaded successfully. Total prefixes: " << prefixes.size() << "\n";
+    }
+
+    PlacementLayer AssetManager::stringToLayer(const std::string& str) {
+        static const std::unordered_map<std::string, PlacementLayer> mapper = {
+            {"Ground",    PlacementLayer::Ground},
+            {"Detail",    PlacementLayer::Detail},
+            {"Object",    PlacementLayer::Object},
+            {"Structure", PlacementLayer::Structure}
+        };
+
+        auto it = mapper.find(str);
+        if (it != mapper.end()) return it->second;
+
+        std::cerr << "[AssetManager] WARNING: Unknown layer '" << str << "'. Defaulting to Detail.\n";
+        return PlacementLayer::Detail;
+    }
+
+    StructureType AssetManager::stringToType(const std::string& str) {
+        static const std::unordered_map<std::string, StructureType> mapper = {
+            {"None",  StructureType::None},
+            {"Tree",  StructureType::Tree},
+            {"Rock",  StructureType::Rock},
+            {"Grass", StructureType::Grass},
+            {"Wall",  StructureType::Wall},
+            {"House", StructureType::House}
+        };
+
+        auto it = mapper.find(str);
+        if (it != mapper.end()) return it->second;
+
+        return StructureType::None;
     }
 
     std::string AssetManager::getNameById(const uint32_t& id) const {
@@ -165,19 +209,15 @@ namespace RPG {
         return (it != textureMap.end()) ? &it->second : nullptr;
     }
 
-
     std::string AssetManager::getDefinitionByType(const StructureType& type) const {
-        std::string def;
-        switch (type) {
-            // TODO : add others assets for ground
-            case StructureType::Grass: def = "grass_0"; break;
-            default: def = "grass_0"; break;
+        for (auto const& [name, def] : structureLibrary) {
+            if (def.type == type) return name;
         }
-        return def;
+        std::cout << "Out of getdefbytype" << std::endl;
+        return "grass_0"; // default
     }
 
-
-    // ==============================
+    // ==============================d
     // Fonts
     // ==============================
 

@@ -1,5 +1,5 @@
 <?xml version="1.0" ?>
-<tileset version="1.10" tiledversion="1.10.2" name="world_collection" tilecount="491" columns="0">
+<tileset version="1.10" tiledversion="1.10.2" name="world_collection" tilecount="492" columns="0">
   <tile id="1">
     <tileoffset x="-52" y="0"/>
     <image source="images/trees_0.png" width="113" height="142"/>
@@ -3435,6 +3435,13 @@
     <image source="images/IconSet_356.png" width="1" height="1"/>
     <properties>
       <property name="name" value="IconSet_356"/>
+    </properties>
+  </tile>
+  <tile id="492">
+    <tileoffset x="-15" y="0"/>
+    <image source="images/blue_0.png" width="30" height="29"/>
+    <properties>
+      <property name="name" value="blue_0"/>
     </properties>
   </tile>
 </tileset>

@@ -11,10 +11,13 @@ namespace RPG {
         InvisibleBlock, // To block the neighborhood of the center point of a large object
         Rock, Tree, Wall,           // Obstacles
         Water, River, Swamp, Grass, Sand, // Ground types
+        Decoration,
+        interactObj,
         Camp, SaveZone, FactionBase, House // Special zones
     };
 
     enum class PlacementLayer {
+        Ground,    // Ground
         Detail,    // Flowers
         Object,    // Chests
         Structure  // Walls

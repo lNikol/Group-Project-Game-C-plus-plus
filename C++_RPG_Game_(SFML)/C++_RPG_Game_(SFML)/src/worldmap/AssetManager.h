@@ -78,6 +78,15 @@ namespace RPG {
          */
         void loadManifest(const std::string& path, const std::string& textureKey);
 
+
+        void loadTemplates(const std::string& path);
+
+
+        PlacementLayer stringToLayer(const std::string& str);
+
+
+        StructureType stringToType(const std::string& str);
+
         /**
          * @brief Resolves a numeric Asset ID from the manifest back to its string name.
          * @param id The ID found in manifest.json or Tiled GID.

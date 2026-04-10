@@ -9,15 +9,34 @@
         },
         "collection.tsx": {
             "dynamicWrapping": true,
-            "scaleInDock": 1,
+            "scaleInDock": 0.125,
             "scaleInEditor": 1
         },
-        "world.tmx": {
-            "scale": 0.75,
-            "selectedLayer": 2,
+        "neutral.tmx": {
+            "expandedObjectLayers": [
+                2,
+                3,
+                5,
+                4
+            ],
+            "scale": 1.5,
+            "selectedLayer": 4,
             "viewCenter": {
-                "x": -398,
-                "y": 340
+                "x": -537.3333333333333,
+                "y": 400
+            }
+        },
+        "world.tmx": {
+            "expandedObjectLayers": [
+                2,
+                4,
+                6
+            ],
+            "scale": 1.5,
+            "selectedLayer": 4,
+            "viewCenter": {
+                "x": -662.6666666666666,
+                "y": 246.66666666666669
             }
         }
     },

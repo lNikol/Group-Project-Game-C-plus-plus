@@ -15,8 +15,8 @@ namespace RPG {
 
         // Assets and structures init
         assetManager.init();
-        assetManager.addSpritesheet("player", GameConfig::ANIMATIONS_PATH + "/player.png");
-        assetManager.addSpritesheet("npc", GameConfig::ANIMATIONS_PATH + "/npc.png");;
+        assetManager.addSpritesheet("player", GameConfig::ANIMATIONS_PATH + "player.png");
+        assetManager.addSpritesheet("npc", GameConfig::ANIMATIONS_PATH + "npc.png");;
 
         // Init start scene
         initGameData();
@@ -89,7 +89,7 @@ namespace RPG {
          */
 
         if (mainMap->getNPCs().empty()) {
-            addNpc(0, "White Order Envoy", true, FactionID::WhiteOrder, { 520.f, 520.f }, mainMap);
+            addNpc(0, "White Order Envoy", false , FactionID::WhiteOrder, { 520.f, 520.f }, mainMap);
             addNpc(0, "Dark Order Envoy", true, FactionID::DarkOrder, { 300.0f, 420.0f }, mainMap);
             addNpc(0, "BattleField Envoy", true, FactionID::BattleScene, { 320.0f, 200.0f }, mainMap);
         }
@@ -113,33 +113,36 @@ namespace RPG {
         auto newMap = std::make_shared<WorldMap>(size.x, size.y, assetManager);
 
         // 3. Load Source: Binary Save > Tiled Template > Procedural Generation
-        if (std::filesystem::exists(savePath)) {
+        /*if (std::filesystem::exists(savePath)) {
             std::cout << "[GameManager] Loading persistent state for map " << (int)id << "\n";
             newMap->loadFromFile(savePath);
-        }
-        else if (id == FactionID::MainWorld) {
+        }*/
+        if (id == FactionID::MainWorld) {
             newMap->loadMap(GameConfig::WORLD_PATH + "world.tmj");
+        }
+        else if (id == FactionID::DarkOrder || id == FactionID::WhiteOrder || id == FactionID::NeutralOrder) {
+            newMap->loadMap(GameConfig::WORLD_PATH + "neutral.tmj");
         }
         else {
             std::cout << "[GameManager] Generating new procedural map for faction " << (int)id << "\n";
-            newMap->generateObstacles(0.1f, { 1000.f, 1000.f }); // Example density and pos
+            newMap->generateObstacles(0.1f);
         }
 
-        // 4. Memory Management: If too many maps, unload the least recently used
-        if (allMaps.size() >= 5) {
-            for (auto it = allMaps.begin(); it != allMaps.end(); ) {
-                // Protect the Main World and the currently active map from being unloaded
-                if (it->first != FactionID::MainWorld && it->first != activeFaction) {
-                    std::string unloadPath = saveDir + "map_" + std::to_string(static_cast<int>(it->first)) + ".bin";
-                    it->second->saveToFile(unloadPath); // Save changes before purging from RAM
-                    it = allMaps.erase(it);
-                    break;
-                }
-                else {
-                    ++it;
-                }
-            }
-        }
+        //// 4. Memory Management: If too many maps, unload the least recently used
+        //if (allMaps.size() >= 5) {
+        //    for (auto it = allMaps.begin(); it != allMaps.end(); ) {
+        //        // Protect the Main World and the currently active map from being unloaded
+        //        if (it->first != FactionID::MainWorld && it->first != activeFaction) {
+        //            std::string unloadPath = saveDir + "map_" + std::to_string(static_cast<int>(it->first)) + ".bin";
+        //            it->second->saveToFile(unloadPath); // Save changes before purging from RAM
+        //            it = allMaps.erase(it);
+        //            break;
+        //        }
+        //        else {
+        //            ++it;
+        //        }
+        //    }
+        //}
 
         allMaps[id] = newMap;
         return newMap;
@@ -156,36 +159,37 @@ namespace RPG {
 
 
     void GameManager::changeScene(FactionID targetFaction) {
-        auto selectedMap = getOrLoadMap(targetFaction);
+        auto selectedMap = targetFaction == FactionID::BattleScene ? allMaps[targetFaction] : getOrLoadMap(targetFaction); // TODO: fix it
 
         if (activeFaction == FactionID::MainWorld && targetFaction != FactionID::MainWorld) {
             lastWorldPosition = player->getPosition();
         }
+        if (targetFaction == FactionID::BattleScene) {
+            std::cout << "[GameManager] BattleScene: Skipping manual player positioning.\n";
+        }
+        else if (targetFaction == FactionID::MainWorld) {
+            player->setPosition(lastWorldPosition);
+        }
+        else if (selectedMap && selectedMap->getHasSpawnPoint()) {
+            player->setPosition(selectedMap->getSpawnPoint());
+        }
+        else {
+            player->setPosition({ 100.0f, 100.0f });
+            std::cerr << "[GameManager] WARNING: Map for faction " << (uint32_t)targetFaction << " has no PlayerSpawn!\n";
+        }
 
         switch (targetFaction) {
-        case FactionID::WhiteOrder:
-            player->setPosition({ 400.0f, 520.0f });
-            currentScene = std::make_unique<FactionScene>(*this, selectedMap, player);
-            break;
-
-        case FactionID::DarkOrder:
-            player->setPosition({ 400.0f, 480.0f });
-            currentScene = std::make_unique<FactionScene>(*this, selectedMap, player);
-            break;
-
-        case FactionID::NeutralOrder:
-            player->setPosition({ 440.0f, 620.0f });
-            currentScene = std::make_unique<FactionScene>(*this, selectedMap, player);
-            break;
-
         case FactionID::BattleScene:
             currentScene = std::make_unique<BattleScene>(*this, window, assetManager, playerUnit, selectedMap);
             break;
 
-        default:
         case FactionID::MainWorld:
             player->setPosition(lastWorldPosition);
             currentScene = std::make_unique<WorldScene>(*this, selectedMap, player);
+            break;
+
+        default: // Faction bases (White, Dark, Neutral)
+            currentScene = std::make_unique<FactionScene>(*this, selectedMap, player);
             break;
         }
 
@@ -270,9 +274,9 @@ namespace RPG {
     }
 
     GameManager::~GameManager() {
-        for (auto& [id, map] : allMaps) {
+       /* for (auto& [id, map] : allMaps) {
             std::string path = "saves/map_" + std::to_string((int)id) + ".bin";
             map->saveToFile(path);
-        }
+        }*/
     }
 }

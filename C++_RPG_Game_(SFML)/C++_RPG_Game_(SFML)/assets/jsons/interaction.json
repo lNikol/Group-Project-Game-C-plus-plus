@@ -1,0 +1,6 @@
+{
+  "interactions": {
+    "Tree": { "requiredTool": "Axe", "result": "Wood", "time": 2.0 },
+    "Rock": { "requiredTool": "Pickaxe", "result": "Stone", "time": 3.5 }
+  }
+}

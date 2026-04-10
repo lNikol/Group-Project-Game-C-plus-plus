@@ -16,8 +16,9 @@ namespace RPG {
 
 	namespace GameConfig {
 		inline const std::string ASSETS_PATH = "assets/";
+		inline const std::string JSON_PATH = ASSETS_PATH + "jsons/";
 		inline const std::string TEXTURES_PATH = ASSETS_PATH + "textures/";
-		inline const std::string ANIMATIONS_PATH = ASSETS_PATH + "animations";
+		inline const std::string ANIMATIONS_PATH = ASSETS_PATH + "animations/";
 		inline const std::string PROCESSED_PATH = ASSETS_PATH + "assets_processed/";
 		inline const std::string WORLD_PATH = PROCESSED_PATH + "world/";
 		inline const std::string FACTION_PATH = PROCESSED_PATH + "faction/";

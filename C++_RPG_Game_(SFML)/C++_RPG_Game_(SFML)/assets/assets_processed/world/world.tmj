@@ -202,8 +202,8 @@
                  "type":"",
                  "visible":true,
                  "width":17,
-                 "x":-378.333333333333,
-                 "y":58.3333333333333
+                 "x":-378.333,
+                 "y":58.3333
                 }, 
                 {
                  "gid":187,
@@ -215,8 +215,8 @@
                  "type":"",
                  "visible":true,
                  "width":17,
-                 "x":-349.666666666667,
-                 "y":55.3333333333333
+                 "x":-349.667,
+                 "y":55.3333
                 }, 
                 {
                  "gid":187,
@@ -229,7 +229,7 @@
                  "visible":true,
                  "width":17,
                  "x":-334,
-                 "y":65.6666666666667
+                 "y":65.6667
                 }, 
                 {
                  "gid":349,
@@ -242,7 +242,7 @@
                  "visible":true,
                  "width":14,
                  "x":-542,
-                 "y":85.3333333333333
+                 "y":85.3333
                 }, 
                 {
                  "gid":349,
@@ -267,8 +267,8 @@
                  "type":"",
                  "visible":true,
                  "width":14,
-                 "x":-510.666666666667,
-                 "y":94.6666666666667
+                 "x":-510.667,
+                 "y":94.6667
                 }, 
                 {
                  "gid":349,
@@ -280,7 +280,7 @@
                  "type":"",
                  "visible":true,
                  "width":14,
-                 "x":-495.333333333333,
+                 "x":-495.333,
                  "y":85
                 }],
          "opacity":1,
@@ -295,30 +295,43 @@
          "name":"InteractObjects",
          "objects":[
                 {
-                 "gid":12,
+                 "gid":493,
                  "height":29,
-                 "id":102,
+                 "id":118,
                  "name":"",
                  "opacity":1,
                  "rotation":0,
                  "type":"",
                  "visible":true,
                  "width":30,
-                 "x":-800.333333333333,
-                 "y":355
+                 "x":-864,
+                 "y":320
                 }, 
                 {
-                 "gid":12,
+                 "gid":493,
                  "height":29,
-                 "id":103,
+                 "id":119,
                  "name":"",
                  "opacity":1,
                  "rotation":0,
                  "type":"",
                  "visible":true,
                  "width":30,
-                 "x":-800,
-                 "y":294.666666666667
+                 "x":-864,
+                 "y":384
+                }, 
+                {
+                 "gid":493,
+                 "height":29,
+                 "id":120,
+                 "name":"",
+                 "opacity":1,
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":30,
+                 "x":-864,
+                 "y":448
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -832,9 +845,46 @@
          "visible":true,
          "x":0,
          "y":0
+        }, 
+        {
+         "draworder":"topdown",
+         "id":6,
+         "name":"SpawnPoints",
+         "objects":[
+                {
+                 "height":0,
+                 "id":117,
+                 "name":"PlayerSpawn",
+                 "opacity":1,
+                 "point":true,
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":-622.666666666667,
+                 "y":58
+                }, 
+                {
+                 "height":0,
+                 "id":121,
+                 "name":"GateKeeper",
+                 "opacity":1,
+                 "point":true,
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":-941.333333333333,
+                 "y":88.6666666666667
+                }],
+         "opacity":1,
+         "type":"objectgroup",
+         "visible":true,
+         "x":0,
+         "y":0
         }],
- "nextlayerid":6,
- "nextobjectid":116,
+ "nextlayerid":7,
+ "nextobjectid":122,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.12.0",

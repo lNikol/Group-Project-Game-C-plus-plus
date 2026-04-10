@@ -14,6 +14,8 @@ namespace RPG {
 	class WorldMap {
 	private:
 		uint32_t width, width_gen, height, height_gen;
+		sf::Vector2f spawnPoint = { 50,50 };
+		bool hasSpawnPoint = false;
 		int32_t offsetX = 0, offsetY = 0;
 		AssetManager& assetManager;
 		
@@ -26,7 +28,10 @@ namespace RPG {
 
 		uint32_t getWidth() const;
 		uint32_t getHeight() const;
+		sf::Vector2f getSpawnPoint() const;
+		bool getHasSpawnPoint() const;
 
+		void setPlayerInitialPosition(float x, float y);
 		/**
 		 * @brief Initialize grid with default values
 		 */
@@ -119,10 +124,14 @@ namespace RPG {
 		const Tile& at(int32_t x, int32_t y) const;
 		
 		/**
-		 * @brief Checks if a pixel position is blocked by a structure.
-		 * @param pixelX X coordinate in pixels.
-		 * @param pixelY Y coordinate in pixels.
-		 * @return true if movement is blocked.
+		 * @brief Checks if a specific pixel coordinate is blocked by terrain or objects.
+		 * * First checks global tile properties (like water), then iterates through
+		 * resident objects that have the 'blocksMovement' metadata enabled.
+		 * Uses the precise hitbox calculated during asset processing.
+		 * * @param pixelX World X coordinate in pixels.
+		 * @param pixelY World Y coordinate in pixels.
+		 * @return true If the position is impassable.
+		 * @return false If the position is clear for movement.
 		 */
 		bool isBlockingAtPixel(float pixelX, float pixelY) const;
 
@@ -141,7 +150,7 @@ namespace RPG {
 		bool placeStructure(float worldX, float worldY, const std::string& name);
 		bool placeStructureAtTile(int32_t tileX, int32_t tileY, const std::string& name);
 
-		void generateObstacles(float density, const sf::Vector2f& playerStartPos, uint8_t playerSafeRadius = 2);
+		void generateObstacles(float density, uint8_t playerSafeRadius = 2);
 
 		sf::Vector2f findNearestSafeTile(sf::Vector2f startPos);
 

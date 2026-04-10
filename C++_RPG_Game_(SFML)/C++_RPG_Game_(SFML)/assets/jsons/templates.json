@@ -1,0 +1,93 @@
+{
+  "templates": [
+    {
+      "comment": "--- NATURE (Destructible, Medium HP) ---",
+      "prefixes": ["tree", "pine", "oak"],
+      "type": "Tree",
+      "layer": "Structure",
+      "meta": {
+        "blocksMovement": true,
+        "blocksPlacement": true,
+        "isDestructible": true,
+        "maxHealth": 120.0
+      }
+    },
+    {
+      "prefixes": ["rock", "stone", "boulder"],
+      "type": "Rock",
+      "layer": "Structure",
+      "meta": {
+        "blocksMovement": true,
+        "blocksPlacement": true,
+        "isDestructible": true,
+        "maxHealth": 300.0
+      }
+    },
+    {
+      "comment": "--- INFRASTRUCTURE (Tough, Often Indestructible) ---",
+      "prefixes": ["wall", "fence"],
+      "type": "Wall",
+      "layer": "Structure",
+      "meta": {
+        "blocksMovement": true,
+        "blocksPlacement": true,
+        "isDestructible": false,
+        "maxHealth": 1000.0
+      }
+    },
+    {
+      "prefixes": ["house", "tent", "hut"],
+      "type": "House",
+      "layer": "Structure",
+      "meta": {
+        "blocksMovement": true,
+        "blocksPlacement": true,
+        "isDestructible": false
+      }
+    },
+    {
+      "comment": "--- INTERACTIVES ---",
+      "prefixes": ["chest", "barrel", "crate", "blue"],
+      "type": "IterativeObj",
+      "layer": "Object",
+      "meta": {
+        "blocksMovement": true,
+        "blocksPlacement": false,
+        "isDestructible": true,
+        "maxHealth": 30.0
+      }
+    },
+    {
+      "comment": "--- GROUND & DECOR (Non-blocking) ---",
+      "prefixes": ["grass", "ground"],
+      "type": "Grass",
+      "layer": "Ground",
+      "meta": {
+        "blocksMovement": false,
+        "blocksPlacement": false,
+        "speedModifier": 1.0
+      }
+    },
+    {
+      "comment": "--- GROUND & DECOR (Non-blocking) ---",
+      "prefixes": ["sand"],
+      "type": "Sand",
+      "layer": "Ground",
+      "meta": {
+        "blocksMovement": false,
+        "blocksPlacement": false,
+        "speedModifier": 1.0
+      }
+    },
+    {
+      "comment": "--- DECOR (Non-blocking) ---",
+      "prefixes": ["flower", "bush_small", "pebbles", "IconSet"],
+      "type": "Decoration",
+      "layer": "Detail",
+      "meta": {
+        "blocksMovement": false,
+        "blocksPlacement": false
+      }
+    }
+  ]
+}
