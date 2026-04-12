@@ -137,6 +137,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\game_objects\components\AnimationControllerComponent.cpp" />
+    <ClCompile Include="src\animation\AnimationLoader.cpp" />
+    <ClCompile Include="src\game_objects\GameObjectFactory.cpp" />
+    <ClCompile Include="src\game_objects\components\MovementComponent.cpp" />
+    <ClCompile Include="src\game_objects\components\PlayerInputComponent.cpp" />
+    <ClCompile Include="src\game_objects\components\ColliderComponent.cpp" />
+    <ClCompile Include="src\game_objects\components\AnimationComponent.cpp" />
+    <ClCompile Include="src\game_objects\components\RenderComponent.cpp" />
+    <ClCompile Include="src\game_objects\components\Component.cpp" />
+    <ClCompile Include="src\game_objects\GameObject.cpp" />
+    <ClCompile Include="src\animation\AnimationLoader.h" />
     <ClCompile Include="src\entities\CollidingEntity.cpp" />
     <ClCompile Include="src\combat\BattleManager.cpp" />
     <ClCompile Include="src\combat\CombatAbility.cpp" />
@@ -168,6 +179,14 @@
     <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\game_objects\components\AnimationControllerComponent.h" />
+    <ClInclude Include="src\game_objects\components\MovementComponent.h" />
+    <ClInclude Include="src\game_objects\components\PlayerInputComponent.h" />
+    <ClInclude Include="src\game_objects\components\ColliderComponent.h" />
+    <ClInclude Include="src\game_objects\components\AnimationComponent.h" />
+    <ClInclude Include="src\game_objects\components\RenderComponent.h" />
+    <ClInclude Include="src\game_objects\components\Component.h" />
+    <ClInclude Include="src\game_objects\GameObject.h" />
     <ClInclude Include="src\entities\CollidingEntity.h" />
     <ClInclude Include="src\combat\BattleManager.h" />
     <ClInclude Include="src\combat\CombatAbility.h" />
@@ -186,6 +205,7 @@
     <ClInclude Include="src\entities\Monster.h" />
     <ClInclude Include="src\entities\NPC.h" />
     <ClInclude Include="src\entities\WorldObject.h" />
+    <ClInclude Include="src\game_objects\GameObjectFactory.h" />
     <ClInclude Include="src\scenes\BaseGameScene.h" />
     <ClInclude Include="src\scenes\BattleScene.h" />
     <ClInclude Include="src\scenes\FactionScene.h" />
@@ -214,12 +234,26 @@
   <ItemGroup>
     <Image Include="assets\animations\npc.png" />
     <Image Include="assets\animations\player.png" />
+    <Image Include="assets\textures\box.png" />
     <Image Include="assets\textures\grass.png" />
     <Image Include="assets\textures\house.png" />
     <Image Include="assets\textures\rock.png" />
     <Image Include="assets\textures\trees.png" />
+    <Image Include="C:\Users\olsze\Downloads\box.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="assets\animations\npc_animations.json" />
+    <None Include="assets\animations\player_animations.json" />
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
+    <Import Project="..\packages\nlohmann.json.3.12.0\build\native\nlohmann.json.targets" Condition="Exists('..\packages\nlohmann.json.3.12.0\build\native\nlohmann.json.targets')" />
   </ImportGroup>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>Ten projekt zawiera odwołania do pakietów NuGet, których nie ma na tym komputerze. Użyj przywracania pakietów NuGet, aby je pobrać. Aby uzyskać więcej informacji, zobacz http://go.microsoft.com/fwlink/?LinkID=322105. Brakujący plik: {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\nlohmann.json.3.12.0\build\native\nlohmann.json.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\nlohmann.json.3.12.0\build\native\nlohmann.json.targets'))" />
+  </Target>
 </Project>

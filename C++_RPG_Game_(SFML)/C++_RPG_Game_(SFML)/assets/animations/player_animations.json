@@ -1,0 +1,40 @@
+{
+  "spritesheet": "player.png",
+
+  "defaultFrameGap": 32,
+
+  "animations": {
+    "idle_bottom": {
+      "startPos": [ 16, 16 ],
+      "frameCount": 5
+    },
+    "idle_left": {
+      "startPos": [ 16, 80 ],
+      "frameCount": 5
+    },
+    "idle_right": {
+      "startPos": [ 16, 144 ],
+      "frameCount": 5
+    },
+    "idle_top": {
+      "startPos": [ 16, 208 ],
+      "frameCount": 5
+    },
+    "run_bottom": {
+      "startPos": [ 16, 528 ],
+      "frameCount": 5
+    },
+    "run_left": {
+      "startPos": [ 16, 592 ],
+      "frameCount": 5
+    },
+    "run_right": {
+      "startPos": [ 16, 656 ],
+      "frameCount": 5
+    },
+    "run_top": {
+      "startPos": [ 16, 720 ],
+      "frameCount": 5
+    }
+  }
+}

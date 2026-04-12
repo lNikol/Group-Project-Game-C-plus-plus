@@ -17,8 +17,11 @@
 #include "animation/AnimationManager.h"
 #include "animation/Animation.h"
 #include "animation/AnimationBuilder.h"
-
 #include "combat/Unit.h"
+
+
+#include "game_objects/GameObjectFactory.h"
+
 namespace RPG {
 	
 	/**
@@ -33,6 +36,10 @@ namespace RPG {
 		sf::RenderWindow window;
 		AssetManager assetManager;
 		AnimationManager animationManager;
+
+		std::shared_ptr<GameObject> gameObject;
+		std::unique_ptr<GameObject> testNpc;
+		std::unique_ptr<GameObject> box;
 
 		// shared info between scenes
 		std::shared_ptr<Player> player;

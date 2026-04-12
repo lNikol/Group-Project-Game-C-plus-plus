@@ -16,7 +16,7 @@ namespace RPG {
         // Assets and structures init
         assetManager.init();
         assetManager.addSpritesheet("player", GameConfig::ANIMATIONS_PATH + "player.png");
-        assetManager.addSpritesheet("npc", GameConfig::ANIMATIONS_PATH + "npc.png");;
+        assetManager.addSpritesheet("npc", GameConfig::ANIMATIONS_PATH + "npc.png");
 
         // Init start scene
         initGameData();
@@ -40,6 +40,11 @@ namespace RPG {
         //DEBUG
         changeScene(FactionID::MainWorld);
         //changeScene(FactionID::BattleScene);
+        
+        assetManager.addSpritesheet("box", GameConfig::TEXTURES_PATH + "box.png");
+        gameObject = Factory::createPlayer(assetManager, { 200, 100 });
+        box = Factory::createBox(assetManager, { 150, 100 });
+        // box = Factory::createTestBox(assetManager, { 100, 100 });
     }
 
     void GameManager::initGameData() {
@@ -259,13 +264,18 @@ namespace RPG {
         if (currentScene) currentScene->update(dt, window);
         //if (m_hud) m_hud->update(dt);
         //if (m_hud) draw();
+        gameObject->update(dt);
+        testNpc->update(dt);
+        box->update(dt);
     }
 
     void GameManager::draw() {
         window.clear(sf::Color(0x606030FF));
         
         if (currentScene) currentScene->draw(window, assetManager);
-
+        gameObject->draw(window);
+        testNpc->draw(window);
+        box->draw(window);
         //if (m_hud) {
         //    window.draw(*m_hud);
         //}

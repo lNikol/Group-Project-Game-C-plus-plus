@@ -122,6 +122,7 @@ namespace RPG {
          * @return const Spritesheet* Pointer to the spritesheet, or nullptr if not found.
          */
         const Spritesheet* getSpritesheet(const std::string& name) const;
+        const Spritesheet& getTest(const std::string& name) const;
 
         // ==============================
         // Textures

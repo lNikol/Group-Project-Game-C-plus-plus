@@ -13,6 +13,19 @@ namespace RPG {
 	sf::Vector2f WorldMap::getSpawnPoint() const { return spawnPoint; }
 	bool WorldMap::getHasSpawnPoint() const { return hasSpawnPoint; }
 
+	std::vector<std::unique_ptr<GameObject>>& WorldMap::getGameObjects() {
+		return gameObjects;
+	}
+
+	const std::vector<std::unique_ptr<GameObject>>& WorldMap::getGameObjects() const {
+		return gameObjects;
+	}
+
+	void WorldMap::addGameObject(std::unique_ptr<GameObject> go) {
+		gameObjects.push_back(std::move(go));
+	}
+
+	WorldMap::WorldMap(uint32_t w, uint32_t h, AssetManager& am) : width(w), height(h), assetManager(am) {
 
 	WorldMap::WorldMap(uint32_t w, uint32_t h, AssetManager& am) : width(w), height(h), assetManager(am),
 		width_gen(w - GameConfig::WORLD_GENERATE_MARGIN), height_gen(h - GameConfig::WORLD_GENERATE_MARGIN) {

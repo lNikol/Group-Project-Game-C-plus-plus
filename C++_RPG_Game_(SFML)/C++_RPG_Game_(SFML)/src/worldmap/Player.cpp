@@ -1,4 +1,5 @@
 #include "Player.h"
+#include "animation/AnimationLoader.h"
 
 namespace RPG {
 

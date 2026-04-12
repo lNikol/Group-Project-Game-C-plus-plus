@@ -8,6 +8,7 @@
 #include <memory>
 #include <stdexcept>
 #include <vector>
+#include "game_objects/GameObject.h"
 
 namespace RPG {
 
@@ -22,6 +23,7 @@ namespace RPG {
 		std::vector<Tile> tiles; // Only holds ground
 		std::vector<std::unique_ptr<WorldObject>> structures; // Holds structues (trees, houses, rocks)
 		std::vector<std::unique_ptr<NPC>> npcs; // Holds active npcs
+		std::vector<std::unique_ptr<GameObject>> gameObjects;
 	
 	public:
 		WorldMap(uint32_t w, uint32_t h, AssetManager& am);
@@ -91,6 +93,10 @@ namespace RPG {
 		* @param filename Path to the .bin file.
 		 */
 		void loadFromFile(const std::string& filename);
+
+		std::vector<std::unique_ptr<GameObject>>& getGameObjects();
+		const std::vector<std::unique_ptr<GameObject>>& getGameObjects() const;
+		void addGameObject(std::unique_ptr<GameObject> go);
 
 
 		/**

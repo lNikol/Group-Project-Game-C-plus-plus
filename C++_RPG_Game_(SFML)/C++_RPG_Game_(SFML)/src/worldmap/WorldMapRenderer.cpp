@@ -92,7 +92,7 @@ namespace RPG {
         // B. NPCs
         for (const auto& npc : worldMap.getNPCs()) {
             RenderPacket packet;
-            packet.sortY = npc->getPosition().y + npc->getGlobalBounds().size.y;
+            packet.sortY = npc->getPosition().y + npc->getGlobalBounds().size.y * 0.5; // change -> ADD HITBOX
             packet.drawFunc = [&](sf::RenderWindow& w) { npc->draw(w); };
             renderQueue.push_back(packet);
         }
@@ -109,6 +109,27 @@ namespace RPG {
         std::sort(renderQueue.begin(), renderQueue.end());
         for (const auto& packet : renderQueue) {
             packet.drawFunc(window);
+        }
+
+
+
+        // NEW! RENDERING GAMEOBJECTS
+
+
+        std::vector<GameObject*> queue;
+
+        // TODO: ADD PLAYER
+
+        for (const auto& go : worldMap.getGameObjects()) {
+            queue.push_back(go.get());
+        }
+
+        std::sort(queue.begin(), queue.end(), [](GameObject* a, GameObject* b) {
+            return a->getPosition().y < b->getPosition().y;
+        });
+
+        for (auto& obj : queue) {
+            obj->draw(window);
         }
 
         // ==============================

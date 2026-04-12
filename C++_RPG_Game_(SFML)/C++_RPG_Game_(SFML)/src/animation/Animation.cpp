@@ -54,7 +54,7 @@ namespace RPG {
         currentFrame.size.x = frameSize.x;
         currentFrame.size.y = frameSize.y;
     }
-
+        
     void Animation::reset() {
         timer = 0.0;
         currentFrameIndex = 0;
