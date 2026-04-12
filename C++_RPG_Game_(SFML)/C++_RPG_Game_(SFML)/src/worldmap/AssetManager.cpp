@@ -184,6 +184,18 @@ namespace RPG {
         return nullptr;
     }
 
+    const Spritesheet& AssetManager::getTest(const std::string& name) const {
+        auto it = spritesheetMap.find(name);
+
+        if (it != spritesheetMap.end()) {
+            std::cout << "Loading spritesheet \"" + name + "\"\n";
+            return it->second;
+        }
+
+        std::cout << "Failed to load spritesheet \"" + name + "\"\n";
+        return Spritesheet();
+    }
+
     // ==============================
     // Textures
     // ==============================

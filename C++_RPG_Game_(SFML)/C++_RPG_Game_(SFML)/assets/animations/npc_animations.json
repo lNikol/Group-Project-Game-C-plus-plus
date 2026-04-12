@@ -1,0 +1,12 @@
+{
+  "spritesheet": "npc.png",
+
+  "defaultFrameGap": 16,
+
+  "animations": {
+    "idle_bottom": {
+      "frameCount": 8,
+      "startPos": [ 16, 16 ]
+    }
+  }
+}

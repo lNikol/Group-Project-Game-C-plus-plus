@@ -8,6 +8,18 @@ namespace RPG {
 	uint32_t WorldMap::getWidth() const { return width; }
 	uint32_t WorldMap::getHeight() const { return height; }
 
+	std::vector<std::unique_ptr<GameObject>>& WorldMap::getGameObjects() {
+		return gameObjects;
+	}
+
+	const std::vector<std::unique_ptr<GameObject>>& WorldMap::getGameObjects() const {
+		return gameObjects;
+	}
+
+	void WorldMap::addGameObject(std::unique_ptr<GameObject> go) {
+		gameObjects.push_back(std::move(go));
+	}
+
 	WorldMap::WorldMap(uint32_t w, uint32_t h, AssetManager& am) : width(w), height(h), assetManager(am) {
 		// Memory reservation for all Tiles
 		tiles.resize(width * height);

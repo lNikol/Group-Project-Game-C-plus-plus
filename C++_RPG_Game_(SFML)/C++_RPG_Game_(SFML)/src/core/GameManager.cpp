@@ -15,8 +15,8 @@ namespace RPG {
 
         // Assets and structures init
         assetManager.init();
-        assetManager.addSpritesheet("player", GameConfig::ANIMATIONS_PATH + "/player.png");
-        assetManager.addSpritesheet("npc", GameConfig::ANIMATIONS_PATH + "/npc.png");
+        assetManager.addSpritesheet("player", GameConfig::ANIMATIONS_PATH + "player.png");
+        assetManager.addSpritesheet("npc", GameConfig::ANIMATIONS_PATH + "npc.png");
 
         assetManager.addTexture("grass", GameConfig::TEXTURES_PATH + "grass.png");
 
@@ -42,6 +42,11 @@ namespace RPG {
         //DEBUG
         changeScene(FactionID::MainWorld);
         //changeScene(FactionID::BattleScene);
+        
+        assetManager.addSpritesheet("box", GameConfig::TEXTURES_PATH + "box.png");
+        gameObject = Factory::createPlayer(assetManager, { 200, 100 });
+        box = Factory::createBox(assetManager, { 150, 100 });
+        // box = Factory::createTestBox(assetManager, { 100, 100 });
     }
 
     void GameManager::initGameData() {
@@ -91,6 +96,10 @@ namespace RPG {
         addNpc(0, "White Order Envoy", true, FactionID::WhiteOrder, sf::Vector2f{ 520.f, 520.f }, mainMap);
         addNpc(0, "White Orange Order Envoy", false, FactionID::WhiteOrder, sf::Vector2f{ 300.0f, 420.0f }, mainMap);
         addNpc(0, "hite Orange BattleField Envoy", true, FactionID::BattleScene, sf::Vector2f{ 320.0f, 200.0f }, mainMap);
+
+        mainMap->addGameObject(Factory::createTestNpc(assetManager, { 100, 100 }));
+        mainMap->addGameObject(Factory::createTestNpc(assetManager, { 120, 130 }));
+        mainMap->addGameObject(Factory::createTestNpc(assetManager, { 150, 150 }));
 
         allMaps[FactionID::MainWorld] = mainMap;
 
@@ -229,13 +238,18 @@ namespace RPG {
         if (currentScene) currentScene->update(dt, window);
         //if (m_hud) m_hud->update(dt);
         //if (m_hud) draw();
+        gameObject->update(dt);
+        testNpc->update(dt);
+        box->update(dt);
     }
 
     void GameManager::draw() {
         window.clear(sf::Color(0x606030FF));
         
         if (currentScene) currentScene->draw(window, assetManager);
-
+        gameObject->draw(window);
+        testNpc->draw(window);
+        box->draw(window);
         //if (m_hud) {
         //    window.draw(*m_hud);
         //}

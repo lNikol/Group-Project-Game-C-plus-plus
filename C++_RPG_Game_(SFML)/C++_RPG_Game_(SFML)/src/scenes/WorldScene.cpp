@@ -7,7 +7,7 @@ namespace RPG {
         : BaseGameScene(ctrl, wm, p) 
     {
         sceneName = "WorldScene";
-        viewVisibility = 0.5f;
+        viewVisibility = 0.8f;
     }
 
     bool WorldScene::handleEvent(sf::RenderWindow& window, const sf::Event& event) {
