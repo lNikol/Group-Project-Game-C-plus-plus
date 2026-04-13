@@ -83,7 +83,7 @@ namespace RPG {
 
         auto mainMap = getOrLoadMap(activeFaction);
         mainMap->addGameObject(Factory::createPlayer(assetManager, {100, 100}));
-        mainMap->addGameObject(Factory::createTestNpc(assetManager, {100, 200}));
+        mainMap->addGameObject(Factory::createNpc(assetManager, {100, 200}));
         mainMap->addGameObject(Factory::createBox(assetManager, {200, 200}));
         mainMap->addGameObject(Factory::createBox(assetManager, {300, 300}));
 

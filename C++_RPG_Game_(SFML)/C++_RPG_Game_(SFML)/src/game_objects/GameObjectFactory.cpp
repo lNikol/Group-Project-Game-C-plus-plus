@@ -37,7 +37,7 @@ namespace RPG {
 			return player;
 		}
 
-		std::unique_ptr<GameObject> createTestNpc(AssetManager& am, sf::Vector2f pos) {
+		std::unique_ptr<GameObject> createNpc(AssetManager& am, sf::Vector2f pos) {
 
 			const Spritesheet& spritesheet = am.getTest("npc");
 			auto animations = AnimationLoader::loadAnimations(

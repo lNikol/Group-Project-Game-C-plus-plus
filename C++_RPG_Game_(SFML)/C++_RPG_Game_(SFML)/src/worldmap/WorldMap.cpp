@@ -66,7 +66,7 @@ namespace RPG {
 	}
 
 	void WorldMap::generateBorders() {
-		std::string wallId = "IconSet_408"; // TODO: change on 'wall' when will be a sprite
+		std::string wallId = "rock_0"; // TODO: change on 'wall' when will be a sprite
 
 		for (uint32_t x = 0; x < width; ++x) {
 			// Top and bottom borders
@@ -129,19 +129,23 @@ namespace RPG {
 		for (const auto& obj : layer["objects"]) {
 			std::string objName = obj.value("name", "");
 
+			std::cout << "[Tiled Debug] Found Object: Name='" << objName
+				<< "', Has GID? " << (obj.contains("gid") ? "YES" : "NO") << "\n";
+
 			if (!obj.contains("gid")) {
 				if (objName == "PlayerSpawn") {
 					float sx = (float)obj["x"] - (offsetX * GameConfig::TILE_SIZE);
 					float sy = (float)obj["y"] - (offsetY * GameConfig::TILE_SIZE);
 					this->setPlayerInitialPosition(sx, sy);
 				}
-				else if (objName == "Gatekeeper") {
+				else if (objName == "GateKeeper") {
 					float nx = (float)obj["x"] - (offsetX * GameConfig::TILE_SIZE);
 					float ny = (float)obj["y"] - (offsetY * GameConfig::TILE_SIZE);
 					std::string npcName = "World Gatekeeper";
-					auto npc = std::make_unique<NPC>(0, npcName, true);
+
+					auto npc = Factory::createNpc(assetManager, { 0,0 });
 					npc->setPosition(nx, ny);
-					this->addNPC(std::move(npc));
+					addGameObject(std::move(npc));
 
 					// TODO: add animation here, coz NPC isn't visable from tiled
 
