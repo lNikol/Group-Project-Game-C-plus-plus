@@ -154,6 +154,11 @@ namespace RPG {
         return (it != structureLibrary.end()) ? it->second : structureLibrary.at(name);
     }
 
+    StructureDefinition& AssetManager::getDefinition(const std::string& name) {
+        auto it = structureLibrary.find(name);
+        return (it != structureLibrary.end()) ? it->second : structureLibrary.at(name);
+    }
+
     // ==============================
     // Spritesheets
     // ==============================

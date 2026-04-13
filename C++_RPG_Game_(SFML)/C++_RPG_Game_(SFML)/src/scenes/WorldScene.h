@@ -17,7 +17,7 @@ namespace RPG {
          * @param wm The world map data to be rendered.
          * @param p The player entity navigating the world.
          */
-        WorldScene(ISceneController& ctrl, std::shared_ptr<WorldMap> wm, std::shared_ptr<Player> p);
+        WorldScene(ISceneController& ctrl, std::shared_ptr<WorldMap> wm);
 
         bool handleEvent(sf::RenderWindow& window, const sf::Event& event) override;
     };

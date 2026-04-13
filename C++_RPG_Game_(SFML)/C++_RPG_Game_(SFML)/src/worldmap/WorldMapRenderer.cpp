@@ -12,7 +12,6 @@ namespace RPG {
         sf::RenderWindow& window,
         const WorldMap& worldMap,
         const AssetManager& assetManager,
-        const Player& player,
         float percentView
     ) {
         // --- SETUP VIEW ---
@@ -33,7 +32,8 @@ namespace RPG {
         );
 
         // 4. Center it on the player (World Coordinates)
-        view.setCenter(player.getPosition());
+        // TODO
+        view.setCenter(worldMap.getPlayer()->getPosition());
 
         // 5. Apply it
         window.setView(view);
@@ -74,6 +74,9 @@ namespace RPG {
             }
         }
 
+        /*
+        
+
         // ==============================
         // 2. DRAW OBJECTS & ENTITIES (Layer 1)
         // ==============================
@@ -98,12 +101,14 @@ namespace RPG {
         }
 
         // C. Player
+  
         RenderPacket playerPacket;
         playerPacket.sortY = player.getPosition().y + player.getHitbox().position.y + player.getHitbox().size.y;
         playerPacket.drawFunc = [&](sf::RenderWindow& w) {
             const_cast<Player&>(player).draw(w);
             };
         renderQueue.push_back(playerPacket);
+   
 
         // Sort & Draw
         std::sort(renderQueue.begin(), renderQueue.end());
@@ -111,14 +116,10 @@ namespace RPG {
             packet.drawFunc(window);
         }
 
-
-
-        // NEW! RENDERING GAMEOBJECTS
+        */
 
 
         std::vector<GameObject*> queue;
-
-        // TODO: ADD PLAYER
 
         for (const auto& go : worldMap.getGameObjects()) {
             queue.push_back(go.get());
@@ -131,6 +132,9 @@ namespace RPG {
         for (auto& obj : queue) {
             obj->draw(window);
         }
+
+
+        /*
 
         // ==============================
         // 3. DRAW FOG OF WAR (Layer 2)
@@ -194,7 +198,7 @@ namespace RPG {
         }
 
         window.draw(fogLayer);
-
+        */
 
         // ==============================
         // 4. DRAW DEBUG INFO (UI Layer)
@@ -207,6 +211,8 @@ namespace RPG {
         const sf::Font* font = assetManager.getFont("PixelFont");
         if (font) {
             sf::Text posText(*font);
+
+            auto playerPos = worldMap.getPlayer()->getPosition();
 
             std::string info = "Player Pos: X: " + std::to_string(static_cast<int>(playerPos.x / GameConfig::TILE_SIZE)) +
                 " Y: " + std::to_string(static_cast<int>(playerPos.y / GameConfig::TILE_SIZE));
@@ -223,5 +229,6 @@ namespace RPG {
         }
 
         window.setView(worldView);
+       
     }
 }

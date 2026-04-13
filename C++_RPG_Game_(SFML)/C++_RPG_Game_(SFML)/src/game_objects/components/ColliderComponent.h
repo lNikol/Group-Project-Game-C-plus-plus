@@ -9,6 +9,7 @@ namespace RPG {
 		bool showDebug = false;
 	public:
 		ColliderComponent(float width, float height, float offsetX = 0.f, float offsetY = 0.f);
+		ColliderComponent(sf::Vector2f size, sf::Vector2f offset = {0,0});
 
 		void draw(sf::RenderWindow& window) override;
 

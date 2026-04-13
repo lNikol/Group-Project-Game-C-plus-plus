@@ -17,6 +17,7 @@ namespace RPG {
         assetManager.init();
         assetManager.addSpritesheet("player", GameConfig::ANIMATIONS_PATH + "player.png");
         assetManager.addSpritesheet("npc", GameConfig::ANIMATIONS_PATH + "npc.png");
+        assetManager.addSpritesheet("box", GameConfig::TEXTURES_PATH + "box.png");
 
         // Init start scene
         initGameData();
@@ -40,11 +41,6 @@ namespace RPG {
         //DEBUG
         changeScene(FactionID::MainWorld);
         //changeScene(FactionID::BattleScene);
-        
-        assetManager.addSpritesheet("box", GameConfig::TEXTURES_PATH + "box.png");
-        gameObject = Factory::createPlayer(assetManager, { 200, 100 });
-        box = Factory::createBox(assetManager, { 150, 100 });
-        // box = Factory::createTestBox(assetManager, { 100, 100 });
     }
 
     void GameManager::initGameData() {
@@ -86,6 +82,11 @@ namespace RPG {
         };
 
         auto mainMap = getOrLoadMap(activeFaction);
+        mainMap->addGameObject(Factory::createPlayer(assetManager, {100, 100}));
+        mainMap->addGameObject(Factory::createTestNpc(assetManager, {100, 200}));
+        mainMap->addGameObject(Factory::createBox(assetManager, {200, 200}));
+        mainMap->addGameObject(Factory::createBox(assetManager, {300, 300}));
+
         /**
          * @note IMPORTANT
          * If this is a fresh start (no save file), we can add initial NPCs here.
@@ -99,7 +100,7 @@ namespace RPG {
             addNpc(0, "BattleField Envoy", true, FactionID::BattleScene, { 320.0f, 200.0f }, mainMap);
         }
 
-        currentScene = std::make_unique<WorldScene>(*this, mainMap, player);
+        currentScene = std::make_unique<WorldScene>(*this, mainMap);
 
         std::cout << "[GameManager] Initialized with Lazy Loading. Map: " << (int)activeFaction << "\n";
     }
@@ -190,11 +191,11 @@ namespace RPG {
 
         case FactionID::MainWorld:
             player->setPosition(lastWorldPosition);
-            currentScene = std::make_unique<WorldScene>(*this, selectedMap, player);
+            currentScene = std::make_unique<WorldScene>(*this, selectedMap);
             break;
 
         default: // Faction bases (White, Dark, Neutral)
-            currentScene = std::make_unique<FactionScene>(*this, selectedMap, player);
+            currentScene = std::make_unique<FactionScene>(*this, selectedMap);
             break;
         }
 
@@ -261,21 +262,15 @@ namespace RPG {
     }
 
     void GameManager::update(float dt) {
-        if (currentScene) currentScene->update(dt, window);
+        if (currentScene) currentScene->update(dt);
         //if (m_hud) m_hud->update(dt);
         //if (m_hud) draw();
-        gameObject->update(dt);
-        testNpc->update(dt);
-        box->update(dt);
     }
 
     void GameManager::draw() {
         window.clear(sf::Color(0x606030FF));
         
         if (currentScene) currentScene->draw(window, assetManager);
-        gameObject->draw(window);
-        testNpc->draw(window);
-        box->draw(window);
         //if (m_hud) {
         //    window.draw(*m_hud);
         //}

@@ -9,6 +9,7 @@
 #include <stdexcept>
 #include <vector>
 #include "game_objects/GameObject.h"
+#include "game_objects/components/PlayerInputComponent.h"
 
 namespace RPG {
 
@@ -23,10 +24,17 @@ namespace RPG {
 		std::vector<Tile> tiles; // Only holds ground
 		std::vector<std::unique_ptr<WorldObject>> structures; // Holds structues (trees, houses, rocks)
 		std::vector<std::unique_ptr<NPC>> npcs; // Holds active npcs
+
+		GameObject* playerReference;
 		std::vector<std::unique_ptr<GameObject>> gameObjects;
 	
 	public:
 		WorldMap(uint32_t w, uint32_t h, AssetManager& am);
+
+		const GameObject* getPlayer() const;
+		std::vector<std::unique_ptr<GameObject>>& getGameObjects();
+		const std::vector<std::unique_ptr<GameObject>>& getGameObjects() const;
+		void addGameObject(std::unique_ptr<GameObject> go);
 
 		uint32_t getWidth() const;
 		uint32_t getHeight() const;
@@ -93,10 +101,6 @@ namespace RPG {
 		* @param filename Path to the .bin file.
 		 */
 		void loadFromFile(const std::string& filename);
-
-		std::vector<std::unique_ptr<GameObject>>& getGameObjects();
-		const std::vector<std::unique_ptr<GameObject>>& getGameObjects() const;
-		void addGameObject(std::unique_ptr<GameObject> go);
 
 
 		/**

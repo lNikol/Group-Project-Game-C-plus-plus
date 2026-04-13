@@ -10,6 +10,11 @@ namespace RPG {
 		localHitbox.size.y = height;
 	}
 
+	ColliderComponent::ColliderComponent(sf::Vector2f size, sf::Vector2f offset)
+		: ColliderComponent(size.x, size.y, offset.x, offset.y)
+	{
+	}
+
 	void ColliderComponent::draw(sf::RenderWindow& window) {
 		if (!showDebug || !owner) return;
 

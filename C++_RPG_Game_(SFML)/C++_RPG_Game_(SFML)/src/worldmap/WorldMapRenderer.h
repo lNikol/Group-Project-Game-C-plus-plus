@@ -34,7 +34,6 @@ namespace RPG {
             sf::RenderWindow& window, 
             const WorldMap& worldMap, 
             const AssetManager& assetManager, 
-            const Player& player,
             float percentView = .9f
         );
     };

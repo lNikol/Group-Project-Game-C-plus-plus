@@ -102,6 +102,7 @@ namespace RPG {
          * If the type is not found, it returns the definition for `StructureType::None`.
          */
         const StructureDefinition& getDefinition(const std::string& name) const;
+        StructureDefinition& getDefinition(const std::string& name);
 
         // ==============================
         // Spritesheets

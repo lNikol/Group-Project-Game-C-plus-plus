@@ -4,24 +4,17 @@
     namespace RPG {
 
         BaseGameScene::BaseGameScene(
-            ISceneController& ctrl, std::shared_ptr<WorldMap> wm, std::shared_ptr<Player> p
-        )
-            : sceneController(ctrl), worldMap(wm), player(p), viewVisibility(0.5f)
+            ISceneController& ctrl, std::shared_ptr<WorldMap> wm)
+            : sceneController(ctrl), worldMap(wm), viewVisibility(0.5f)
         {
             camera.setSize(sf::Vector2f(static_cast<float>(Window::WIDTH), static_cast<float>(Window::HEIGHT)));
         }
 
-        void BaseGameScene::update(float dt, const sf::RenderWindow& window) {
-            if (player && worldMap) {
-                player->update(dt, *worldMap, window);
-
-                camera.setCenter(player->getPosition());
-            }
-
+        void BaseGameScene::update(float dt) {
+            camera.setCenter(worldMap->getPlayer()->getPosition());
             
-            // Update all NPCs on the assigned map
-            for (auto& npc : worldMap->getNPCs()) {
-                npc->update(dt);
+            for (auto& obj : worldMap->getGameObjects()) {
+                obj->update(dt);
             }
         }
 
@@ -29,7 +22,7 @@
             window.setView(camera);
 
             if (worldMap) {
-                worldRenderer.draw(window, *worldMap, am, *player, viewVisibility);
+                worldRenderer.draw(window, *worldMap, am, viewVisibility);
             }
 
         }
@@ -49,11 +42,12 @@
             return false;
         }
 
+        // TODO: Refactor to use InteractionComponent!
         void BaseGameScene::checkNPCInteraction() {
-            if (!worldMap || !player) return;
+            if (!worldMap || !worldMap->getPlayer()) return;
 
             for (auto& npc : worldMap->getNPCs()) {
-                sf::Vector2f diff = player->getPosition() - npc->getPosition();
+                sf::Vector2f diff = worldMap->getPlayer()->getPosition() - npc->getPosition();
                 float distSq = diff.x * diff.x + diff.y * diff.y;
                 float radius = npc->getInteractionRadius();
 

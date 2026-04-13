@@ -16,7 +16,7 @@ namespace RPG {
          * @param wm The world map data.
          * @param p The player instance.
          */
-        FactionScene(ISceneController& ctrl, std::shared_ptr<WorldMap> wm, std::shared_ptr<Player> p);
+        FactionScene(ISceneController& ctrl, std::shared_ptr<WorldMap> wm);
 
         bool handleEvent(sf::RenderWindow& window, const sf::Event& event) override;
 

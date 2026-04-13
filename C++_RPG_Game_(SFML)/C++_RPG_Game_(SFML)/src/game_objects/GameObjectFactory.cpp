@@ -3,7 +3,7 @@
 namespace RPG {
 	namespace Factory {
 
-		std::shared_ptr<GameObject> createPlayer(AssetManager& am, sf::Vector2f pos) {
+		std::unique_ptr<GameObject> createPlayer(AssetManager& am, sf::Vector2f pos) {
 
 			// Load animations
 			const Spritesheet& spritesheet = am.getTest("player");
@@ -12,7 +12,7 @@ namespace RPG {
 				&spritesheet
 			);
 
-			std::shared_ptr<GameObject> player = std::make_shared<GameObject>();
+			std::unique_ptr<GameObject> player = std::make_unique<GameObject>();
 			player->setPosition(pos);
 
 			// Add sprite
@@ -68,6 +68,39 @@ namespace RPG {
 			collider->setDebug(true);
 
 			return box;
+		}
+
+
+		std::unique_ptr<GameObject> createDynamicObject(AssetManager& am, const std::string& assetName, sf::Vector2f pos)
+		{
+			StructureDefinition& def = am.getDefinition(assetName);
+
+			std::unique_ptr<GameObject> go = std::make_unique<GameObject>();
+			go->setPosition(pos);
+
+			go->addComponent<RenderComponent>(am.getTest(def.textureKey), def.textureStartPos, def.size);
+			go->addComponent<ColliderComponent>(def.hitboxOffset, def.hitboxSize);
+			go->addComponent<StructureComponent>(&def);
+
+			switch (def.type) {
+			case StructureType::Tree:
+			case StructureType::Rock:
+			case StructureType::Wall:
+				break;
+
+			case StructureType::interactObj:
+				// TODO: add some interaction components
+				break;
+
+			case StructureType::Camp:
+				// TODO: add appropriate components
+				break;
+
+			default:
+				break;
+			}
+
+			return go;
 		}
 
 	}

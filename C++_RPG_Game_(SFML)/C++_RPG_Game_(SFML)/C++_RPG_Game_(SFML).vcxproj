@@ -177,6 +177,7 @@
     <ClCompile Include="src\GUI\windows\BattleHud.cpp" />
     <ClCompile Include="src\GUI\windows\WindowBase.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\game_objects\components\StructureComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\game_objects\components\AnimationControllerComponent.h" />
@@ -230,6 +231,7 @@
     <ClInclude Include="src\GUI\windows\WindowBase.h" />
     <ClInclude Include="src\interfaces\IAbility.h" />
     <ClInclude Include="src\interfaces\ICombatActor.h" />
+    <ClInclude Include="src\game_objects\components\StructureComponent.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="assets\animations\npc.png" />

@@ -3,9 +3,9 @@
 namespace RPG {
 
     FactionScene::FactionScene(
-        ISceneController& ctrl, std::shared_ptr<WorldMap> wm, std::shared_ptr<Player> p
+        ISceneController& ctrl, std::shared_ptr<WorldMap> wm
     )
-        : BaseGameScene(ctrl, wm, p)
+        : BaseGameScene(ctrl, wm)
     {
         sceneName = "FactionScene";
         viewVisibility = 1.0f; 

@@ -28,7 +28,7 @@ namespace RPG {
         return false;
     }
 
-    void BattleScene::update(float dt, const sf::RenderWindow& window) {
+    void BattleScene::update(float dt) {
         if (m_battleManager) {
             m_battleManager->update(dt);
         }

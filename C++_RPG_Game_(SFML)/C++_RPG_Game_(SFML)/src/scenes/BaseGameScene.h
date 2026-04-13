@@ -26,7 +26,7 @@ namespace RPG {
         // std::unique_ptr<GameUI> gameUI; // Or smth like that
 
         std::shared_ptr<WorldMap> worldMap;
-        std::shared_ptr<Player> player;
+        //std::shared_ptr<Player> player;
         
 
         WorldMapRenderer worldRenderer;
@@ -37,7 +37,7 @@ namespace RPG {
         void checkNPCInteraction();
 
     public:
-        BaseGameScene(ISceneController& ctrl, std::shared_ptr<WorldMap> wm, std::shared_ptr<Player> p);
+        BaseGameScene(ISceneController& ctrl, std::shared_ptr<WorldMap> wm);
 
         virtual ~BaseGameScene() = default;
         /**
@@ -47,7 +47,7 @@ namespace RPG {
          * * @param dt Delta time since last frame.
          * @param window Reference to the render window.
          */
-        void update(float dt, const sf::RenderWindow& window) override;
+        void update(float dt) override;
 
         /**
          * @brief Renders the game world and entities.

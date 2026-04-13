@@ -7,6 +7,7 @@ namespace RPG {
 		sf::Sprite sprite;
 	public:
 		RenderComponent(const Spritesheet& spritesheet);
+		RenderComponent(const Spritesheet& spritesheet, sf::Vector2u textureStartPos, sf::Vector2u textureSize);
 		void draw(sf::RenderWindow& window) override;
 
 		sf::Sprite& getSprite();

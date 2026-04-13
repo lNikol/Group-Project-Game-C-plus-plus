@@ -8,10 +8,24 @@
 
 namespace RPG {
 
+	WorldMap::WorldMap(uint32_t w, uint32_t h, AssetManager& am) 
+		: width(w), height(h), assetManager(am), width_gen(w - GameConfig::WORLD_GENERATE_MARGIN), height_gen(h - GameConfig::WORLD_GENERATE_MARGIN) 
+	{
+		initializeGrid();
+		generateBorders();
+	}
+
 	uint32_t WorldMap::getWidth() const { return width; }
+
 	uint32_t WorldMap::getHeight() const { return height; }
+
 	sf::Vector2f WorldMap::getSpawnPoint() const { return spawnPoint; }
+
 	bool WorldMap::getHasSpawnPoint() const { return hasSpawnPoint; }
+
+	const GameObject* WorldMap::getPlayer() const {
+		return playerReference;
+	}
 
 	std::vector<std::unique_ptr<GameObject>>& WorldMap::getGameObjects() {
 		return gameObjects;
@@ -22,15 +36,10 @@ namespace RPG {
 	}
 
 	void WorldMap::addGameObject(std::unique_ptr<GameObject> go) {
+		if (go->hasComponent<PlayerInputComponent>()) {
+			playerReference = go.get();
+		}
 		gameObjects.push_back(std::move(go));
-	}
-
-	WorldMap::WorldMap(uint32_t w, uint32_t h, AssetManager& am) : width(w), height(h), assetManager(am) {
-
-	WorldMap::WorldMap(uint32_t w, uint32_t h, AssetManager& am) : width(w), height(h), assetManager(am),
-		width_gen(w - GameConfig::WORLD_GENERATE_MARGIN), height_gen(h - GameConfig::WORLD_GENERATE_MARGIN) {
-		initializeGrid();
-		generateBorders();
 	}
 
 	void WorldMap::setPlayerInitialPosition(float x, float y) {

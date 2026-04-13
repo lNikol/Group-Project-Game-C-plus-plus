@@ -37,10 +37,6 @@ namespace RPG {
 		AssetManager assetManager;
 		AnimationManager animationManager;
 
-		std::shared_ptr<GameObject> gameObject;
-		std::unique_ptr<GameObject> testNpc;
-		std::unique_ptr<GameObject> box;
-
 		// shared info between scenes
 		std::shared_ptr<Player> player;
 		std::map<FactionID, std::shared_ptr<WorldMap>> allMaps;
