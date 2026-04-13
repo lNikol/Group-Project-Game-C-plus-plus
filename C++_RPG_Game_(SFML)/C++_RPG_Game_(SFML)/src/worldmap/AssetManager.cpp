@@ -19,7 +19,7 @@ namespace RPG {
 
         loadTemplates(GameConfig::JSON_PATH + "templates.json");
 
-        loadManifest(GameConfig::WORLD_PATH + "manifest.json", GameConfig::WORLD_PATH + "world_atlas");
+        loadManifest(GameConfig::WORLD_PATH + "manifest.json", "world_atlas");
     }
 
     void AssetManager::loadManifest(const std::string& path, const std::string& textureKey) {

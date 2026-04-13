@@ -2,6 +2,7 @@
 #include "StructureDefinition.h"
 #include "core/Constants.h"
 #include "entities/WorldObject.h"
+#include "game_objects/GameObject.h"
 #include <cstdint>
 
 namespace RPG {
@@ -31,7 +32,7 @@ namespace RPG {
 		bool blocksMovement = true;
 		bool blocksPlacement = true;
 
-		std::vector<WorldObject*> residentObjects;
+		std::vector<GameObject*> residentObjects;
 		
 		/**
 		 * @brief Default constructor initializing an empty neutral tile.

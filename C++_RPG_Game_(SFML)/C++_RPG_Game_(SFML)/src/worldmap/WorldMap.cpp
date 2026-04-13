@@ -356,10 +356,17 @@ namespace RPG {
 		if (tile.blocksMovement) return true;
 
 		// 3. Check Objects (Pixel Perfect)
-		// Only check the objects, which have blocksMovement True registered to THIS tile.
-		for (const auto* obj : tile.residentObjects) {
-			if(obj->getDefinition().meta.blocksMovement && obj->getHitbox().contains({ pixelX, pixelY })){
-				return true; // HIT!
+		for (auto* obj : tile.residentObjects) {
+			auto* structComp = obj->getComponent<StructureComponent>();
+			if(structComp && structComp->getDefinition().meta.blocksMovement){
+				if (auto* collider = obj->getComponent<ColliderComponent>()) {
+					if (collider->getGlobalHitbox().contains({ pixelX, pixelY })) {
+						return true;
+					}
+				}
+				else {
+					return true;
+				}
 			}
 		}
 
@@ -417,46 +424,57 @@ namespace RPG {
 	bool WorldMap::placeStructure(float worldX, float worldY, const std::string& id) {
 		const StructureDefinition& def = assetManager.getDefinition(id);
 
-		// 1. Create Object (on Heap via unique_ptr)
-		auto newObj = std::make_unique<WorldObject>(&def, sf::Vector2f(worldX, worldY), assetManager);
+		// 1. Create Object
+		auto newObj = Factory::createDynamicObject(assetManager, id, sf::Vector2f{ worldX, worldY });
+		GameObject* objPtr = newObj.get();
 
-		sf::FloatRect hitbox = newObj->getHitbox();
+		// IF HAS A HITBOX
+		if (auto* hitboxComp = newObj->getComponent<ColliderComponent>()) {
+			sf::FloatRect hitbox = hitboxComp->getGlobalHitbox();
 
-		int32_t startTx = static_cast<int32_t>(hitbox.position.x / GameConfig::TILE_SIZE);
-		int32_t startTy = static_cast<int32_t>(hitbox.position.y / GameConfig::TILE_SIZE);
-		int32_t endTx = static_cast<int32_t>((hitbox.position.x + hitbox.size.x - 0.1f) / GameConfig::TILE_SIZE);
-		int32_t endTy = static_cast<int32_t>((hitbox.position.y + hitbox.size.y - 0.1f) / GameConfig::TILE_SIZE);
+			int32_t startTx = static_cast<int32_t>(hitbox.position.x / GameConfig::TILE_SIZE);
+			int32_t startTy = static_cast<int32_t>(hitbox.position.y / GameConfig::TILE_SIZE);
+			int32_t endTx = static_cast<int32_t>((hitbox.position.x + hitbox.size.x - 0.1f) / GameConfig::TILE_SIZE);
+			int32_t endTy = static_cast<int32_t>((hitbox.position.y + hitbox.size.y - 0.1f) / GameConfig::TILE_SIZE);
 
-		if (startTx < 0 || startTy < 0 || endTx >= width_gen || endTy >= height_gen) {
-			// Beyond borders
-			return false;
-		}
 
-		// If any of those tiles is occupated - abort placement
-		for (int32_t y = startTy; y <= endTy; ++y) {
-			for (int32_t x = startTx; x <= endTx; ++x) {
-				if (!at(x, y).canAccept(def.layer)) return false;
+			if (startTx < 0 || startTy < 0 || endTx >= width_gen || endTy >= height_gen) {
+				return false;
+			}
+
+			// If any of those tiles is occupated - abort placement
+			for (int32_t y = startTy; y <= endTy; ++y) {
+				for (int32_t x = startTx; x <= endTx; ++x) {
+					if (!at(x, y).canAccept(def.layer)) return false;
+				}
+			}
+			
+			// 2. Register to Grid (Spatial Partitioning)
+			for (int32_t y = startTy; y <= endTy; ++y) {
+				for (int32_t x = startTx; x <= endTx; ++x) {
+					auto& tile = at(x, y);
+
+					tile.residentObjects.push_back(objPtr);
+					// |= <--> operator OR
+					tile.blocksMovement |= def.meta.blocksMovement;
+					tile.blocksPlacement |= def.meta.blocksPlacement;
+				}
 			}
 		}
+		// IF DOESNT HAVE A HITBOX
+		else {
+			int32_t tx = static_cast<int32_t>(worldX / GameConfig::TILE_SIZE);
+			int32_t ty = static_cast<int32_t>(worldY / GameConfig::TILE_SIZE);
 
-		WorldObject* objPtr = newObj.get(); // Keep a raw pointer for the tiles
-		// 2. Register to Grid (Spatial Partitioning)
+			if (tx < 0 || ty < 0 || tx >= width_gen || ty >= height_gen) return false;
 
-		for (int32_t y = startTy; y <= endTy; ++y) {
-			for (int32_t x = startTx; x <= endTx; ++x) {
-				auto& tile = at(x, y);
-
-				tile.residentObjects.push_back(objPtr);
-				// |= <--> operator OR
-				tile.blocksMovement |= def.meta.blocksMovement;
-				tile.blocksPlacement |= def.meta.blocksPlacement;
-			}
+			// Register it to that single tile just so the Renderer can find it for drawing
+			at(tx, ty).residentObjects.push_back(objPtr);
 		}
 
-		// 3. Store ownership
-		structures.push_back(std::move(newObj));
+
+		addGameObject(std::move(newObj));
 		return true;
-		
 	}
 
 	void WorldMap::generateObstacles(float density, uint8_t playerSafeRadius) {

@@ -78,8 +78,18 @@ namespace RPG {
 			std::unique_ptr<GameObject> go = std::make_unique<GameObject>();
 			go->setPosition(pos);
 
-			go->addComponent<RenderComponent>(am.getTest(def.textureKey), def.textureStartPos, def.size);
-			go->addComponent<ColliderComponent>(def.hitboxOffset, def.hitboxSize);
+			const sf::Texture* tex = am.getTexture(def.textureKey);
+			if (!tex) {
+				std::cerr << "[Factory] FATAL: Missing texture '" << def.textureKey << "' for object '" << assetName << "'!\n";
+			}
+			else {
+				go->addComponent<RenderComponent>(*tex, def.textureStartPos, def.size);
+			}
+
+			if (def.layer != PlacementLayer::Decoration) {
+				go->addComponent<ColliderComponent>(def.hitboxOffset, def.hitboxSize);
+			}
+			
 			go->addComponent<StructureComponent>(&def);
 
 			switch (def.type) {

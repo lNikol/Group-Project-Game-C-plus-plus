@@ -10,6 +10,8 @@
 #include <vector>
 #include "game_objects/GameObject.h"
 #include "game_objects/components/PlayerInputComponent.h"
+#include "game_objects/GameObjectFactory.h"
+#include "game_objects/components/StructureComponent.h"
 
 namespace RPG {
 
