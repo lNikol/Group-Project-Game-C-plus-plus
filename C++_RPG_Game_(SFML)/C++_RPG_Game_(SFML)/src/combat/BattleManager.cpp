@@ -560,25 +560,46 @@ namespace RPG {
             icon.setScale({ 1.3f, 1.3f });
             icon.setOrigin({ 0.f, 0.f });
 
-            // Draw red circle for FIRST unit
+            // Draw Red circle for enemies and Green for allies
+            sf::Color color = sf::Color::Green;
+            if (unit->getTeam() == Team::Enemy)
+                color = sf::Color::Red;
             if (i == 0)
             {
-                sf::CircleShape highlight;
-                highlight.setRadius(25.f);
-                highlight.setFillColor(sf::Color::Transparent);
-                highlight.setOutlineColor(sf::Color::Red);
-                highlight.setOutlineThickness(3.f);
+                sf::ConvexShape arrow;
+                arrow.setPointCount(3);
 
-                highlight.setOrigin({ 25.f, 25.f });
+                // Triangle pointing down
+                arrow.setPoint(0, sf::Vector2f(0.f, 0.f));
+                arrow.setPoint(1, sf::Vector2f(20.f, 0.f));
+                arrow.setPoint(2, sf::Vector2f(10.f, -20.f));
 
-                // center it on icon
-                highlight.setPosition({
-                    startX + i * spacing + 21.f,
-                    startY + 21.f
-                    });
+                arrow.setFillColor(sf::Color::Yellow);
 
-                window.draw(highlight);
+                // Position it above the icon
+                arrow.setPosition(sf::Vector2f(
+                    startX + i * spacing + 10.f,
+                    startY + 70.f
+                ));
+
+                window.draw(arrow);
             }
+
+            sf::CircleShape highlight;
+            highlight.setRadius(25.f);
+            highlight.setFillColor(sf::Color::Transparent);
+            highlight.setOutlineColor(color);
+            highlight.setOutlineThickness(3.f);
+
+            highlight.setOrigin({ 25.f, 25.f });
+
+            // center it on icon
+            highlight.setPosition({
+                startX + i * spacing + 21.f,
+                startY + 21.f
+                });
+
+            window.draw(highlight);
 
             window.draw(icon);
         }

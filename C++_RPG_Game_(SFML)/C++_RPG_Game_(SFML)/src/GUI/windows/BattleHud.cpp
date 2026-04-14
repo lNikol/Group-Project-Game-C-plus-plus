@@ -25,17 +25,22 @@ namespace RPG {
         // Initialize System Buttons (Bottom Right)
         m_satchelBtn = std::make_unique<ActionSlot>(iconSet, font, sf::Vector2f(80.f, 80.f));
         m_journalBtn = std::make_unique<ActionSlot>(iconSet, font, sf::Vector2f(80.f, 80.f));
+        m_bestiaryBtn = std::make_unique<ActionSlot>(iconSet, font, sf::Vector2f(80.f, 80.f));
 
         // Initialize Windows (Hidden)
         m_inventoryWindow = std::make_unique<InventoryWindow>(iconSet, font);
         m_journalWindow = std::make_unique<WindowBase>(font, sf::Vector2f(300.f, 400.f), "Journal");
+        m_bestiaryWindow = std::make_unique<WindowBase>(font, sf::Vector2f(500.f, 600.f), "Bestiary");
 
         // Connect the Buttons to the Windows
         auto openBag = std::make_shared<OpenWindowCommand>(
             260, "Open Inventory", // icon index
             [this]() {
                 this->m_inventoryWindow->toggle();
-                if (m_inventoryWindow->isVisible()) m_journalWindow->hide();
+                if (m_inventoryWindow->isVisible()) {
+                    m_journalWindow->hide();
+                    m_bestiaryWindow->hide();
+                }
             }
         );
         m_satchelBtn->setAbility(openBag);
@@ -44,10 +49,25 @@ namespace RPG {
             225, "Journal",
             [this]() { 
                 this->m_journalWindow->toggle(); 
-                if (m_journalWindow->isVisible()) m_inventoryWindow->hide();
+                if (m_journalWindow->isVisible()) {
+                    m_inventoryWindow->hide();
+                    m_bestiaryWindow->hide();
+                }
             }
         );
         m_journalBtn->setAbility(openJournal);
+
+        auto openBestiary = std::make_shared<OpenWindowCommand>(
+            226, "Bestiary",
+            [this]() {
+                this->m_bestiaryWindow->toggle();
+                if (m_bestiaryWindow->isVisible()) {
+                    m_inventoryWindow->hide();
+                    m_journalWindow->hide();
+                }
+            }
+        );
+        m_bestiaryBtn->setAbility(openBestiary);
     }
 
     void BattleHUD::setCombatActor(ICombatActor* actor) {
@@ -101,6 +121,9 @@ namespace RPG {
         // Inventory (Left of Journal)
         m_satchelBtn->setPosition({ newSize.x - (btnSize * 2) - padding - spacing, newSize.y - btnSize - padding });
 
+        // Bestiary (Left of Inventory)
+        m_bestiaryBtn->setPosition({ newSize.x - (btnSize * 3) - padding - spacing, newSize.y - btnSize - padding });
+
         // Center Windows
         // Inventory
         sf::FloatRect invBounds = m_inventoryWindow->getGlobalBounds();
@@ -115,6 +138,13 @@ namespace RPG {
             (newSize.x - jrnBounds.size.x) / 2.f,
             (newSize.y - jrnBounds.size.y) / 2.f
             });
+
+        // Bestiary
+        sf::FloatRect BestiarBounds = m_bestiaryWindow->getGlobalBounds();
+        m_bestiaryWindow->setPosition({
+            (newSize.x - BestiarBounds.size.x) / 2.f,
+            (newSize.y - BestiarBounds.size.y) / 2.f
+            });
     }
 
     void BattleHUD::handleEvent(sf::RenderWindow& window, const sf::Event& event) {
@@ -127,11 +157,13 @@ namespace RPG {
         // Pass to Windows first
         if (m_inventoryWindow->handleEvent(window, event)) return;
         if (m_journalWindow->handleEvent(window, event)) return;
+        if (m_bestiaryWindow->handleEvent(window, event)) return;
 
         // Pass to Buttons
 
         if (m_satchelBtn->handleEvent(window, event)) return;
         if (m_journalBtn->handleEvent(window, event)) return;
+        if (m_bestiaryBtn->handleEvent(window, event)) return;
 
         for (auto& slot : m_actionGrid) {
             if (slot->handleEvent(window, event)) return;
@@ -149,8 +181,10 @@ namespace RPG {
         //updates
         m_inventoryWindow->update(dt);
         m_journalWindow->update(dt);
+        m_bestiaryWindow->update(dt);
         m_satchelBtn->update(dt);
         m_journalBtn->update(dt);
+        m_bestiaryBtn->update(dt);
 
         // Sync Vitals
         if (m_actor) {
@@ -181,10 +215,12 @@ namespace RPG {
         // Check Windows
         if (auto text = m_inventoryWindow->getChildTooltipIfHovered()) return *text;
         if (auto text = m_journalWindow->getChildTooltipIfHovered()) return *text;
+        if (auto text = m_bestiaryWindow->getChildTooltipIfHovered()) return *text;
 
         // Buttons
         if (auto text = m_satchelBtn->getTooltipIfHovered()) return *text;
         if (auto text = m_journalBtn->getTooltipIfHovered()) return *text;
+        if (auto text = m_bestiaryBtn->getTooltipIfHovered()) return *text;
 
         // Ability Grid
         for (const auto& slot : m_actionGrid) {
@@ -220,10 +256,12 @@ namespace RPG {
 
         target.draw(*m_satchelBtn);
         target.draw(*m_journalBtn);
+        target.draw(*m_bestiaryBtn);
 
         // Draw Top Layer
         target.draw(*m_inventoryWindow);
         target.draw(*m_journalWindow);
+        target.draw(*m_bestiaryWindow);
 
         std::string tipText = resolveTooltipText();
 
