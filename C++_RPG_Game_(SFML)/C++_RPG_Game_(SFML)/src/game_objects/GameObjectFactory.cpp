@@ -64,7 +64,7 @@ namespace RPG {
 			box->setPosition(pos);
 
 			box->addComponent<RenderComponent>(spritesheet);
-			auto collider = box->addComponent<ColliderComponent>(32, 32, 0, 16);
+			auto collider = box->addComponent<ColliderComponent>(32, 32, 0, -32);
 			collider->setDebug(true);
 
 			return box;
@@ -87,7 +87,11 @@ namespace RPG {
 			}
 
 			if (def.layer != PlacementLayer::Decoration) {
-				go->addComponent<ColliderComponent>(def.hitboxOffset, def.hitboxSize);
+				sf::Vector2f correctedOffset = def.hitboxOffset;
+				// correctedOffset.y -= def.hitboxSize.y;
+
+				auto collider = go->addComponent<ColliderComponent>(def.hitboxSize, correctedOffset);
+				collider->setDebug(true);
 			}
 			
 			go->addComponent<StructureComponent>(&def);

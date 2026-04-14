@@ -28,16 +28,27 @@ def compute_precise_hitbox(img):
     width, height = img.size
     min_x, min_y, max_x, max_y = width, height, 0, 0
     found = False
-    start_y = int(height * 0.6) 
+    
+    start_y = int(height * 0.5) 
     for y in range(start_y, height):
         for x in range(width):
             if pixels[x, y][3] > ALPHA_THRESHOLD:
                 min_x, min_y = min(min_x, x), min(min_y, y)
                 max_x, max_y = max(max_x, x), max(max_y, y)
                 found = True
+                
     if not found:
-        return {"w": width, "h": 5, "off_x": 0, "off_y": height - 5}
-    return {"w": max_x - min_x + 1, "h": max_y - min_y + 1, "off_x": min_x, "off_y": min_y}
+        # Failsafe: mały pasek na samym dole
+        return {"w": width, "h": 5, "off_x": 0, "off_y": 0}
+
+    off_y = height - max_y - 1 
+    
+    return {
+        "w": max_x - min_x + 1, 
+        "h": max_y - min_y + 1, 
+        "off_x": min_x, 
+        "off_y": off_y
+    }
 
 def find_objects_via_floodfill(img):
     width, height = img.size
@@ -72,14 +83,14 @@ def generate_tsx_image_collection(manifest, output_path, set_name):
         "name": f"{set_name}_collection", "tilecount": str(len(manifest["definitions"])), "columns": "0" 
     })
     
-    # Sort by ID for order in Tiled
     sorted_defs = sorted(manifest["definitions"].items(), key=lambda x: x[1]["id"])
     for name, d in sorted_defs:
         image_path = f"images/{name}.png" 
         tile = ET.SubElement(root, "tile", {"id": str(d["id"])})
         
-        center_of_trunk_x = d["off_x"] + (d["hb_w"] / 2)
-        offset_x = -int(center_of_trunk_x)
+        center_x = d["off_x"] + (d["hb_w"] / 2)
+        offset_x = -int(center_x)
+        
         ET.SubElement(tile, "tileoffset", {"x": str(offset_x), "y": "0"})
         
         ET.SubElement(tile, "image", {
@@ -109,7 +120,6 @@ def main():
     id_map = load_id_map(id_map_path)
     all_elements = []
 
-    # Props
     pp = os.path.join(RAW_DIR, set_name)
     if os.path.exists(pp):
         for f in sorted(os.listdir(pp)):
@@ -140,34 +150,32 @@ def main():
             next_id += 1
             
         current_id = id_map[name]
-        
         atlas.paste(item["img"], (current_x, current_y))
         item["img"].save(os.path.join(images_dir, f"{name}.png"))
         
         hb = compute_precise_hitbox(item["img"])
         manifest["definitions"][name] = {
-            "id": current_id, "x": current_x, "y": current_y, "w": w, "h": h,
-            "hb_w": hb["w"], "hb_h": hb["h"], "off_x": hb["off_x"], "off_y": hb["off_y"]
+            "id": current_id, 
+            "x": current_x, "y": current_y, 
+            "w": w, "h": h,
+            "hb_w": hb["w"], "hb_h": hb["h"], 
+            "off_x": hb["off_x"], 
+            "off_y": hb["off_y"],
+            "anchor_y": h 
         }
         row_h = max(row_h, h); current_x += w
 
-    # Trimming Atlas to actual height
     final_atlas = atlas.crop((0, 0, ATLAS_W, current_y + row_h))
     final_atlas.save(os.path.join(set_dir, f"{set_name}_atlas.png"))
 
-    # Sort definitions inside the dictionary by ID
     sorted_items = sorted(manifest["definitions"].items(), key=lambda x: x[1]["id"])
-    
-    final_manifest = {
-        "definitions": {k: v for k, v in sorted_items}
-    }
+    final_manifest = {"definitions": {k: v for k, v in sorted_items}}
 
     save_id_map(id_map_path, id_map)
     with open(os.path.join(set_dir, "manifest.json"), "w", encoding='utf-8') as f:
         json.dump(final_manifest, f, indent=4)
         
     generate_tsx_image_collection(final_manifest, os.path.join(set_dir, "collection.tsx"), set_name)
-    
     print(f"Sukces! Pliki dla '{set_name}' (posortowane po ID) zapisane w: {set_dir}")
 
 if __name__ == "__main__":

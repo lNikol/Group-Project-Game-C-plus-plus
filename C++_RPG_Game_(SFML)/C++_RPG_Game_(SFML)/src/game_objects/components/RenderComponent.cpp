@@ -9,7 +9,7 @@ namespace RPG {
 	}
 
 	RenderComponent::RenderComponent(const Spritesheet& spritesheet, sf::Vector2u textureStartPos, sf::Vector2u textureSize)
-		: sprite(spritesheet)
+		: RenderComponent(spritesheet)
 	{
 		sprite.setTextureRect({
 			{ (int) textureStartPos.x, (int) textureStartPos.y },
@@ -23,6 +23,23 @@ namespace RPG {
 		}
 
 		window.draw(sprite);
+
+		if (owner) {
+			// Create a tiny circle (Radius = 2 pixels)
+			sf::CircleShape originDot(2.f);
+
+			// Center the dot on itself so it's perfectly accurate
+			originDot.setOrigin({ 2.f, 2.f });
+
+			// Move the dot to the exact GameObject position (which is the sprite's origin)
+			originDot.setPosition(owner->getPosition());
+
+			// Make it a highly visible, ugly color that stands out (Magenta/Hot Pink)
+			originDot.setFillColor(sf::Color::Magenta);
+
+			// Draw it
+			window.draw(originDot);
+		}
 	}
 
 	sf::Sprite& RenderComponent::getSprite() {
