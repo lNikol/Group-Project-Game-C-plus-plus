@@ -32,7 +32,7 @@ namespace RPG {
         int getIconIndex() const override { return m_def->iconIndex; }
         std::string getTooltip() const override;
         bool canBeCast() const override;
-        int getCharges() const override { return -1; }
+        int getCharges() const override { return m_currentCharges; }
         int getCooldown() const override { return m_currentCooldown; }
 
         /**
@@ -60,12 +60,16 @@ namespace RPG {
         float getRange() const { return m_def->range; }
         float getRadius() const { return m_def->radius; }
         TargetType getTargetType() const { return m_def->targetType; }
+        void setOwner(Unit* newOwner) { m_owner = newOwner; }
 
     private:
         const AbilityDefinition* m_def; ///< Pointer to the shared blueprint data.
-        BattleManager& m_manager;       ///< Reference to the central game orchestrator.
+        
         Unit* m_owner;                  ///< The unit casting this ability.
 
         int m_currentCooldown = 0;      ///< Turns remaining until the ability can be cast again.
+        int m_currentCharges = -1;
+    protected:
+        BattleManager& m_manager;       ///< Reference to the central game orchestrator.
     };
 }

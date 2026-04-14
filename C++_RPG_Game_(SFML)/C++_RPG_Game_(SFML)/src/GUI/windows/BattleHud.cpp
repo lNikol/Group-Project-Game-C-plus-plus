@@ -1,7 +1,7 @@
 #include "BattleHUD.h"
 #include "OpenWindowCommand.h" // If you made this earlier
 #include <cmath>
-
+#include "InventoryWindow.h"
 namespace RPG {
 
     BattleHUD::BattleHUD(const Spritesheet& iconSet, const sf::Font& font)
@@ -27,7 +27,7 @@ namespace RPG {
         m_journalBtn = std::make_unique<ActionSlot>(iconSet, font, sf::Vector2f(80.f, 80.f));
 
         // Initialize Windows (Hidden)
-        m_inventoryWindow = std::make_unique<WindowBase>(font, sf::Vector2f(400.f, 300.f), "Inventory");
+        m_inventoryWindow = std::make_unique<InventoryWindow>(iconSet, font);
         m_journalWindow = std::make_unique<WindowBase>(font, sf::Vector2f(300.f, 400.f), "Journal");
 
         // Connect the Buttons to the Windows
@@ -142,7 +142,7 @@ namespace RPG {
         m_mpBar->handleEvent(window, event);
         m_staminaBar->handleEvent(window, event);
 
-        window.setView(m_uiView);
+        window.setView(previousView);
     }
 
     void BattleHUD::update(float dt) {
@@ -204,10 +204,10 @@ namespace RPG {
         sf::View originalView = target.getView();
         target.setView(m_uiView);
 
-        sf::CircleShape debugMouse(5.f);
-        debugMouse.setFillColor(sf::Color::Yellow);
-        debugMouse.setPosition(m_mousePos);
-        target.draw(debugMouse);
+        //sf::CircleShape debugMouse(5.f);
+        //debugMouse.setFillColor(sf::Color::Yellow);
+        //debugMouse.setPosition(m_mousePos);
+        //target.draw(debugMouse);
 
         // Draw Bottom Layer
         target.draw(*m_hpBar);
@@ -231,5 +231,10 @@ namespace RPG {
 
         target.draw(m_tooltip);
         target.setView(originalView);
+    }
+
+    void BattleHUD::closeAllWindows() {
+        if (m_inventoryWindow) m_inventoryWindow->hide();
+        if (m_journalWindow) m_journalWindow->hide();
     }
 }

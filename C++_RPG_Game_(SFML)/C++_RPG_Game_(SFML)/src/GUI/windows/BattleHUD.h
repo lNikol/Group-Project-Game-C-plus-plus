@@ -52,6 +52,7 @@ namespace RPG {
 
         bool isMouseOverUI() const;
 
+        void closeAllWindows();
 
     protected:
         /**

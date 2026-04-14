@@ -11,7 +11,7 @@
 #include "MoveCommand.h"
 #include <iomanip> 
 #include <sstream>
-
+#include "PartyData.h"
 namespace RPG {
 
     BattleManager::BattleManager(std::shared_ptr<Unit> player)
@@ -144,6 +144,13 @@ namespace RPG {
         auto puddle = PropFactory::getInstance().createProp("water_puddle", 120.f, 150.f);
         if (puddle) m_map->addObject(puddle);
 
+        auto potion1 = AbilityFactory::getInstance().createAbility("health_potion", *this, nullptr);
+        auto scroll = AbilityFactory::getInstance().createAbility("scroll_of_fireball", *this, nullptr);
+        
+        // Dodajemy je do globalnego plecaka
+        auto& party = PartyData::getInstance();
+        party.addItem(potion1);
+        party.addItem(scroll);
 
         // ==========================================
         // 6. Final UI / Map Setup
@@ -253,7 +260,7 @@ namespace RPG {
 
             if (const auto* key = event.getIf<sf::Event::KeyPressed>()) {
                 if (key->scancode == sf::Keyboard::Scancode::Space) endTurn();
-                if (key->scancode == sf::Keyboard::Scancode::F3) m_showDebug = !m_showDebug;
+                if (key->scancode == sf::Keyboard::Scancode::F4) m_showDebug = !m_showDebug;
             }
         }
     }
@@ -423,25 +430,25 @@ namespace RPG {
         window.draw(*m_map);
 
         if (m_showDebug) {
-            std::vector<sf::Vertex> gridVertices;
+            sf::VertexArray grid(sf::PrimitiveType::Lines);
             sf::Color gridColor(255, 255, 255, 80);
 
             // Vertical lines
             for (int x = 0; x <= gridSize; ++x) {
                 sf::Vector2f start = Iso::worldToScreen({ x * tileSize, 0.f });
                 sf::Vector2f end = Iso::worldToScreen({ x * tileSize, gridSize * tileSize });
-                gridVertices.push_back(sf::Vertex{ start, gridColor });
-                gridVertices.push_back(sf::Vertex{ end, gridColor });
+                grid.append(sf::Vertex(start, gridColor));
+                grid.append(sf::Vertex(end, gridColor));
             }
             // Horizontal lines
             for (int y = 0; y <= gridSize; ++y) {
                 sf::Vector2f start = Iso::worldToScreen({ 0.f, y * tileSize });
                 sf::Vector2f end = Iso::worldToScreen({ gridSize * tileSize, y * tileSize });
-                gridVertices.push_back(sf::Vertex{ start, gridColor });
-                gridVertices.push_back(sf::Vertex{ end, gridColor });
+                grid.append(sf::Vertex(start, gridColor));
+                grid.append(sf::Vertex(end, gridColor));
             }
 
-            window.draw(gridVertices.data(), gridVertices.size(), sf::PrimitiveType::Lines);
+            window.draw(grid);
         }
 
         if (m_state == GameState::TargetingMode && m_selectedUnit && m_pendingAbility) {
@@ -634,6 +641,7 @@ namespace RPG {
 
         if (m_showDebug) {
             for (const auto& obj : m_map->getAllObjects()) {
+                if (!obj) continue;
                 drawDebugBox(window, obj->getCollider(), sf::Color::Magenta);
                 sf::CircleShape centerDot(2.f);
                 centerDot.setOrigin({ 1.f, 1.f });
@@ -682,25 +690,24 @@ namespace RPG {
     }
 
     void BattleManager::drawDebugBox(sf::RenderWindow& window, const sf::FloatRect& rect, sf::Color color) {
-        sf::Vector2f p1 = { rect.position.x, rect.position.y };
-        sf::Vector2f p2 = { rect.position.x + rect.size.x, rect.position.y };
-        sf::Vector2f p3 = { rect.position.x + rect.size.x, rect.position.y + rect.size.y };
-        sf::Vector2f p4 = { rect.position.x, rect.position.y + rect.size.y };
+        sf::VertexArray lines(sf::PrimitiveType::LineStrip, 5);
 
-        sf::Vector2f s1 = Iso::worldToScreen(p1);
-        sf::Vector2f s2 = Iso::worldToScreen(p2);
-        sf::Vector2f s3 = Iso::worldToScreen(p3);
-        sf::Vector2f s4 = Iso::worldToScreen(p4);
+        lines[0].position = Iso::worldToScreen({ rect.position.x, rect.position.y });
+        lines[0].color = color;
 
-        // Safe std::vector approach (SFML 3 aggregate initialization)
-        std::vector<sf::Vertex> lines;
-        lines.push_back(sf::Vertex{ s1, color });
-        lines.push_back(sf::Vertex{ s2, color });
-        lines.push_back(sf::Vertex{ s3, color });
-        lines.push_back(sf::Vertex{ s4, color });
-        lines.push_back(sf::Vertex{ s1, color }); // Close the loop
+        lines[1].position = Iso::worldToScreen({ rect.position.x + rect.size.x, rect.position.y });
+        lines[1].color = color;
 
-        window.draw(lines.data(), lines.size(), sf::PrimitiveType::LineStrip);
+        lines[2].position = Iso::worldToScreen({ rect.position.x + rect.size.x, rect.position.y + rect.size.y });
+        lines[2].color = color;
+
+        lines[3].position = Iso::worldToScreen({ rect.position.x, rect.position.y + rect.size.y });
+        lines[3].color = color;
+
+        lines[4].position = lines[0].position;
+        lines[4].color = color;
+
+        window.draw(lines);
     }
 
     void BattleManager::onUnitDeath(std::shared_ptr<Unit> deadUnit) {

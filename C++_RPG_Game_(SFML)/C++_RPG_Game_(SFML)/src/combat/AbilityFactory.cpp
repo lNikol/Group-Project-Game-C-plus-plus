@@ -1,5 +1,6 @@
 #include "AbilityFactory.h"
 #include "combat/CombatAbility.h" 
+#include "combat/CombatItem.h"
 #include <fstream>
 #include <iostream>
 #include <external/json.hpp> 
@@ -79,7 +80,8 @@ namespace RPG {
             def.radius = item.value("radius", 0.f);
             def.manaCost = item.value("manaCost", 0.f);
             def.staminaCost = item.value("staminaCost", 0.f);
-
+            def.isConsumable = item.value("isConsumable", false);
+            def.maxCharges = item.value("maxCharges", -1);
             if (item.contains("effects") && item["effects"].is_array()) {
                 for (const auto& eff : item["effects"]) {
                     EffectData effectData;
@@ -114,6 +116,10 @@ namespace RPG {
             std::cerr << "Warning: Attempted to create unknown ability: " << id << std::endl;
             return nullptr;
         }
-        return std::make_shared<CombatAbility>(&m_definitions[id], manager, owner);
+        auto& def = m_definitions[id];
+        if (def.isConsumable) {
+            return std::make_shared<CombatItem>(&def, manager, owner);
+        }
+        return std::make_shared<CombatAbility>(&def, manager, owner);
     }
 }

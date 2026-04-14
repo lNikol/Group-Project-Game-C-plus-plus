@@ -68,6 +68,13 @@ namespace RPG {
         void onUnitDeath(std::shared_ptr<Unit> deadUnit);
         bool isBattleOver() { return m_battleOver; }
 
+        BattleHUD* getHUD() const { return m_hud.get(); }
+
+        /**
+         * @brief Returns the unit that is currently taking its turn.
+         * @return std::shared_ptr<Unit> The active combatant.
+         */
+        std::shared_ptr<Unit> getActiveUnit() const { return m_activeUnit; }
     private:
         std::unique_ptr<CombatMap> m_map;
         std::unique_ptr<BattleHUD> m_hud;

@@ -178,6 +178,9 @@
     <ClCompile Include="src\combat\UnitFactory.cpp">
       <Filter>Pliki źródłowe\combat</Filter>
     </ClCompile>
+    <ClCompile Include="src\GUI\windows\InventoryWindow.cpp">
+      <Filter>Pliki źródłowe\GUI\windows</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\worldmap\AssetManager.h">
@@ -326,6 +329,15 @@
     </ClInclude>
     <ClInclude Include="src\combat\UnitFactory.h">
       <Filter>Pliki nagłówkowe\combat</Filter>
+    </ClInclude>
+    <ClInclude Include="src\combat\PartyData.h">
+      <Filter>Pliki nagłówkowe\combat</Filter>
+    </ClInclude>
+    <ClInclude Include="src\combat\CombatItem.h">
+      <Filter>Pliki nagłówkowe\combat</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GUI\windows\InventoryWindow.h">
+      <Filter>Pliki nagłówkowe\GUI\windows</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -8,6 +8,7 @@ namespace RPG {
 
     CombatAbility::CombatAbility(const AbilityDefinition* def, BattleManager& manager, Unit* owner)
         : m_def(def), m_manager(manager), m_owner(owner) {
+        m_currentCharges = def->maxCharges;
     }
 
     std::string CombatAbility::getTooltip() const {
@@ -20,6 +21,7 @@ namespace RPG {
     }
 
     bool CombatAbility::canBeCast() const {
+        if (m_def->isConsumable && m_currentCharges <= 0) return false;
         if (m_currentCooldown > 0) return false;
         if (m_owner) {
             if (m_owner->getVitals().mp < m_def->manaCost) return false;
@@ -39,7 +41,9 @@ namespace RPG {
         // 1. Pay Resource Costs (Only once per cast!)
         if (m_def->manaCost > 0) m_owner->consumeMana(m_def->manaCost);
         if (m_def->staminaCost > 0) m_owner->consumeStamina(m_def->staminaCost);
-
+        if (m_def->isConsumable && m_currentCharges > 0) {
+            m_currentCharges--;
+        }
         // 2. Start Cooldown
         m_currentCooldown = m_def->cooldownTurns;
 
