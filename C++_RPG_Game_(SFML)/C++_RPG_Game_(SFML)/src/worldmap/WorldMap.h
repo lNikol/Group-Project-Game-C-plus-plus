@@ -24,8 +24,6 @@ namespace RPG {
 		AssetManager& assetManager;
 		
 		std::vector<Tile> tiles; // Only holds ground
-		std::vector<std::unique_ptr<WorldObject>> structures; // Holds structues (trees, houses, rocks)
-		std::vector<std::unique_ptr<NPC>> npcs; // Holds active npcs
 
 		GameObject* playerReference;
 		std::vector<std::unique_ptr<GameObject>> gameObjects;
