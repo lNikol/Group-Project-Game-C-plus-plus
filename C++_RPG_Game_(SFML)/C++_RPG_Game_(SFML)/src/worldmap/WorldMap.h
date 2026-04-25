@@ -12,6 +12,8 @@
 #include "game_objects/components/PlayerInputComponent.h"
 #include "game_objects/GameObjectFactory.h"
 #include "game_objects/components/StructureComponent.h"
+#include "game_objects/components/NpcComponent.h"
+
 
 namespace RPG {
 
@@ -24,12 +26,16 @@ namespace RPG {
 		AssetManager& assetManager;
 		
 		std::vector<Tile> tiles; // Only holds ground
-		std::vector<std::unique_ptr<WorldObject>> structures; // Holds structues (trees, houses, rocks)
-		std::vector<std::unique_ptr<NPC>> npcs; // Holds active npcs
+		//std::vector<std::unique_ptr<WorldObject>> structures; // Holds structues (trees, houses, rocks)
+		//std::vector<std::unique_ptr<NPC>> npcs; // Holds active npcs
 
 		GameObject* playerReference;
 		std::vector<std::unique_ptr<GameObject>> gameObjects;
 	
+		void clearAllGameObjects();
+		void clearStructures();
+		void clearNPCs();
+		void clearAllGameObjectsExceptPlayer();
 	public:
 		WorldMap(uint32_t w, uint32_t h, AssetManager& am);
 
@@ -172,11 +178,11 @@ namespace RPG {
 		 * of the NPC's lifecycle.
 		 * * @param npc A unique_ptr to the NPC object.
 		 */
-		void addNPC(std::unique_ptr<NPC> npc);
-		const std::vector<std::unique_ptr<NPC>>& getNPCs() const;
-		std::vector<std::unique_ptr<NPC>>& getNPCs();
-
-		const std::vector<std::unique_ptr<WorldObject>>& getStructures() const;
+		void addNPC(std::unique_ptr<GameObject> npc);
+		
+		//const std::vector<std::unique_ptr<NPC>>& getNPCs() const;
+		//std::vector<std::unique_ptr<NPC>>& getNPCs();
+		//const std::vector<std::unique_ptr<WorldObject>>& getStructures() const;
 
 		void toggleDebugHitbox();
 	};

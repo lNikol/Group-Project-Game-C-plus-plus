@@ -60,7 +60,7 @@ namespace RPG {
             .looped(true)
             .build();
 
-
+        /*
         auto addNpc = [&](
             uint8_t tileIdx, 
             const std::string& name, 
@@ -79,7 +79,7 @@ namespace RPG {
 
 
             map->addNPC(std::move(npc1));
-        };
+        };*/
 
         auto mainMap = getOrLoadMap(activeFaction);
         mainMap->addGameObject(Factory::createPlayer(assetManager, {100, 100}));
@@ -94,11 +94,12 @@ namespace RPG {
          * or a separate "world_state.json" file.
          */
 
+        /*
         if (mainMap->getNPCs().empty()) {
             addNpc(0, "White Order Envoy", false , FactionID::WhiteOrder, { 520.f, 520.f }, mainMap);
             addNpc(0, "Dark Order Envoy", true, FactionID::DarkOrder, { 300.0f, 420.0f }, mainMap);
             addNpc(0, "BattleField Envoy", true, FactionID::BattleScene, { 320.0f, 200.0f }, mainMap);
-        }
+        }*/
 
         currentScene = std::make_unique<WorldScene>(*this, mainMap);
 

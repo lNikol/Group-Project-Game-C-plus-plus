@@ -53,4 +53,8 @@ namespace RPG {
 		showDebug = show;
 	}
 
+	void ColliderComponent::toggleDebug() {
+		showDebug = !showDebug;
+	}
+
 }

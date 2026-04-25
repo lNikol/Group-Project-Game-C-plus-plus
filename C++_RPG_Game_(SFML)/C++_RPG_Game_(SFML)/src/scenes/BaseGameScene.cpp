@@ -31,7 +31,7 @@
             if (const auto* keyPressed = event.getIf<sf::Event::KeyPressed>()) {
                 if (keyPressed->scancode == sf::Keyboard::Scancode::E) {
                     std::cout << "[" << sceneName << "]" << " Key 'E' was pressed: " << std::endl;
-                    this->checkNPCInteraction();
+                    this->checkInteraction();
                 }
 
                 if (keyPressed->scancode == sf::Keyboard::Scancode::I) {
@@ -42,29 +42,32 @@
             return false;
         }
 
-        // TODO: Refactor to use InteractionComponent!
-        void BaseGameScene::checkNPCInteraction() {
+        void BaseGameScene::checkInteraction() {
             if (!worldMap || !worldMap->getPlayer()) return;
 
-            for (auto& npc : worldMap->getNPCs()) {
-                sf::Vector2f diff = worldMap->getPlayer()->getPosition() - npc->getPosition();
-                float distSq = diff.x * diff.x + diff.y * diff.y;
-                float radius = npc->getInteractionRadius();
+            for (auto& go : worldMap->getGameObjects()) {
+                if (auto* interaction = go->getComponent<InteractionComponent>()) {
+                    sf::Vector2f diff = worldMap->getPlayer()->getPosition() - go->getPosition();
+                    float distSq = diff.x * diff.x + diff.y * diff.y;
+                    float radius = interaction->getInteractionRadius();
 
-                if (distSq <= radius * radius) {
-                    handleInteraction(npc.get());
-                    break;
+                    if (distSq <= radius * radius) {
+                        handleInteraction(go.get());
+                        break;
+                    }
                 }
             }
         }
 
-        void BaseGameScene::handleInteraction(NPC* npc) {
-            std::cout << "Interacting with NPC: " << npc->getName() << std::endl;
+        void BaseGameScene::handleInteraction(GameObject* go) {
+            std::cout << "Interacting with GameObject: " << go->getPrefabId() << std::endl;
 
-            if (npc->getIsFactionLeader()) {
-                std::cout << "[" << sceneName << "] This NPC is a Faction Leader. Switching map..." << std::endl;
+            if (auto* npcComponent = go->getComponent<NpcComponent>()) {
+                if (npcComponent->isFactionLeader()) {
+                    std::cout << "[" << sceneName << "] This NPC is a Faction Leader. Switching map..." << std::endl;
 
-                sceneController.changeScene(npc->getTargetFaction());
+                    sceneController.changeScene(npcComponent->getTargetFaction());
+                }
             }
         }
     }

@@ -30,4 +30,12 @@ namespace RPG {
 		return position;
 	}
 
+	const std::string& GameObject::getPrefabId() const {
+		return prefabId;
+	}
+
+	void GameObject::setPrefabId(const std::string& prefabId) {
+		this->prefabId = prefabId;
+	}
+
 }

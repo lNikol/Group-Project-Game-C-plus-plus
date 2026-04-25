@@ -7,8 +7,8 @@
 // and other helper class for loading/saving maps 
 
 namespace RPG {
-
-	WorldMap::WorldMap(uint32_t w, uint32_t h, AssetManager& am) 
+	
+	WorldMap::WorldMap(uint32_t w, uint32_t h, AssetManager& am)
 		: width(w), height(h), assetManager(am), width_gen(w - GameConfig::WORLD_GENERATE_MARGIN), height_gen(h - GameConfig::WORLD_GENERATE_MARGIN) 
 	{
 		initializeGrid();
@@ -178,11 +178,23 @@ namespace RPG {
 			os.write(reinterpret_cast<const char*>(&tile.groundType), sizeof(tile.groundType));
 		}
 
+		std::vector<GameObject*> tempStructures;
+		std::vector<GameObject*> tempNPCs;
+
+		for (auto& go : gameObjects) {
+			if (go->hasComponent<NpcComponent>()) {
+				tempNPCs.push_back(go.get());
+			}
+			else if (go->hasComponent<StructureComponent>()) {
+				tempStructures.push_back(go.get());
+			}
+		}
+
 		// Save Structures
-		uint16_t count = static_cast<uint16_t>(structures.size());
+		uint16_t count = static_cast<uint16_t>(tempStructures.size());
 		os.write(reinterpret_cast<char*>(&count), sizeof(count));
-		for (auto& s : structures) {
-			std::string n = s->getName();
+		for (auto* s : tempStructures) {
+			std::string n = s->getPrefabId();
 			uint16_t len = static_cast<uint16_t>(n.length());
 			os.write(reinterpret_cast<char*>(&len), sizeof(len));
 			os.write(n.c_str(), len);
@@ -193,16 +205,17 @@ namespace RPG {
 		}
 
 		// NPCs
-		uint16_t npcCount = static_cast<uint16_t>(npcs.size());
+		uint16_t npcCount = static_cast<uint16_t>(tempNPCs.size());
 		os.write(reinterpret_cast<char*>(&npcCount), sizeof(npcCount));
-		for (auto& npc : npcs) {
-			std::string n = npc->getName();
+		for (auto& npc : tempNPCs) {
+			std::string n = npc->getPrefabId();
 			uint16_t len = (uint16_t)n.length();
 			os.write(reinterpret_cast<char*>(&len), sizeof(len));
 			os.write(n.c_str(), len);
 			sf::Vector2f pos = npc->getPosition();
 			os.write(reinterpret_cast<char*>(&pos), sizeof(pos));
-			FactionID f = npc->getTargetFaction(); // TODO: change in the future for getFaction if any changes would occur
+			// TODO: change in the future for getFaction if any changes would occur
+			FactionID f = npc->getComponent<NpcComponent>()->getTargetFaction();
 			os.write(reinterpret_cast<char*>(&f), sizeof(f));
 		}
 
@@ -261,8 +274,10 @@ namespace RPG {
 		this->reshape(width, height);
 
 		for (auto& tile : tiles) tile.release();
-		structures.clear();
-		npcs.clear();
+		
+		//structures.clear();
+		//npcs.clear();
+		clearAllGameObjectsExceptPlayer();
 
 		// Ground
 		for (auto& layer : tmj["layers"]) {
@@ -288,9 +303,8 @@ namespace RPG {
 			tile.residentObjects.clear();
 			tile.release();
 		}
-		structures.clear();
-		npcs.clear();
 
+		clearAllGameObjects();
 
 		is.read(reinterpret_cast<char*>(&width), sizeof(width));
 		is.read(reinterpret_cast<char*>(&height), sizeof(height));
@@ -300,7 +314,6 @@ namespace RPG {
 			is.read(reinterpret_cast<char*>(&tile.groundType), sizeof(tile.groundType));
 		}
 
-		structures.clear();
 		uint16_t count;
 		is.read(reinterpret_cast<char*>(&count), sizeof(count));
 		for (uint16_t i = 0; i < count; ++i) {
@@ -326,7 +339,7 @@ namespace RPG {
 		this->width_gen = (width > GameConfig::WORLD_GENERATE_MARGIN) ? width - GameConfig::WORLD_GENERATE_MARGIN : width;
 		this->height_gen = (height > GameConfig::WORLD_GENERATE_MARGIN) ? height - GameConfig::WORLD_GENERATE_MARGIN : height;
 
-		structures.clear();
+		clearStructures();
 		initializeGrid();
 		generateBorders();
 
@@ -525,7 +538,7 @@ namespace RPG {
 		return startPos;
 	}
 
-	void WorldMap::addNPC(std::unique_ptr<NPC> npc) {
+	void WorldMap::addNPC(std::unique_ptr<GameObject> npc) {
 		int32_t tx = static_cast<int32_t>(npc->getPosition().x / GameConfig::TILE_SIZE);
 		int32_t ty = static_cast<int32_t>(npc->getPosition().y / GameConfig::TILE_SIZE);
 
@@ -537,25 +550,65 @@ namespace RPG {
 
 			sf::Vector2f safePos = findNearestSafeTile(npc->getPosition());
 
-			std::cout << "[WorldMap] NPC " << npc->getName()
+			std::cout << "[WorldMap] NPC " << npc->getPrefabId()
 				<< " moved from blocked tile to safe pos: "
 				<< safePos.x << "," << safePos.y << std::endl;
 
 			npc->setPosition(safePos); 
 		}
 
-		npcs.push_back(std::move(npc));
+		gameObjects.push_back(std::move(npc));
 	}
 
-	const std::vector<std::unique_ptr<NPC>>& WorldMap::getNPCs() const { return npcs; }
-	std::vector<std::unique_ptr<NPC>>& WorldMap::getNPCs() { return npcs; }
+	//const std::vector<std::unique_ptr<NPC>>& WorldMap::getNPCs() const { return npcs; }
+	//std::vector<std::unique_ptr<NPC>>& WorldMap::getNPCs() { return npcs; }
+	//const std::vector<std::unique_ptr<WorldObject>>& WorldMap::getStructures() const { return structures; }
 
-	const std::vector<std::unique_ptr<WorldObject>>& WorldMap::getStructures() const {
-		return structures;
-	}
+
 	void WorldMap::toggleDebugHitbox() {
-		for (auto& e : structures) {
-			e->toggleDebugHitbox();
+		for (auto& e : gameObjects) {
+			if (auto* collider = e->getComponent<ColliderComponent>()) {
+				collider->toggleDebug();
+			}
 		}
+	}
+
+
+	void WorldMap::clearAllGameObjects() {
+		gameObjects.clear();
+		playerReference = nullptr;
+	}
+
+	void WorldMap::clearStructures() {
+		gameObjects.erase(
+			std::remove_if(gameObjects.begin(), gameObjects.end(),
+				[](const std::unique_ptr<GameObject>& go) {
+					return go->hasComponent<StructureComponent>();
+				}
+			),
+			gameObjects.end()
+		);
+	}
+
+	void WorldMap::clearNPCs() {
+		gameObjects.erase(
+			std::remove_if(gameObjects.begin(), gameObjects.end(),
+				[](const std::unique_ptr<GameObject>& go) {
+					return go->hasComponent<NpcComponent>();
+				}
+			),
+			gameObjects.end()
+		);
+	}
+
+	void WorldMap::clearAllGameObjectsExceptPlayer() {
+		gameObjects.erase(
+			std::remove_if(gameObjects.begin(), gameObjects.end(),
+				[](const std::unique_ptr<GameObject>& go) {
+					return !go->hasComponent<PlayerInputComponent>();
+				}
+			),
+			gameObjects.end()
+		);
 	}
 }

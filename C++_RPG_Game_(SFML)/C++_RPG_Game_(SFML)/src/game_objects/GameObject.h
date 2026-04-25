@@ -6,6 +6,7 @@
 namespace RPG {
 
 	class GameObject {
+		std::string prefabId;
 		sf::Vector2f position;
 		std::vector<std::unique_ptr<Component>> components;
 	public:
@@ -19,6 +20,8 @@ namespace RPG {
 		void setPosition(sf::Vector2f position);
 		void setPosition(float x, float y);
 		sf::Vector2f getPosition() const;
+		const std::string& getPrefabId() const;
+		void setPrefabId(const std::string& prefabId);
 
 
 		// Component manipulation

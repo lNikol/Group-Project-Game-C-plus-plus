@@ -9,6 +9,8 @@
 #include "worldmap/AssetManager.h"
 #include "core/SpritesheetManager.h"
 #include "entities/NPC.h"
+#include "game_objects/components/InteractionComponent.h"
+#include "game_objects/components/NpcComponent.h"
 
 
 namespace RPG {
@@ -34,7 +36,7 @@ namespace RPG {
         float viewVisibility;
 
 
-        void checkNPCInteraction();
+        void checkInteraction();
 
     public:
         BaseGameScene(ISceneController& ctrl, std::shared_ptr<WorldMap> wm);
@@ -66,7 +68,7 @@ namespace RPG {
         /**
          * @brief Logic triggered when 'E' is pressed near an NPC.
          */
-        virtual void handleInteraction(NPC* npc);
+        virtual void handleInteraction(GameObject* npc);
 
 
     };

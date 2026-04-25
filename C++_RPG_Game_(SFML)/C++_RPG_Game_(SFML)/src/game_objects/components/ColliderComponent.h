@@ -16,6 +16,7 @@ namespace RPG {
 		sf::FloatRect getGlobalHitbox() const;
 		sf::FloatRect getLocalHitbox() const;
 		void setDebug(bool show);
+		void toggleDebug();
 	};
 
 }
