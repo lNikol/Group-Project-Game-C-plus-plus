@@ -6,7 +6,7 @@
   "animations": {
     "idle_bottom": {
       "frameCount": 8,
-      "startPos": [ 16, 16 ]
+      "startPos": [ 8, 16 ]
     }
   }
 }

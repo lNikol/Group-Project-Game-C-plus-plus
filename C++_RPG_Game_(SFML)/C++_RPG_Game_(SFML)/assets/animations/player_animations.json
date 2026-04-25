@@ -18,7 +18,7 @@
     },
     "idle_top": {
       "startPos": [ 16, 208 ],
-      "frameCount": 5
+      "frameCount": 4
     },
     "run_bottom": {
       "startPos": [ 16, 528 ],

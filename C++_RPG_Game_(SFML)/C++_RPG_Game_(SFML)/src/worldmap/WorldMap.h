@@ -153,6 +153,9 @@ namespace RPG {
 		 */
 		bool isBlockingAtPixel(float pixelX, float pixelY) const;
 
+		bool checkCollision(const sf::FloatRect& hitbox, const GameObject* ignoreEntity = nullptr) const;
+
+
 		void refreshMonsters(const DifficultyLevel& level, uint8_t mapEdgeOffset = 5);
 
 		float getTileSpeedModifier(int32_t tx, int32_t ty) const;

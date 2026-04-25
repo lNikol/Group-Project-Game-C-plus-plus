@@ -2,6 +2,10 @@
 
 namespace RPG {
 
+	GameObject::GameObject(const std::string& prefabId) 
+		: prefabId(prefabId)
+	{}
+
 	void GameObject::update(float dt) {
 		for (const auto& e : components) {
 			e->update(dt);

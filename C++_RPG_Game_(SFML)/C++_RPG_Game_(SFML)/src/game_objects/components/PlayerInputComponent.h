@@ -1,10 +1,11 @@
 #pragma once
 #include "Component.h"
-#include "MovementComponent.h"
 #include <cassert>
 #include <SFML/Graphics.hpp>
 
 namespace RPG {
+
+	class MovementComponent;
 	/**
 		This class requires the GameObject to have a 
 		@MovementComponent assigned in order to function.

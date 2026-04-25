@@ -25,8 +25,15 @@ namespace RPG {
 
 			sf::Sprite& sprite = renderComponent->getSprite();
 			sf::IntRect frame = currentAnimation->getCurrentFrame();
+
+			if (owner->getPrefabId() == "npc") {
+				std::cout << "[Debug NPC] Frame X: " << frame.position.x
+					<< " | Width: " << frame.size.x
+					<< " | Calculated Origin X: " << frame.size.x / 2.0f << std::endl;
+			}
+
 			sprite.setTextureRect(frame);
-			sprite.setOrigin({ frame.size.x / 2.0f, frame.size.y / 2.0f });
+			sprite.setOrigin({ frame.size.x / 2.0f, (float)frame.size.y });
 		}
 	}
 

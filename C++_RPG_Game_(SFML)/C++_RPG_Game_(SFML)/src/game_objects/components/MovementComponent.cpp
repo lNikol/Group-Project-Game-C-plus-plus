@@ -1,20 +1,43 @@
 #include "MovementComponent.h"
 #include "game_objects/GameObject.h"
+#include "../../worldmap/WorldMap.h"
 
 namespace RPG {
 
-	MovementComponent::MovementComponent(float speed)
-		: speed(speed), direction(0.f, 0.f)
+	MovementComponent::MovementComponent(const WorldMap& worldmap, float speed)
+		: speed(speed), direction(0.f, 0.f), worldmap(worldmap)
 	{
 	}
 
 	void MovementComponent::update(float dt) {
-		if (!owner) return;
+        if (!owner) return;
 
-		if (direction.x != 0.f || direction.y != 0.f) {
-			sf::Vector2f velocity = direction * speed * dt;
-			owner->setPosition(owner->getPosition() + velocity);
-		}
+        sf::Vector2f velocity = direction * speed * dt;
+        if (velocity.x == 0.f && velocity.y == 0.f) return;
+
+        auto* collider = owner->getComponent<ColliderComponent>();
+        if (!collider) {
+            owner->setPosition(owner->getPosition() + velocity);
+            return;
+        }
+
+        sf::FloatRect futureHitbox = collider->getGlobalHitbox();
+        sf::Vector2f finalMovement(0.f, 0.f);
+
+        futureHitbox.position.x += velocity.x;
+        if (!worldmap.checkCollision(futureHitbox, owner)) {
+            finalMovement.x = velocity.x;
+        }
+        else {
+            futureHitbox.position.x -= velocity.x;
+        }
+
+        futureHitbox.position.y += velocity.y;
+        if (!worldmap.checkCollision(futureHitbox, owner)) {
+            finalMovement.y = velocity.y;
+        }
+
+        owner->setPosition(owner->getPosition() + finalMovement);
 	}
 
 	void MovementComponent::setDirection(sf::Vector2f direction) {

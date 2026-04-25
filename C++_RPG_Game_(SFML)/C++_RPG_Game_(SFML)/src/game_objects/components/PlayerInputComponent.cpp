@@ -1,5 +1,6 @@
 #include "PlayerInputComponent.h"
 #include "game_objects/GameObject.h"
+#include "MovementComponent.h"
 
 namespace RPG {
 

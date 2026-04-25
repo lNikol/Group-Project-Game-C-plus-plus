@@ -66,18 +66,18 @@ namespace RPG {
 	}
 
 	void WorldMap::generateBorders() {
-		std::string wallId = "rock_0"; // TODO: change on 'wall' when will be a sprite
+		std::string wallId = "rock_0"; // TODO: change to 'wall' when you have the sprite
 
 		for (uint32_t x = 0; x < width; ++x) {
 			// Top and bottom borders
-			placeStructure(x * GameConfig::TILE_SIZE, 0, wallId);
-			placeStructure(x * GameConfig::TILE_SIZE, (height - 1) * GameConfig::TILE_SIZE, wallId);
+			placeStructureAtTile(x, 0, wallId);
+			placeStructureAtTile(x, height - 1, wallId);
 		}
 
 		for (uint32_t y = 1; y < height - 1; ++y) {
-			// Left and rigth borders
-			placeStructure(0, y * GameConfig::TILE_SIZE, wallId);
-			placeStructure((width - 1) * GameConfig::TILE_SIZE, y * GameConfig::TILE_SIZE, wallId);
+			// Left and right borders
+			placeStructureAtTile(0, y, wallId);
+			placeStructureAtTile(width - 1, y, wallId);
 		}
 	}
 
@@ -143,7 +143,7 @@ namespace RPG {
 					float ny = (float)obj["y"] - (offsetY * GameConfig::TILE_SIZE);
 					std::string npcName = "World Gatekeeper";
 
-					auto npc = Factory::createNpc(assetManager, { 0,0 });
+					auto npc = Factory::createNpc(assetManager, { 0,0 }, FactionID::BattleScene);
 					npc->setPosition(nx, ny);
 					addGameObject(std::move(npc));
 
@@ -156,12 +156,17 @@ namespace RPG {
 				uint32_t gid = obj.value("gid", 0);
 				if (gid == 0) continue;
 
-				float worldX = (float)obj["x"] - (offsetX * GameConfig::TILE_SIZE);
-				float correctedTopY = ((float)obj["y"] - (float)obj["height"]) - (offsetY * GameConfig::TILE_SIZE);
-
 				std::string assetName = assetManager.getNameById(gid - 1);
 				if (!assetName.empty()) {
-					this->placeStructure(worldX, correctedTopY, assetName);
+					const StructureDefinition& def = assetManager.getDefinition(assetName);
+
+					// Tiled X is Bottom-Left. Add half width to get Bottom-Center.
+					float worldX = ((float)obj["x"] + (def.size.x / 2.f)) - (offsetX * GameConfig::TILE_SIZE);
+
+					// Tiled Y is already Bottom! No need to subtract height anymore.
+					float worldY = (float)obj["y"] - (offsetY * GameConfig::TILE_SIZE);
+
+					this->placeStructure(worldX, worldY, assetName);
 				}
 			}
 		}
@@ -271,13 +276,11 @@ namespace RPG {
 		std::cout << "[WorldMap] Final dimensions: " << width << "x" << height
 			<< " Offset: [" << offsetX << "," << offsetY << "]\n";
 
+		clearAllGameObjectsExceptPlayer();
 		this->reshape(width, height);
 
 		for (auto& tile : tiles) tile.release();
-		
-		//structures.clear();
-		//npcs.clear();
-		clearAllGameObjectsExceptPlayer();
+
 
 		// Ground
 		for (auto& layer : tmj["layers"]) {
@@ -390,6 +393,47 @@ namespace RPG {
 		return false;
 	}
 
+	bool WorldMap::checkCollision(const sf::FloatRect& hitbox, const GameObject* ignoreEntity) const {
+		// 1. Check Absolute Map Boundaries
+		if (hitbox.position.x < 0 || hitbox.position.y < 0 ||
+			hitbox.position.x + hitbox.size.x > width * GameConfig::TILE_SIZE ||
+			hitbox.position.y + hitbox.size.y > height * GameConfig::TILE_SIZE) {
+			return true;
+		}
+
+		// 2. Check Pixel-Perfect Object Hitboxes (Rocks, Trees, Walls, NPCs)
+		for (const auto& go : gameObjects) {
+			if (go.get() == ignoreEntity) continue; // Don't collide with ourselves
+
+			if (auto* otherCollider = go->getComponent<ColliderComponent>()) {
+
+				// Optional: Only collide if the object is actually solid
+				// if (auto* structComp = go->getComponent<StructureComponent>()) {
+				//     if (!structComp->getDefinition().meta.blocksMovement) continue;
+				// }
+
+				sf::FloatRect otherHitbox = otherCollider->getGlobalHitbox();
+
+				// Precise AABB Intersection
+				bool intersectX = hitbox.position.x < (otherHitbox.position.x + otherHitbox.size.x) &&
+					(hitbox.position.x + hitbox.size.x) > otherHitbox.position.x;
+
+				bool intersectY = hitbox.position.y < (otherHitbox.position.y + otherHitbox.size.y) &&
+					(hitbox.position.y + hitbox.size.y) > otherHitbox.position.y;
+
+				if (intersectX && intersectY) {
+					return true; // BAM! Pixel-perfect collision detected.
+				}
+			}
+		}
+
+		// 3. Terrain Checks (Water, Chasms)
+		// If you add Water later, you will want to check the center of the player's 
+		// feet against the tile.groundType here, rather than the 4 corners!
+
+		return false; // Path is clear
+	}
+
 	float WorldMap::getTileSpeedModifier(int32_t x, int32_t y) const {
 		if (x < 0 || x >= width || y < 0 || y >= height) return 1.0f;
 
@@ -431,11 +475,10 @@ namespace RPG {
 	}
 
 	bool WorldMap::placeStructureAtTile(int32_t tileX, int32_t tileY, const std::string& name) {
-		return placeStructure(
-			static_cast<float>(tileX * GameConfig::TILE_SIZE),
-			static_cast<float>(tileY * GameConfig::TILE_SIZE),
-			name
-		);
+		float pixelX = static_cast<float>(tileX * GameConfig::TILE_SIZE) + (GameConfig::TILE_SIZE / 2.0f);
+		float pixelY = static_cast<float>(tileY * GameConfig::TILE_SIZE) + GameConfig::TILE_SIZE;
+
+		return placeStructure(pixelX, pixelY, name);
 	}
 
 	bool WorldMap::placeStructure(float worldX, float worldY, const std::string& id) {
@@ -455,7 +498,7 @@ namespace RPG {
 			int32_t endTy = static_cast<int32_t>((hitbox.position.y + hitbox.size.y - 0.1f) / GameConfig::TILE_SIZE);
 
 
-			if (startTx < 0 || startTy < 0 || endTx >= width_gen || endTy >= height_gen) {
+			if (startTx < 0 || startTy < 0 || endTx >= width || endTy >= height) {
 				return false;
 			}
 
@@ -483,7 +526,7 @@ namespace RPG {
 			int32_t tx = static_cast<int32_t>(worldX / GameConfig::TILE_SIZE);
 			int32_t ty = static_cast<int32_t>(worldY / GameConfig::TILE_SIZE);
 
-			if (tx < 0 || ty < 0 || tx >= width_gen || ty >= height_gen) return false;
+			if (tx < 0 || ty < 0 || tx >= width || ty >= height) return false;
 
 			// Register it to that single tile just so the Renderer can find it for drawing
 			at(tx, ty).residentObjects.push_back(objPtr);
@@ -567,6 +610,9 @@ namespace RPG {
 
 	void WorldMap::toggleDebugHitbox() {
 		for (auto& e : gameObjects) {
+			if (auto* render = e->getComponent<RenderComponent>()) {
+				render->toggleDebug();
+			}
 			if (auto* collider = e->getComponent<ColliderComponent>()) {
 				collider->toggleDebug();
 			}

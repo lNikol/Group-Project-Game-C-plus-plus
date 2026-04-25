@@ -10,7 +10,7 @@ namespace RPG {
 		sf::Vector2f position;
 		std::vector<std::unique_ptr<Component>> components;
 	public:
-		GameObject() = default;
+		GameObject(const std::string& prefabId);
 
 		void update(float dt);
 		void draw(sf::RenderWindow& window);

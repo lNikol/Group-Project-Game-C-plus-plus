@@ -1,9 +1,10 @@
 #include "GameObjectFactory.h"
+#include "worldmap/WorldMap.h"
 
 namespace RPG {
 	namespace Factory {
 
-		std::unique_ptr<GameObject> createPlayer(AssetManager& am, sf::Vector2f pos) {
+		std::unique_ptr<GameObject> createPlayer(AssetManager& am, WorldMap& worldmap, sf::Vector2f pos) {
 
 			// Load animations
 			const Spritesheet& spritesheet = am.getTest("player");
@@ -12,7 +13,7 @@ namespace RPG {
 				&spritesheet
 			);
 
-			std::unique_ptr<GameObject> player = std::make_unique<GameObject>();
+			std::unique_ptr<GameObject> player = std::make_unique<GameObject>("player");
 			player->setPosition(pos);
 
 			// Add sprite
@@ -24,11 +25,10 @@ namespace RPG {
 			animation->play("idle_bottom");
 
 			// Add hitbox
-			auto collider = player->addComponent<ColliderComponent>(8, 2, -4, 8);
-			collider->setDebug(true);
+			auto collider = player->addComponent<ColliderComponent>(8, 2, -4, -4);
 
 			// Add movement & player input
-			player->addComponent<MovementComponent>(200.f);
+			player->addComponent<MovementComponent>(worldmap, 200.f);
 			player->addComponent<PlayerInputComponent>();
 
 			// Add animation handling
@@ -37,7 +37,7 @@ namespace RPG {
 			return player;
 		}
 
-		std::unique_ptr<GameObject> createNpc(AssetManager& am, sf::Vector2f pos) {
+		std::unique_ptr<GameObject> createNpc(AssetManager& am, sf::Vector2f pos, FactionID factionId) {
 
 			const Spritesheet& spritesheet = am.getTest("npc");
 			auto animations = AnimationLoader::loadAnimations(
@@ -45,8 +45,12 @@ namespace RPG {
 				&spritesheet
 			);
 
-			std::unique_ptr<GameObject> npc = std::make_unique<GameObject>();
+			std::unique_ptr<GameObject> npc = std::make_unique<GameObject>("npc");
 			npc->setPosition(pos);
+
+			npc->addComponent<InteractionComponent>(32.f);
+			auto npcComponent = npc->addComponent<NpcComponent>(factionId);
+			npcComponent->setFactionLeader(true);
 
 			npc->addComponent<RenderComponent>(spritesheet);
 			auto animation = npc->addComponent<AnimationComponent>();
@@ -60,7 +64,7 @@ namespace RPG {
 
 			const Spritesheet& spritesheet = am.getTest("box");
 
-			std::unique_ptr<GameObject> box = std::make_unique<GameObject>();
+			std::unique_ptr<GameObject> box = std::make_unique<GameObject>("box");
 			box->setPosition(pos);
 
 			box->addComponent<RenderComponent>(spritesheet);
@@ -75,7 +79,7 @@ namespace RPG {
 		{
 			StructureDefinition& def = am.getDefinition(assetName);
 
-			std::unique_ptr<GameObject> go = std::make_unique<GameObject>();
+			std::unique_ptr<GameObject> go = std::make_unique<GameObject>(assetName);
 			go->setPosition(pos);
 
 			const sf::Texture* tex = am.getTexture(def.textureKey);
@@ -87,11 +91,10 @@ namespace RPG {
 			}
 
 			if (def.layer != PlacementLayer::Decoration) {
-				sf::Vector2f correctedOffset = def.hitboxOffset;
-				// correctedOffset.y -= def.hitboxSize.y;
+				float colX = -(def.hitboxSize.x / 2.f) + def.hitboxOffset.x;
+				float colY = -def.hitboxSize.y + def.hitboxOffset.y;
 
-				auto collider = go->addComponent<ColliderComponent>(def.hitboxSize, correctedOffset);
-				collider->setDebug(true);
+				go->addComponent<ColliderComponent>(def.hitboxSize, sf::Vector2f(colX, colY));
 			}
 			
 			go->addComponent<StructureComponent>(&def);
@@ -104,6 +107,7 @@ namespace RPG {
 
 			case StructureType::interactObj:
 				// TODO: add some interaction components
+				go->addComponent<InteractionComponent>(32.f);
 				break;
 
 			case StructureType::Camp:

@@ -182,6 +182,7 @@
     <ClCompile Include="src\game_objects\components\StructureComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\game_objects\components\components.h" />
     <ClInclude Include="src\game_objects\components\InteractionComponent.h" />
     <ClInclude Include="src\game_objects\components\NpcComponent.h" />
     <ClInclude Include="src\game_objects\components\AnimationControllerComponent.h" />
