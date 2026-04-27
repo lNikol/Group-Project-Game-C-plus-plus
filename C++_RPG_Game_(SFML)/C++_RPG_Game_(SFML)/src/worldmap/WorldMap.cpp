@@ -23,6 +23,22 @@ namespace RPG {
 
 	bool WorldMap::getHasSpawnPoint() const { return hasSpawnPoint; }
 
+	std::unique_ptr<GameObject> WorldMap::extractPlayer() {
+		auto it = std::remove_if(gameObjects.begin(), gameObjects.end(),
+			[](const std::unique_ptr<GameObject>& go) {
+				return go->hasComponent<PlayerInputComponent>();
+			}
+		);
+
+		if (it != gameObjects.end()) {
+			std::unique_ptr<GameObject> p = std::move(*it);
+			gameObjects.erase(it, gameObjects.end());
+			playerReference = nullptr;
+			return p;
+		}
+		return nullptr;
+	}
+
 	const GameObject* WorldMap::getPlayer() const {
 		return playerReference;
 	}
@@ -482,6 +498,11 @@ namespace RPG {
 	}
 
 	bool WorldMap::placeStructure(float worldX, float worldY, const std::string& id) {
+		if (!assetManager.hasDefinition(id)) {
+			std::cerr << "[WorldMap] ERROR: Tried to place unknown structure: '" << id << "'\n";
+			return false;
+		}
+
 		const StructureDefinition& def = assetManager.getDefinition(id);
 
 		// 1. Create Object
@@ -549,11 +570,11 @@ namespace RPG {
 
                 if ((std::rand() % 100) < (density * 100)) {
                     // Randomly pick a structure ID
-                    std::string id = (std::rand() % 2 == 0) ? "big_tree" : "rock";
+                    std::string id = (std::rand() % 2 == 0) ? "big_tree_0" : "rock_0";
                     
                     // Try to place it (will fail if blocked)
 					if (!placeStructureAtTile(x, y, id)) {
-						// std::cout << "[Map WxH]: " << width <<" " << height << " Failed to place " << id << " at(x, y): " << x << " " << y << std::endl;
+						std::cout << "[Map WxH]: " << width <<" " << height << " Failed to place " << id << " at(x, y): " << x << " " << y << std::endl;
 					}
                 }
             }

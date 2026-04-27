@@ -4,7 +4,7 @@
 namespace RPG {
 	namespace Factory {
 
-		std::unique_ptr<GameObject> createPlayer(AssetManager& am, WorldMap& worldmap, sf::Vector2f pos) {
+		std::unique_ptr<GameObject> createPlayer(AssetManager& am, WorldMap* worldmap, sf::Vector2f pos) {
 
 			// Load animations
 			const Spritesheet& spritesheet = am.getTest("player");

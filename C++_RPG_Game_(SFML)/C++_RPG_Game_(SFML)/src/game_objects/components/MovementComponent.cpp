@@ -4,7 +4,7 @@
 
 namespace RPG {
 
-	MovementComponent::MovementComponent(const WorldMap& worldmap, float speed)
+	MovementComponent::MovementComponent(WorldMap* worldmap, float speed)
 		: speed(speed), direction(0.f, 0.f), worldmap(worldmap)
 	{
 	}
@@ -25,7 +25,7 @@ namespace RPG {
         sf::Vector2f finalMovement(0.f, 0.f);
 
         futureHitbox.position.x += velocity.x;
-        if (!worldmap.checkCollision(futureHitbox, owner)) {
+        if (!worldmap->checkCollision(futureHitbox, owner)) {
             finalMovement.x = velocity.x;
         }
         else {
@@ -33,7 +33,7 @@ namespace RPG {
         }
 
         futureHitbox.position.y += velocity.y;
-        if (!worldmap.checkCollision(futureHitbox, owner)) {
+        if (!worldmap->checkCollision(futureHitbox, owner)) {
             finalMovement.y = velocity.y;
         }
 
@@ -51,5 +51,13 @@ namespace RPG {
 	sf::Vector2f MovementComponent::getVelocity() const {
 		return direction * speed;
 	}
+
+    const WorldMap* MovementComponent::getWorldMap() const {
+        return worldmap;
+    }
+
+    void MovementComponent::setWorldMap(WorldMap* worldmap) {
+        this->worldmap = worldmap;
+    }
 
 }

@@ -126,6 +126,12 @@ namespace RPG {
         }
 
         std::sort(queue.begin(), queue.end(), [](GameObject* a, GameObject* b) {
+            // Sort by player
+            if (a->getZIndex() != b->getZIndex()) {
+                return a->getZIndex() < b->getZIndex();
+            }
+
+            // Then sory by position
             return a->getPosition().y < b->getPosition().y;
         });
 

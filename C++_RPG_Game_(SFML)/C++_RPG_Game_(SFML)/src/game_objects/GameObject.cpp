@@ -2,8 +2,8 @@
 
 namespace RPG {
 
-	GameObject::GameObject(const std::string& prefabId) 
-		: prefabId(prefabId)
+	GameObject::GameObject(const std::string& prefabId)
+		: prefabId(prefabId), zIndex(0), position({ 0,0 })
 	{}
 
 	void GameObject::update(float dt) {
@@ -40,6 +40,14 @@ namespace RPG {
 
 	void GameObject::setPrefabId(const std::string& prefabId) {
 		this->prefabId = prefabId;
+	}
+
+	uint8_t GameObject::getZIndex() const {
+		return zIndex;
+	}
+
+	void GameObject::setZIndex(uint8_t zIndex) {
+		this->zIndex = zIndex;
 	}
 
 }

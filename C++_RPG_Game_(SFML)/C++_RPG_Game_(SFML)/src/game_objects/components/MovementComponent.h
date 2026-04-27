@@ -8,16 +8,19 @@ namespace RPG {
 	class MovementComponent : public Component {
 		float speed;
 		sf::Vector2f direction;
-		const WorldMap& worldmap;
+		WorldMap* worldmap;
 
 	public:
-		MovementComponent(const WorldMap& worldmap, float speed);
+		MovementComponent(WorldMap* worldmap, float speed);
 
 		void update(float dt) override;
 
 		void setDirection(sf::Vector2f direction);
 		void setSpeed(float speed);
 		sf::Vector2f getVelocity() const;
+
+		const WorldMap* getWorldMap() const;
+		void setWorldMap(WorldMap* worldmap);
 	};
 }
 

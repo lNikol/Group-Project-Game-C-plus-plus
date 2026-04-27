@@ -38,7 +38,6 @@ namespace RPG {
 		AnimationManager animationManager;
 
 		// shared info between scenes
-		std::shared_ptr<Player> player;
 		std::map<FactionID, std::shared_ptr<WorldMap>> allMaps;
 		std::shared_ptr<Unit> playerUnit;
 		// UI & Data

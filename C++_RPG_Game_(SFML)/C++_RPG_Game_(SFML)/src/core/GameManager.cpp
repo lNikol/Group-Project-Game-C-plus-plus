@@ -44,48 +44,14 @@ namespace RPG {
     }
 
     void GameManager::initGameData() {
-
-        // Shared player initialization
-        player = std::make_shared<Player>(lastWorldPosition, assetManager);
-
         // Shared player initialization
         Vitals startStats = { 100.f, 100.f, 50.f, 50.f, 100.f, 100.f }; // HP, MP, Stamina
         playerUnit = std::make_shared<Unit>("Hero", Team::Player, startStats);
 
-        Animation npcAnimation = Animation::builder()
-            .frameCount(8)
-            .frameGap(16)
-            .frameStartPos({ 16, 16 })
-            .spritesheet(assetManager.getSpritesheet("npc"))
-            .looped(true)
-            .build();
-
-        /*
-        auto addNpc = [&](
-            uint8_t tileIdx, 
-            const std::string& name, 
-            bool isLeader, 
-            FactionID faction,
-            sf::Vector2f pos,
-            const std::shared_ptr<WorldMap>& map
-        ) {
-            auto npc1 = std::make_unique<NPC>(
-                tileIdx, name, isLeader, faction
-            );
-            npc1->setPosition(pos);
-
-            npc1->loadAnimation("idle", npcAnimation);
-            npc1->play("idle");
-
-
-            map->addNPC(std::move(npc1));
-        };*/
-
+        // Create main map
         auto mainMap = getOrLoadMap(activeFaction);
-        mainMap->addGameObject(Factory::createPlayer(assetManager, *mainMap.get(), {100, 100}));
-        //mainMap->addGameObject(Factory::createNpc(assetManager, {100, 200}));
-        //mainMap->addGameObject(Factory::createBox(assetManager, {200, 200}));
-        //mainMap->addGameObject(Factory::createBox(assetManager, {300, 300}));
+        mainMap->addGameObject(Factory::createPlayer(assetManager, mainMap.get(), {100, 100}));
+
 
         /**
          * @note IMPORTANT
@@ -94,15 +60,7 @@ namespace RPG {
          * or a separate "world_state.json" file.
          */
 
-        /*
-        if (mainMap->getNPCs().empty()) {
-            addNpc(0, "White Order Envoy", false , FactionID::WhiteOrder, { 520.f, 520.f }, mainMap);
-            addNpc(0, "Dark Order Envoy", true, FactionID::DarkOrder, { 300.0f, 420.0f }, mainMap);
-            addNpc(0, "BattleField Envoy", true, FactionID::BattleScene, { 320.0f, 200.0f }, mainMap);
-        }*/
-
         currentScene = std::make_unique<WorldScene>(*this, mainMap);
-
         std::cout << "[GameManager] Initialized with Lazy Loading. Map: " << (int)activeFaction << "\n";
     }
 
@@ -166,36 +124,58 @@ namespace RPG {
 
 
     void GameManager::changeScene(FactionID targetFaction) {
-        auto selectedMap = targetFaction == FactionID::BattleScene ? allMaps[targetFaction] : getOrLoadMap(targetFaction); // TODO: fix it
+        //auto selectedMap = targetFaction == FactionID::BattleScene ? allMaps[targetFaction] : getOrLoadMap(targetFaction);
+        auto selectedMap = getOrLoadMap(targetFaction);
 
-        if (activeFaction == FactionID::MainWorld && targetFaction != FactionID::MainWorld) {
-            lastWorldPosition = player->getPosition();
+        std::unique_ptr<GameObject> ecsPlayer = nullptr;
+
+        // Extract player from current map
+        if (allMaps.count(activeFaction)) {
+            ecsPlayer = allMaps[activeFaction]->extractPlayer();
+
+            // Save world position if leaving the main world
+            if (ecsPlayer && activeFaction == FactionID::MainWorld && targetFaction != FactionID::MainWorld) {
+                lastWorldPosition = ecsPlayer->getPosition();
+            }
         }
+
+        // Handle new position
+        sf::Vector2f newPosition = { 100.0f, 100.0f };
         if (targetFaction == FactionID::BattleScene) {
             std::cout << "[GameManager] BattleScene: Skipping manual player positioning.\n";
         }
         else if (targetFaction == FactionID::MainWorld) {
-            player->setPosition(lastWorldPosition);
+            newPosition = lastWorldPosition;
         }
         else if (selectedMap && selectedMap->getHasSpawnPoint()) {
-            player->setPosition(selectedMap->getSpawnPoint());
+            newPosition = selectedMap->getSpawnPoint();
         }
         else {
-            player->setPosition({ 100.0f, 100.0f });
-            std::cerr << "[GameManager] WARNING: Map for faction " << (uint32_t)targetFaction << " has no PlayerSpawn!\n";
+            std::cerr << "[GameManager] WARNING: Map has no PlayerSpawn!\n";
         }
 
+        // Inject player into new map
+        if (ecsPlayer) {
+            ecsPlayer->setPosition(newPosition);
+            if (auto* mov = ecsPlayer->getComponent<MovementComponent>()) {
+                mov->setWorldMap(selectedMap.get());
+            }
+            selectedMap->addGameObject(std::move(ecsPlayer));
+        }
+        else if (selectedMap) {
+            selectedMap->addGameObject(Factory::createPlayer(assetManager, selectedMap.get(), newPosition));
+            std::cerr << "[GameManager] WARNING: No player in memory! Spawning new one!\n";
+        }
+
+        // Change scene
         switch (targetFaction) {
         case FactionID::BattleScene:
             currentScene = std::make_unique<BattleScene>(*this, window, assetManager, playerUnit, selectedMap);
             break;
-
         case FactionID::MainWorld:
-            player->setPosition(lastWorldPosition);
             currentScene = std::make_unique<WorldScene>(*this, selectedMap);
             break;
-
-        default: // Faction bases (White, Dark, Neutral)
+        default:
             currentScene = std::make_unique<FactionScene>(*this, selectedMap);
             break;
         }
@@ -231,9 +211,6 @@ namespace RPG {
                 window.setView(sf::View(sf::FloatRect({ 0.f, 0.f }, newSize)));
             }
 
-           /* if (m_hud) {
-                m_hud->handleEvent(window, *event);
-            }*/
             window.setView(sceneView);
 
             bool uiConsumed = false;
@@ -244,13 +221,7 @@ namespace RPG {
             if (const auto* keyPressed = event->getIf<sf::Event::KeyPressed>()) {
                 if (keyPressed->scancode == sf::Keyboard::Scancode::Escape) running = false;
                 
-                // For example
-                // TODO: change on switch case for special factions and mechanics
-                /*if (keyPressed->scancode == sf::Keyboard::Scancode::F) {
-                    changeScene(FactionID::WhiteOrder);
-                }*/
                 if (keyPressed->scancode == sf::Keyboard::Scancode::F3) {
-                    player->toggleDebugHitbox();
                     for (auto& e : allMaps) {
                         e.second->toggleDebugHitbox();
                     }
@@ -264,17 +235,12 @@ namespace RPG {
 
     void GameManager::update(float dt) {
         if (currentScene) currentScene->update(dt);
-        //if (m_hud) m_hud->update(dt);
-        //if (m_hud) draw();
     }
 
     void GameManager::draw() {
         window.clear(sf::Color(0x606030FF));
         
         if (currentScene) currentScene->draw(window, assetManager);
-        //if (m_hud) {
-        //    window.draw(*m_hud);
-        //}
 
         window.display();
     }

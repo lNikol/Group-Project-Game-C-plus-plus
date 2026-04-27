@@ -103,6 +103,7 @@ namespace RPG {
          */
         const StructureDefinition& getDefinition(const std::string& name) const;
         StructureDefinition& getDefinition(const std::string& name);
+        bool hasDefinition(const std::string& name) const;
 
         // ==============================
         // Spritesheets

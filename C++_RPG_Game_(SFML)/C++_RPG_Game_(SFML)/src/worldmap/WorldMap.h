@@ -39,6 +39,8 @@ namespace RPG {
 	public:
 		WorldMap(uint32_t w, uint32_t h, AssetManager& am);
 
+		// Surrenders the ownership of the player
+		std::unique_ptr<GameObject> extractPlayer();
 		const GameObject* getPlayer() const;
 		std::vector<std::unique_ptr<GameObject>>& getGameObjects();
 		const std::vector<std::unique_ptr<GameObject>>& getGameObjects() const;
