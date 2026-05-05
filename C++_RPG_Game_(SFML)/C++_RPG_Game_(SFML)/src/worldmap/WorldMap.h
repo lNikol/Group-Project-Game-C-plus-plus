@@ -72,6 +72,9 @@ namespace RPG {
 		 */
 		void assignGroundType(uint32_t tx, uint32_t ty, uint32_t gid);
 
+
+		uint8_t getZIndexFromLayerProperties(const nlohmann::json& layer);
+
 		/**
 		 * @brief Processes tile layers from the TMJ (Tiled JSON) format.
 		 * * This function handles both fixed-size and infinite (chunked) maps.
@@ -170,7 +173,7 @@ namespace RPG {
 		 * @param type The type of structure to place
 		 * @return true if placement was successful
 		 */
-		bool placeStructure(float worldX, float worldY, const std::string& name);
+		bool placeStructure(float worldX, float worldY, const std::string& name, uint8_t zIndex);
 		bool placeStructureAtTile(int32_t tileX, int32_t tileY, const std::string& name);
 
 		void generateObstacles(float density, uint8_t playerSafeRadius = 2);
