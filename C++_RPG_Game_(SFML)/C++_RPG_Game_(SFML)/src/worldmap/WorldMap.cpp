@@ -98,6 +98,7 @@ namespace RPG {
 		}
 	}
 
+
 	void WorldMap::assignGroundType(uint32_t tx, uint32_t ty, uint32_t gid) {
 		if (tx >= 0 && tx < width && ty >= 0 && ty < height) {
 			std::string assetName = assetManager.getNameById(gid - 1);
@@ -107,6 +108,36 @@ namespace RPG {
 		}
 	}
 	
+	uint8_t WorldMap::getZIndexFromLayerProperties(const nlohmann::json& layer) {
+		static const std::unordered_map<std::string, uint8_t> stringToZIndex = {
+			{"ground",      (uint8_t)LayerZIndex::ZLayer::Ground},
+			{"belowplayer", (uint8_t)LayerZIndex::ZLayer::BelowPlayer},
+			{"main",        (uint8_t)LayerZIndex::ZLayer::Main},
+			{"aboveplayer", (uint8_t)LayerZIndex::ZLayer::AbovePlayer},
+			{"ui",          (uint8_t)LayerZIndex::ZLayer::UI}
+		};
+
+		if (layer.contains("properties")) {
+			for (const auto& prop : layer["properties"]) {
+				if (prop["name"] == "zIndex") {
+					if (prop["value"].is_string()) {
+						std::string val = prop["value"].get<std::string>();
+
+						std::transform(val.begin(), val.end(), val.begin(), ::tolower);
+
+						auto it = stringToZIndex.find(val);
+						if (it != stringToZIndex.end()) {
+							return it->second;
+						}
+
+						std::cerr << "[WorldMap] Warning: Unknown zIndex name: " << val << ". Defaulting to 0.\n";
+					}
+				}
+			}
+		}
+		return (uint8_t)LayerZIndex::ZLayer::Main; 
+	}
+
 	void WorldMap::processTileLayer(const nlohmann::json& layer) {
 		// 1. Infinitive map 
 		if (layer.contains("chunks")) {
@@ -143,8 +174,7 @@ namespace RPG {
 	}
 
 	void WorldMap::processObjectLayer(const nlohmann::json& layer) {
-
-		int zIndex = layer.value("id", 1);
+		int layerZIndex = getZIndexFromLayerProperties(layer);
 
 		for (const auto& obj : layer["objects"]) {
 			std::string objName = obj.value("name", "");
@@ -186,7 +216,7 @@ namespace RPG {
 					// Tiled Y is already Bottom! No need to subtract height anymore.
 					float worldY = (float)obj["y"] - (offsetY * GameConfig::TILE_SIZE);
 
-					this->placeStructure(worldX, worldY, assetName, zIndex);
+					this->placeStructure(worldX, worldY, assetName, layerZIndex);
 				}
 			}
 		}
@@ -324,43 +354,42 @@ namespace RPG {
 
 	}
 
-	void WorldMap::loadFromFile(const std::string& filename) {
-		std::ifstream is(filename, std::ios::binary);
-		if (!is.is_open()) return;
+	//void WorldMap::loadFromFile(const std::string& filename) {
+	//	std::ifstream is(filename, std::ios::binary);
+	//	if (!is.is_open()) return;
 
-		for (auto& tile : tiles) {
-			tile.residentObjects.clear();
-			tile.release();
-		}
+	//	for (auto& tile : tiles) {
+	//		tile.residentObjects.clear();
+	//		tile.release();
+	//	}
 
-		clearAllGameObjects();
+	//	clearAllGameObjects();
 
-		is.read(reinterpret_cast<char*>(&width), sizeof(width));
-		is.read(reinterpret_cast<char*>(&height), sizeof(height));
-		tiles.resize(width * height);
+	//	is.read(reinterpret_cast<char*>(&width), sizeof(width));
+	//	is.read(reinterpret_cast<char*>(&height), sizeof(height));
+	//	tiles.resize(width * height);
 
-		for (auto& tile : tiles) {
-			is.read(reinterpret_cast<char*>(&tile.groundType), sizeof(tile.groundType));
-		}
+	//	for (auto& tile : tiles) {
+	//		is.read(reinterpret_cast<char*>(&tile.groundType), sizeof(tile.groundType));
+	//	}
 
-		uint16_t count;
-		is.read(reinterpret_cast<char*>(&count), sizeof(count));
-		for (uint16_t i = 0; i < count; ++i) {
-			uint16_t len;
-			is.read(reinterpret_cast<char*>(&len), sizeof(len));
-			std::string n(len, ' ');
-			is.read(&n[0], len);
+	//	uint16_t count;
+	//	is.read(reinterpret_cast<char*>(&count), sizeof(count));
+	//	for (uint16_t i = 0; i < count; ++i) {
+	//		uint16_t len;
+	//		is.read(reinterpret_cast<char*>(&len), sizeof(len));
+	//		std::string n(len, ' ');
+	//		is.read(&n[0], len);
 
-			sf::Vector2f pos;
-			is.read(reinterpret_cast<char*>(&pos.x), sizeof(pos.x));
-			is.read(reinterpret_cast<char*>(&pos.y), sizeof(pos.y));
+	//		sf::Vector2f pos;
+	//		is.read(reinterpret_cast<char*>(&pos.x), sizeof(pos.x));
+	//		is.read(reinterpret_cast<char*>(&pos.y), sizeof(pos.y));
 
-			int zIndex = 1;
-			is.read(reinterpret_cast<char*>(&zIndex), sizeof(zIndex));
-			this->placeStructure(pos.x, pos.y, n, zIndex);
-		}
-		is.close();
-	}
+
+	//		this->placeStructure(pos.x, pos.y, n);
+	//	}
+	//	is.close();
+	//}
 
 	void WorldMap::reshape(uint32_t newWidth, uint32_t newHeight) {
 		this->width = newWidth;
@@ -506,7 +535,7 @@ namespace RPG {
 		float pixelX = static_cast<float>(tileX * GameConfig::TILE_SIZE) + (GameConfig::TILE_SIZE / 2.0f);
 		float pixelY = static_cast<float>(tileY * GameConfig::TILE_SIZE) + GameConfig::TILE_SIZE;
 
-		return placeStructure(pixelX, pixelY, name, zIndex);
+		return placeStructure(pixelX, pixelY, name, static_cast<uint8_t>(LayerZIndex::ZLayer::Main));
 	}
 
 	bool WorldMap::placeStructure(float worldX, float worldY, const std::string& id, uint8_t zIndex) {
@@ -521,6 +550,7 @@ namespace RPG {
 		auto newObj = Factory::createDynamicObject(assetManager, id, sf::Vector2f{ worldX, worldY });
 		newObj->setZIndex(zIndex);
 		GameObject* objPtr = newObj.get();
+		objPtr->setZIndex(zIndex);
 
 		// IF HAS A HITBOX
 		if (auto* hitboxComp = newObj->getComponent<ColliderComponent>()) {

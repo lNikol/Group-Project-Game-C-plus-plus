@@ -15,7 +15,7 @@ namespace RPG {
 
 			std::unique_ptr<GameObject> player = std::make_unique<GameObject>("player");
 			player->setPosition(pos);
-			player->setZIndex(4);
+			player->setZIndex(static_cast<uint8_t>(LayerZIndex::ZLayer::Main));
 
 			// Add sprite
 			player->addComponent<RenderComponent>(spritesheet);
@@ -48,7 +48,7 @@ namespace RPG {
 
 			std::unique_ptr<GameObject> npc = std::make_unique<GameObject>("npc");
 			npc->setPosition(pos);
-			npc->setZIndex(3);
+			npc->setZIndex(static_cast<uint8_t>(LayerZIndex::ZLayer::Main));
 
 			npc->addComponent<InteractionComponent>(32.f);
 			auto npcComponent = npc->addComponent<NpcComponent>(factionId);
@@ -68,7 +68,7 @@ namespace RPG {
 
 			std::unique_ptr<GameObject> box = std::make_unique<GameObject>("box");
 			box->setPosition(pos);
-			box->setZIndex(4);
+			box->setZIndex(static_cast<uint8_t>(LayerZIndex::ZLayer::Main));
 
 			box->addComponent<RenderComponent>(spritesheet);
 			auto collider = box->addComponent<ColliderComponent>(32, 32, 0, -32);

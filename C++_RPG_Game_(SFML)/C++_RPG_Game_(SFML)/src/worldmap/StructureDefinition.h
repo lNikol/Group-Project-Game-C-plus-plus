@@ -23,6 +23,16 @@ namespace RPG {
         Structure  // Walls
     };
 
+    namespace LayerZIndex {
+        enum class ZLayer : uint8_t {
+            Ground = 0,
+            BelowPlayer = 1,
+            Main = 2,
+            AbovePlayer = 3,
+            UI = 4
+        };
+    }
+
     struct StructureMetadata {
         float maxHealth = 0.f;
         bool isDestructible = false;
@@ -44,5 +54,6 @@ namespace RPG {
         sf::Vector2f hitboxSize;
         sf::Vector2f hitboxOffset;
         struct StructureMetadata meta;
+        uint8_t defaultZIndex = static_cast<uint8_t>(LayerZIndex::ZLayer::Main);
     };
 }

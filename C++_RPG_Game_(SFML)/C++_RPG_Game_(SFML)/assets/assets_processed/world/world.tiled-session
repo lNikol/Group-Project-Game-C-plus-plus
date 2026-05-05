@@ -9,8 +9,16 @@
         },
         "collection.tsx": {
             "dynamicWrapping": true,
-            "scaleInDock": 0.125,
-            "scaleInEditor": 1
+            "scaleInDock": 0.5,
+            "scaleInEditor": 0.33
+        },
+        "neutral.tmj": {
+            "scale": 1.2060546875,
+            "selectedLayer": 4,
+            "viewCenter": {
+                "x": 28.605668016194336,
+                "y": 512
+            }
         },
         "neutral.tmx": {
             "expandedObjectLayers": [
@@ -26,17 +34,25 @@
                 "y": 400
             }
         },
+        "world.tmj": {
+            "scale": 1.1386393229166665,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": -256.0073186769205,
+                "y": 511.57551673861474
+            }
+        },
         "world.tmx": {
             "expandedObjectLayers": [
-                2,
                 4,
+                2,
                 6
             ],
-            "scale": 1.5,
-            "selectedLayer": 4,
+            "scale": 3,
+            "selectedLayer": 3,
             "viewCenter": {
-                "x": -662.6666666666666,
-                "y": 246.66666666666669
+                "x": -255.99999999999997,
+                "y": 511.83333333333326
             }
         }
     },
@@ -47,10 +63,15 @@
     "map.lastUsedFormat": "tmx",
     "openFiles": [
         "world.tmx",
-        "collection.tsx"
+        "collection.tsx",
+        "neutral.tmj",
+        "world.tmj"
     ],
     "project": "world.tiled-project",
+    "property.type": "string",
     "recentFiles": [
+        "world.tmj",
+        "neutral.tmj",
         "collection.tsx",
         "world.tmx"
     ],
