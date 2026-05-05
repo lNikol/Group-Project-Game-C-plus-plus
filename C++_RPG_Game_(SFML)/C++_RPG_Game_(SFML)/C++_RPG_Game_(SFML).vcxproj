@@ -150,6 +150,10 @@
     <ClCompile Include="src\game_objects\components\Component.cpp" />
     <ClCompile Include="src\game_objects\GameObject.cpp" />
     <ClCompile Include="src\animation\AnimationLoader.h" />
+    <ClCompile Include="src\combat\AbilityFactory.cpp" />
+    <ClCompile Include="src\combat\AbilityProcessor.cpp" />
+    <ClCompile Include="src\combat\PropFactory.cpp" />
+    <ClCompile Include="src\combat\UnitFactory.cpp" />
     <ClCompile Include="src\entities\CollidingEntity.cpp" />
     <ClCompile Include="src\combat\BattleManager.cpp" />
     <ClCompile Include="src\combat\CombatAbility.cpp" />
@@ -163,6 +167,7 @@
     <ClCompile Include="src\entities\Monster.cpp" />
     <ClCompile Include="src\entities\NPC.cpp" />
     <ClCompile Include="src\entities\WorldObject.cpp" />
+    <ClCompile Include="src\GUI\windows\InventoryWindow.cpp" />
     <ClCompile Include="src\scenes\BaseGameScene.cpp" />
     <ClCompile Include="src\scenes\BattleScene.cpp" />
     <ClCompile Include="src\scenes\FactionScene.cpp" />
@@ -193,6 +198,15 @@
     <ClInclude Include="src\game_objects\components\RenderComponent.h" />
     <ClInclude Include="src\game_objects\components\Component.h" />
     <ClInclude Include="src\game_objects\GameObject.h" />
+    <ClInclude Include="src\combat\AbilityData.h" />
+    <ClInclude Include="src\combat\AbilityFactory.h" />
+    <ClInclude Include="src\combat\AbilityProcessor.h" />
+    <ClInclude Include="src\combat\CombatItem.h" />
+    <ClInclude Include="src\combat\IsoHelpers.h" />
+    <ClInclude Include="src\combat\PartyData.h" />
+    <ClInclude Include="src\combat\PropFactory.h" />
+    <ClInclude Include="src\combat\StatusEffect.h" />
+    <ClInclude Include="src\combat\UnitFactory.h" />
     <ClInclude Include="src\entities\CollidingEntity.h" />
     <ClInclude Include="src\combat\BattleManager.h" />
     <ClInclude Include="src\combat\CombatAbility.h" />
@@ -212,6 +226,7 @@
     <ClInclude Include="src\entities\NPC.h" />
     <ClInclude Include="src\entities\WorldObject.h" />
     <ClInclude Include="src\game_objects\GameObjectFactory.h" />
+    <ClInclude Include="src\GUI\windows\InventoryWindow.h" />
     <ClInclude Include="src\scenes\BaseGameScene.h" />
     <ClInclude Include="src\scenes\BattleScene.h" />
     <ClInclude Include="src\scenes\FactionScene.h" />

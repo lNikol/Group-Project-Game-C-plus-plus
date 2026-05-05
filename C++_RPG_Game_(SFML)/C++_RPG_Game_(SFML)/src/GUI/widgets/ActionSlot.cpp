@@ -110,8 +110,7 @@ namespace RPG {
     }
 
     sf::FloatRect ActionSlot::getGlobalBounds() const {
-        sf::FloatRect bounds = m_background.getGlobalBounds();
-        return getTransform().transformRect(bounds);
+        return getAbsoluteTransform().transformRect(m_background.getLocalBounds());
     }
 
     void ActionSlot::draw(sf::RenderTarget& target, sf::RenderStates states) const {

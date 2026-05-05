@@ -11,7 +11,6 @@ namespace RPG {
     void WorldMapRenderer::draw(
         sf::RenderWindow& window,
         const WorldMap& worldMap,
-        const AssetManager& assetManager,
         float percentView
     ) {
         // --- SETUP VIEW ---
@@ -47,6 +46,8 @@ namespace RPG {
         // ==============================
         // 1. DRAW GROUND (Layer 0)
         // ==============================
+
+        const AssetManager& assetManager = AssetManager::getInstance();
 
         // Cache texture pointer to avoid lookups in the loop
         const sf::Texture* atlas = assetManager.getTexture("world_atlas");
@@ -214,7 +215,7 @@ namespace RPG {
 
         window.setView(window.getDefaultView());
 
-        const sf::Font* font = assetManager.getFont("PixelFont");
+        const sf::Font* font = AssetManager::getInstance().getFont("PixelFont");
         if (font) {
             sf::Text posText(*font);
 

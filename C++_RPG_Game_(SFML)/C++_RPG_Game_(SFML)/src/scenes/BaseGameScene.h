@@ -57,7 +57,7 @@ namespace RPG {
          * and draws the player and NPCs. Resets view to default for UI rendering.
          * * @param window Reference to the render window.
          */
-        void draw(sf::RenderWindow& window, const AssetManager& assetManager) override;
+        void draw(sf::RenderWindow& window) override;
 
         /**
          * @brief Default event handling for map-based scenes (World, Faction).

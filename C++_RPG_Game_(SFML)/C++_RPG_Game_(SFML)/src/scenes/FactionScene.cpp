@@ -23,8 +23,8 @@ namespace RPG {
         return false;
     }
 
-    void FactionScene::draw(sf::RenderWindow& window, const AssetManager& am) {
-        BaseGameScene::draw(window, am);
+    void FactionScene::draw(sf::RenderWindow& window) {
+        BaseGameScene::draw(window);
 
         // Overlay drawing
         // window.draw(factionNameText);

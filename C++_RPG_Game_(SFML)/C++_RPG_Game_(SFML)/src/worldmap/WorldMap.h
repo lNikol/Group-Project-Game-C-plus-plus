@@ -23,7 +23,6 @@ namespace RPG {
 		sf::Vector2f spawnPoint = { 50,50 };
 		bool hasSpawnPoint = false;
 		int32_t offsetX = 0, offsetY = 0;
-		AssetManager& assetManager;
 		
 		std::vector<Tile> tiles; // Only holds ground
 		//std::vector<std::unique_ptr<WorldObject>> structures; // Holds structues (trees, houses, rocks)
@@ -37,7 +36,7 @@ namespace RPG {
 		void clearNPCs();
 		void clearAllGameObjectsExceptPlayer();
 	public:
-		WorldMap(uint32_t w, uint32_t h, AssetManager& am);
+		WorldMap(uint32_t w, uint32_t h);
 
 		// Surrenders the ownership of the player
 		std::unique_ptr<GameObject> extractPlayer();

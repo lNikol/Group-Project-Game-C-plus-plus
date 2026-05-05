@@ -54,10 +54,18 @@ namespace RPG {
          */
         virtual sf::FloatRect getGlobalBounds() const = 0;
 
+        void setParent(const IGuiElement* parent) { m_parent = parent; }
+
+        sf::Transform getAbsoluteTransform() const {
+            if (m_parent) {
+                return m_parent->getAbsoluteTransform() * getTransform();
+            }
+            return getTransform();
+        }
     protected:
         bool m_isHovered = false;
         std::string m_tooltipText;
-
+        const IGuiElement* m_parent = nullptr;
         /**
          * @brief Helper to check if the mouse is inside the element's bounds.
          * * Updates the m_isHovered flag.

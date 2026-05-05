@@ -25,7 +25,7 @@ namespace RPG {
 		float maxMp = 50.0f;
 
 		bool debugHitbox = false;
-
+		UnitStats m_stats;
 		std::vector<std::shared_ptr<IAbility>> hotbar;
 		std::vector<std::shared_ptr<IAbility>> inventory;
 
@@ -33,8 +33,8 @@ namespace RPG {
 
 		sf::Vector2f getInputDirection(const sf::RenderWindow& window) const;
 	public:
-		Player(float startX, float startY, const AssetManager& assetManager);
-		Player(sf::Vector2f pos, const AssetManager& assetManager);
+		Player(float startX, float startY);
+		Player(sf::Vector2f pos);
 
 		// --- World Logic ---
 
@@ -48,6 +48,11 @@ namespace RPG {
 
 
 		// --- ICombatActor Implementation ---
+
+		/**
+		 * @brief Retrieves the player's core attributes for combat calculations.
+		 */
+		UnitStats getStats() const override;
 
 		void toggleDebugHitbox();
 

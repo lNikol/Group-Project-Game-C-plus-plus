@@ -40,6 +40,7 @@ namespace RPG {
     }
 
     void WindowBase::addChild(std::unique_ptr<IGuiElement> widget) {
+        widget->setParent(this);
         m_children.push_back(std::move(widget));
     }
 
@@ -56,9 +57,7 @@ namespace RPG {
     }
 
     sf::FloatRect WindowBase::getGlobalBounds() const {
-        // Return the bounds of the background transformed by current position
-        sf::FloatRect bounds = m_background.getGlobalBounds();
-        return getTransform().transformRect(bounds);
+        return getAbsoluteTransform().transformRect(m_background.getLocalBounds());
     }
 
     bool WindowBase::handleEvent(sf::RenderWindow& window, const sf::Event& event) {

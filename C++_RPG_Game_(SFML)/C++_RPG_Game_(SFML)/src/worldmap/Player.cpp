@@ -3,7 +3,7 @@
 
 namespace RPG {
 
-    Player::Player(float startX, float startY, const AssetManager& assetManager)
+    Player::Player(float startX, float startY)
         : name("hero"), CollidingEntity()
     {
         setPosition(startX, startY);
@@ -12,7 +12,7 @@ namespace RPG {
         hotbar.resize(hotBarSize, nullptr);
         inventory.resize(inventorySize, nullptr);
 
-        const Spritesheet* playerSheet = assetManager.getSpritesheet("player");
+        const Spritesheet* playerSheet = AssetManager::getInstance().getSpritesheet("player");
         unsigned int animationOffsetY = 64;
         unsigned int runAnimationY = 528;
         unsigned int idleAnimationY = 16;
@@ -43,8 +43,8 @@ namespace RPG {
         facingDirection = Facing::DOWN;
     }
 
-    Player::Player(sf::Vector2f pos, const AssetManager& assetManager) : 
-        Player(pos.x, pos.y, assetManager)
+    Player::Player(sf::Vector2f pos) : 
+        Player(pos.x, pos.y)
     {}
 
     sf::Vector2f Player::getInputDirection(const sf::RenderWindow& window) const {
@@ -121,7 +121,9 @@ namespace RPG {
     Vitals Player::getVitals() const {
         return { currentHp, maxHp, currentMp, maxMp, 100.f, 100.f };
     }
-
+    UnitStats Player::getStats() const {
+        return m_stats;
+    }
     uint8_t Player::getHotbarSize() const { return hotBarSize; }
     uint8_t Player::getInventorySize() const { return inventorySize; }
 

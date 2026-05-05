@@ -52,6 +52,7 @@ namespace RPG {
 
         bool isMouseOverUI() const;
 
+        void closeAllWindows();
 
     protected:
         /**
@@ -86,10 +87,12 @@ namespace RPG {
         // System Buttons
         std::unique_ptr<ActionSlot> m_satchelBtn;
         std::unique_ptr<ActionSlot> m_journalBtn;
+        std::unique_ptr<ActionSlot> m_bestiaryBtn;
 
         // Windows
         std::unique_ptr<WindowBase> m_inventoryWindow; // Using Base Windows for now
         std::unique_ptr<WindowBase> m_journalWindow;
+        std::unique_ptr<WindowBase> m_bestiaryWindow;
 
         // Internal State
         sf::View m_uiView;

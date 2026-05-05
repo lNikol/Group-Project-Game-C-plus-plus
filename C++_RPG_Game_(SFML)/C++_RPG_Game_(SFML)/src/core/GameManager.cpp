@@ -14,23 +14,24 @@ namespace RPG {
         window.setFramerateLimit(Window::BASE_FPS);
 
         // Assets and structures init
-        assetManager.init();
-        assetManager.addSpritesheet("player", GameConfig::ANIMATIONS_PATH + "player.png");
-        assetManager.addSpritesheet("npc", GameConfig::ANIMATIONS_PATH + "npc.png");
-        assetManager.addSpritesheet("box", GameConfig::TEXTURES_PATH + "box.png");
+        AssetManager::getInstance().init();
+        AssetManager::getInstance().addSpritesheet("player", GameConfig::ANIMATIONS_PATH + "/player.png");
+        AssetManager::getInstance().addSpritesheet("npc", GameConfig::ANIMATIONS_PATH + "/npc.png");
+
+        AssetManager::getInstance().addTexture("grass", GameConfig::TEXTURES_PATH + "grass.png");
 
         // Init start scene
         initGameData();
 
-        assetManager.addSpritesheet("AbilityIcons", GameConfig::TEXTURES_PATH + "placeholders/IconSet.png");
-        assetManager.addFont("PixelFont", GameConfig::ASSETS_PATH + "fonts/m5x7.ttf");
-        assetManager.addSpritesheet("BattleChars", GameConfig::TEXTURES_PATH + "placeholders/characters1.png");
-        assetManager.addSpritesheet("BattleEnemies", GameConfig::TEXTURES_PATH + "placeholders/Monster1.png");
-        assetManager.addSpritesheet("BattleProps", GameConfig::TEXTURES_PATH + "placeholders/!Other1.png");
-        assetManager.addSpritesheet("BattleTiles", GameConfig::TEXTURES_PATH + "placeholders/Outside_A2.png");
-        assetManager.addSpritesheet("BattleBG", GameConfig::TEXTURES_PATH + "placeholders/Mountains3.png");
-        m_globalFont = assetManager.getFont("PixelFont");
-        m_iconSet = assetManager.getSpritesheet("AbilityIcons");
+        AssetManager::getInstance().addSpritesheet("AbilityIcons", GameConfig::TEXTURES_PATH + "placeholders/IconSet.png");
+        AssetManager::getInstance().addFont("PixelFont", GameConfig::ASSETS_PATH + "fonts/m5x7.ttf");
+        AssetManager::getInstance().addSpritesheet("BattleChars", GameConfig::TEXTURES_PATH + "placeholders/characters1.png");
+        AssetManager::getInstance().addSpritesheet("BattleEnemies", GameConfig::TEXTURES_PATH + "placeholders/Monster1.png");
+        AssetManager::getInstance().addSpritesheet("BattleProps", GameConfig::TEXTURES_PATH + "placeholders/!Other1.png");
+        AssetManager::getInstance().addSpritesheet("BattleTiles", GameConfig::TEXTURES_PATH + "placeholders/Outside_A2.png");
+        AssetManager::getInstance().addSpritesheet("BattleBG", GameConfig::TEXTURES_PATH + "placeholders/Mountains3.png");
+        m_globalFont = AssetManager::getInstance().getFont("PixelFont");
+        m_iconSet = AssetManager::getInstance().getSpritesheet("AbilityIcons");
 
         /*if (m_iconSet && m_globalFont) {
             m_hud = std::make_unique<BattleHUD>(*m_iconSet, *m_globalFont);
@@ -50,7 +51,7 @@ namespace RPG {
 
         // Create main map
         auto mainMap = getOrLoadMap(activeFaction);
-        mainMap->addGameObject(Factory::createPlayer(assetManager, mainMap.get(), {100, 100}));
+        mainMap->addGameObject(Factory::createPlayer(AssetManager::getInstance(), mainMap.get(), {100, 100}));
 
 
         /**
@@ -75,7 +76,7 @@ namespace RPG {
         if (!std::filesystem::exists(saveDir)) std::filesystem::create_directories(saveDir);
 
         sf::Vector2u size = getMapSize(id);
-        auto newMap = std::make_shared<WorldMap>(size.x, size.y, assetManager);
+        auto newMap = std::make_shared<WorldMap>(size.x, size.y);
 
         // 3. Load Source: Binary Save > Tiled Template > Procedural Generation
         /*if (std::filesystem::exists(savePath)) {
@@ -126,6 +127,7 @@ namespace RPG {
     void GameManager::changeScene(FactionID targetFaction) {
         //auto selectedMap = targetFaction == FactionID::BattleScene ? allMaps[targetFaction] : getOrLoadMap(targetFaction);
         auto selectedMap = getOrLoadMap(targetFaction);
+        AssetManager& assetManager = AssetManager::getInstance();
 
         std::unique_ptr<GameObject> ecsPlayer = nullptr;
 
@@ -170,7 +172,7 @@ namespace RPG {
         // Change scene
         switch (targetFaction) {
         case FactionID::BattleScene:
-            currentScene = std::make_unique<BattleScene>(*this, window, assetManager, playerUnit, selectedMap);
+            currentScene = std::make_unique<BattleScene>(*this, window, playerUnit, selectedMap);
             break;
         case FactionID::MainWorld:
             currentScene = std::make_unique<WorldScene>(*this, selectedMap);
@@ -240,7 +242,7 @@ namespace RPG {
     void GameManager::draw() {
         window.clear(sf::Color(0x606030FF));
         
-        if (currentScene) currentScene->draw(window, assetManager);
+        if (currentScene) currentScene->draw(window);
 
         window.display();
     }

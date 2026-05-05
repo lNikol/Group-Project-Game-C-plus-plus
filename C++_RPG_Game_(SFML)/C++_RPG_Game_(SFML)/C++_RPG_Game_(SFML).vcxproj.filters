@@ -202,6 +202,24 @@
     <ClCompile Include="src\game_objects\components\StructureComponent.cpp">
       <Filter>Pliki źródłowe</Filter>
     </ClCompile>
+    <ClCompile Include="src\combat\AbilityProcessor.cpp">
+      <Filter>Pliki źródłowe\combat</Filter>
+    </ClCompile>
+    <ClCompile Include="src\combat\AbilityFactory.cpp">
+      <Filter>Pliki źródłowe\combat</Filter>
+    </ClCompile>
+    <ClCompile Include="src\entities\WorldObject.cpp">
+      <Filter>Pliki źródłowe\combat</Filter>
+    </ClCompile>
+    <ClCompile Include="src\combat\PropFactory.cpp">
+      <Filter>Pliki źródłowe\combat</Filter>
+    </ClCompile>
+    <ClCompile Include="src\combat\UnitFactory.cpp">
+      <Filter>Pliki źródłowe\combat</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GUI\windows\InventoryWindow.cpp">
+      <Filter>Pliki źródłowe\GUI\windows</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\worldmap\AssetManager.h">
@@ -360,9 +378,57 @@
     <ClInclude Include="src\game_objects\components\StructureComponent.h">
       <Filter>Pliki nagłówkowe</Filter>
     </ClInclude>
+    <ClInclude Include="src\entities\WorldObject.h">
+      <Filter>Pliki nagłówkowe</Filter>
+    </ClInclude>
+    <ClInclude Include="src\combat\StatusEffect.h">
+      <Filter>Pliki nagłówkowe\combat</Filter>
+    </ClInclude>
+    <ClInclude Include="src\combat\AbilityData.h">
+      <Filter>Pliki nagłówkowe\combat</Filter>
+    </ClInclude>
+    <ClInclude Include="src\combat\AbilityFactory.h">
+      <Filter>Pliki nagłówkowe\combat</Filter>
+    </ClInclude>
+    <ClInclude Include="src\combat\AbilityProcessor.h">
+      <Filter>Pliki nagłówkowe\combat</Filter>
+    </ClInclude>
+    <ClInclude Include="src\combat\IsoHelpers.h">
+      <Filter>Pliki nagłówkowe\combat</Filter>
+    </ClInclude>
+    <ClInclude Include="src\combat\PropFactory.h">
+      <Filter>Pliki nagłówkowe\combat</Filter>
+    </ClInclude>
+    <ClInclude Include="src\combat\UnitFactory.h">
+      <Filter>Pliki nagłówkowe\combat</Filter>
+    </ClInclude>
+    <ClInclude Include="src\combat\PartyData.h">
+      <Filter>Pliki nagłówkowe\combat</Filter>
+    </ClInclude>
+    <ClInclude Include="src\combat\CombatItem.h">
+      <Filter>Pliki nagłówkowe\combat</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GUI\windows\InventoryWindow.h">
+      <Filter>Pliki nagłówkowe\GUI\windows</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="assets\animations\player.png">
+      <Filter>Pliki zasobów</Filter>
+    </Image>
+    <Image Include="assets\animations\npc.png">
+      <Filter>Pliki zasobów</Filter>
+    </Image>
+    <Image Include="assets\textures\grass.png">
+      <Filter>Pliki zasobów</Filter>
+    </Image>
+    <Image Include="assets\textures\house.png">
+      <Filter>Pliki zasobów</Filter>
+    </Image>
+    <Image Include="assets\textures\rock.png">
+      <Filter>Pliki zasobów</Filter>
+    </Image>
+    <Image Include="assets\textures\trees.png">
       <Filter>Pliki zasobów</Filter>
     </Image>
     <Image Include="assets\animations\npc.png">

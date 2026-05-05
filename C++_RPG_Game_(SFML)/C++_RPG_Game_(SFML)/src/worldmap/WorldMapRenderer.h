@@ -27,13 +27,11 @@ namespace RPG {
         WorldMapRenderer();
 
         /** * @brief Draws the visible portion of the map
-         * @param assetManager Definitions for structure properties
          * @param sm Texture storage
          */
         void draw(
             sf::RenderWindow& window, 
             const WorldMap& worldMap, 
-            const AssetManager& assetManager, 
             float percentView = .9f
         );
     };

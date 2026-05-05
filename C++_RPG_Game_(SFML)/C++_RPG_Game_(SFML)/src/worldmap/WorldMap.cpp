@@ -8,8 +8,8 @@
 
 namespace RPG {
 	
-	WorldMap::WorldMap(uint32_t w, uint32_t h, AssetManager& am)
-		: width(w), height(h), assetManager(am), width_gen(w - GameConfig::WORLD_GENERATE_MARGIN), height_gen(h - GameConfig::WORLD_GENERATE_MARGIN) 
+	WorldMap::WorldMap(uint32_t w, uint32_t h)
+		: width(w), height(h), width_gen(w - GameConfig::WORLD_GENERATE_MARGIN), height_gen(h - GameConfig::WORLD_GENERATE_MARGIN) 
 	{
 		initializeGrid();
 		generateBorders();
@@ -101,9 +101,9 @@ namespace RPG {
 
 	void WorldMap::assignGroundType(uint32_t tx, uint32_t ty, uint32_t gid) {
 		if (tx >= 0 && tx < width && ty >= 0 && ty < height) {
-			std::string assetName = assetManager.getNameById(gid - 1);
+			std::string assetName = AssetManager::getInstance().getNameById(gid - 1);
 			if (!assetName.empty()) {
-				tiles[ty * width + tx].groundType = assetManager.getDefinition(assetName).type;
+				tiles[ty * width + tx].groundType = AssetManager::getInstance().getDefinition(assetName).type;
 			}
 		}
 	}
@@ -175,6 +175,7 @@ namespace RPG {
 
 	void WorldMap::processObjectLayer(const nlohmann::json& layer) {
 		int layerZIndex = getZIndexFromLayerProperties(layer);
+		AssetManager& assetManager = AssetManager::getInstance();
 
 		for (const auto& obj : layer["objects"]) {
 			std::string objName = obj.value("name", "");
@@ -539,6 +540,8 @@ namespace RPG {
 	}
 
 	bool WorldMap::placeStructure(float worldX, float worldY, const std::string& id, uint8_t zIndex) {
+		AssetManager& assetManager = AssetManager::getInstance();
+
 		if (!assetManager.hasDefinition(id)) {
 			std::cerr << "[WorldMap] ERROR: Tried to place unknown structure: '" << id << "'\n";
 			return false;

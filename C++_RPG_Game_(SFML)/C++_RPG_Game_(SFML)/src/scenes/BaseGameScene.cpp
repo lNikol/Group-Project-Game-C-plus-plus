@@ -18,11 +18,11 @@
             }
         }
 
-        void BaseGameScene::draw(sf::RenderWindow& window, const AssetManager& am) {
+        void BaseGameScene::draw(sf::RenderWindow& window) {
             window.setView(camera);
 
             if (worldMap) {
-                worldRenderer.draw(window, *worldMap, am, viewVisibility);
+                worldRenderer.draw(window, *worldMap, viewVisibility);
             }
 
         }
