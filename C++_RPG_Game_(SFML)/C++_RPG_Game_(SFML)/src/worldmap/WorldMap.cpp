@@ -83,17 +83,18 @@ namespace RPG {
 
 	void WorldMap::generateBorders() {
 		std::string wallId = "rock_0"; // TODO: change to 'wall' when you have the sprite
+		uint8_t obstacleLayerId = 4;
 
 		for (uint32_t x = 0; x < width; ++x) {
 			// Top and bottom borders
-			placeStructureAtTile(x, 0, wallId);
-			placeStructureAtTile(x, height - 1, wallId);
+			placeStructureAtTile(x, 0, wallId, obstacleLayerId);
+			placeStructureAtTile(x, height - 1, wallId, obstacleLayerId);
 		}
 
 		for (uint32_t y = 1; y < height - 1; ++y) {
 			// Left and right borders
-			placeStructureAtTile(0, y, wallId);
-			placeStructureAtTile(width - 1, y, wallId);
+			placeStructureAtTile(0, y, wallId, obstacleLayerId);
+			placeStructureAtTile(width - 1, y, wallId, obstacleLayerId);
 		}
 	}
 
@@ -142,6 +143,9 @@ namespace RPG {
 	}
 
 	void WorldMap::processObjectLayer(const nlohmann::json& layer) {
+
+		int zIndex = layer.value("id", 1);
+
 		for (const auto& obj : layer["objects"]) {
 			std::string objName = obj.value("name", "");
 
@@ -182,7 +186,7 @@ namespace RPG {
 					// Tiled Y is already Bottom! No need to subtract height anymore.
 					float worldY = (float)obj["y"] - (offsetY * GameConfig::TILE_SIZE);
 
-					this->placeStructure(worldX, worldY, assetName);
+					this->placeStructure(worldX, worldY, assetName, zIndex);
 				}
 			}
 		}
@@ -223,6 +227,9 @@ namespace RPG {
 			sf::Vector2f pos = s->getPosition();
 			os.write(reinterpret_cast<char*>(&pos.x), sizeof(pos.x));
 			os.write(reinterpret_cast<char*>(&pos.y), sizeof(pos.y));
+
+			int zIndex = s->getZIndex();
+			os.write(reinterpret_cast<char*>(&zIndex), sizeof(zIndex));
 		}
 
 		// NPCs
@@ -238,6 +245,9 @@ namespace RPG {
 			// TODO: change in the future for getFaction if any changes would occur
 			FactionID f = npc->getComponent<NpcComponent>()->getTargetFaction();
 			os.write(reinterpret_cast<char*>(&f), sizeof(f));
+
+			int zIndex = npc->getZIndex();
+			os.write(reinterpret_cast<char*>(&zIndex), sizeof(zIndex));
 		}
 
 		os.close();
@@ -345,7 +355,9 @@ namespace RPG {
 			is.read(reinterpret_cast<char*>(&pos.x), sizeof(pos.x));
 			is.read(reinterpret_cast<char*>(&pos.y), sizeof(pos.y));
 
-			this->placeStructure(pos.x, pos.y, n);
+			int zIndex = 1;
+			is.read(reinterpret_cast<char*>(&zIndex), sizeof(zIndex));
+			this->placeStructure(pos.x, pos.y, n, zIndex);
 		}
 		is.close();
 	}
@@ -490,14 +502,14 @@ namespace RPG {
 		}
 	}
 
-	bool WorldMap::placeStructureAtTile(int32_t tileX, int32_t tileY, const std::string& name) {
+	bool WorldMap::placeStructureAtTile(int32_t tileX, int32_t tileY, const std::string& name, uint8_t zIndex) {
 		float pixelX = static_cast<float>(tileX * GameConfig::TILE_SIZE) + (GameConfig::TILE_SIZE / 2.0f);
 		float pixelY = static_cast<float>(tileY * GameConfig::TILE_SIZE) + GameConfig::TILE_SIZE;
 
-		return placeStructure(pixelX, pixelY, name);
+		return placeStructure(pixelX, pixelY, name, zIndex);
 	}
 
-	bool WorldMap::placeStructure(float worldX, float worldY, const std::string& id) {
+	bool WorldMap::placeStructure(float worldX, float worldY, const std::string& id, uint8_t zIndex) {
 		if (!assetManager.hasDefinition(id)) {
 			std::cerr << "[WorldMap] ERROR: Tried to place unknown structure: '" << id << "'\n";
 			return false;
@@ -507,6 +519,7 @@ namespace RPG {
 
 		// 1. Create Object
 		auto newObj = Factory::createDynamicObject(assetManager, id, sf::Vector2f{ worldX, worldY });
+		newObj->setZIndex(zIndex);
 		GameObject* objPtr = newObj.get();
 
 		// IF HAS A HITBOX
@@ -559,6 +572,8 @@ namespace RPG {
 	}
 
 	void WorldMap::generateObstacles(float density, uint8_t playerSafeRadius) {
+		uint8_t obstacleLayerId = 4;
+
         int32_t spawnX = static_cast<int32_t>(this->spawnPoint.x / GameConfig::TILE_SIZE);
         int32_t spawnY = static_cast<int32_t>(this->spawnPoint.y / GameConfig::TILE_SIZE);
 		for (uint32_t y = GameConfig::WORLD_GENERATE_MARGIN; y <= height_gen; ++y) {
@@ -573,7 +588,7 @@ namespace RPG {
                     std::string id = (std::rand() % 2 == 0) ? "big_tree_0" : "rock_0";
                     
                     // Try to place it (will fail if blocked)
-					if (!placeStructureAtTile(x, y, id)) {
+					if (!placeStructureAtTile(x, y, id, obstacleLayerId)) {
 						std::cout << "[Map WxH]: " << width <<" " << height << " Failed to place " << id << " at(x, y): " << x << " " << y << std::endl;
 					}
                 }

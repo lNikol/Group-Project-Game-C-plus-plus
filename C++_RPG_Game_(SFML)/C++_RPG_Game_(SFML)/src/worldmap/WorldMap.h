@@ -170,8 +170,8 @@ namespace RPG {
 		 * @param type The type of structure to place
 		 * @return true if placement was successful
 		 */
-		bool placeStructure(float worldX, float worldY, const std::string& name);
-		bool placeStructureAtTile(int32_t tileX, int32_t tileY, const std::string& name);
+		bool placeStructure(float worldX, float worldY, const std::string& name, uint8_t zIndex);
+		bool placeStructureAtTile(int32_t tileX, int32_t tileY, const std::string& name, uint8_t zIndex);
 
 		void generateObstacles(float density, uint8_t playerSafeRadius = 2);
 
