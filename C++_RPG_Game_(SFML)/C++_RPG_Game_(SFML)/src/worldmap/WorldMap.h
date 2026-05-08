@@ -20,7 +20,7 @@ namespace RPG {
 	class WorldMap {
 	private:
 		uint32_t width, width_gen, height, height_gen;
-		sf::Vector2f spawnPoint = { 50,50 };
+		sf::Vector2f spawnPoint = { 250, 250 };
 		bool hasSpawnPoint = false;
 		int32_t offsetX = 0, offsetY = 0;
 		
@@ -48,6 +48,7 @@ namespace RPG {
 		uint32_t getWidth() const;
 		uint32_t getHeight() const;
 		sf::Vector2f getSpawnPoint() const;
+
 		bool getHasSpawnPoint() const;
 
 		void setPlayerInitialPosition(float x, float y);

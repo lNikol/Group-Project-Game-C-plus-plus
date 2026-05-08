@@ -51,7 +51,8 @@ namespace RPG {
 
         // Create main map
         auto mainMap = getOrLoadMap(activeFaction);
-        mainMap->addGameObject(Factory::createPlayer(AssetManager::getInstance(), mainMap.get(), {100, 100}));
+		std::cout << "mainMap->getSpawnPoint(): " << mainMap->getSpawnPoint().x << "," << mainMap->getSpawnPoint().y << "\n";
+        mainMap->addGameObject(Factory::createPlayer(AssetManager::getInstance(), mainMap.get(), mainMap->getSpawnPoint()));
 
 
         /**

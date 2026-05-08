@@ -13,11 +13,14 @@
             "scaleInEditor": 0.33
         },
         "neutral.tmj": {
-            "scale": 1.2060546875,
-            "selectedLayer": 4,
+            "expandedObjectLayers": [
+                5
+            ],
+            "scale": 5.5,
+            "selectedLayer": 1,
             "viewCenter": {
-                "x": 28.605668016194336,
-                "y": 512
+                "x": -145,
+                "y": 108.54545454545455
             }
         },
         "neutral.tmx": {
@@ -36,10 +39,10 @@
         },
         "world.tmj": {
             "scale": 1.1386393229166665,
-            "selectedLayer": 0,
+            "selectedLayer": 2,
             "viewCenter": {
-                "x": -256.0073186769205,
-                "y": 511.57551673861474
+                "x": -540.5574773435491,
+                "y": 512.0146373538411
             }
         },
         "world.tmx": {
@@ -48,11 +51,11 @@
                 2,
                 6
             ],
-            "scale": 3,
-            "selectedLayer": 3,
+            "scale": 1,
+            "selectedLayer": 4,
             "viewCenter": {
-                "x": -255.99999999999997,
-                "y": 511.83333333333326
+                "x": -460.5,
+                "y": 372
             }
         }
     },
@@ -70,9 +73,9 @@
     "project": "world.tiled-project",
     "property.type": "string",
     "recentFiles": [
+        "collection.tsx",
         "world.tmj",
         "neutral.tmj",
-        "collection.tsx",
         "world.tmx"
     ],
     "tileset.lastUsedFilter": "Tiled tileset files (*.tsx *.xml)"

@@ -20,7 +20,7 @@ namespace RPG {
 	uint32_t WorldMap::getHeight() const { return height; }
 
 	sf::Vector2f WorldMap::getSpawnPoint() const { return spawnPoint; }
-
+	
 	bool WorldMap::getHasSpawnPoint() const { return hasSpawnPoint; }
 
 	std::unique_ptr<GameObject> WorldMap::extractPlayer() {
@@ -174,20 +174,24 @@ namespace RPG {
 	}
 
 	void WorldMap::processObjectLayer(const nlohmann::json& layer) {
+		// TODO: objName.lowercase() 
+
+
 		int layerZIndex = getZIndexFromLayerProperties(layer);
 		AssetManager& assetManager = AssetManager::getInstance();
 
 		for (const auto& obj : layer["objects"]) {
 			std::string objName = obj.value("name", "");
 
-			std::cout << "[Tiled Debug] Found Object: Name='" << objName
-				<< "', Has GID? " << (obj.contains("gid") ? "YES" : "NO") << "\n";
+			/*std::cout << "[Tiled Debug] Found Object: Name='" << objName
+				<< "', Has GID? " << (obj.contains("gid") ? "YES" : "NO") << "\n";*/
 
 			if (!obj.contains("gid")) {
 				if (objName == "PlayerSpawn") {
 					float sx = (float)obj["x"] - (offsetX * GameConfig::TILE_SIZE);
 					float sy = (float)obj["y"] - (offsetY * GameConfig::TILE_SIZE);
 					this->setPlayerInitialPosition(sx, sy);
+					std::cout << "[WorldMap] Player spawn point set from Tiled at (" << sx << ", " << sy << ")\n";
 				}
 				else if (objName == "GateKeeper") {
 					float nx = (float)obj["x"] - (offsetX * GameConfig::TILE_SIZE);
@@ -198,7 +202,30 @@ namespace RPG {
 					npc->setPosition(nx, ny);
 					addGameObject(std::move(npc));
 
-					// TODO: add animation here, coz NPC isn't visable from tiled
+
+					std::cout << "[WorldMap] NPC " << npcName << " spawned from Tiled.\n";
+				}
+				else if (objName == "NGateKeeper") {
+					float nx = (float)obj["x"] - (offsetX * GameConfig::TILE_SIZE);
+					float ny = (float)obj["y"] - (offsetY * GameConfig::TILE_SIZE);
+					std::string npcName = "Neutral Gatekeeper";
+
+					auto npc = Factory::createNpc(assetManager, { 0,0 }, FactionID::NeutralOrder);
+					npc->setPosition(nx, ny);
+					addGameObject(std::move(npc));
+
+
+					std::cout << "[WorldMap] NPC " << npcName << " spawned from Tiled.\n";
+				}
+
+				else if (objName == "WGateKeeper") {
+					float nx = (float)obj["x"] - (offsetX * GameConfig::TILE_SIZE);
+					float ny = (float)obj["y"] - (offsetY * GameConfig::TILE_SIZE);
+					std::string npcName = "Neutral Gatekeeper";
+
+					auto npc = Factory::createNpc(assetManager, { 0,0 }, FactionID::MainWorld);
+					npc->setPosition(nx, ny);
+					addGameObject(std::move(npc));
 
 					std::cout << "[WorldMap] NPC " << npcName << " spawned from Tiled.\n";
 				}
