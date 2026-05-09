@@ -9,7 +9,7 @@ namespace RPG {
         : window(sf::VideoMode({ Window::WIDTH, Window::HEIGHT }), Window::TITLE),
         running(false)
     {
-        lastWorldPosition = sf::Vector2f(200.0f, 200.0f); 
+        lastWorldPosition = sf::Vector2f(-1.0f, -1.0f); 
         activeFaction = FactionID::MainWorld;
         window.setFramerateLimit(Window::BASE_FPS);
 
@@ -147,7 +147,7 @@ namespace RPG {
         if (targetFaction == FactionID::BattleScene) {
             std::cout << "[GameManager] BattleScene: Skipping manual player positioning.\n";
         }
-        else if (targetFaction == FactionID::MainWorld) {
+        else if (targetFaction == FactionID::MainWorld && lastWorldPosition.x >= 0.0f) {
             newPosition = lastWorldPosition;
         }
         else if (selectedMap && selectedMap->getHasSpawnPoint()) {

@@ -20,7 +20,7 @@ namespace RPG {
 	class WorldMap {
 	private:
 		uint32_t width, width_gen, height, height_gen;
-		sf::Vector2f spawnPoint = { 250, 250 };
+		sf::Vector2f spawnPoint = { 150, 150 };
 		bool hasSpawnPoint = false;
 		int32_t offsetX = 0, offsetY = 0;
 		
