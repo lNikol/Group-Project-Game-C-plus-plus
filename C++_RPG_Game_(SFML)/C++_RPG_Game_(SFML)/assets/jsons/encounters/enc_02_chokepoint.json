@@ -1,0 +1,44 @@
+{
+  "encounterId": "enc_02_chokepoint",
+  "name": "Blokada na trakcie",
+  "map": {
+    "mode": "Tiled",
+    "gridWidth": 10,
+    "gridHeight": 10,
+    "tileSize": 32.0,
+    "tilesetId": "BattleTiles",
+    "backgroundTextureId": "BattleBG",
+    "tileData": [
+      0, 48, 48, 53, 53, 53, 53, 48, 48, 0,
+      0, 48, 48, 53, 53, 53, 53, 48, 48, 0,
+      0, 48, 48, 53, 53, 53, 53, 48, 48, 0,
+      0, 48, 48, 53, 53, 53, 53, 48, 48, 0,
+      0, 48, 48, 53, 53, 53, 53, 48, 48, 0,
+      0, 48, 48, 53, 53, 53, 53, 48, 48, 0,
+      0, 48, 48, 53, 53, 53, 53, 48, 48, 0,
+      0, 48, 48, 53, 53, 53, 53, 48, 48, 0,
+      0, 48, 48, 53, 53, 53, 53, 48, 48, 0,
+      0, 48, 48, 53, 53, 53, 53, 48, 48, 0
+    ]
+  },
+  "props": [
+    { "id": "boulder_brown", "logicalX": 32.0, "logicalY": 160.0 },
+    { "id": "boulder_brown", "logicalX": 64.0, "logicalY": 160.0 },
+    { "id": "boulder_brown", "logicalX": 96.0, "logicalY": 160.0 },
+    { "id": "boulder_brown", "logicalX": 224.0, "logicalY": 160.0 },
+    { "id": "boulder_brown", "logicalX": 256.0, "logicalY": 160.0 },
+    { "id": "boulder_brown", "logicalX": 288.0, "logicalY": 160.0 }
+  ],
+  "deploymentZone": [
+    { "x": 128.0, "y": 288.0 },
+    { "x": 160.0, "y": 288.0 }
+  ],
+  "enemies": [
+    { "id": "enemy_orc", "logicalX": 160.0, "logicalY": 128.0 },
+    { "id": "enemy_djinn", "logicalX": 160.0, "logicalY": 64.0 }
+  ],
+  "loot": [
+    "health_potion",
+    "scroll_of_fireball"
+  ]
+}

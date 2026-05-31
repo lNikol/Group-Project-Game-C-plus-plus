@@ -1,0 +1,42 @@
+{
+  "encounterId": "enc_05_winter_maze",
+  "name": "Zasypany Wąwóz",
+  "map": {
+    "mode": "Tiled",
+    "gridWidth": 10,
+    "gridHeight": 10,
+    "tileSize": 32.0,
+    "tilesetId": "BattleTiles",
+    "backgroundTextureId": "BattleBG",
+    "tileData": [
+      54, 54, 144, 144, 144, 144, 144, 144, 54, 54,
+      54, 54, 144, 144, 54, 54, 144, 144, 54, 54,
+      144, 144, 144, 144, 54, 54, 144, 144, 144, 144,
+      144, 144, 54, 54, 54, 54, 54, 54, 144, 144,
+      144, 144, 144, 144, 144, 144, 144, 144, 144, 144,
+      144, 144, 144, 144, 144, 144, 144, 144, 144, 144,
+      144, 144, 54, 54, 54, 54, 54, 54, 144, 144,
+      144, 144, 144, 144, 54, 54, 144, 144, 144, 144,
+      54, 54, 144, 144, 54, 54, 144, 144, 54, 54,
+      54, 54, 144, 144, 144, 144, 144, 144, 54, 54
+    ]
+  },
+  "props": [
+    { "id": "snowball_pile", "logicalX": 96.0, "logicalY": 160.0 },
+    { "id": "snowball_pile", "logicalX": 128.0, "logicalY": 160.0 },
+    { "id": "snowball_pile", "logicalX": 192.0, "logicalY": 96.0 },
+    { "id": "snowball_pile", "logicalX": 192.0, "logicalY": 128.0 }
+  ],
+  "deploymentZone": [
+    { "x": 64.0, "y": 288.0 },
+    { "x": 128.0, "y": 288.0 },
+    { "x": 192.0, "y": 288.0 }
+  ],
+  "enemies": [
+    { "id": "enemy_ice_golem", "logicalX": 160.0, "logicalY": 64.0 },
+    { "id": "enemy_shadow", "logicalX": 64.0, "logicalY": 96.0 }
+  ],
+  "loot": [
+    "health_potion"
+  ]
+}

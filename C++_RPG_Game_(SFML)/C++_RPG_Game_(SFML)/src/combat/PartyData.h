@@ -40,7 +40,10 @@ namespace RPG {
         // slot shared inventory
         std::vector<std::shared_ptr<IAbility>> sharedInventory;
         int gold = 0;
-
+        /**
+         * @brief Maps a CharacterProfile ID to their last used logical (x, y) position.
+         */
+        std::map<std::string, sf::Vector2f> preferredPositions;
         /**
          * @brief Scans the inventory and safely removes any items that have 0 charges.
          */
