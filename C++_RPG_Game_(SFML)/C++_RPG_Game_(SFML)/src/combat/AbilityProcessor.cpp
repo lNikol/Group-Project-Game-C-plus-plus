@@ -3,6 +3,7 @@
 #include "combat/Unit.h" 
 #include "combat/BattleManager.h" 
 #include <cstdlib>
+#include "AudioManager.h"
 
 namespace RPG {
 
@@ -83,8 +84,9 @@ namespace RPG {
     }
 
     void AbilityProcessor::processAbility(const AbilityDefinition& abilityDef, Unit& source, Unit& target, BattleManager& manager) {
+        AudioManager::getInstance().playSoundFile(abilityDef.filePath);
         for (const auto& effect : abilityDef.effects) {
             applyEffect(effect, source, target, manager);
-        }
+        } 
     }
 }
