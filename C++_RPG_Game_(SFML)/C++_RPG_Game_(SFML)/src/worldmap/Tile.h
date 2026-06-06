@@ -1,72 +1,46 @@
 #pragma once
 #include "StructureDefinition.h"
 #include "core/Constants.h"
-#include "entities/WorldObject.h"
-#include "game_objects/GameObject.h"
 #include <cstdint>
+#include <vector>
 
 namespace RPG {
 
-	/**
-	 * @brief Represents a 3D coordinate point in the grid system.
-	 */
-	struct Position {
-		int32_t x, y, z;
-	};
+    struct Position {
+        int32_t x, y, z;
+    };
 
-	/**
-	 * @brief A single cell within the WorldMap grid.
-	 * * Tiles store information about terrain structures, presence of actors (Player/Monster),
-	 * danger levels, and faction ownership.
-	 */
-	class Tile {
-	public:
-		StructureType groundType;    // Type of terrain on this tile.
-		Position pos;                // Grid coordinates of the tile.
-		float speedModifier = 1.f;
-		// bool hasPlayer = false;      // True if the player is currently on this tile.
-		// bool hasMonster = false;     // True if a hostile entity is present.
-		float localDangerLvl = 0.0f; // Procedural or static danger rating.
-		GameConfig::Faction faction = GameConfig::Faction::NEUTRAL; // Ownership status.
+    /**
+     * @brief Raw spatial data for a single tile.
+     */
+    class Tile {
+    public:
+        StructureType       groundType    = StructureType::Grass;
+        Position            pos           = { 0, 0, 0 };
+        float               speedModifier = 1.f;
+        float               localDangerLvl = 0.f;
+        GameConfig::Faction faction       = GameConfig::Faction::NEUTRAL;
+        bool                blocksMovement  = false;
+        bool                blocksPlacement = false;
+        std::vector<uint32_t> baseGids;
 
-		bool blocksMovement = true;
-		bool blocksPlacement = true;
+        Tile() = default;
+        Tile(StructureType ground, int32_t x, int32_t y, int32_t z)
+            : groundType(ground), pos({ x, y, z }) {}
 
-		std::vector<GameObject*> residentObjects;
-		
-		/**
-		 * @brief Default constructor initializing an empty neutral tile.
-		 */
-		Tile();
+        bool isAvailableForSpawn() const { return !blocksMovement; }
+        bool isAvailableForPlace() const { return !blocksPlacement; }
 
-		/**
-		 * @brief Constructs a tile with specific parameters.
-		 * @param structure The initial structure type.
-		 * @param x X coordinate.
-		 * @param y Y coordinate.
-		 * @param z Z coordinate (height/layer).
-		 */
-		Tile(StructureType object, int32_t x, int32_t y, int32_t z);
-		
-		void release();
+        bool canAccept(PlacementLayer newLayer) const {
+            if (blocksPlacement) return false;
+            if (newLayer == PlacementLayer::Object && blocksMovement) return false;
+            return true;
+        }
 
-
-		/**
-         * @brief Checks if the tile is clear of obstacles and actors for spawning.
-         * @return true If an entity can be placed here.
-         */
-		bool isAvailableForSpawn() const;
-
-		/**
-		 * @brief Checks if the tile is clear of obstacles for spawning.
-		 * @return true If an obstacle can be placed here.
-		 */
-		bool isAvailableForPlace() const;
-		/**
-		 * @brief Removes the monster flag from the tile.
-		 */
-		// void clearMonster();
-		bool canAccept(PlacementLayer newLayer) const;
-	};
+        void release() {
+            blocksMovement  = false;
+            blocksPlacement = false;
+        }
+    };
 
 }

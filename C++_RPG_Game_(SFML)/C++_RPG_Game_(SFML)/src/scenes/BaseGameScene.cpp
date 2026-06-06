@@ -1,73 +1,93 @@
-    #include "BaseGameScene.h"
-    #include "core/Constants.h"
+#include "BaseGameScene.h"
 
-    namespace RPG {
+namespace RPG {
 
-        BaseGameScene::BaseGameScene(
-            ISceneController& ctrl, std::shared_ptr<WorldMap> wm)
-            : sceneController(ctrl), worldMap(wm), viewVisibility(0.5f)
-        {
-            camera.setSize(sf::Vector2f(static_cast<float>(Window::WIDTH), static_cast<float>(Window::HEIGHT)));
-        }
+    BaseGameScene::BaseGameScene(ISceneController& ctrl, std::shared_ptr<WorldMap> wm)
+        : sceneController(ctrl), worldMap(wm)
+    {
+        initSystems();
+    }
 
-        void BaseGameScene::update(float dt) {
-            camera.setCenter(worldMap->getPlayer()->getPosition());
-            
-            for (auto& obj : worldMap->getGameObjects()) {
-                obj->update(dt);
+    void BaseGameScene::initSystems() {
+        systemManager.addSystem<InputSystem>();
+        systemManager.addSystem<MovementSystem>(*worldMap);
+        systemManager.addSystem<AnimationSystem>();
+        systemManager.addSystem<RenderSystem>();
+    }
+
+    // ==============================
+    // Update
+    // ==============================
+
+    void BaseGameScene::update(float dt) {
+        if (!worldMap) return;
+        systemManager.update(dt, worldMap->getGameObjects());
+    }
+
+    // ==============================
+    // Draw 
+    // ==============================
+
+    void BaseGameScene::draw(sf::RenderWindow& window) {
+        if (!worldMap) return;
+
+		// 1. Place camera centered on player
+        worldRenderer.setupView(window, *worldMap);
+
+        // 2. Draw ground (layer 0)
+        worldRenderer.drawGround(window, *worldMap);
+
+        // 3. RenderSystem sorts and draws all GameObjects (layer 1+)
+        systemManager.draw(window, worldMap->getGameObjects());
+
+        // 4. Debug HUD (player position, UI layer)
+        worldRenderer.drawDebugHUD(window, *worldMap);
+    }
+
+    // ==============================
+    // Events
+    // ==============================
+
+    bool BaseGameScene::handleEvent(sf::RenderWindow& window, const sf::Event& event) {
+        if (const auto* key = event.getIf<sf::Event::KeyPressed>()) {
+            if (key->scancode == sf::Keyboard::Scancode::E) {
+                checkInteraction();
+            }
+            if (key->scancode == sf::Keyboard::Scancode::I) {
+                isInventoryOpen = !isInventoryOpen;
             }
         }
+        return false;
+    }
 
-        void BaseGameScene::draw(sf::RenderWindow& window) {
-            window.setView(camera);
+    // ==============================
+    // Interaction
+    // ==============================
 
-            if (worldMap) {
-                worldRenderer.draw(window, *worldMap, viewVisibility);
-            }
+    void BaseGameScene::checkInteraction() {
+        if (!worldMap || !worldMap->getPlayer()) return;
 
-        }
+        for (auto& go : worldMap->getGameObjects()) {
+            auto* interaction = go->getComponent<InteractionComponent>();
+            if (!interaction) continue;
 
-        bool BaseGameScene::handleEvent(sf::RenderWindow& window, const sf::Event& event) {
-            if (const auto* keyPressed = event.getIf<sf::Event::KeyPressed>()) {
-                if (keyPressed->scancode == sf::Keyboard::Scancode::E) {
-                    std::cout << "[" << sceneName << "]" << " Key 'E' was pressed: " << std::endl;
-                    this->checkInteraction();
-                }
+            sf::Vector2f diff = worldMap->getPlayer()->getPosition() - go->getPosition();
+            float distSq = diff.x * diff.x + diff.y * diff.y;
+            float radius = interaction->getInteractionRadius();
 
-                if (keyPressed->scancode == sf::Keyboard::Scancode::I) {
-                    std::cout << "[" << sceneName << "]" << " Key 'I' was pressed: " << std::endl;
-                    isInventoryOpen = !isInventoryOpen;
-                }
-            }
-            return false;
-        }
-
-        void BaseGameScene::checkInteraction() {
-            if (!worldMap || !worldMap->getPlayer()) return;
-
-            for (auto& go : worldMap->getGameObjects()) {
-                if (auto* interaction = go->getComponent<InteractionComponent>()) {
-                    sf::Vector2f diff = worldMap->getPlayer()->getPosition() - go->getPosition();
-                    float distSq = diff.x * diff.x + diff.y * diff.y;
-                    float radius = interaction->getInteractionRadius();
-
-                    if (distSq <= radius * radius) {
-                        handleInteraction(go.get());
-                        break;
-                    }
-                }
-            }
-        }
-
-        void BaseGameScene::handleInteraction(GameObject* go) {
-            std::cout << "Interacting with GameObject: " << go->getPrefabId() << std::endl;
-
-            if (auto* npcComponent = go->getComponent<NpcComponent>()) {
-                if (npcComponent->isFactionLeader()) {
-                    std::cout << "[" << sceneName << "] This NPC is a Faction Leader. Switching map..." << std::endl;
-
-                    sceneController.changeScene(npcComponent->getTargetFaction());
-                }
+            if (distSq <= radius * radius) {
+                handleInteraction(go.get());
+                break;
             }
         }
     }
+
+    void BaseGameScene::handleInteraction(GameObject* go) {
+        if (auto* npc = go->getComponent<NpcComponent>()) {
+            if (npc->isFactionLeader()) {
+                sceneController.changeScene(npc->getTargetFaction());
+            }
+        }
+    }
+
+}

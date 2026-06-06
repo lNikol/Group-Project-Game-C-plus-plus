@@ -58,6 +58,14 @@ namespace RPG {
 			}
 			return nullptr;
 		}
+		template <typename T>
+		const T* getComponent() const {
+			for (const auto& comp : components) {
+				const T* derived = dynamic_cast<const T*>(comp.get());
+				if (derived) return derived;
+			}
+			return nullptr;
+		}
 
 		template<class T>
 		std::vector<T*> getComponents() {
