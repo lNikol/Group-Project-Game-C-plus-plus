@@ -220,6 +220,15 @@
     <ClCompile Include="src\GUI\windows\InventoryWindow.cpp">
       <Filter>Pliki źródłowe\GUI\windows</Filter>
     </ClCompile>
+    <ClCompile Include="src\game_objects\components\InteractionComponent.cpp">
+      <Filter>Pliki źródłowe</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game_objects\components\NpcComponent.cpp">
+      <Filter>Pliki źródłowe</Filter>
+    </ClCompile>
+    <ClCompile Include="src\combat\AudioManager.cpp">
+      <Filter>Pliki źródłowe\combat</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\worldmap\AssetManager.h">
@@ -410,6 +419,18 @@
     </ClInclude>
     <ClInclude Include="src\GUI\windows\InventoryWindow.h">
       <Filter>Pliki nagłówkowe\GUI\windows</Filter>
+    </ClInclude>
+    <ClInclude Include="src\combat\AudioManager.h">
+      <Filter>Pliki nagłówkowe</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game_objects\components\components.h">
+      <Filter>Pliki nagłówkowe</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game_objects\components\InteractionComponent.h">
+      <Filter>Pliki nagłówkowe</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game_objects\components\NpcComponent.h">
+      <Filter>Pliki nagłówkowe</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

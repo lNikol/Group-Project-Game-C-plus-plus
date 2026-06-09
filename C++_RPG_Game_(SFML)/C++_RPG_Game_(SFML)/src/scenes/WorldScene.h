@@ -1,6 +1,7 @@
 #pragma once
 #include "BaseGameScene.h"
 #include <memory>
+#include "combat/AudioManager.h"
 
 namespace RPG {
 

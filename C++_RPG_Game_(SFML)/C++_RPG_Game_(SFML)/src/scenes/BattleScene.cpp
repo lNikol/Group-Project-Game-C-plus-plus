@@ -15,6 +15,12 @@ namespace RPG {
 
         // 2. Setup the initial state (Generate enemies, props)
         m_battleManager->initTestLevel(window);
+
+        // 3. Stop old and play new music
+        RPG::AudioManager::getInstance().stopMusic();
+        RPG::AudioManager::getInstance().playMusic(
+            "assets/music/battle-music.mp3"
+        );
     }
 
     bool BattleScene::handleEvent(sf::RenderWindow& window, const sf::Event& event) {
