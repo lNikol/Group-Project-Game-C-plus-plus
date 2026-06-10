@@ -1,6 +1,7 @@
 #pragma once
 #include "CombatWorldObject.h"
 #include "interfaces/ICombatActor.h"
+#include "combat/AudioManager.h"
 #include "CombatAbility.h"
 #include "AbilityData.h" 
 #include "StatusEffect.h" 
