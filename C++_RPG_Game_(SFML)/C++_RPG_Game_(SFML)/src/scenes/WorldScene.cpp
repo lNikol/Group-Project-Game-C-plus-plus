@@ -8,6 +8,9 @@ namespace RPG {
     {
         sceneName = "WorldScene";
         viewVisibility = 0.8f;
+        RPG::AudioManager::getInstance().stopMusic();
+        RPG::AudioManager::getInstance().playMusic("assets/music/world-music.mp3");
+        RPG::AudioManager::getInstance().loadFootsteps("assets/sounds/grass-sound.wav");
     }
 
     bool WorldScene::handleEvent(sf::RenderWindow& window, const sf::Event& event) {

@@ -95,6 +95,7 @@ namespace RPG {
     struct AbilityDefinition {
         std::string id;
         std::string name;
+        std::string filePath;
         std::string description;
         int iconIndex = 0;
 

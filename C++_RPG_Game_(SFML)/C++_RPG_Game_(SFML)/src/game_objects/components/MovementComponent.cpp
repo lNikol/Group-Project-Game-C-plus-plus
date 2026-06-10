@@ -13,7 +13,11 @@ namespace RPG {
         if (!owner) return;
 
         sf::Vector2f velocity = direction * speed * dt;
-        if (velocity.x == 0.f && velocity.y == 0.f) return;
+        if (velocity.x == 0.f && velocity.y == 0.f) {
+            RPG:AudioManager::getInstance().setFootstepsLoop(false);
+            return;
+        }
+        RPG::AudioManager::getInstance().startFootsteps();
 
         auto* collider = owner->getComponent<ColliderComponent>();
         if (!collider) {

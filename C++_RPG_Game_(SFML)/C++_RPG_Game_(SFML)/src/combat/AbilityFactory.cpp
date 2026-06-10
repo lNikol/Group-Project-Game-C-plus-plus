@@ -72,6 +72,7 @@ namespace RPG {
 
             def.id = item.value("id", "unknown");
             def.name = item.value("name", "Unnamed Ability");
+            def.filePath = item.value("filePath", "");
             def.description = item.value("description", "");
             def.iconIndex = item.value("iconIndex", 0);
             def.targetType = parseTargetType(item.value("targetType", "SingleEnemy"));

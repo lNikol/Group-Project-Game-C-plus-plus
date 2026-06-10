@@ -6,6 +6,7 @@
 #include "worldmap/AssetManager.h"
 #include "combat/BattleManager.h"
 #include <memory>
+#include "combat/AudioManager.h"
 
 namespace RPG {
 
