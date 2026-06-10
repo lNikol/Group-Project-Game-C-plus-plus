@@ -55,8 +55,10 @@ namespace RPG {
         if (!m_footstepSound)
             return;
 
-        if (m_footstepSound->getStatus() != sf::Sound::Status::Playing)
+        if (m_footstepSound->getStatus() != sf::Sound::Status::Playing) {
             m_footstepSound->play();
+            m_footstepSound->setLooping(true);
+        }
     }
     void AudioManager::stopFootsteps()
     {

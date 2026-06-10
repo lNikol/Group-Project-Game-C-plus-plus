@@ -68,6 +68,7 @@ namespace RPG {
         m_path = path;
         m_currentWaypoint = 0;
         m_isMoving = true;
+        RPG::AudioManager::getInstance().startFootsteps();
     }
 
     bool Unit::update(float dt) {
@@ -88,6 +89,7 @@ namespace RPG {
 
             if (m_currentWaypoint >= m_path.size()) {
                 m_isMoving = false;
+                RPG:AudioManager::getInstance().setFootstepsLoop(false);
                 m_path.clear();
                 return false;
             }
