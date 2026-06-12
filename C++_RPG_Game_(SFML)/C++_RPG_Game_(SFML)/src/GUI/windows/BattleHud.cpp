@@ -2,6 +2,7 @@
 #include "OpenWindowCommand.h" // If you made this earlier
 #include <cmath>
 #include "InventoryWindow.h"
+#include "BestiaryWindow.h"
 namespace RPG {
 
     BattleHUD::BattleHUD(const Spritesheet& iconSet, const sf::Font& font)
@@ -30,7 +31,7 @@ namespace RPG {
         // Initialize Windows (Hidden)
         m_inventoryWindow = std::make_unique<InventoryWindow>(iconSet, font);
         m_journalWindow = std::make_unique<WindowBase>(font, sf::Vector2f(300.f, 400.f), "Journal");
-        m_bestiaryWindow = std::make_unique<WindowBase>(font, sf::Vector2f(500.f, 600.f), "Bestiary");
+        m_bestiaryWindow = std::make_unique<BestiaryWindow>(font);
 
         // Connect the Buttons to the Windows
         auto openBag = std::make_shared<OpenWindowCommand>(
