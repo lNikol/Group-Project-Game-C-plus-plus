@@ -8,7 +8,7 @@
       "iconIndex": 82,
       "targetType": "SingleEnemy",
       "cooldownTurns": 0,
-      "range": 40.0,
+      "range": 50.0,
       "radius": 0.0,
       "manaCost": 0.0,
       "staminaCost": 10.0,
@@ -188,6 +188,37 @@
           "scalingFactor": 2.0,
           "baseCritChance": 0.10,
           "critMultiplier": 2.0
+        }
+      ]
+    },
+    {
+      "id": "frostbite",
+      "name": "Frostbite",
+      "description": "Chills the target to the bone, dealing damage and slowing them down.",
+      "iconIndex": 104,
+      "targetType": "SingleEnemy",
+      "cooldownTurns": 2,
+      "range": 100.0,
+      "radius": 0.0,
+      "manaCost": 20.0,
+      "staminaCost": 0.0,
+      "effects": [
+        {
+          "type": "Damage",
+          "baseValue": 25.0,
+          "scalingStat": "Intellect",
+          "scalingFactor": 1.5,
+          "baseCritChance": 0.05,
+          "critMultiplier": 1.5
+        },
+        {
+          "type": "Debuff",
+          "baseValue": 10.0,
+          "scalingStat": "Intellect",
+          "scalingFactor": 0.2,
+          "targetStat": "Dexterity",
+          "durationTurns": 2,
+          "applyChance": 0.6
         }
       ]
     }

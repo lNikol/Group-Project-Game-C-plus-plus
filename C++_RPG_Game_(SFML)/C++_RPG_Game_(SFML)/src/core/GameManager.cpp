@@ -1,8 +1,11 @@
-#include "GameManager.h"
+﻿#include "GameManager.h"
 #include "scenes/WorldScene.h"
 #include "scenes/FactionScene.h"
 #include "scenes/BattleScene.h"
-
+ #include "combat/AbilityFactory.h"
+ #include "combat/UnitFactory.h"
+ #include "combat/PropFactory.h"
+#include "combat/PartyData.h"
 namespace RPG {
     
     GameManager::GameManager()
@@ -45,6 +48,29 @@ namespace RPG {
     }
 
     void GameManager::initGameData() {
+        if (!AbilityFactory::getInstance().loadFromJSON("assets/jsons/abilities.json")) {
+            std::cerr << "CRITICAL: Failed to load abilities.json\n";
+        }
+        if (!UnitFactory::getInstance().loadFromJSON("assets/jsons/units.json")) {
+            std::cerr << "CRITICAL: Failed to load units.json\n";
+        }
+        if (!PropFactory::getInstance().loadFromJSON("assets/jsons/props.json")) {
+            std::cerr << "CRITICAL: Failed to load props.json\n";
+        }
+
+        auto& party = PartyData::getInstance();
+        if (party.activeParty.empty()) {
+            auto defaultHero = std::make_shared<CharacterProfile>();
+            defaultHero->id = "player_fighter"; // Odwołanie do units.json
+            defaultHero->name = "player_fighter"; // Służy również jako klucz do preferredPositions
+            defaultHero->currentVitals = { 200.0f, 200.0f, 50.0f, 50.0f, 120.0f, 120.0f };
+
+            party.activeParty.push_back(defaultHero);
+        }
+
+        // Shared player initialization
+        // player = std::make_shared<Player>(lastWorldPosition);
+
         // Shared player initialization
         Vitals startStats = { 100.f, 100.f, 50.f, 50.f, 100.f, 100.f }; // HP, MP, Stamina
         playerUnit = std::make_shared<Unit>("Hero", Team::Player, startStats);
@@ -172,7 +198,7 @@ namespace RPG {
         // Change scene
         switch (targetFaction) {
         case FactionID::BattleScene:
-            currentScene = std::make_unique<BattleScene>(*this, window, playerUnit, selectedMap);
+            currentScene = std::make_unique<BattleScene>(*this, window, playerUnit, "assets/jsons/encounters/enc_01_tutorial.json");
             break;
         case FactionID::MainWorld:
             currentScene = std::make_unique<WorldScene>(*this, selectedMap);

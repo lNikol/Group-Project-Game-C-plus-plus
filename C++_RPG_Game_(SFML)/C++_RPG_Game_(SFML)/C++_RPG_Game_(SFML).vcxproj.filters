@@ -227,6 +227,8 @@
       <Filter>Pliki źródłowe</Filter>
     </ClCompile>
     <ClCompile Include="src\combat\AudioManager.cpp">
+    </ClCompile>
+    <ClCompile Include="src\combat\EncounterLoader.cpp">
       <Filter>Pliki źródłowe\combat</Filter>
     </ClCompile>
   </ItemGroup>
@@ -432,24 +434,12 @@
     <ClInclude Include="src\game_objects\components\NpcComponent.h">
       <Filter>Pliki nagłówkowe</Filter>
     </ClInclude>
+    <ClInclude Include="src\combat\EncounterLoader.h">
+      <Filter>Pliki nagłówkowe\combat</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="assets\animations\player.png">
-      <Filter>Pliki zasobów</Filter>
-    </Image>
-    <Image Include="assets\animations\npc.png">
-      <Filter>Pliki zasobów</Filter>
-    </Image>
-    <Image Include="assets\textures\grass.png">
-      <Filter>Pliki zasobów</Filter>
-    </Image>
-    <Image Include="assets\textures\house.png">
-      <Filter>Pliki zasobów</Filter>
-    </Image>
-    <Image Include="assets\textures\rock.png">
-      <Filter>Pliki zasobów</Filter>
-    </Image>
-    <Image Include="assets\textures\trees.png">
       <Filter>Pliki zasobów</Filter>
     </Image>
     <Image Include="assets\animations\npc.png">

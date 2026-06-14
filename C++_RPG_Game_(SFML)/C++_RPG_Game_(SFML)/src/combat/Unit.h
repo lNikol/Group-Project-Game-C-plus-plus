@@ -68,7 +68,10 @@ namespace RPG {
         // ==============================
         Vitals getVitals() const override;
         std::string getName() const override;
-
+        /**
+         * @brief Overwrites the current vitals (HP, MP, Stamina).
+         */
+        void setVitals(const Vitals& vitals) { m_vitals = vitals; }
         /**
          * @brief Calculates current stats dynamically (Base Stats + Buffs - Debuffs).
          */

@@ -1,0 +1,41 @@
+{
+  "encounterId": "enc_03_ambush",
+  "name": "Zasadzka na mokradłach",
+  "map": {
+    "mode": "Tiled",
+    "gridWidth": 10,
+    "gridHeight": 10,
+    "tileSize": 32.0,
+    "tilesetId": "BattleTiles",
+    "backgroundTextureId": "BattleBG",
+    "tileData": [
+      96, 96, 96, 102, 96, 96, 96, 96, 96, 96,
+      96, 96, 96, 96, 96, 96, 102, 102, 96, 96,
+      96, 102, 96, 96, 96, 96, 96, 96, 96, 96,
+      96, 102, 102, 96, 96, 96, 96, 96, 96, 96,
+      96, 96, 96, 96, 96, 96, 96, 96, 102, 96,
+      96, 96, 96, 96, 96, 96, 96, 96, 102, 102,
+      96, 96, 96, 102, 96, 96, 96, 96, 96, 96,
+      96, 96, 96, 102, 96, 96, 96, 96, 96, 96,
+      96, 96, 96, 96, 96, 96, 102, 96, 96, 96,
+      96, 96, 96, 96, 96, 96, 96, 96, 96, 96
+    ]
+  },
+  "props": [
+    { "id": "water_puddle", "logicalX": 96.0, "logicalY": 96.0 },
+    { "id": "water_puddle", "logicalX": 192.0, "logicalY": 128.0 },
+    { "id": "water_puddle", "logicalX": 128.0, "logicalY": 224.0 }
+  ],
+  "deploymentZone": [
+    { "x": 128.0, "y": 160.0 },
+    { "x": 160.0, "y": 160.0 }
+  ],
+  "enemies": [
+    { "id": "enemy_shadow", "logicalX": 32.0, "logicalY": 32.0 },
+    { "id": "enemy_shadow", "logicalX": 256.0, "logicalY": 64.0 },
+    { "id": "enemy_shadow", "logicalX": 160.0, "logicalY": 256.0 }
+  ],
+  "loot": [
+    "health_potion"
+  ]
+}

@@ -25,10 +25,7 @@ namespace RPG {
          * @param player The persistent player data (HP, Inventory) to use in the fight.
          * @param map The generic WorldMap data (can be used to generate obstacles).
          */
-        BattleScene(ISceneController& ctrl,
-            const sf::RenderWindow& window,
-            std::shared_ptr<Unit> player,
-            std::shared_ptr<WorldMap> map);
+        BattleScene(ISceneController& ctrl, const sf::RenderWindow& window, std::shared_ptr<Unit> player, const std::string& encounterFilePath);
 
         virtual ~BattleScene() = default;
 
@@ -45,5 +42,7 @@ namespace RPG {
 
         // The core logic controller for the battle
         std::unique_ptr<BattleManager> m_battleManager;
+        std::string m_encounterName;
+        float m_endTimer = 0.0f;
     };
 }

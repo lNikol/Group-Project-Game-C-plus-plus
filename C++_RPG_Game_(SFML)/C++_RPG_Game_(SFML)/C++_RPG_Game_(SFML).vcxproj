@@ -153,6 +153,7 @@
     <ClCompile Include="src\animation\AnimationLoader.h" />
     <ClCompile Include="src\combat\AbilityFactory.cpp" />
     <ClCompile Include="src\combat\AbilityProcessor.cpp" />
+    <ClCompile Include="src\combat\EncounterLoader.cpp" />
     <ClCompile Include="src\combat\PropFactory.cpp" />
     <ClCompile Include="src\combat\UnitFactory.cpp" />
     <ClCompile Include="src\entities\CollidingEntity.cpp" />
@@ -204,6 +205,7 @@
     <ClInclude Include="src\combat\AbilityFactory.h" />
     <ClInclude Include="src\combat\AbilityProcessor.h" />
     <ClInclude Include="src\combat\CombatItem.h" />
+    <ClInclude Include="src\combat\EncounterLoader.h" />
     <ClInclude Include="src\combat\IsoHelpers.h" />
     <ClInclude Include="src\combat\PartyData.h" />
     <ClInclude Include="src\combat\PropFactory.h" />

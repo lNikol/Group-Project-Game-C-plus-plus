@@ -1,29 +1,33 @@
+﻿// ==========================================
+// BattleManager.cpp
+// ==========================================
 #include "BattleManager.h"
 #include "AbilityFactory.h"
 #include "PropFactory.h"
 #include "UnitFactory.h"
 #include "core/IsoHelpers.h"
 #include "Prop.h"
+#include "EndTurnCommand.h"
+#include "MoveCommand.h"
+#include "PartyData.h"
+#include "core/Constants.h"
+
 #include <iostream>
 #include <algorithm> 
-#include "EndTurnCommand.h"
-#include "core/Constants.h"
-#include "MoveCommand.h"
 #include <iomanip> 
 #include <sstream>
-#include "PartyData.h"
+
 namespace RPG {
 
     BattleManager::BattleManager(std::shared_ptr<Unit> player)
         : m_playerUnit(player),
-        m_movementTooltip(*AssetManager::getInstance().getFont("PixelFont")) // Initialize Tooltip directly
+        m_movementTooltip(*AssetManager::getInstance().getFont("PixelFont"))
     {
-        // 1. Fetch Assets "In Place"
         m_iconSet = AssetManager::getInstance().getSpritesheet("AbilityIcons");
         m_charTexture = AssetManager::getInstance().getSpritesheet("BattleChars");
         m_monsterTexture = AssetManager::getInstance().getSpritesheet("BattleEnemies");
         m_propTexture = AssetManager::getInstance().getSpritesheet("BattleProps");
-        m_tileset  = AssetManager::getInstance().getSpritesheet("BattleTiles");
+        m_tileset = AssetManager::getInstance().getSpritesheet("BattleTiles");
         m_bgTexture = AssetManager::getInstance().getSpritesheet("BattleBG");
         m_font = AssetManager::getInstance().getFont("PixelFont");
 
@@ -50,113 +54,130 @@ namespace RPG {
         m_rangeIndicator.setOutlineColor(sf::Color::Red);
         m_rangeIndicator.setOutlineThickness(3.f);
 
-        m_aoeIndicator.setFillColor(sf::Color(255, 165, 0, 60)); // Orange
+        m_aoeIndicator.setFillColor(sf::Color(255, 165, 0, 60));
         m_aoeIndicator.setOutlineColor(sf::Color::Yellow);
-
-        if (m_bgTexture) m_map->setBackground(*m_bgTexture);
-
-        if (m_tileset) {
-            int w = 15;
-            int h = 15;
-            std::vector<int> floorData;
-            floorData.reserve(w * h);
-
-            int grassIndex = 0;
-            int roadMiddle = 5;
-
-            for (int y = 0; y < h; y++) {
-                for (int x = 0; x < w; x++) {
-                    if (x >= 6 && x <= 8) floorData.push_back(roadMiddle);
-                    else floorData.push_back(grassIndex);
-                }
-            }
-
-            m_map->loadFromTiles(*m_tileset, { 32, 32 }, w, h, floorData);
-        }
     }
 
-    void BattleManager::initTestLevel(const sf::RenderWindow& window) {
-        // 1. Load Data from JSON
-        if (!AbilityFactory::getInstance().loadFromJSON("assets/jsons/abilities.json")) {
-            std::cerr << "CRITICAL: Failed to load abilities.json" << std::endl;
-        }
-        if (!UnitFactory::getInstance().loadFromJSON("assets/jsons/units.json")) {
-            std::cerr << "CRITICAL: Failed to load units.json" << std::endl;
-        }
-        if (!PropFactory::getInstance().loadFromJSON("assets/jsons/props.json")) {
-            std::cerr << "CRITICAL: Failed to load props.json" << std::endl;
+    void BattleManager::loadEncounter(const EncounterData& data, const sf::RenderWindow& window) {
+        // Reset states for a fresh battle
+        m_battleResult = BattleResult::Pending;
+        m_turnQueue.clear();
+        m_participatingPlayers.clear();
+        m_floatingTexts.clear();
+        m_enemyActionPending = false;
+
+        m_map = std::make_unique<CombatMap>();
+
+        // 1. Setup Map Layout
+        if (!data.mapInfo.backgroundTextureId.empty()) {
+            const sf::Texture* bg = AssetManager::getInstance().getSpritesheet(data.mapInfo.backgroundTextureId);
+            if (bg) m_map->setBackground(*bg);
         }
 
-        // 2. Create System Commands (Requires C++ lambdas/references)
+        if (data.mapInfo.mode == MapMode::Tiled && !data.mapInfo.tilesetId.empty()) {
+            const sf::Texture* tileset = AssetManager::getInstance().getSpritesheet(data.mapInfo.tilesetId);
+            if (tileset) {
+                m_map->loadFromTiles(*tileset, { (unsigned)data.mapInfo.tileSize, (unsigned)data.mapInfo.tileSize },
+                    data.mapInfo.gridWidth, data.mapInfo.gridHeight, data.mapInfo.tileData);
+            }
+        }
+        else if (data.mapInfo.mode == MapMode::SingleImage && !data.mapInfo.singleImageTextureId.empty()) {
+            const sf::Texture* tex = AssetManager::getInstance().getSpritesheet(data.mapInfo.singleImageTextureId);
+            if (tex) m_map->loadFromImage(*tex);
+        }
+
+        // 2. Spawn Props and Enemies
+        for (const auto& propSp : data.props) {
+            auto prop = PropFactory::getInstance().createProp(propSp.id, propSp.logicalX, propSp.logicalY);
+            if (prop) m_map->addObject(prop);
+        }
+
+        for (const auto& enSp : data.enemies) {
+            auto enemy = UnitFactory::getInstance().createUnit(enSp.id, Team::Enemy, *this, enSp.logicalX, enSp.logicalY);
+            if (enemy) m_map->addObject(enemy);
+        }
+
+        // 3. Setup Deployment Zone and Loot Data
+        m_deploymentZone = data.deploymentZone;
+        m_lootItemIds = data.lootItemIds;
+
         auto endTurnAction = std::make_shared<EndTurnCommand>([this]() { this->endTurn(); });
         auto moveAction = std::make_shared<MoveCommand>(*this);
 
-        // Helper lambda to apply system commands and add to map
-        auto setupUnit = [&](std::shared_ptr<Unit> unit) {
-            if (unit) {
-                // Slots 9 and 17 are arbitrary, change them based on your UI layout preferences
-                unit->setHotbarAbility(9, moveAction);
-                unit->setHotbarAbility(17, endTurnAction);
-                m_map->addObject(unit);
-            }
-            };
-
-        // ==========================================
-        // 3. Spawn Players
-        // ==========================================
-        m_playerUnit = UnitFactory::getInstance().createUnit("player_fighter", Team::Player, *this, 150.f, 150.f);
-        setupUnit(m_playerUnit);
-
-        auto mage = UnitFactory::getInstance().createUnit("player_mage", Team::Player, *this, 100.f, 200.f);
-        setupUnit(mage);
-
-
-        // ==========================================
-        // 4. Spawn Enemies
-        // ==========================================
-        // The Boss
-        auto boss = UnitFactory::getInstance().createUnit("boss_demon", Team::Enemy, *this, 350.f, 350.f);
-        setupUnit(boss);
-
-        // Skeleton Guards
-        auto skeleton1 = UnitFactory::getInstance().createUnit("enemy_skeleton", Team::Enemy, *this, 280.f, 300.f);
-        setupUnit(skeleton1);
-
-        auto skeleton2 = UnitFactory::getInstance().createUnit("enemy_skeleton", Team::Enemy, *this, 420.f, 300.f);
-        setupUnit(skeleton2);
-
-
-        // ==========================================
-        // 5. Spawn Environmental Props
-        // ==========================================
-        // A wall of boulders creating a choke point
-        auto boulder1 = PropFactory::getInstance().createProp("boulder_brown", 220.f, 250.f);
-        if (boulder1) m_map->addObject(boulder1);
-
-        auto boulder2 = PropFactory::getInstance().createProp("boulder_gray", 250.f, 220.f);
-        if (boulder2) m_map->addObject(boulder2);
-
-        // A mystical pearl for decoration
-        auto pearl = PropFactory::getInstance().createProp("crystal_orb_blue", 350.f, 200.f);
-        if (pearl) m_map->addObject(pearl);
-
-        // A puddle near the heroes
-        auto puddle = PropFactory::getInstance().createProp("water_puddle", 120.f, 150.f);
-        if (puddle) m_map->addObject(puddle);
-
-        auto potion1 = AbilityFactory::getInstance().createAbility("health_potion", *this, nullptr);
-        auto scroll = AbilityFactory::getInstance().createAbility("scroll_of_fireball", *this, nullptr);
-        
-        // Dodajemy je do globalnego plecaka
+        // 4. Spawn Player Party intelligently
         auto& party = PartyData::getInstance();
-        party.addItem(potion1);
-        party.addItem(scroll);
+        for (const auto& profile : party.activeParty) {
+            if (!profile) continue;
 
-        // ==========================================
-        // 6. Final UI / Map Setup
-        // ==========================================
+            sf::Vector2f spawnPos;
+            bool foundPos = false;
+
+            // Attempt A: Load preferred position
+            auto prefIt = party.preferredPositions.find(profile->id);
+            if (prefIt != party.preferredPositions.end()) {
+                sf::Vector2f pref = prefIt->second;
+                if (std::find(m_deploymentZone.begin(), m_deploymentZone.end(), pref) != m_deploymentZone.end()) {
+                    if (!m_map->isBlocked(pref) && m_map->getHitObject(pref) == nullptr) {
+                        spawnPos = pref;
+                        foundPos = true;
+                    }
+                }
+            }
+
+            // Attempt B: Find first empty tile in the deployment zone
+            if (!foundPos) {
+                for (const auto& tilePos : m_deploymentZone) {
+                    if (!m_map->isBlocked(tilePos) && m_map->getHitObject(tilePos) == nullptr) {
+                        spawnPos = tilePos;
+                        foundPos = true;
+                        break;
+                    }
+                }
+            }
+
+            if (foundPos) {
+                auto hero = UnitFactory::getInstance().createUnit(profile->id, Team::Player, *this, spawnPos.x, spawnPos.y);
+                if (hero) {
+                    // Synchronize vitals from persistent profile
+                    hero->setVitals(profile->currentVitals);
+
+                    hero->setHotbarAbility(9, moveAction);
+                    hero->setHotbarAbility(17, endTurnAction);
+
+                    m_map->addObject(hero);
+                    m_participatingPlayers.push_back(hero);
+
+                    // Assign as primary player unit for HUD/Focus if not set
+                    if (!m_playerUnit) m_playerUnit = hero;
+                }
+            }
+            else {
+                std::cerr << "Encounter Warning: No available deployment tile for " << profile->name << std::endl;
+            }
+        }
+
         if (m_hud) m_hud->onResize(window.getSize());
         m_map->onResize(window.getSize());
+
+        // Lock into placement phase instead of starting battle immediately
+        m_state = GameState::PlacementMode;
+        m_selectedUnit = nullptr;
+    }
+
+    void BattleManager::finishPlacement() {
+        m_selectedUnit = nullptr;
+        m_state = GameState::Idle;
+
+        auto& party = PartyData::getInstance();
+        auto objects = m_map->getAllObjects();
+
+        for (const auto& obj : objects) {
+            if (auto unit = std::dynamic_pointer_cast<Unit>(obj)) {
+                if (unit->getTeam() == Team::Player) {
+                    party.preferredPositions[unit->getName()] = unit->getLogicalPosition();
+                }
+            }
+        }
 
         startBattle();
     }
@@ -181,10 +202,14 @@ namespace RPG {
 
         if (m_hud) m_hud->setCombatActor(m_activeUnit.get());
         selectUnit(m_activeUnit);
+
+        if (m_activeUnit->getTeam() == Team::Enemy) {
+            executeEnemyAI();
+        }
     }
 
     void BattleManager::nextTurn() {
-        if (m_turnQueue.empty()) return;
+        if (m_turnQueue.empty() || m_battleResult != BattleResult::Pending) return;
 
         auto finishedUnit = m_turnQueue.front();
         m_turnQueue.pop_front();
@@ -192,10 +217,8 @@ namespace RPG {
 
         m_activeUnit = m_turnQueue.front();
 
-        // Trigger Start Logic (Cooldowns, DoTs, HoTs)
         m_activeUnit->onTurnStart(*this);
 
-        // Safety Check: Did the unit die from Poison/DoTs at the start of their turn?
         if (m_activeUnit->isDead()) {
             std::cout << m_activeUnit->getName() << " succumbed to their wounds!" << std::endl;
             onUnitDeath(m_activeUnit);
@@ -203,7 +226,6 @@ namespace RPG {
             return;
         }
 
-        // Stun Check: If stunned, they lose their action phase entirely.
         if (m_activeUnit->isStunned()) {
             std::cout << m_activeUnit->getName() << " is Stunned and loses their turn!" << std::endl;
             spawnFloatingText(m_activeUnit->getRenderPosition(), "Turn Skipped!", sf::Color::White, 20);
@@ -213,17 +235,25 @@ namespace RPG {
 
         if (m_hud) m_hud->setCombatActor(m_activeUnit.get());
         selectUnit(m_activeUnit);
+
+        if (m_activeUnit->getTeam() == Team::Enemy) {
+            executeEnemyAI();
+        }
     }
 
     void BattleManager::endTurn() {
         if (m_state == GameState::Busy) return;
         cancelTargeting();
 
-        if (m_activeUnit) {
+        if (m_activeUnit && m_battleResult == BattleResult::Pending) {
             float roll = static_cast<float>(rand()) / static_cast<float>(RAND_MAX);
             if (roll < m_activeUnit->getDoubleTurnChance()) {
                 m_activeUnit->onTurnStart(*this);
                 selectUnit(m_activeUnit);
+
+                if (m_activeUnit->getTeam() == Team::Enemy) {
+                    executeEnemyAI();
+                }
                 return;
             }
         }
@@ -261,6 +291,10 @@ namespace RPG {
             if (const auto* key = event.getIf<sf::Event::KeyPressed>()) {
                 if (key->scancode == sf::Keyboard::Scancode::Space) endTurn();
                 if (key->scancode == sf::Keyboard::Scancode::F4) m_showDebug = !m_showDebug;
+
+                if (key->scancode == sf::Keyboard::Scancode::Enter && m_state == GameState::PlacementMode) {
+                    finishPlacement();
+                }
             }
         }
     }
@@ -292,6 +326,39 @@ namespace RPG {
             clickedUnit = std::dynamic_pointer_cast<Unit>(clickedObj);
         }
 
+        // --- PLACEMENT MODE ---
+        if (m_state == GameState::PlacementMode) {
+            bool inDeploymentZone = false;
+            sf::Vector2f snappedPos = logicalPos;
+            for (const auto& zonePos : m_deploymentZone) {
+                if (Iso::getDistance(zonePos, logicalPos) <= 24.0f) {
+                    inDeploymentZone = true;
+                    snappedPos = zonePos;
+                    break;
+                }
+            }
+
+            if (clickedUnit && clickedUnit->getTeam() == Team::Player) {
+                if (!m_selectedUnit) {
+                    m_selectedUnit = clickedUnit;
+                }
+                else if (m_selectedUnit != clickedUnit) {
+                    sf::Vector2f tempPos = m_selectedUnit->getLogicalPosition();
+                    m_selectedUnit->setLogicalPosition(clickedUnit->getLogicalPosition().x, clickedUnit->getLogicalPosition().y);
+                    clickedUnit->setLogicalPosition(tempPos.x, tempPos.y);
+                    m_selectedUnit = nullptr;
+                }
+                else {
+                    m_selectedUnit = nullptr;
+                }
+            }
+            else if (inDeploymentZone && m_selectedUnit && !clickedUnit) {
+                m_selectedUnit->setLogicalPosition(snappedPos.x, snappedPos.y);
+                m_selectedUnit = nullptr;
+            }
+            return;
+        }
+
         // --- TARGETING MODE ---
         if (m_state == GameState::TargetingMode && m_pendingAbility) {
             float castDist = Iso::getDistance(m_selectedUnit->getLogicalPosition(), logicalPos);
@@ -303,7 +370,6 @@ namespace RPG {
             std::vector<std::shared_ptr<Unit>> finalTargets;
             TargetType targetType = m_pendingAbility->getTargetType();
 
-            // PATH A: AOE Targeting
             if (m_pendingAbility->getRadius() > 0.f) {
                 auto caughtUnits = m_map->getUnitsInRadius(logicalPos, m_pendingAbility->getRadius());
                 for (auto& u : caughtUnits) {
@@ -312,7 +378,6 @@ namespace RPG {
                     else if (targetType == TargetType::AreaAlly && isAlly) finalTargets.push_back(u);
                 }
             }
-            // PATH B: Single Targeting
             else {
                 if (clickedUnit) {
                     bool isAlly = (clickedUnit->getTeam() == m_selectedUnit->getTeam());
@@ -365,18 +430,29 @@ namespace RPG {
         if (m_state == GameState::TargetingMode) cancelTargeting();
         else {
             m_selectedUnit = nullptr;
-            m_state = GameState::Idle;
+            if (m_state != GameState::PlacementMode) {
+                m_state = GameState::Idle;
+            }
         }
     }
 
     void BattleManager::selectUnit(std::shared_ptr<Unit> unit) {
         m_selectedUnit = unit;
-        m_state = GameState::UnitSelected;
+        if (m_state != GameState::PlacementMode) {
+            m_state = GameState::UnitSelected;
+        }
         if (m_hud) m_hud->setCombatActor(unit.get());
     }
 
     void BattleManager::startTargeting(CombatAbility* ability) {
         if (!ability || !m_selectedUnit) return;
+
+        if (ability->getTargetType() == TargetType::Self) {
+            ability->resolve({ m_selectedUnit });
+            m_state = GameState::UnitSelected;
+            return;
+        }
+
         m_pendingAbility = ability;
         m_state = GameState::TargetingMode;
     }
@@ -412,12 +488,35 @@ namespace RPG {
         }
 
         if (m_state == GameState::Busy && m_selectedUnit && !m_selectedUnit->isMoving()) {
-            m_state = GameState::UnitSelected;
+            if (m_enemyActionPending && m_selectedUnit->getTeam() == Team::Enemy) {
+                m_enemyActionPending = false;
+                m_state = GameState::UnitSelected;
+                executeEnemyAI();
+            }
+            else {
+                m_state = GameState::UnitSelected;
+            }
+        }
+        checkDeaths();
+    }
+    void BattleManager::checkDeaths() {
+        std::vector<std::shared_ptr<Unit>> deadUnits;
+        for (const auto& unit : m_turnQueue) {
+            if (unit->isDead()) {
+                deadUnits.push_back(unit);
+            }
+        }
+
+        for (const auto& dead : deadUnits) {
+            onUnitDeath(dead);
+            if (m_activeUnit == dead) {
+                m_activeUnit = nullptr;
+                nextTurn();
+            }
         }
     }
-
     void BattleManager::render(sf::RenderWindow& window) {
-        const float VISUAL_CORRECTION = 1.31f;
+        const float VISUAL_CORRECTION = 1.41f;
         const int gridSize = 15;
         const float tileSize = 32.f;
 
@@ -429,18 +528,38 @@ namespace RPG {
 
         window.draw(*m_map);
 
+        // Draw Deployment Zone if in Placement Mode
+        if (m_state == GameState::PlacementMode) {
+            sf::ConvexShape diamond;
+            diamond.setPointCount(4);
+            float s = tileSize;
+
+            diamond.setPoint(0, Iso::worldToScreen({ 0.f, s / 2.f }));
+            diamond.setPoint(1, Iso::worldToScreen({ s / 2.f, 0.f }));
+            diamond.setPoint(2, Iso::worldToScreen({ s, s / 2.f }));
+            diamond.setPoint(3, Iso::worldToScreen({ s / 2.f, s }));
+
+            diamond.setFillColor(sf::Color(0, 100, 255, 80));
+            diamond.setOutlineColor(sf::Color(100, 200, 255, 200));
+            diamond.setOutlineThickness(2.f);
+
+            for (const auto& logicPos : m_deploymentZone) {
+                sf::Vector2f tileTopLeft(logicPos.x - (s / 2.f), logicPos.y - (s / 2.f));
+                diamond.setPosition(Iso::worldToScreen(tileTopLeft));
+                window.draw(diamond);
+            }
+        }
+
         if (m_showDebug) {
             sf::VertexArray grid(sf::PrimitiveType::Lines);
             sf::Color gridColor(255, 255, 255, 80);
 
-            // Vertical lines
             for (int x = 0; x <= gridSize; ++x) {
                 sf::Vector2f start = Iso::worldToScreen({ x * tileSize, 0.f });
                 sf::Vector2f end = Iso::worldToScreen({ x * tileSize, gridSize * tileSize });
                 grid.append(sf::Vertex(start, gridColor));
                 grid.append(sf::Vertex(end, gridColor));
             }
-            // Horizontal lines
             for (int y = 0; y <= gridSize; ++y) {
                 sf::Vector2f start = Iso::worldToScreen({ 0.f, y * tileSize });
                 sf::Vector2f end = Iso::worldToScreen({ gridSize * tileSize, y * tileSize });
@@ -459,7 +578,6 @@ namespace RPG {
             m_rangeIndicator.setPosition(m_selectedUnit->getRenderPosition());
             window.draw(m_rangeIndicator);
 
-            // Draw AOE Blast Zone
             float aoeRadius = m_pendingAbility->getRadius();
             if (aoeRadius > 0.f) {
                 sf::Vector2i mousePixel = sf::Mouse::getPosition(window);
@@ -492,116 +610,94 @@ namespace RPG {
             });
 
         for (const auto& obj : objects) {
-            // Draw Health Bar and Selector Ring UNDER the unit if selected
             if (auto u = std::dynamic_pointer_cast<Unit>(obj)) {
                 if (u == m_selectedUnit) {
                     m_selector.setPosition(obj->getRenderPosition());
                     window.draw(m_selector);
                 }
-                // Draw Health Bar above units
-                const auto* sprite = obj->getSprite();
 
+                const auto* sprite = obj->getSprite();
                 float hp = u->getVitals().hp;
                 float maxHp = u->getVitals().maxHp;
                 float ratio = hp / maxHp;
 
-                // Get sprite position
                 sf::Vector2f pos = sprite->getPosition();
 
                 float barWidth = 40.f;
                 float barHeight = 5.f;
                 float offsetY = -70.f;
 
-                // black part
                 sf::RectangleShape bg;
                 bg.setSize({ barWidth, barHeight });
                 bg.setFillColor(sf::Color::Black);
                 bg.setOrigin({ barWidth / 2.f, barHeight / 2.f });
                 bg.setPosition({ pos.x, pos.y + offsetY });
 
-                // red part
                 sf::RectangleShape hpBar;
                 hpBar.setSize({ barWidth * ratio, barHeight });
                 hpBar.setFillColor(sf::Color::Red);
 
                 hpBar.setOrigin({ 0.f, barHeight / 2.f });
-                hpBar.setPosition({pos.x - (barWidth / 2.f),  pos.y + offsetY});
+                hpBar.setPosition({ pos.x - (barWidth / 2.f),  pos.y + offsetY });
 
                 window.draw(bg);
-                window.draw(hpBar);     
+                window.draw(hpBar);
             }
             obj->updateVisuals();
 
             if (const auto* sprite = obj->getSprite()) {
                 window.draw(*sprite);
-
             }
-            // Fallback
             else {
                 sf::CircleShape debug(10.f);
                 debug.setPosition(obj->getRenderPosition());
                 window.draw(debug);
             }
         }
-        // draws turn sequence of units to play in the left corner
-        float startX = -580.0f;
-        float startY = -150.0f;
-        float spacing = 60.0f;
-        for (size_t i = 0; i < m_turnQueue.size(); i++)
-        {
-            auto& unit = m_turnQueue[i];
 
-            const sf::Sprite* sprite = unit->getSprite();
-            if (!sprite) continue;
-
-            sf::Sprite icon = *sprite;
-
-            icon.setPosition({ startX + i * spacing, startY });
-            icon.setScale({ 1.3f, 1.3f });
-            icon.setOrigin({ 0.f, 0.f });
-
-            // Draw Red circle for enemies and Green for allies
-            sf::Color color = sf::Color::Green;
-            if (unit->getTeam() == Team::Enemy)
-                color = sf::Color::Red;
-            if (i == 0)
+        if (m_state != GameState::PlacementMode) {
+            float startX = -580.0f;
+            float startY = -150.0f;
+            float spacing = 60.0f;
+            for (size_t i = 0; i < m_turnQueue.size(); i++)
             {
-                sf::ConvexShape arrow;
-                arrow.setPointCount(3);
+                auto& unit = m_turnQueue[i];
 
-                // Triangle pointing down
-                arrow.setPoint(0, sf::Vector2f(0.f, 0.f));
-                arrow.setPoint(1, sf::Vector2f(20.f, 0.f));
-                arrow.setPoint(2, sf::Vector2f(10.f, -20.f));
+                const sf::Sprite* sprite = unit->getSprite();
+                if (!sprite) continue;
 
-                arrow.setFillColor(sf::Color::Yellow);
+                sf::Sprite icon = *sprite;
 
-                // Position it above the icon
-                arrow.setPosition(sf::Vector2f(
-                    startX + i * spacing + 10.f,
-                    startY + 70.f
-                ));
+                icon.setPosition({ startX + i * spacing, startY });
+                icon.setScale({ 1.3f, 1.3f });
+                icon.setOrigin({ 0.f, 0.f });
 
-                window.draw(arrow);
+                sf::Color color = sf::Color::Green;
+                if (unit->getTeam() == Team::Enemy)
+                    color = sf::Color::Red;
+                if (i == 0)
+                {
+                    sf::ConvexShape arrow;
+                    arrow.setPointCount(3);
+                    arrow.setPoint(0, sf::Vector2f(0.f, 0.f));
+                    arrow.setPoint(1, sf::Vector2f(20.f, 0.f));
+                    arrow.setPoint(2, sf::Vector2f(10.f, -20.f));
+                    arrow.setFillColor(sf::Color::Yellow);
+                    arrow.setPosition(sf::Vector2f(startX + i * spacing + 10.f, startY + 70.f));
+                    window.draw(arrow);
+                }
+
+                sf::CircleShape highlight;
+                highlight.setRadius(25.f);
+                highlight.setFillColor(sf::Color::Transparent);
+                highlight.setOutlineColor(color);
+                highlight.setOutlineThickness(3.f);
+                highlight.setOrigin({ 25.f, 25.f });
+                highlight.setPosition({ startX + i * spacing + 21.f, startY + 21.f });
+
+                window.draw(highlight);
+                window.draw(icon);
             }
-
-            sf::CircleShape highlight;
-            highlight.setRadius(25.f);
-            highlight.setFillColor(sf::Color::Transparent);
-            highlight.setOutlineColor(color);
-            highlight.setOutlineThickness(3.f);
-
-            highlight.setOrigin({ 25.f, 25.f });
-
-            // center it on icon
-            highlight.setPosition({
-                startX + i * spacing + 21.f,
-                startY + 21.f
-                });
-
-            window.draw(highlight);
-
-            window.draw(icon);
         }
 
         if (m_state == GameState::Moving && m_selectedUnit) {
@@ -623,7 +719,6 @@ namespace RPG {
             bool valid = isValidMove(mouseLogic, cost);
             sf::Color lineColor = valid ? sf::Color::Green : sf::Color::Red;
 
-            // Render Multi-segment A* Path
             std::vector<sf::Vector2f> visualPath = m_map->findPath(m_selectedUnit->getLogicalPosition(), mouseLogic, m_selectedUnit.get());
             if (!visualPath.empty()) {
                 sf::VertexArray pathLine(sf::PrimitiveType::LineStrip, visualPath.size() + 1);
@@ -678,7 +773,7 @@ namespace RPG {
             m_hud->onResize(window.getSize());
             m_hasInitializedHUD = true;
         }
-        if (m_hud) window.draw(*m_hud);
+        if (m_hud && m_state != GameState::PlacementMode) window.draw(*m_hud);
     }
 
     void BattleManager::startMovementMode() {
@@ -715,16 +810,12 @@ namespace RPG {
 
         lines[0].position = Iso::worldToScreen({ rect.position.x, rect.position.y });
         lines[0].color = color;
-
         lines[1].position = Iso::worldToScreen({ rect.position.x + rect.size.x, rect.position.y });
         lines[1].color = color;
-
         lines[2].position = Iso::worldToScreen({ rect.position.x + rect.size.x, rect.position.y + rect.size.y });
         lines[2].color = color;
-
         lines[3].position = Iso::worldToScreen({ rect.position.x, rect.position.y + rect.size.y });
         lines[3].color = color;
-
         lines[4].position = lines[0].position;
         lines[4].color = color;
 
@@ -739,21 +830,144 @@ namespace RPG {
         checkBattleStatus();
     }
 
+    void BattleManager::executeEnemyAI() {
+        if (!m_activeUnit || m_activeUnit->getTeam() != Team::Enemy) return;
+
+        std::shared_ptr<Unit> closestPlayer = nullptr;
+        float minDist = 99999.f;
+        for (const auto& unit : m_turnQueue) {
+            if (unit->getTeam() == Team::Player && !unit->isDead()) {
+                float dist = Iso::getDistance(m_activeUnit->getLogicalPosition(), unit->getLogicalPosition());
+                if (dist < minDist) {
+                    minDist = dist;
+                    closestPlayer = unit;
+                }
+            }
+        }
+
+        if (!closestPlayer) {
+            endTurn();
+            return;
+        }
+
+        std::shared_ptr<CombatAbility> chosenAbility = nullptr;
+        for (uint8_t i = 0; i < m_activeUnit->getHotbarSize(); ++i) {
+            auto ability = std::dynamic_pointer_cast<CombatAbility>(m_activeUnit->getHotbarAbility(i));
+            if (ability && ability->canBeCast() && ability->getTargetType() != TargetType::Self) {
+                chosenAbility = ability;
+                break;
+            }
+        }
+
+        if (!chosenAbility) {
+            endTurn();
+            return;
+        }
+
+        if (minDist <= chosenAbility->getRange()) {
+            chosenAbility->setOwner(m_activeUnit.get());
+            chosenAbility->resolve({ closestPlayer });
+            endTurn();
+        }
+        else {
+            sf::Vector2f targetPos = closestPlayer->getLogicalPosition();
+            sf::Vector2f bestDest = targetPos;
+            float bestDist = 99999.f;
+
+            std::vector<sf::Vector2f> offsets = { {35.f, 0.f}, {-35.f, 0.f}, {0.f, 35.f}, {0.f, -35.f} };
+            for (auto offset : offsets) {
+                sf::Vector2f testPos = targetPos + offset;
+                if (!m_map->isBlocked(testPos)) {
+                    float d = Iso::getDistance(m_activeUnit->getLogicalPosition(), testPos);
+                    if (d < bestDist) {
+                        bestDist = d;
+                        bestDest = testPos;
+                    }
+                }
+            }
+            std::vector<sf::Vector2f> fullPath = m_map->findPath(m_activeUnit->getLogicalPosition(), bestDest, m_activeUnit.get());
+            if (!fullPath.empty()) {
+                float currentStamina = m_activeUnit->getVitals().stamina;
+                float cost = 0.f;
+                std::vector<sf::Vector2f> truncatedPath;
+                sf::Vector2f currPos = m_activeUnit->getLogicalPosition();
+
+                for (const auto& wp : fullPath) {
+                    float stepCost = Iso::getDistance(currPos, wp) * STAMINA_COST_PER_UNIT;
+                    if (cost + stepCost > currentStamina) break;
+                    cost += stepCost;
+                    truncatedPath.push_back(wp);
+                    currPos = wp;
+                }
+
+                if (!truncatedPath.empty()) {
+                    m_activeUnit->consumeStamina(cost);
+                    m_activeUnit->setPath(truncatedPath);
+                    m_state = GameState::Busy;
+                    m_enemyActionPending = true;
+                }
+                else {
+                    endTurn();
+                }
+            }
+            else {
+                endTurn();
+            }
+        }
+    }
+
     void BattleManager::checkBattleStatus() {
+        if (m_battleResult != BattleResult::Pending) return;
+
         bool playersAlive = false;
         bool enemiesAlive = false;
         for (const auto& unit : m_turnQueue) {
-            if (unit->getTeam() == Team::Player) playersAlive = true;
-            if (unit->getTeam() == Team::Enemy) enemiesAlive = true;
+            if (unit->getTeam() == Team::Player && !unit->isDead()) playersAlive = true;
+            if (unit->getTeam() == Team::Enemy && !unit->isDead()) enemiesAlive = true;
         }
 
         if (!enemiesAlive) {
-            std::cout << "VICTORY! All enemies defeated." << std::endl;
-            m_battleOver = true;
+            m_battleResult = BattleResult::Victory;
+            finalizeBattle();
         }
         else if (!playersAlive) {
-            std::cout << "DEFEAT! Player has fallen." << std::endl;
-            m_battleOver = true;
+            m_battleResult = BattleResult::Defeat;
+            finalizeBattle();
+        }
+    }
+
+    void BattleManager::finalizeBattle() {
+        auto& party = PartyData::getInstance();
+
+        for (auto& unit : m_participatingPlayers) {
+            for (auto& profile : party.activeParty) {
+                if (profile && profile->id == unit->getName()) {
+                    profile->currentVitals = unit->getVitals();
+                    if (m_battleResult == BattleResult::Defeat && profile->currentVitals.hp <= 0) {
+                        profile->currentVitals.hp = 1.0f;
+                    }
+                }
+            }
+        }
+
+        if (m_battleResult == BattleResult::Victory) {
+            party.gold += 50;
+            for (const auto& itemId : m_lootItemIds) {
+                auto rewardItem = AbilityFactory::getInstance().createAbility(itemId, *this, nullptr);
+                if (rewardItem) {
+                    if (party.addItem(rewardItem)) {
+                        if (m_playerUnit) spawnFloatingText(m_playerUnit->getRenderPosition(), "+ " + rewardItem->getTooltip(), sf::Color::Green, 18);
+                    }
+                    else {
+                        if (m_playerUnit) spawnFloatingText(m_playerUnit->getRenderPosition(), "Inventory Full!", sf::Color::Red, 20);
+                    }
+                }
+            }
+            if (m_playerUnit) spawnFloatingText(m_playerUnit->getRenderPosition(), "VICTORY!", sf::Color::Yellow, 40, { 0.f, -20.f });
+        }
+        else {
+            party.gold = std::max(0, party.gold - 20);
+            if (m_playerUnit) spawnFloatingText(m_playerUnit->getRenderPosition(), "DEFEAT...", sf::Color::Red, 40, { 0.f, -10.f });
         }
     }
 
@@ -775,4 +989,4 @@ namespace RPG {
         ft.maxLifetime = 1.2f;
         m_floatingTexts.push_back(ft);
     }
-} 
+}

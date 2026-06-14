@@ -89,6 +89,20 @@
       "critChance": 0.15,
       "doubleTurnChance": 0.20,
       "abilities": ["slash", "fireball", "poison_dart", "whirlwind"]
+    },
+    {
+      "id": "enemy_ice_golem",
+      "name": "Glacial Behemoth",
+      "spritesheetId": "BattleEnemies",
+      "textureRect": [96, 128, 32, 32],
+      "hp": 250.0,
+      "mp": 100.0,
+      "stamina": 100.0,
+      "stats": { "Strength": 15.0, "Dexterity": 2.0, "Intellect": 18.0, "Vitality": 25.0 },
+      "initiative": 4,
+      "critChance": 0.02,
+      "doubleTurnChance": 0.0,
+      "abilities": ["frostbite", "slash"]
     }
   ]
 }
