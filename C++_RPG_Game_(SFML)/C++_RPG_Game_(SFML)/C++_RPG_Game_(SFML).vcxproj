@@ -179,14 +179,19 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\game_objects\components\components.h" />
+    <ClInclude Include="src\game_objects\components\DialogTriggerHandler.h" />
+    <ClInclude Include="src\game_objects\components\GameTriggerHandler.h" />
     <ClInclude Include="src\game_objects\components\InteractionComponent.h" />
+    <ClInclude Include="src\game_objects\components\ITriggerHandler.h" />
     <ClInclude Include="src\game_objects\components\NpcComponent.h" />
     <ClInclude Include="src\game_objects\components\MovementComponent.h" />
+    <ClInclude Include="src\game_objects\components\PhysicsHelpers.h" />
     <ClInclude Include="src\game_objects\components\PlayerInputComponent.h" />
     <ClInclude Include="src\game_objects\components\ColliderComponent.h" />
     <ClInclude Include="src\game_objects\components\AnimationComponent.h" />
     <ClInclude Include="src\game_objects\components\RenderComponent.h" />
     <ClInclude Include="src\game_objects\components\Component.h" />
+    <ClInclude Include="src\game_objects\components\TriggerComponent.h" />
     <ClInclude Include="src\game_objects\GameObject.h" />
     <ClInclude Include="src\combat\AbilityData.h" />
     <ClInclude Include="src\combat\AbilityFactory.h" />
@@ -219,6 +224,7 @@
     <ClInclude Include="src\game_objects\systems\MovementSystem.h" />
     <ClInclude Include="src\game_objects\systems\RenderSystem.h" />
     <ClInclude Include="src\game_objects\systems\SystemManager.h" />
+    <ClInclude Include="src\game_objects\systems\TriggerSystem.h" />
     <ClInclude Include="src\GUI\windows\InventoryWindow.h" />
     <ClInclude Include="src\scenes\BaseGameScene.h" />
     <ClInclude Include="src\scenes\BattleScene.h" />

@@ -3,6 +3,7 @@
     "expandedProjectPaths": [
         "."
     ],
+    "file.lastUsedOpenFilter": "All Files (*)",
     "fileStates": {
         "": {
             "scaleInDock": 1
@@ -48,14 +49,14 @@
         "world.tmx": {
             "expandedObjectLayers": [
                 6,
-                4,
-                2
+                2,
+                4
             ],
             "scale": 1.5,
             "selectedLayer": 3,
             "viewCenter": {
-                "x": -404.9999999999999,
-                "y": 168
+                "x": -256,
+                "y": 511.66666666666663
             }
         }
     },

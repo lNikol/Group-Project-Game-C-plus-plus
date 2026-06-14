@@ -5,6 +5,7 @@
 #include <algorithm>
 #include "worldmap/WorldMap.h"
 #include "worldmap/StructureDefinition.h"
+#include "game_objects/components/TriggerComponent.h"
 #include "core/Constants.h"
 
 namespace RPG {
@@ -33,12 +34,13 @@ namespace RPG {
           */
 
         static bool placeStructure(WorldMap& map, float worldX, float worldY,
-                                   const std::string& id, uint8_t zIndex);
+               const std::string& id, uint8_t zIndex);
 
     private:
         static void processTileLayer(const nlohmann::json& layer, WorldMap& map);
         static void processObjectLayer(const nlohmann::json& layer, WorldMap& map);
         static FactionID mapFaction(std::string name);
+        static TriggerAction mapTrigger(std::string name);
         static std::string getStrProperty(const nlohmann::json& el, const std::string& name, const std::string& def);
         static int getIntProperty(const nlohmann::json& el, const std::string& name, int def);
         static uint8_t determineZIndex(const nlohmann::json& layer);

@@ -8,11 +8,14 @@
 #include "worldmap/AssetManager.h"
 #include "game_objects/components/InteractionComponent.h"
 #include "game_objects/components/NpcComponent.h"
+#include "game_objects/components/GameTriggerHandler.h"
+#include "game_objects/components/DialogTriggerHandler.h"
 #include "game_objects/systems/SystemManager.h"
 #include "game_objects/systems/InputSystem.h"
 #include "game_objects/systems/MovementSystem.h"
 #include "game_objects/systems/AnimationSystem.h"
 #include "game_objects/systems/RenderSystem.h"
+#include "game_objects/systems/TriggerSystem.h"
 
 namespace RPG {
 

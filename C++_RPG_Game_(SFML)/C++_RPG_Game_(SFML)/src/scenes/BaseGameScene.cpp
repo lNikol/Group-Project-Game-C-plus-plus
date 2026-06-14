@@ -12,6 +12,15 @@ namespace RPG {
         systemManager.addSystem<InputSystem>();
         systemManager.addSystem<MovementSystem>(*worldMap);
         systemManager.addSystem<AnimationSystem>();
+
+        systemManager.addSystem<TriggerSystem>(
+            *worldMap,
+            std::vector<std::shared_ptr<ITriggerHandler>>{
+            std::make_shared<GameTriggerHandler>(sceneController),   
+            std::make_shared<DialogTriggerHandler>()
+        }
+        );
+
         systemManager.addSystem<RenderSystem>();
     }
 

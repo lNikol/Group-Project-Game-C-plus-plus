@@ -396,6 +396,58 @@
                  "width":30,
                  "x":-984.333,
                  "y":253.5
+                }, 
+                {
+                 "height":38,
+                 "id":362,
+                 "name":"trigger",
+                 "opacity":1,
+                 "properties":[
+                        {
+                         "name":"action",
+                         "type":"string",
+                         "value":"ChangeScene"
+                        }, 
+                        {
+                         "name":"targetScene",
+                         "type":"string",
+                         "value":"neutral"
+                        }],
+                 "rotation":0,
+                 "type":"trigger",
+                 "visible":true,
+                 "width":45.3333333333333,
+                 "x":-694.666666666667,
+                 "y":45.3333333333333
+                }, 
+                {
+                 "ellipse":true,
+                 "height":98.0000000000001,
+                 "id":364,
+                 "name":"trigger",
+                 "opacity":1,
+                 "properties":[
+                        {
+                         "name":"action",
+                         "type":"string",
+                         "value":"startdialog"
+                        }, 
+                        {
+                         "name":"dialogId",
+                         "type":"int",
+                         "value":665
+                        }, 
+                        {
+                         "name":"oneShot",
+                         "type":"string",
+                         "value":"false"
+                        }],
+                 "rotation":0,
+                 "type":"trigger",
+                 "visible":true,
+                 "width":97.9999999999998,
+                 "x":-986.666666666667,
+                 "y":122.666666666667
                 }],
          "opacity":1,
          "properties":[
@@ -3007,11 +3059,11 @@
                 {
                  "height":0,
                  "id":117,
-                 "name":"PlayerSpawn",
+                 "name":"player_spawn",
                  "opacity":1,
                  "point":true,
                  "rotation":0,
-                 "type":"",
+                 "type":"player_spawn",
                  "visible":true,
                  "width":0,
                  "x":-719.167,
@@ -3020,11 +3072,17 @@
                 {
                  "height":0,
                  "id":121,
-                 "name":"GateKeeper",
+                 "name":"npc_spawn",
                  "opacity":1,
                  "point":true,
+                 "properties":[
+                        {
+                         "name":"faction",
+                         "type":"string",
+                         "value":"battle"
+                        }],
                  "rotation":0,
-                 "type":"",
+                 "type":"npc_spawn",
                  "visible":true,
                  "width":0,
                  "x":-941.333,
@@ -3033,11 +3091,17 @@
                 {
                  "height":0,
                  "id":143,
-                 "name":"NGateKeeper",
+                 "name":"npc_spawn",
                  "opacity":1,
                  "point":true,
+                 "properties":[
+                        {
+                         "name":"faction",
+                         "type":"string",
+                         "value":"neutral"
+                        }],
                  "rotation":0,
-                 "type":"",
+                 "type":"npc_spawn",
                  "visible":true,
                  "width":0,
                  "x":-528,
@@ -3045,16 +3109,41 @@
                 }, 
                 {
                  "height":0,
-                 "id":144,
-                 "name":"NGateKeeper",
+                 "id":360,
+                 "name":"npc_spawn",
                  "opacity":1,
                  "point":true,
+                 "properties":[
+                        {
+                         "name":"faction",
+                         "type":"string",
+                         "value":"white"
+                        }],
                  "rotation":0,
-                 "type":"",
+                 "type":"npc_spawn",
                  "visible":true,
                  "width":0,
-                 "x":-430,
-                 "y":539.333
+                 "x":-462,
+                 "y":318.666666666667
+                }, 
+                {
+                 "height":0,
+                 "id":361,
+                 "name":"npc_spawn",
+                 "opacity":1,
+                 "point":true,
+                 "properties":[
+                        {
+                         "name":"faction",
+                         "type":"string",
+                         "value":"dark"
+                        }],
+                 "rotation":0,
+                 "type":"npc_spawn",
+                 "visible":true,
+                 "width":0,
+                 "x":-464.666666666667,
+                 "y":255.333333333333
                 }],
          "opacity":1,
          "properties":[
@@ -3069,7 +3158,7 @@
          "y":0
         }],
  "nextlayerid":7,
- "nextobjectid":360,
+ "nextobjectid":365,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.12.0",

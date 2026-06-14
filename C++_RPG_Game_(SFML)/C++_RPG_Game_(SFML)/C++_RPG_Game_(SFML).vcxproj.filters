@@ -77,15 +77,6 @@
     <Filter Include="Pliki źródłowe\animation">
       <UniqueIdentifier>{bcc739db-2117-4500-9ba9-cc89bb150adb}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Pliki nagłówkowe\gameobjects">
-      <UniqueIdentifier>{574efbda-afe4-4d20-8c19-f2962b84c274}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Pliki nagłówkowe\gameobjects\systems">
-      <UniqueIdentifier>{66b08050-b9fa-47f5-9c4a-513755ad4761}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Pliki nagłówkowe\gameobjects\components">
-      <UniqueIdentifier>{cbea245a-e1aa-459d-832b-21530b53c10d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Pliki źródłowe\game_objects">
       <UniqueIdentifier>{b2e15616-a3ae-4282-9dc1-9bb81eb31aea}</UniqueIdentifier>
     </Filter>
@@ -94,6 +85,15 @@
     </Filter>
     <Filter Include="Pliki źródłowe\game_objects\systems">
       <UniqueIdentifier>{b2d1f6f2-ac20-4331-bb10-b57addeee669}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pliki nagłówkowe\game_objects">
+      <UniqueIdentifier>{574efbda-afe4-4d20-8c19-f2962b84c274}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pliki nagłówkowe\game_objects\systems">
+      <UniqueIdentifier>{66b08050-b9fa-47f5-9c4a-513755ad4761}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pliki nagłówkowe\game_objects\components">
+      <UniqueIdentifier>{cbea245a-e1aa-459d-832b-21530b53c10d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -324,9 +324,6 @@
     <ClInclude Include="src\animation\AnimationManager.h">
       <Filter>Pliki nagłówkowe\animation</Filter>
     </ClInclude>
-    <ClInclude Include="src\entities\WorldObject.h">
-      <Filter>Pliki nagłówkowe</Filter>
-    </ClInclude>
     <ClInclude Include="src\combat\StatusEffect.h">
       <Filter>Pliki nagłówkowe\combat</Filter>
     </ClInclude>
@@ -358,67 +355,85 @@
       <Filter>Pliki nagłówkowe\GUI\windows</Filter>
     </ClInclude>
     <ClInclude Include="src\game_objects\systems\AnimationSystem.h">
-      <Filter>Pliki nagłówkowe\gameobjects\systems</Filter>
+      <Filter>Pliki nagłówkowe\game_objects\systems</Filter>
     </ClInclude>
     <ClInclude Include="src\game_objects\systems\CollisionSystem.h">
-      <Filter>Pliki nagłówkowe\gameobjects\systems</Filter>
+      <Filter>Pliki nagłówkowe\game_objects\systems</Filter>
     </ClInclude>
     <ClInclude Include="src\game_objects\systems\DebugSystem.h">
-      <Filter>Pliki nagłówkowe\gameobjects\systems</Filter>
+      <Filter>Pliki nagłówkowe\game_objects\systems</Filter>
     </ClInclude>
     <ClInclude Include="src\game_objects\systems\InputSystem.h">
-      <Filter>Pliki nagłówkowe\gameobjects\systems</Filter>
+      <Filter>Pliki nagłówkowe\game_objects\systems</Filter>
     </ClInclude>
     <ClInclude Include="src\game_objects\systems\ISystem.h">
-      <Filter>Pliki nagłówkowe\gameobjects\systems</Filter>
+      <Filter>Pliki nagłówkowe\game_objects\systems</Filter>
     </ClInclude>
     <ClInclude Include="src\game_objects\systems\MovementSystem.h">
-      <Filter>Pliki nagłówkowe\gameobjects\systems</Filter>
+      <Filter>Pliki nagłówkowe\game_objects\systems</Filter>
     </ClInclude>
     <ClInclude Include="src\game_objects\systems\RenderSystem.h">
-      <Filter>Pliki nagłówkowe\gameobjects\systems</Filter>
+      <Filter>Pliki nagłówkowe\game_objects\systems</Filter>
     </ClInclude>
     <ClInclude Include="src\game_objects\systems\SystemManager.h">
-      <Filter>Pliki nagłówkowe\gameobjects\systems</Filter>
+      <Filter>Pliki nagłówkowe\game_objects\systems</Filter>
     </ClInclude>
     <ClInclude Include="src\game_objects\components\AnimationComponent.h">
-      <Filter>Pliki nagłówkowe\gameobjects\components</Filter>
+      <Filter>Pliki nagłówkowe\game_objects\components</Filter>
     </ClInclude>
     <ClInclude Include="src\game_objects\components\ColliderComponent.h">
-      <Filter>Pliki nagłówkowe\gameobjects\components</Filter>
+      <Filter>Pliki nagłówkowe\game_objects\components</Filter>
     </ClInclude>
     <ClInclude Include="src\game_objects\components\InteractionComponent.h">
-      <Filter>Pliki nagłówkowe\gameobjects\components</Filter>
+      <Filter>Pliki nagłówkowe\game_objects\components</Filter>
     </ClInclude>
     <ClInclude Include="src\game_objects\components\PlayerInputComponent.h">
-      <Filter>Pliki nagłówkowe\gameobjects\components</Filter>
+      <Filter>Pliki nagłówkowe\game_objects\components</Filter>
     </ClInclude>
     <ClInclude Include="src\game_objects\components\RenderComponent.h">
-      <Filter>Pliki nagłówkowe\gameobjects\components</Filter>
+      <Filter>Pliki nagłówkowe\game_objects\components</Filter>
     </ClInclude>
     <ClInclude Include="src\game_objects\components\StructureComponent.h">
-      <Filter>Pliki nagłówkowe\gameobjects\components</Filter>
+      <Filter>Pliki nagłówkowe\game_objects\components</Filter>
     </ClInclude>
     <ClInclude Include="src\game_objects\components\MovementComponent.h">
-      <Filter>Pliki nagłówkowe\gameobjects\components</Filter>
+      <Filter>Pliki nagłówkowe\game_objects\components</Filter>
     </ClInclude>
     <ClInclude Include="src\game_objects\components\Component.h">
-      <Filter>Pliki nagłówkowe\gameobjects\components</Filter>
+      <Filter>Pliki nagłówkowe\game_objects\components</Filter>
     </ClInclude>
     <ClInclude Include="src\game_objects\components\components.h">
-      <Filter>Pliki nagłówkowe\gameobjects\components</Filter>
+      <Filter>Pliki nagłówkowe\game_objects\components</Filter>
     </ClInclude>
     <ClInclude Include="src\game_objects\GameObject.h">
-      <Filter>Pliki nagłówkowe\gameobjects</Filter>
+      <Filter>Pliki nagłówkowe\game_objects</Filter>
     </ClInclude>
     <ClInclude Include="src\game_objects\GameObjectFactory.h">
-      <Filter>Pliki nagłówkowe\gameobjects</Filter>
+      <Filter>Pliki nagłówkowe\game_objects</Filter>
     </ClInclude>
     <ClInclude Include="src\game_objects\components\NpcComponent.h">
-      <Filter>Pliki nagłówkowe\gameobjects\components</Filter>
+      <Filter>Pliki nagłówkowe\game_objects\components</Filter>
     </ClInclude>
     <ClInclude Include="src\worldmap\MapLoader.h">
       <Filter>Pliki nagłówkowe\worldmap</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game_objects\systems\TriggerSystem.h">
+      <Filter>Pliki nagłówkowe\game_objects\systems</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game_objects\components\DialogTriggerHandler.h">
+      <Filter>Pliki nagłówkowe\game_objects\components</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game_objects\components\GameTriggerHandler.h">
+      <Filter>Pliki nagłówkowe\game_objects\components</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game_objects\components\ITriggerHandler.h">
+      <Filter>Pliki nagłówkowe\game_objects\components</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game_objects\components\TriggerComponent.h">
+      <Filter>Pliki nagłówkowe\game_objects\components</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game_objects\components\PhysicsHelpers.h">
+      <Filter>Pliki nagłówkowe\game_objects\components</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

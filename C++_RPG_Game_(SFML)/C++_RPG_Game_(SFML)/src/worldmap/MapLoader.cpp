@@ -122,8 +122,7 @@ namespace RPG {
         AssetManager& am = AssetManager::getInstance();
 
         for (const auto& obj : layer["objects"]) {
-            std::string type = getStrProperty(obj, "type", "");
-            std::string factionName = getStrProperty(obj, "faction", "neutral");
+            std::string type = obj.value("type", "");
             int interactId  = getIntProperty(obj, "interaction_id", -1);
             std::string objName = obj.value("name", "");
 
@@ -144,19 +143,39 @@ namespace RPG {
                 float rx = static_cast<float>(obj["x"]) - offsetX * GameConfig::TILE_SIZE;
                 float ry = static_cast<float>(obj["y"]) - offsetY * GameConfig::TILE_SIZE;
 
-                if (type == "player_spawn" || objName == "PlayerSpawn") {
+                if (type == "player_spawn") {
                     map.setPlayerInitialPosition(rx, ry);
                 }
-                else if (type == "npc_spawn" || objName == "GateKeeper" || objName == "WGateKeeper") {
-                    FactionID faction = mapFaction(factionName);
-                    if (objName == "GateKeeper")  faction = FactionID::BattleScene;
-                    if (objName == "WGateKeeper") faction = FactionID::MainWorld;
-                    map.spawnNPC(rx, ry, faction, interactId);
+                else if (type == "npc_spawn") {
+                    FactionID faction = mapFaction(getStrProperty(obj, "faction", "neutral"));
+                    map.spawnNPC(rx, ry, faction);
                 }
-                else if (interactId != -1) {
-                    float rw = obj.value("width",  0.f);
-                    float rh = obj.value("height", 0.f);
-                    map.addTriggerZone(rx, ry, rw, rh, interactId);
+                else if (type == "trigger") {
+                    float rw = obj.value("width", 64.f);
+                    float rh = obj.value("height", 64.f);
+
+                    auto triggerObj = std::make_unique<GameObject>("trigger");
+                    triggerObj->setPosition({ rx, ry });
+
+                    auto* tc = triggerObj->addComponent<TriggerComponent>();
+
+                    bool isEllipse = obj.value("ellipse", false);
+                    if (isEllipse) {
+                        tc->shape = TriggerShape::Circle;
+                        tc->radius = rw / 2.f; 
+                    }
+                    else {
+                        tc->shape = TriggerShape::Rect;
+                        tc->rectSize = { rw, rh };
+                    }
+
+                    tc->action = mapTrigger(getStrProperty(obj, "action", ""));
+                    tc->targetScene = mapFaction(getStrProperty(obj, "targetScene", "neutral"));
+                    tc->dialogId = getIntProperty(obj, "dialogId", -1);
+                    tc->chestId =  getIntProperty(obj, "chestId", -1);
+                    tc->oneShot =  getStrProperty(obj, "oneShot", "true") == "true";
+
+                    map.addGameObject(std::move(triggerObj));
                 }
             }
         }
@@ -173,6 +192,19 @@ namespace RPG {
         };
         auto it = m.find(name);
         return (it != m.end()) ? it->second : FactionID::NeutralOrder;
+    }
+
+
+    TriggerAction MapLoader::mapTrigger(std::string name) {
+        std::transform(name.begin(), name.end(), name.begin(), ::tolower);
+        static const std::unordered_map<std::string, TriggerAction> m = {
+            {"changescene", TriggerAction::ChangeScene},
+            {"openchest",   TriggerAction::OpenChest},
+            {"startdialog", TriggerAction::StartDialog},
+            {"savegame",    TriggerAction::SaveGame}
+        };
+        auto it = m.find(name);
+        return (it != m.end()) ? it->second : TriggerAction::ChangeScene;
     }
 
     uint8_t MapLoader::determineZIndex(const nlohmann::json& layer) {

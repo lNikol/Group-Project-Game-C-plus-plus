@@ -1,5 +1,6 @@
 #pragma once
 #include "game_objects/components/ColliderComponent.h"
+#include "game_objects/components/PhysicsHelpers.h"
 #include "game_objects/GameObject.h"
 #include "worldmap/WorldMap.h"
 #include <SFML/Graphics.hpp>
@@ -45,7 +46,7 @@ namespace RPG {
                 if (entity.get() == ignore) continue;
                 const auto* col = entity->getComponent<ColliderComponent>();
                 if (!col) continue;
-                if (hitbox.findIntersection(col->getGlobalHitbox()).has_value())
+                if (Physics::overlaps(hitbox, col->getGlobalHitbox()))
                     return true;
             }
 

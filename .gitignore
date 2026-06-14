@@ -102,3 +102,6 @@ pip-delete-this-directory.txt
 !/C++_RPG_Game_(SFML)/C++_RPG_Game_(SFML)/*.dll
 /C++_RPG_Game_(SFML)/C++_RPG_Game_(SFML)/src/entities/WorldObject.cpp
 /C++_RPG_Game_(SFML)/C++_RPG_Game_(SFML)/src/entities/WorldObject.h
+
+
+*.zip
