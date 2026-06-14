@@ -34,7 +34,7 @@ namespace RPG {
         // ==============================
 
         bool handleEvent(sf::RenderWindow& window, const sf::Event& event) override;
-        void update(float dt) override;
+        void update(float dt, const sf::RenderWindow& window) override;
         void draw(sf::RenderWindow& window) override;
 
     private:

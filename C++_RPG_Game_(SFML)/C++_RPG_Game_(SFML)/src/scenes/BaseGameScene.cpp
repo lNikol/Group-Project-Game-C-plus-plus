@@ -10,7 +10,7 @@
             camera.setSize(sf::Vector2f(static_cast<float>(Window::WIDTH), static_cast<float>(Window::HEIGHT)));
         }
 
-        void BaseGameScene::update(float dt) {
+        void BaseGameScene::update(float dt, const sf::RenderWindow& window) {
             camera.setCenter(worldMap->getPlayer()->getPosition());
             
             for (auto& obj : worldMap->getGameObjects()) {

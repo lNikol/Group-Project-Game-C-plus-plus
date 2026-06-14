@@ -49,7 +49,7 @@ namespace RPG {
          * * @param dt Delta time since last frame.
          * @param window Reference to the render window.
          */
-        void update(float dt) override;
+        void update(float dt, const sf::RenderWindow& window) override;
 
         /**
          * @brief Renders the game world and entities.

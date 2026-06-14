@@ -30,7 +30,7 @@ namespace RPG {
          * @param dt Delta time in seconds since the last frame.
          * @param window Reference to the render window for coordinate mapping.
          */
-        virtual void update(float dt) = 0;
+        virtual void update(float dt, const sf::RenderWindow& window) = 0;
 
         /**
          * @brief Renders the scene's visual components to the window.

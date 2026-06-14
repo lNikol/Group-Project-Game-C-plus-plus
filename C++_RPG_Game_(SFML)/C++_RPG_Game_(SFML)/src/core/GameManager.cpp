@@ -262,7 +262,7 @@ namespace RPG {
     }
 
     void GameManager::update(float dt) {
-        if (currentScene) currentScene->update(dt);
+        if (currentScene) currentScene->update(dt, window);
     }
 
     void GameManager::draw() {
