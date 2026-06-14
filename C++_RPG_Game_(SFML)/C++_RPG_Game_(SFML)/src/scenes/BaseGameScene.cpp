@@ -16,20 +16,56 @@ namespace RPG {
         systemManager.addSystem<TriggerSystem>(
             *worldMap,
             std::vector<std::shared_ptr<ITriggerHandler>>{
-            std::make_shared<GameTriggerHandler>(sceneController),   
-            std::make_shared<DialogTriggerHandler>()
+            std::make_shared<GameTriggerHandler>(sceneController),
+                std::make_shared<DialogTriggerHandler>()
         }
         );
 
-        void BaseGameScene::update(float dt, const sf::RenderWindow& window) {
-            camera.setCenter(worldMap->getPlayer()->getPosition());
-            
-            for (auto& obj : worldMap->getGameObjects()) {
-                obj->update(dt);
+        systemManager.addSystem<RenderSystem>();
+    }
+
+    void BaseGameScene::update(float dt, const sf::RenderWindow& window) {
+        if (!worldMap) return;
+        systemManager.update(dt, worldMap->getGameObjects());
+    }
+
+
+    // ==============================
+    // Draw 
+    // ==============================
+
+    void BaseGameScene::draw(sf::RenderWindow& window) {
+        if (!worldMap) return;
+
+        // 1. Place camera centered on player
+        worldRenderer.setupView(window, *worldMap);
+
+        // 2. Draw ground (layer 0)
+        worldRenderer.drawGround(window, *worldMap);
+
+        // 3. RenderSystem sorts and draws all GameObjects (layer 1+)
+        systemManager.draw(window, worldMap->getGameObjects());
+
+        // 4. Debug HUD (player position, UI layer)
+        worldRenderer.drawDebugHUD(window, *worldMap);
+    }
+
+    // ==============================
+    // Events
+    // ==============================
+
+    bool BaseGameScene::handleEvent(sf::RenderWindow& window, const sf::Event& event) {
+        if (const auto* key = event.getIf<sf::Event::KeyPressed>()) {
+            if (key->scancode == sf::Keyboard::Scancode::E) {
+                checkInteraction();
+            }
+            if (key->scancode == sf::Keyboard::Scancode::I) {
+                isInventoryOpen = !isInventoryOpen;
             }
         }
         return false;
     }
+
 
     // ==============================
     // Interaction

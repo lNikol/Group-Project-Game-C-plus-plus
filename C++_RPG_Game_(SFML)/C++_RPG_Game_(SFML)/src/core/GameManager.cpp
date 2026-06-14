@@ -41,13 +41,13 @@ namespace RPG {
 
     void GameManager::initGameData() {
         if (!AbilityFactory::getInstance().loadFromJSON("assets/jsons/abilities.json")) {
-            std::cerr << "CRITICAL: Failed to load abilities.json\n";
+            std::cerr << "[GameManager] CRITICAL: Failed to load abilities.json\n";
         }
         if (!UnitFactory::getInstance().loadFromJSON("assets/jsons/units.json")) {
-            std::cerr << "CRITICAL: Failed to load units.json\n";
+            std::cerr << "[GameManager] CRITICAL: Failed to load units.json\n";
         }
         if (!PropFactory::getInstance().loadFromJSON("assets/jsons/props.json")) {
-            std::cerr << "CRITICAL: Failed to load props.json\n";
+            std::cerr << "[GameManager] CRITICAL: Failed to load props.json\n";
         }
 
         auto& party = PartyData::getInstance();
