@@ -168,8 +168,6 @@ namespace RPG {
          */
         const sf::Texture* getTexture(const std::string& name) const;
 
-
-
         std::string getDefinitionByType(const StructureType& type) const;
 
         // ==============================

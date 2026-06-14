@@ -8,19 +8,18 @@ namespace RPG {
     /** @brief Defines the visual and physical properties of a map structure */
     enum class StructureType {
         None,
-        InvisibleBlock, // To block the neighborhood of the center point of a large object
-        Rock, Tree, Wall,           // Obstacles
-        Water, River, Swamp, Grass, Sand, // Ground types
-        Decoration,
-        interactObj,
-        Camp, SaveZone, FactionBase, House // Special zones
+        InvisibleBlock,                     // To block the neighborhood of the center point of a large object
+        Rock, Tree, Wall,                   // Obstacles
+        Water, River, Swamp, Grass, Sand,   // Ground types
+        Decoration, interactObj,
+        Camp, SaveZone, FactionBase, House  // Special zones
     };
 
     enum class PlacementLayer {
-        Ground,    // Ground
-        Decoration,    // Flowers
-        Object,    // Chests
-        Structure  // Walls
+        Ground,         // Ground
+        Decoration,     // Flowers
+        Object,         // Chests
+        Structure       // Walls
     };
 
     namespace LayerZIndex {

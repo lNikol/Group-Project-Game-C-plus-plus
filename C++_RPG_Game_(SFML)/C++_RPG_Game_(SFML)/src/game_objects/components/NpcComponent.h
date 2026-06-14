@@ -1,6 +1,6 @@
 #pragma once
 #include "Component.h"
-#include "../../worldmap/enums.h"
+#include "worldmap/enums.h"
 
 namespace RPG {
 

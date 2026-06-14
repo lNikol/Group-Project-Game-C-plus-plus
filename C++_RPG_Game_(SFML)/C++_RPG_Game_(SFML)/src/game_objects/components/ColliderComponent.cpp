@@ -19,10 +19,7 @@ namespace RPG {
 		if (!showDebug || !owner) return;
 
 		sf::RectangleShape rect({ localHitbox.size.x, localHitbox.size.y });
-		sf::Vector2f globalPos = owner->getPosition() + sf::Vector2f(
-			localHitbox.position.x, 
-			localHitbox.position.y
-		);
+		sf::Vector2f globalPos = owner->getPosition() + localHitbox.position;
 
 		rect.setPosition(globalPos);
 		rect.setFillColor(sf::Color::Transparent);

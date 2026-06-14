@@ -1,19 +1,14 @@
 #pragma once
 #include "Component.h"
-#include <cassert>
-#include <SFML/Graphics.hpp>
 
 namespace RPG {
 
-	class MovementComponent;
-	/**
-		This class requires the GameObject to have a 
-		@MovementComponent assigned in order to function.
-	*/
-	class PlayerInputComponent : public Component {
-		MovementComponent* movementComponent;
-	public:
-		void init() override;
-		void update(float dt) override;
-	};
+    /**
+     * @brief Tag component — indicates an entity controlled by the player.
+     * Keyboard logic resides in InputSystem.
+     */
+    class PlayerInputComponent : public Component {
+        // Intentionally empty.
+    };
+
 }

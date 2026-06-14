@@ -3,6 +3,7 @@
     "expandedProjectPaths": [
         "."
     ],
+    "file.lastUsedOpenFilter": "All Files (*)",
     "fileStates": {
         "": {
             "scaleInDock": 1
@@ -13,11 +14,14 @@
             "scaleInEditor": 0.33
         },
         "neutral.tmj": {
-            "scale": 1.2060546875,
-            "selectedLayer": 4,
+            "expandedObjectLayers": [
+                5
+            ],
+            "scale": 5.5,
+            "selectedLayer": 1,
             "viewCenter": {
-                "x": 28.605668016194336,
-                "y": 512
+                "x": 6.272727272727272,
+                "y": 512.0909090909091
             }
         },
         "neutral.tmx": {
@@ -36,23 +40,23 @@
         },
         "world.tmj": {
             "scale": 1.1386393229166665,
-            "selectedLayer": 0,
+            "selectedLayer": 2,
             "viewCenter": {
                 "x": -256.0073186769205,
-                "y": 511.57551673861474
+                "y": 511.5755167386147
             }
         },
         "world.tmx": {
             "expandedObjectLayers": [
-                4,
+                6,
                 2,
-                6
+                4
             ],
-            "scale": 3,
+            "scale": 1.5,
             "selectedLayer": 3,
             "viewCenter": {
-                "x": -255.99999999999997,
-                "y": 511.83333333333326
+                "x": -256,
+                "y": 511.66666666666663
             }
         }
     },

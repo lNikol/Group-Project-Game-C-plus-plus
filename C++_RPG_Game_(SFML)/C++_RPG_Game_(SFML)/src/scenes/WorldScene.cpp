@@ -15,11 +15,6 @@ namespace RPG {
 
     bool WorldScene::handleEvent(sf::RenderWindow& window, const sf::Event& event) {
         BaseGameScene::handleEvent(window, event);
-
-        if (const auto* keyPressed = event.getIf<sf::Event::KeyPressed>()) {
-            if (keyPressed->scancode == sf::Keyboard::Scancode::F) {
-            }
-        }
         return false;
     }
 }

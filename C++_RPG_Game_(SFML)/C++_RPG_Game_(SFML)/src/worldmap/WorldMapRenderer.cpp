@@ -4,238 +4,87 @@
 namespace RPG {
 
     WorldMapRenderer::WorldMapRenderer() {
-        // Default size, will be updated per tile if needed
-        tileRect.setSize(sf::Vector2f(static_cast<float>(GameConfig::TILE_SIZE), static_cast<float>(GameConfig::TILE_SIZE)));
+        tileRect.setSize({
+            static_cast<float>(GameConfig::TILE_SIZE),
+            static_cast<float>(GameConfig::TILE_SIZE)
+        });
     }
 
-    void WorldMapRenderer::draw(
-        sf::RenderWindow& window,
-        const WorldMap& worldMap,
-        float percentView
-    ) {
-        // --- SETUP VIEW ---
-        sf::View currentView = window.getView();
-        sf::Vector2f center = currentView.getCenter();
-        sf::Vector2f size = currentView.getSize();
+    void WorldMapRenderer::setupView(sf::RenderWindow& window, const WorldMap& worldMap) {
+        if (!worldMap.getPlayer()) return;
 
-        float zoomFactor = 2.0f;
+        constexpr float zoomFactor = 2.0f;
+        sf::Vector2u    winSize    = window.getSize();
 
-        // 2. Get the actual window size (e.g., 1280x720)
-        sf::Vector2u windowSize = window.getSize();
-
-        // 3. Create a view that is smaller than the window
         sf::View view;
-        view.setSize(
-            { windowSize.x / zoomFactor,
-            windowSize.y / zoomFactor }
-        );
-
-        // 4. Center it on the player (World Coordinates)
-        // TODO
+        view.setSize({ winSize.x / zoomFactor, winSize.y / zoomFactor });
         view.setCenter(worldMap.getPlayer()->getPosition());
-
-        // 5. Apply it
         window.setView(view);
+    }
 
-        // Calculate visible range (plus margin to prevent popping)
-        int32_t startX = std::max<int32_t>(0, (center.x - size.x / 2) / GameConfig::TILE_SIZE - 2);
-        int32_t startY = std::max<int32_t>(0, (center.y - size.y / 2) / GameConfig::TILE_SIZE - 2);
-        int32_t endX = std::min<int32_t>(worldMap.getWidth(), (center.x + size.x / 2) / GameConfig::TILE_SIZE + 3);
-        int32_t endY = std::min<int32_t>(worldMap.getHeight(), (center.y + size.y / 2) / GameConfig::TILE_SIZE + 3);
+    void WorldMapRenderer::drawGround(sf::RenderWindow& window, const WorldMap& worldMap) {
+        sf::View         view   = window.getView();
+        sf::Vector2f     center = view.getCenter();
+        sf::Vector2f     size   = view.getSize();
 
-        // ==============================
-        // 1. DRAW GROUND (Layer 0)
-        // ==============================
+        int32_t startX = std::max<int32_t>(0,
+            static_cast<int32_t>((center.x - size.x / 2.f) / GameConfig::TILE_SIZE) - 2);
+        int32_t startY = std::max<int32_t>(0,
+            static_cast<int32_t>((center.y - size.y / 2.f) / GameConfig::TILE_SIZE) - 2);
+        int32_t endX = std::min<int32_t>(static_cast<int32_t>(worldMap.getWidth()),
+            static_cast<int32_t>((center.x + size.x / 2.f) / GameConfig::TILE_SIZE) + 3);
+        int32_t endY = std::min<int32_t>(static_cast<int32_t>(worldMap.getHeight()),
+            static_cast<int32_t>((center.y + size.y / 2.f) / GameConfig::TILE_SIZE) + 3);
 
-        const AssetManager& assetManager = AssetManager::getInstance();
+        const AssetManager& am    = AssetManager::getInstance();
+        const sf::Texture*  atlas = am.getTexture("world_atlas");
+        if (!atlas) return;
 
-        // Cache texture pointer to avoid lookups in the loop
-        const sf::Texture* atlas = assetManager.getTexture("world_atlas");
-
-        if (atlas) {
-            sf::Sprite groundSprite(*atlas);
-
-            for (int32_t y = startY; y < endY; ++y) {
-                for (int32_t x = startX; x < endX; ++x) {
-                    const auto& tile = worldMap.at(x, y);
-                    const auto& def = assetManager.getDefinition(assetManager.getDefinitionByType(tile.groundType));
-
-                    groundSprite.setTextureRect(sf::IntRect(
-                        { static_cast<int>(def.textureStartPos.x), static_cast<int>(def.textureStartPos.y) },
-                        { static_cast<int>(def.size.x), static_cast<int>(def.size.y) }
-                    ));
-
-                    groundSprite.setPosition({
-                        static_cast<float>(x * GameConfig::TILE_SIZE),
-                        static_cast<float>(y * GameConfig::TILE_SIZE)
-                        });
-
-                    window.draw(groundSprite);
-                }
-            }
-        }
-
-        /*
-        
-
-        // ==============================
-        // 2. DRAW OBJECTS & ENTITIES (Layer 1)
-        // ==============================
-        std::vector<RenderPacket> renderQueue;
-
-        // A. World Objects
-        for (const auto& obj : worldMap.getStructures()) {
-            RenderPacket packet;
-            packet.sortY = obj->getSortY();
-            packet.drawFunc = [&](sf::RenderWindow& w) {
-                const_cast<WorldObject&>(*obj).draw(w);
-                };
-            renderQueue.push_back(packet);
-        }
-
-        // B. NPCs
-        for (const auto& npc : worldMap.getNPCs()) {
-            RenderPacket packet;
-            packet.sortY = npc->getPosition().y + npc->getGlobalBounds().size.y * 0.5; // change -> ADD HITBOX
-            packet.drawFunc = [&](sf::RenderWindow& w) { npc->draw(w); };
-            renderQueue.push_back(packet);
-        }
-
-        // C. Player
-  
-        RenderPacket playerPacket;
-        playerPacket.sortY = player.getPosition().y + player.getHitbox().position.y + player.getHitbox().size.y;
-        playerPacket.drawFunc = [&](sf::RenderWindow& w) {
-            const_cast<Player&>(player).draw(w);
-            };
-        renderQueue.push_back(playerPacket);
-   
-
-        // Sort & Draw
-        std::sort(renderQueue.begin(), renderQueue.end());
-        for (const auto& packet : renderQueue) {
-            packet.drawFunc(window);
-        }
-
-        */
-
-
-        std::vector<GameObject*> queue;
-
-        for (const auto& go : worldMap.getGameObjects()) {
-            queue.push_back(go.get());
-        }
-
-        std::sort(queue.begin(), queue.end(), [](GameObject* a, GameObject* b) {
-            // Sort by player
-            if (a->getZIndex() != b->getZIndex()) {
-                return a->getZIndex() < b->getZIndex();
-            }
-
-            // Then sory by position
-            return a->getPosition().y < b->getPosition().y;
-        });
-
-        for (auto& obj : queue) {
-            obj->draw(window);
-        }
-
-
-        /*
-
-        // ==============================
-        // 3. DRAW FOG OF WAR (Layer 2)
-        // ==============================
-
-        // 1. Calculate Radius based on 'percentView'
-        // We take the smaller screen dimension (width or height) to ensure the circle fits.
-        // If percentView is 1.0, the radius reaches the edge of the screen.
-        float minScreenDim = std::min(size.x, size.y);
-        float visibleRadius = (minScreenDim / 2.0) * percentView;
-
-        // Optional: Scale fade width nicely with the radius (e.g., 20% of the clear zone)
-        // or keep it static. Here we make it dynamic for smoother zooming.
-        float fadeWidth = visibleRadius * 0.4;
-        sf::Vector2f playerPos = player.getPosition();
-
-        // ZMIANA 1: U¿ywamy Triangles zamiast Quads
-        // W SFML 3.0 typy s¹ w enum class PrimitiveType
-        sf::VertexArray fogLayer(sf::PrimitiveType::Triangles);
+        sf::Sprite sprite(*atlas);
 
         for (int32_t y = startY; y < endY; ++y) {
             for (int32_t x = startX; x < endX; ++x) {
-                float tileWorldX = x * GameConfig::TILE_SIZE + (GameConfig::TILE_SIZE / 2.f);
-                float tileWorldY = y * GameConfig::TILE_SIZE + (GameConfig::TILE_SIZE / 2.f);
+                const Tile& tile = worldMap.at(x, y);
+                const auto& def  = am.getDefinition(am.getDefinitionByType(tile.groundType));
 
-                float dx = tileWorldX - playerPos.x;
-                float dy = tileWorldY - playerPos.y;
-                float dist = std::sqrt(dx * dx + dy * dy);
-
-                uint8_t alpha = 255;
-
-                if (dist < visibleRadius) {
-                    alpha = 0;
-                }
-                else if (dist < visibleRadius + fadeWidth) {
-                    float factor = (dist - visibleRadius) / fadeWidth;
-                    alpha = static_cast<uint8_t>(factor * 255);
-                }
-
-                if (alpha == 0) continue;
-
-                // Wspó³rzêdne kafelka
-                float tx = static_cast<float>(x * GameConfig::TILE_SIZE);
-                float ty = static_cast<float>(y * GameConfig::TILE_SIZE);
-                float ts = static_cast<float>(GameConfig::TILE_SIZE);
-
-                sf::Color fogColor(96, 96, 48, alpha);
-
-                // ZMIANA 2: Musimy zdefiniowaæ 6 wierzcho³ków (2 trójk¹ty) zamiast 4
-
-                // Trójk¹t 1 (Lewy-Górny, Prawy-Górny, Lewy-Dolny)
-                fogLayer.append(sf::Vertex({ tx, ty }, fogColor));          // Top-Left
-                fogLayer.append(sf::Vertex({ tx + ts, ty }, fogColor));     // Top-Right
-                fogLayer.append(sf::Vertex({ tx, ty + ts }, fogColor));     // Bottom-Left
-
-                // Trójk¹t 2 (Prawy-Górny, Prawy-Dolny, Lewy-Dolny)
-                fogLayer.append(sf::Vertex({ tx + ts, ty }, fogColor));     // Top-Right
-                fogLayer.append(sf::Vertex({ tx + ts, ty + ts }, fogColor));// Bottom-Right
-                fogLayer.append(sf::Vertex({ tx, ty + ts }, fogColor));     // Bottom-Left
+                sprite.setTextureRect(sf::IntRect(
+                    { static_cast<int>(def.textureStartPos.x),
+                      static_cast<int>(def.textureStartPos.y) },
+                    { static_cast<int>(def.size.x),
+                      static_cast<int>(def.size.y) }
+                ));
+                sprite.setPosition({
+                    static_cast<float>(x * GameConfig::TILE_SIZE),
+                    static_cast<float>(y * GameConfig::TILE_SIZE)
+                });
+                window.draw(sprite);
             }
         }
+    }
 
-        window.draw(fogLayer);
-        */
+    void WorldMapRenderer::drawDebugHUD(sf::RenderWindow& window, const WorldMap& worldMap) {
+        if (!worldMap.getPlayer()) return;
 
-        // ==============================
-        // 4. DRAW DEBUG INFO (UI Layer)
-        // ==============================
-
-        sf::View worldView = window.getView();
-
+        sf::View savedView = window.getView();
         window.setView(window.getDefaultView());
 
         const sf::Font* font = AssetManager::getInstance().getFont("PixelFont");
         if (font) {
-            sf::Text posText(*font);
-
-            auto playerPos = worldMap.getPlayer()->getPosition();
-
-            std::string info = "Player Pos: X: " + std::to_string(static_cast<int>(playerPos.x / GameConfig::TILE_SIZE)) +
-                " Y: " + std::to_string(static_cast<int>(playerPos.y / GameConfig::TILE_SIZE));
-
-            posText.setString(info);
-            posText.setCharacterSize(24);
-            posText.setFillColor(sf::Color::White);
-            posText.setOutlineColor(sf::Color::Black);
-            posText.setOutlineThickness(1.f);
-
-            posText.setPosition({ 10.f, 10.f });
-
-            window.draw(posText);
+            sf::Text text(*font);
+            auto pos = worldMap.getPlayer()->getPosition();
+            text.setString(
+                "X: " + std::to_string(static_cast<int>(pos.x / GameConfig::TILE_SIZE)) +
+                "  Y: " + std::to_string(static_cast<int>(pos.y / GameConfig::TILE_SIZE))
+            );
+            text.setCharacterSize(24);
+            text.setFillColor(sf::Color::White);
+            text.setOutlineColor(sf::Color::Black);
+            text.setOutlineThickness(1.f);
+            text.setPosition({ 10.f, 10.f });
+            window.draw(text);
         }
 
-        window.setView(worldView);
-       
+        window.setView(savedView);
     }
+
 }

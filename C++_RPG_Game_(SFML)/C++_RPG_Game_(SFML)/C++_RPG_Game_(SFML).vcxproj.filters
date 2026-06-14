@@ -56,11 +56,17 @@
     <Filter Include="Pliki źródłowe\game_objects\components">
       <UniqueIdentifier>{e3334445-5555-6666-7777-888888888888}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Pliki źródłowe\game_objects\systems">
+      <UniqueIdentifier>{b2d1f6f2-ac20-4331-bb10-b57addeee669}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Pliki nagłówkowe\game_objects">
       <UniqueIdentifier>{f1112223-3333-4444-5555-666666666666}</UniqueIdentifier>
     </Filter>
     <Filter Include="Pliki nagłówkowe\game_objects\components">
       <UniqueIdentifier>{f3334445-5555-6666-7777-888888888888}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pliki nagłówkowe\game_objects\systems">
+      <UniqueIdentifier>{66b08050-b9fa-47f5-9c4a-513755ad4761}</UniqueIdentifier>
     </Filter>
 
     <Filter Include="Pliki źródłowe\GUI">
@@ -246,10 +252,7 @@
     <ClCompile Include="src\worldmap\AssetManager.cpp">
       <Filter>Pliki źródłowe\worldmap</Filter>
     </ClCompile>
-    <ClCompile Include="src\worldmap\Player.cpp">
-      <Filter>Pliki źródłowe\worldmap</Filter>
-    </ClCompile>
-    <ClCompile Include="src\worldmap\Tile.cpp">
+    <ClCompile Include="src\worldmap\MapLoader.cpp">
       <Filter>Pliki źródłowe\worldmap</Filter>
     </ClCompile>
     <ClCompile Include="src\worldmap\WorldMap.cpp">
@@ -261,9 +264,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <axHInclude Include="src\animation\Animation.h">
+    <ClInclude Include="src\animation\Animation.h">
       <Filter>Pliki nagłówkowe\animation</Filter>
-    </axHInclude>
+    </ClInclude>
     <ClInclude Include="src\animation\AnimationBuilder.h">
       <Filter>Pliki nagłówkowe\animation</Filter>
     </ClInclude>
@@ -380,13 +383,25 @@
     <ClInclude Include="src\game_objects\components\components.h">
       <Filter>Pliki nagłówkowe\game_objects\components</Filter>
     </ClInclude>
+    <ClInclude Include="src\game_objects\components\DialogTriggerHandler.h">
+      <Filter>Pliki nagłówkowe\game_objects\components</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game_objects\components\GameTriggerHandler.h">
+      <Filter>Pliki nagłówkowe\game_objects\components</Filter>
+    </ClInclude>
     <ClInclude Include="src\game_objects\components\InteractionComponent.h">
+      <Filter>Pliki nagłówkowe\game_objects\components</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game_objects\components\ITriggerHandler.h">
       <Filter>Pliki nagłówkowe\game_objects\components</Filter>
     </ClInclude>
     <ClInclude Include="src\game_objects\components\MovementComponent.h">
       <Filter>Pliki nagłówkowe\game_objects\components</Filter>
     </ClInclude>
     <ClInclude Include="src\game_objects\components\NpcComponent.h">
+      <Filter>Pliki nagłówkowe\game_objects\components</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game_objects\components\PhysicsHelpers.h">
       <Filter>Pliki nagłówkowe\game_objects\components</Filter>
     </ClInclude>
     <ClInclude Include="src\game_objects\components\PlayerInputComponent.h">
@@ -397,6 +412,37 @@
     </ClInclude>
     <ClInclude Include="src\game_objects\components\StructureComponent.h">
       <Filter>Pliki nagłówkowe\game_objects\components</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game_objects\components\TriggerComponent.h">
+      <Filter>Pliki nagłówkowe\game_objects\components</Filter>
+    </ClInclude>
+
+    <ClInclude Include="src\game_objects\systems\AnimationSystem.h">
+      <Filter>Pliki nagłówkowe\game_objects\systems</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game_objects\systems\CollisionSystem.h">
+      <Filter>Pliki nagłówkowe\game_objects\systems</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game_objects\systems\DebugSystem.h">
+      <Filter>Pliki nagłówkowe\game_objects\systems</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game_objects\systems\InputSystem.h">
+      <Filter>Pliki nagłówkowe\game_objects\systems</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game_objects\systems\ISystem.h">
+      <Filter>Pliki nagłówkowe\game_objects\systems</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game_objects\systems\MovementSystem.h">
+      <Filter>Pliki nagłówkowe\game_objects\systems</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game_objects\systems\RenderSystem.h">
+      <Filter>Pliki nagłówkowe\game_objects\systems</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game_objects\systems\SystemManager.h">
+      <Filter>Pliki nagłówkowe\game_objects\systems</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game_objects\systems\TriggerSystem.h">
+      <Filter>Pliki nagłówkowe\game_objects\systems</Filter>
     </ClInclude>
 
     <ClInclude Include="src\GUI\widgets\ActionSlot.h">
@@ -457,6 +503,9 @@
       <Filter>Pliki nagłówkowe\worldmap</Filter>
     </ClInclude>
     <ClInclude Include="src\worldmap\enums.h">
+      <Filter>Pliki nagłówkowe\worldmap</Filter>
+    </ClInclude>
+    <ClInclude Include="src\worldmap\MapLoader.h">
       <Filter>Pliki nagłówkowe\worldmap</Filter>
     </ClInclude>
     <ClInclude Include="src\worldmap\Player.h">
