@@ -1,20 +1,17 @@
 #include "WindowBase.h"
+#include "worldmap/AssetManager.h"
 
 namespace RPG {
 
     WindowBase::WindowBase(const sf::Font& font, const sf::Vector2f& size, const std::string& title)
         : m_titleText(font), m_closeBtnText(font)
     {
-        // Background
+        // Background NineSlice
+        const sf::Texture* windowTex = AssetManager::getInstance().getTexture("ui_window");
+        if (windowTex) {
+            m_background.setTexture(*windowTex, 32, 2.0f); // 32px corners, scaled 2x to 64px visually
+        }
         m_background.setSize(size);
-        m_background.setFillColor(sf::Color(30, 30, 30, 240)); // Semi-transparent dark
-        m_background.setOutlineColor(sf::Color(200, 200, 200));
-        m_background.setOutlineThickness(2.f);
-
-        // Title Bar
-        float titleHeight = 30.f;
-        m_titleBar.setSize({ size.x, titleHeight });
-        m_titleBar.setFillColor(sf::Color(50, 50, 80)); // Slightly blueish header
 
         // Title Text
         m_titleText.setString(title);
@@ -41,7 +38,6 @@ namespace RPG {
 
     void WindowBase::setSize(const sf::Vector2f& size) {
         m_background.setSize(size);
-        m_titleBar.setSize({ size.x, 30.f });
         
         float btnSize = 24.f;
         m_closeBtnRect.setPosition({ size.x - btnSize - 4.f, 3.f });
@@ -134,7 +130,7 @@ namespace RPG {
 
         // Draw Frame
         target.draw(m_background, states);
-        target.draw(m_titleBar, states);
+        
         target.draw(m_titleText, states);
 
         // Draw Close Button

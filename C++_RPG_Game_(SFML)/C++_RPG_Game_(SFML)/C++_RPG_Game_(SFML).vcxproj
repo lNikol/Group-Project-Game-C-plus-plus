@@ -176,6 +176,7 @@
     <ClCompile Include="src\worldmap\WorldMapRenderer.cpp" />
     <ClCompile Include="src\drawable\IsoGrid.cpp" />
     <ClCompile Include="src\GUI\widgets\ActionSlot.cpp" />
+    <ClCompile Include="src\GUI\widgets\NineSlice.cpp" />
     <ClCompile Include="src\GUI\widgets\StatBar.cpp" />
     <ClCompile Include="src\GUI\widgets\Tooltip.cpp" />
     <ClCompile Include="src\GUI\windows\BattleHud.cpp" />
@@ -271,6 +272,7 @@
     <Image Include="assets\textures\box.png" />
     <Image Include="assets\textures\grass.png" />
     <Image Include="assets\textures\house.png" />
+    <Image Include="assets\textures\placeholders\UI_Window.png" />
     <Image Include="assets\textures\rock.png" />
     <Image Include="assets\textures\trees.png" />
     <Image Include="C:\Users\olsze\Downloads\box.png" />

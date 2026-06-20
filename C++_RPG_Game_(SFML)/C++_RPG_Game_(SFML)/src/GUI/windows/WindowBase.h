@@ -1,6 +1,7 @@
 #pragma once
 #include "GUI/Widgets/IGuiElement.h"
 #include <SFML/Graphics.hpp>
+#include "GUI/widgets/NineSlice.h"
 #include <vector>
 #include <memory>
 #include <string>
@@ -72,8 +73,8 @@ namespace RPG {
         void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 
         // Visuals
-        sf::RectangleShape m_background;
-        sf::RectangleShape m_titleBar;
+        NineSlice m_background;
+        // sf::RectangleShape m_titleBar; // Removed
         sf::Text m_titleText;
 
         // Close Button
