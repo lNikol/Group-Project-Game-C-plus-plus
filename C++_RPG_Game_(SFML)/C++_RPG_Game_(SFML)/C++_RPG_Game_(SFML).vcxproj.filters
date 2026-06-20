@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <Filter Include="Pliki źródłowe">
@@ -201,6 +201,9 @@
     <ClCompile Include="src\game_objects\components\InteractionComponent.cpp">
       <Filter>Pliki źródłowe\game_objects\components</Filter>
     </ClCompile>
+    <ClCompile Include="src\game_objects\components\QuestGiverComponent.cpp">
+      <Filter>Pliki źródłowe\game_objects\components</Filter>
+    </ClCompile>
     <ClCompile Include="src\game_objects\components\MovementComponent.cpp">
       <Filter>Pliki źródłowe\game_objects\components</Filter>
     </ClCompile>
@@ -228,6 +231,9 @@
     </ClCompile>
     <ClCompile Include="src\GUI\windows\InventoryWindow.cpp">
       <Filter>Pliki źródłowe\GUI\windows</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GUI\windows\JournalWindow.cpp">
+      <Filter>Pliki źródłowe</Filter>
     </ClCompile>
     <ClCompile Include="src\GUI\windows\StatBar.cpp">
       <Filter>Pliki źródłowe\GUI\windows</Filter>
@@ -392,6 +398,9 @@
     <ClInclude Include="src\game_objects\components\InteractionComponent.h">
       <Filter>Pliki nagłówkowe\game_objects\components</Filter>
     </ClInclude>
+    <ClInclude Include="src\game_objects\components\QuestGiverComponent.h">
+      <Filter>Pliki nagłówkowe\game_objects\components</Filter>
+    </ClInclude>
     <ClInclude Include="src\game_objects\components\ITriggerHandler.h">
       <Filter>Pliki nagłówkowe\game_objects\components</Filter>
     </ClInclude>
@@ -418,28 +427,28 @@
     </ClInclude>
 
     <ClInclude Include="src\game_objects\systems\AnimationSystem.h">
-      <Filter>Pliki nagłówkowe\game_objects\systems</Filter>
+      <Filter>Pliki nagłówkowe</Filter>
     </ClInclude>
     <ClInclude Include="src\game_objects\systems\CollisionSystem.h">
-      <Filter>Pliki nagłówkowe\game_objects\systems</Filter>
+      <Filter>Pliki nagłówkowe</Filter>
     </ClInclude>
     <ClInclude Include="src\game_objects\systems\DebugSystem.h">
-      <Filter>Pliki nagłówkowe\game_objects\systems</Filter>
+      <Filter>Pliki nagłówkowe</Filter>
     </ClInclude>
     <ClInclude Include="src\game_objects\systems\InputSystem.h">
-      <Filter>Pliki nagłówkowe\game_objects\systems</Filter>
+      <Filter>Pliki nagłówkowe</Filter>
     </ClInclude>
     <ClInclude Include="src\game_objects\systems\ISystem.h">
-      <Filter>Pliki nagłówkowe\game_objects\systems</Filter>
+      <Filter>Pliki nagłówkowe</Filter>
     </ClInclude>
     <ClInclude Include="src\game_objects\systems\MovementSystem.h">
-      <Filter>Pliki nagłówkowe\game_objects\systems</Filter>
+      <Filter>Pliki nagłówkowe</Filter>
     </ClInclude>
     <ClInclude Include="src\game_objects\systems\RenderSystem.h">
-      <Filter>Pliki nagłówkowe\game_objects\systems</Filter>
+      <Filter>Pliki nagłówkowe</Filter>
     </ClInclude>
     <ClInclude Include="src\game_objects\systems\SystemManager.h">
-      <Filter>Pliki nagłówkowe\game_objects\systems</Filter>
+      <Filter>Pliki nagłówkowe</Filter>
     </ClInclude>
     <ClInclude Include="src\game_objects\systems\TriggerSystem.h">
       <Filter>Pliki nagłówkowe\game_objects\systems</Filter>

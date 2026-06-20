@@ -8,3 +8,4 @@
 #include "StructureComponent.h"
 #include "NpcComponent.h"
 #include "InteractionComponent.h"
+#include "QuestGiverComponent.h"

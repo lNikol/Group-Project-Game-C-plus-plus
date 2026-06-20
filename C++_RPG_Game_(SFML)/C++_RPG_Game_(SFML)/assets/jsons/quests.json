@@ -1,0 +1,27 @@
+{
+  "quests": [
+    {
+      "id": "quest_01_tutorial",
+      "title": "A New Beginning",
+      "description": "Welcome to the world! Find the village elder to learn more about your destiny."
+    },
+    {
+      "id": "quest_02_rats",
+      "title": "Rat Infestation",
+      "description": "The cellar is overrun with rats. Clear them out for a reward.",
+      "objectives": [
+        {
+          "id": "obj_01_rats",
+          "description": "Kill rats in the cellar",
+          "type": "KILL_ENEMY",
+          "targetId": "rat",
+          "requiredAmount": 3
+        }
+      ],
+      "rewards": {
+        "xp": 100,
+        "gold": 50
+      }
+    }
+  ]
+}

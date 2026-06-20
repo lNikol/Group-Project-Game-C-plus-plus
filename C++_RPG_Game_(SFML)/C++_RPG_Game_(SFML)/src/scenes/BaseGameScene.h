@@ -16,7 +16,7 @@
 #include "game_objects/systems/AnimationSystem.h"
 #include "game_objects/systems/RenderSystem.h"
 #include "game_objects/systems/TriggerSystem.h"
-
+#include "GUI/windows/JournalWindow.h"
 namespace RPG {
 
     /**
@@ -42,6 +42,13 @@ namespace RPG {
         bool isInventoryOpen = false;
         std::string sceneName;
         float viewVisibility = 0.5f;
+        std::unique_ptr<JournalWindow> m_journalWindow;
+
+        // HUD Icon
+        sf::RectangleShape m_hudIconBg;
+        std::unique_ptr<sf::Text> m_hudIconText;
+        float m_questIconJumpTimer = 0.f;
+        size_t m_lastActiveQuestCount = 0;
 
         void checkInteraction();
         virtual void handleInteraction(GameObject* go);

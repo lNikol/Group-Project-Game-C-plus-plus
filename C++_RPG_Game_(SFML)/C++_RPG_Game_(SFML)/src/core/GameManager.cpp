@@ -1,4 +1,4 @@
-﻿#include "GameManager.h"
+#include "GameManager.h"
 #include "scenes/WorldScene.h"
 #include "scenes/FactionScene.h"
 #include "scenes/BattleScene.h"
@@ -7,6 +7,9 @@
  #include "combat/PropFactory.h"
 #include "combat/PartyData.h"
 #include "worldmap/MapLoader.h"
+#include "core/QuestManager.h"
+#include "core/EventBus.h"
+#include "game_objects/components/components.h"
 
 namespace RPG {
 
@@ -22,6 +25,13 @@ namespace RPG {
         AssetManager::getInstance().addSpritesheet("player", GameConfig::ANIMATIONS_PATH + "player.png");
         AssetManager::getInstance().addSpritesheet("npc",    GameConfig::ANIMATIONS_PATH + "npc.png");
         AssetManager::getInstance().addTexture("grass",      GameConfig::TEXTURES_PATH   + "grass.png");
+
+        EventBus::getInstance().subscribe(EventType::QuestCompleted, [](const GameEvent& e) {
+            const auto& questEvent = static_cast<const QuestCompletedEvent&>(e);
+            PartyData::getInstance().gold += questEvent.goldReward;
+            std::cout << "[Rewards] Granted " << questEvent.xpReward << " XP and " 
+                      << questEvent.goldReward << " Gold!" << std::endl;
+        });
 
         initGameData();
 
@@ -49,6 +59,9 @@ namespace RPG {
         if (!PropFactory::getInstance().loadFromJSON("assets/jsons/props.json")) {
             std::cerr << "[GameManager] CRITICAL: Failed to load props.json\n";
         }
+        if (!QuestManager::getInstance().loadFromJSON("assets/jsons/quests.json")) {
+            std::cerr << "[GameManager] Warning: Failed to load quests.json\n";
+        }
 
         auto& party = PartyData::getInstance();
         if (party.activeParty.empty()) {
@@ -73,6 +86,17 @@ namespace RPG {
         GameObject* playerPtr = player.get();
         mainMap->addGameObject(std::move(player));
         mainMap->setPlayerReference(playerPtr);
+
+        // --- TEST NPC WITH QUEST ---
+        auto spawnPos = mainMap->getSpawnPoint();
+        spawnPos.x += 64.f; // Place it a bit to the right of the player
+        auto testNpc = Factory::createNpc(AssetManager::getInstance(), spawnPos, FactionID::NeutralOrder);
+        if (auto* npcComp = testNpc->getComponent<NpcComponent>()) {
+            npcComp->setFactionLeader(false);
+        }
+        testNpc->addComponent<QuestGiverComponent>("quest_02_rats", "quest_02_rats");
+        mainMap->addGameObject(std::move(testNpc));
+        // ---------------------------
 
         currentScene = std::make_unique<WorldScene>(*this, mainMap);
         std::cout << "[GameManager] Init done. Map: " << (int)activeFaction << "\n";

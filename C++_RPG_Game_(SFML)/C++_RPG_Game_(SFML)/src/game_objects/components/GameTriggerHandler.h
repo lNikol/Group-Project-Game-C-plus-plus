@@ -2,6 +2,7 @@
 #include "game_objects/components/ITriggerHandler.h"
 #include "scenes/ISceneController.h"
 #include "worldmap/enums.h"
+#include "core/QuestManager.h"
 #include <iostream>
 
 namespace RPG {
@@ -31,6 +32,14 @@ namespace RPG {
             case TriggerAction::SaveGame:
                 // TODO: save manager
                 std::cout << "[GameTriggerHandler] SaveGame\n";
+                return true;
+
+            case TriggerAction::UpdateQuest:
+                if (trigger.isCompletingQuest) {
+                    QuestManager::getInstance().completeQuest(trigger.questId);
+                } else {
+                    QuestManager::getInstance().startQuest(trigger.questId);
+                }
                 return true;
 
             default:

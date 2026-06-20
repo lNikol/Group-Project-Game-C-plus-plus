@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -140,6 +140,7 @@
     <ClCompile Include="src\combat\AudioManager.cpp" />
     <ClCompile Include="src\game_objects\components\InteractionComponent.cpp" />
     <ClCompile Include="src\game_objects\components\NpcComponent.cpp" />
+    <ClCompile Include="src\game_objects\components\QuestGiverComponent.cpp" />
     <ClCompile Include="src\animation\AnimationLoader.cpp" />
     <ClCompile Include="src\game_objects\GameObjectFactory.cpp" />
     <ClCompile Include="src\game_objects\components\ColliderComponent.cpp" />
@@ -161,7 +162,10 @@
     <ClCompile Include="src\animation\AnimationBuilder.cpp" />
     <ClCompile Include="src\animation\AnimationManager.cpp" />
     <ClCompile Include="src\core\GameManager.cpp" />
+    <ClCompile Include="src\core\QuestManager.cpp" />
+    <ClCompile Include="src\core\EventBus.cpp" />
     <ClCompile Include="src\GUI\windows\InventoryWindow.cpp" />
+    <ClCompile Include="src\GUI\windows\JournalWindow.cpp" />
     <ClCompile Include="src\scenes\BaseGameScene.cpp" />
     <ClCompile Include="src\scenes\BattleScene.cpp" />
     <ClCompile Include="src\scenes\FactionScene.cpp" />
@@ -185,6 +189,7 @@
     <ClInclude Include="src\game_objects\components\DialogTriggerHandler.h" />
     <ClInclude Include="src\game_objects\components\GameTriggerHandler.h" />
     <ClInclude Include="src\game_objects\components\InteractionComponent.h" />
+    <ClInclude Include="src\game_objects\components\QuestGiverComponent.h" />
     <ClInclude Include="src\game_objects\components\ITriggerHandler.h" />
     <ClInclude Include="src\game_objects\components\NpcComponent.h" />
     <ClInclude Include="src\game_objects\components\MovementComponent.h" />
@@ -219,6 +224,8 @@
     <ClInclude Include="src\animation\AnimationManager.h" />
     <ClInclude Include="src\core\Constants.h" />
     <ClInclude Include="src\core\GameManager.h" />
+    <ClInclude Include="src\core\QuestManager.h" />
+    <ClInclude Include="src\core\EventBus.h" />
     <ClInclude Include="src\game_objects\GameObjectFactory.h" />
     <ClInclude Include="src\game_objects\systems\AnimationSystem.h" />
     <ClInclude Include="src\game_objects\systems\CollisionSystem.h" />
@@ -230,6 +237,7 @@
     <ClInclude Include="src\game_objects\systems\SystemManager.h" />
     <ClInclude Include="src\game_objects\systems\TriggerSystem.h" />
     <ClInclude Include="src\GUI\windows\InventoryWindow.h" />
+    <ClInclude Include="src\GUI\windows\JournalWindow.h" />
     <ClInclude Include="src\scenes\BaseGameScene.h" />
     <ClInclude Include="src\scenes\BattleScene.h" />
     <ClInclude Include="src\scenes\FactionScene.h" />

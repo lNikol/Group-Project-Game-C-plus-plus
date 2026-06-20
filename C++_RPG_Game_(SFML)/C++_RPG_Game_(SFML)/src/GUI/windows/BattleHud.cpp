@@ -2,6 +2,8 @@
 #include "OpenWindowCommand.h" // If you made this earlier
 #include <cmath>
 #include "InventoryWindow.h"
+#include "JournalWindow.h"
+
 namespace RPG {
 
     BattleHUD::BattleHUD(const Spritesheet& iconSet, const sf::Font& font)
@@ -29,7 +31,7 @@ namespace RPG {
 
         // Initialize Windows (Hidden)
         m_inventoryWindow = std::make_unique<InventoryWindow>(iconSet, font);
-        m_journalWindow = std::make_unique<WindowBase>(font, sf::Vector2f(300.f, 400.f), "Journal");
+        m_journalWindow = std::make_unique<JournalWindow>(font);
         m_bestiaryWindow = std::make_unique<WindowBase>(font, sf::Vector2f(500.f, 600.f), "Bestiary");
 
         // Connect the Buttons to the Windows
@@ -154,6 +156,17 @@ namespace RPG {
         }
         sf::View previousView = window.getView();
         window.setView(m_uiView);
+
+        if (const auto* key = event.getIf<sf::Event::KeyPressed>()) {
+            if (key->scancode == sf::Keyboard::Scancode::J) {
+                m_journalWindow->toggle();
+                if (m_journalWindow->isVisible()) {
+                    m_inventoryWindow->hide();
+                    m_bestiaryWindow->hide();
+                }
+            }
+        }
+
         // Pass to Windows first
         if (m_inventoryWindow->handleEvent(window, event)) return;
         if (m_journalWindow->handleEvent(window, event)) return;

@@ -23,12 +23,15 @@ namespace RPG {
         WindowBase(const sf::Font& font, const sf::Vector2f& size, const std::string& title);
 
         // ==============================
-        // Visibility Control
+        // Visibility & Size Control
         // ==============================
         void show();
         void hide();
         void toggle();
         bool isVisible() const { return m_isVisible; }
+        
+        virtual void setSize(const sf::Vector2f& size);
+        sf::Vector2f getSize() const;
 
         /**
          * @brief Adds a widget (Button, Slot, Text) to the window.

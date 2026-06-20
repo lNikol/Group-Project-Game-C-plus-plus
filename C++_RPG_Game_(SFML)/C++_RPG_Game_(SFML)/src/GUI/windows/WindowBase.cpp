@@ -39,6 +39,19 @@ namespace RPG {
         m_closeBtnText.setPosition(m_closeBtnRect.getPosition() + sf::Vector2f(btnSize / 2.f, btnSize / 2.f));
     }
 
+    void WindowBase::setSize(const sf::Vector2f& size) {
+        m_background.setSize(size);
+        m_titleBar.setSize({ size.x, 30.f });
+        
+        float btnSize = 24.f;
+        m_closeBtnRect.setPosition({ size.x - btnSize - 4.f, 3.f });
+        m_closeBtnText.setPosition(m_closeBtnRect.getPosition() + sf::Vector2f(btnSize / 2.f, btnSize / 2.f));
+    }
+
+    sf::Vector2f WindowBase::getSize() const {
+        return m_background.getSize();
+    }
+
     void WindowBase::addChild(std::unique_ptr<IGuiElement> widget) {
         widget->setParent(this);
         m_children.push_back(std::move(widget));

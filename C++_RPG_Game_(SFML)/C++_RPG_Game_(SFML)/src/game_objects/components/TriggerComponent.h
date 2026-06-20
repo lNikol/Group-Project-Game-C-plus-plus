@@ -14,7 +14,8 @@ namespace RPG {
         ChangeScene,  
         OpenChest,    
         StartDialog,  
-        SaveGame      
+        SaveGame,
+        UpdateQuest
     };
 
     /**
@@ -41,6 +42,8 @@ namespace RPG {
         FactionID targetScene = FactionID::NeutralOrder; 
         int dialogId = -1; // for StartDialog
         int chestId = -1; // for OpenChest
+        std::string questId = ""; // for UpdateQuest
+        bool isCompletingQuest = false; // false = Start Quest, true = Complete Quest
 
         bool oneShot = true;  // true = Activates once and disactivates
         bool active  = true;  // false = Trigger is offed
