@@ -10,7 +10,9 @@ namespace RPG {
         EnemyDefeated,
         ItemCollected,
         LocationReached,
-        QuestCompleted
+        QuestCompleted,
+        QuestStarted,
+        QuestReadyToTurnIn
     };
 
     struct GameEvent {
@@ -38,6 +40,18 @@ namespace RPG {
         QuestCompletedEvent(const std::string& id, int xp, int gold) 
             : questId(id), xpReward(xp), goldReward(gold) {}
         EventType getType() const override { return EventType::QuestCompleted; }
+    };
+
+    struct QuestStartedEvent : public GameEvent {
+        std::string questId;
+        QuestStartedEvent(const std::string& id) : questId(id) {}
+        EventType getType() const override { return EventType::QuestStarted; }
+    };
+
+    struct QuestReadyToTurnInEvent : public GameEvent {
+        std::string questId;
+        QuestReadyToTurnInEvent(const std::string& id) : questId(id) {}
+        EventType getType() const override { return EventType::QuestReadyToTurnIn; }
     };
 
     class EventBus {

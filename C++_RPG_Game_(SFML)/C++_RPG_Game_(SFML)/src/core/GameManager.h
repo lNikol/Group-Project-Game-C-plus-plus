@@ -12,7 +12,7 @@
 #include "worldmap/enums.h"
 #include "scenes/Scene.h"
 #include "scenes/ISceneController.h"
-#include "GUI/windows/BattleHud.h"
+#include "GUI/windows/SystemHUD.h"
 #include "combat/Unit.h"
 #include "game_objects/GameObjectFactory.h"
 #include "game_objects/systems/DebugSystem.h"
@@ -26,7 +26,7 @@ namespace RPG {
         std::map<FactionID, std::shared_ptr<WorldMap>> allMaps;
         std::shared_ptr<Unit> playerUnit;
 
-        std::unique_ptr<BattleHUD> m_hud;
+        std::unique_ptr<SystemHUD> m_systemHud;
         const Spritesheet* m_iconSet = nullptr;
         const sf::Font* m_globalFont = nullptr;
 

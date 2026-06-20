@@ -77,10 +77,12 @@ namespace RPG {
             if (m_quests[id].status == QuestStatus::NotStarted) {
                 m_quests[id].status = QuestStatus::Active;
                 std::cout << "[QuestManager] Quest Started: " << m_quests[id].title << std::endl;
-                
+                EventBus::getInstance().publish(QuestStartedEvent(id));
+
                 // If it has no objectives, it might instantly be ready
                 if (m_quests[id].objectives.empty()) {
                     m_quests[id].status = QuestStatus::ReadyToTurnIn;
+                    EventBus::getInstance().publish(QuestReadyToTurnInEvent(id));
                 }
             }
         } else {
@@ -187,6 +189,7 @@ namespace RPG {
             if (allCompleted && !q.objectives.empty()) {
                 q.status = QuestStatus::ReadyToTurnIn;
                 std::cout << "[QuestManager] Quest Ready to Turn In: " << q.title << std::endl;
+                EventBus::getInstance().publish(QuestReadyToTurnInEvent(q.id));
             }
         }
     }

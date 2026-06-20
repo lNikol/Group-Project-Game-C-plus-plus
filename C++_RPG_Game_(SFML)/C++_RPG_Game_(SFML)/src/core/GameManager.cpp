@@ -26,11 +26,26 @@ namespace RPG {
         AssetManager::getInstance().addSpritesheet("npc",    GameConfig::ANIMATIONS_PATH + "npc.png");
         AssetManager::getInstance().addTexture("grass",      GameConfig::TEXTURES_PATH   + "grass.png");
 
-        EventBus::getInstance().subscribe(EventType::QuestCompleted, [](const GameEvent& e) {
+        RPG::EventBus::getInstance().subscribe(EventType::QuestCompleted, [this](const RPG::GameEvent& e) {
             const auto& questEvent = static_cast<const QuestCompletedEvent&>(e);
+            std::cout << "[GameManager] Received QuestCompletedEvent for: " << questEvent.questId << "\n";
+            std::cout << "              Rewards -> XP: " << questEvent.xpReward << ", Gold: " << questEvent.goldReward << "\n";
+            
             PartyData::getInstance().gold += questEvent.goldReward;
-            std::cout << "[Rewards] Granted " << questEvent.xpReward << " XP and " 
-                      << questEvent.goldReward << " Gold!" << std::endl;
+            std::cout << "[GameManager] Added " << questEvent.goldReward << " gold to Party Inventory. Total: " 
+                      << PartyData::getInstance().gold << "\n";
+                      
+            if (m_systemHud) {
+                m_systemHud->notifyQuestUpdated();
+            }
+        });
+
+        RPG::EventBus::getInstance().subscribe(EventType::QuestStarted, [this](const RPG::GameEvent& e) {
+            if (m_systemHud) m_systemHud->notifyQuestUpdated();
+        });
+
+        RPG::EventBus::getInstance().subscribe(EventType::QuestReadyToTurnIn, [this](const RPG::GameEvent& e) {
+            if (m_systemHud) m_systemHud->notifyQuestUpdated();
         });
 
         initGameData();
@@ -45,6 +60,14 @@ namespace RPG {
 
         m_globalFont = AssetManager::getInstance().getFont("PixelFont");
         m_iconSet    = AssetManager::getInstance().getSpritesheet("AbilityIcons");
+
+        // Initialize System HUD
+        if (m_iconSet && m_globalFont) {
+            m_systemHud = std::make_unique<SystemHUD>(*m_iconSet, *m_globalFont);
+            m_systemHud->onResize(window.getSize());
+        }
+
+
 
         changeScene(FactionID::MainWorld); 
     }
@@ -213,11 +236,24 @@ namespace RPG {
             if (const auto* r = event->getIf<sf::Event::Resized>()) {
                 sf::Vector2f s = { (float)r->size.x, (float)r->size.y };
                 window.setView(sf::View(sf::FloatRect({ 0.f, 0.f }, s)));
+                if (m_systemHud) m_systemHud->onResize(r->size);
             }
 
             window.setView(sceneView);
 
-            bool uiConsumed = (m_hud && m_hud->isMouseOverUI());
+            bool uiConsumed = false;
+            if (m_systemHud) {
+                m_systemHud->handleEvent(window, *event);
+                
+                // Only block mouse events from reaching the scene if hovering over UI
+                if (event->is<sf::Event::MouseMoved>() || 
+                    event->is<sf::Event::MouseButtonPressed>() || 
+                    event->is<sf::Event::MouseButtonReleased>() ||
+                    event->is<sf::Event::MouseWheelScrolled>()) 
+                {
+                    uiConsumed = m_systemHud->isMouseOverUI();
+                }
+            }
 
             if (const auto* key = event->getIf<sf::Event::KeyPressed>()) {
                 if (key->scancode == sf::Keyboard::Scancode::Escape) running = false;
@@ -235,11 +271,13 @@ namespace RPG {
 
     void GameManager::update(float dt) {
         if (currentScene) currentScene->update(dt, window);
+        if (m_systemHud) m_systemHud->update(dt);
     }
 
     void GameManager::draw() {
         window.clear(sf::Color(0x606030FF));
         if (currentScene) currentScene->draw(window);
+        if (m_systemHud) window.draw(*m_systemHud);
         window.display();
     }
 
