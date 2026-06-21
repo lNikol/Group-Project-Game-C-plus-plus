@@ -10,10 +10,18 @@ namespace RPG {
         std::string nextNode;
     };
 
+    struct DialogCondition {
+        std::string questId;
+        std::string status;
+        std::string trueNode;
+        std::string falseNode;
+    };
+
     struct DialogNode {
         std::string text;
         std::vector<DialogResponse> responses;
         std::string triggerEvent = "";
+        DialogCondition questCondition;
     };
 
     struct DialogTree {
@@ -38,6 +46,8 @@ namespace RPG {
 
     private:
         DialogManager();
+
+        void processCurrentNode();
         
         std::unordered_map<int, DialogTree> m_dialogs;
         

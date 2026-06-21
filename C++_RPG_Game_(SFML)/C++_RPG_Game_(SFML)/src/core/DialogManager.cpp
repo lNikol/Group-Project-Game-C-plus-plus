@@ -52,6 +52,14 @@ namespace RPG {
                     node.text = nodeVal.value("text", "");
                     node.triggerEvent = nodeVal.value("triggerEvent", "");
 
+                    if (nodeVal.contains("questCondition") && nodeVal["questCondition"].is_object()) {
+                        auto& qc = nodeVal["questCondition"];
+                        node.questCondition.questId = qc.value("questId", "");
+                        node.questCondition.status = qc.value("status", "Completed");
+                        node.questCondition.trueNode = qc.value("trueNode", "");
+                        node.questCondition.falseNode = qc.value("falseNode", "");
+                    }
+
                     if (nodeVal.contains("responses") && nodeVal["responses"].is_array()) {
                         for (auto& respVal : nodeVal["responses"]) {
                             DialogResponse resp;
@@ -75,17 +83,7 @@ namespace RPG {
             m_currentNodeId = "start"; // default entry point
             std::cout << "[DialogManager] Started Dialog " << id << std::endl;
             
-            auto* node = getCurrentNode();
-            if (node && !node->triggerEvent.empty()) {
-                std::cout << "[DialogManager] Triggered Event: " << node->triggerEvent << std::endl;
-                if (node->triggerEvent.rfind("StartQuest_", 0) == 0) {
-                    std::string questId = node->triggerEvent.substr(11);
-                    QuestManager::getInstance().startQuest(questId);
-                } else if (node->triggerEvent.rfind("CompleteQuest_", 0) == 0) {
-                    std::string questId = node->triggerEvent.substr(14);
-                    QuestManager::getInstance().completeQuest(questId);
-                }
-            }
+            processCurrentNode();
         } else {
             std::cerr << "[DialogManager] Warning: Unknown dialog id " << id << std::endl;
         }
@@ -97,34 +95,56 @@ namespace RPG {
         std::cout << "[DialogManager] Dialog ended." << std::endl;
     }
 
+    void DialogManager::processCurrentNode() {
+        auto* node = getCurrentNode();
+        if (!node) return;
+
+        // Check if there is a quest condition
+        if (!node->questCondition.questId.empty()) {
+            QuestStatus currentStatus = QuestManager::getInstance().getQuestStatus(node->questCondition.questId);
+            QuestStatus requiredStatus = QuestStatus::NotStarted;
+            if (node->questCondition.status == "Active") requiredStatus = QuestStatus::Active;
+            else if (node->questCondition.status == "ReadyToTurnIn") requiredStatus = QuestStatus::ReadyToTurnIn;
+            else if (node->questCondition.status == "Completed") requiredStatus = QuestStatus::Completed;
+
+            if (currentStatus == requiredStatus) {
+                m_currentNodeId = node->questCondition.trueNode;
+            } else {
+                m_currentNodeId = node->questCondition.falseNode;
+            }
+            processCurrentNode(); // recursive check
+            return;
+        }
+
+        // Process trigger event when finally settling on a visible node
+        if (!node->triggerEvent.empty()) {
+            std::cout << "[DialogManager] Triggered Event: " << node->triggerEvent << std::endl;
+            if (node->triggerEvent.rfind("StartQuest_", 0) == 0) {
+                std::string questId = node->triggerEvent.substr(11);
+                QuestManager::getInstance().startQuest(questId);
+            } else if (node->triggerEvent.rfind("CompleteQuest_", 0) == 0) {
+                std::string questId = node->triggerEvent.substr(14);
+                QuestManager::getInstance().completeQuest(questId);
+            } else if (node->triggerEvent.rfind("Objective_", 0) == 0) {
+                std::string objectiveId = node->triggerEvent.substr(10);
+                EventBus::getInstance().publish(DialogObjectiveEvent(objectiveId));
+            }
+        }
+    }
+
     void DialogManager::selectResponse(int index) {
         if (!isActive()) return;
         auto* node = getCurrentNode();
         if (!node) return;
-
-        // Process trigger on the current node BEFORE advancing, or after?
-        // Actually, trigger should happen when entering the node or when picking a response?
-        // Usually, triggerEvent is tied to the node itself when it's displayed, or to the response.
-        // Let's trigger it when the node is displayed, so we'll do it in startDialog and selectResponse after changing the node.
         
         if (index >= 0 && index < node->responses.size()) {
             const auto& resp = node->responses[index];
             m_currentNodeId = resp.nextNode;
             
-            auto* next_node = getCurrentNode();
-            if (next_node && !next_node->triggerEvent.empty()) {
-                std::cout << "[DialogManager] Triggered Event: " << next_node->triggerEvent << std::endl;
-                if (next_node->triggerEvent.rfind("StartQuest_", 0) == 0) {
-                    std::string questId = next_node->triggerEvent.substr(11);
-                    QuestManager::getInstance().startQuest(questId);
-                } else if (next_node->triggerEvent.rfind("CompleteQuest_", 0) == 0) {
-                    std::string questId = next_node->triggerEvent.substr(14);
-                    QuestManager::getInstance().completeQuest(questId);
-                }
-            }
-
             if (m_currentNodeId == "exit" || m_currentNodeId == "") {
                 endDialog();
+            } else {
+                processCurrentNode();
             }
         }
     }

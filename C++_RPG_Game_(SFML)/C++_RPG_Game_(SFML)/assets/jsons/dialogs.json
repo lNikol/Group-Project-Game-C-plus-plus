@@ -22,7 +22,54 @@
           "responses": [
             { "text": "I will.", "nextNode": "exit" }
           ],
-          "triggerEvent": "StartQuest_quest_02_rats"
+          "triggerEvent": "StartQuest_lore_quest_1"
+        }
+      }
+    },
+    "2": {
+      "npcName": "Light Commander",
+      "nodes": {
+        "start": {
+          "questCondition": {
+            "questId": "lore_quest_1",
+            "status": "Active",
+            "trueNode": "greeting_quest_active",
+            "falseNode": "check_quest_2"
+          }
+        },
+        "check_quest_2": {
+          "questCondition": {
+            "questId": "lore_quest_2",
+            "status": "Active",
+            "trueNode": "greeting_defend_active",
+            "falseNode": "greeting_default"
+          }
+        },
+        "greeting_default": {
+          "text": "Stand back, civilian. The Light Order is securing this fort.",
+          "responses": [
+            { "text": "Understood.", "nextNode": "exit" }
+          ]
+        },
+        "greeting_quest_active": {
+          "text": "Ah, you must be the mercenary. We need your help immediately.",
+          "responses": [
+            { "text": "What do you need?", "nextNode": "give_orders" }
+          ],
+          "triggerEvent": "Objective_commander_intro"
+        },
+        "give_orders": {
+          "text": "The Darkness is attacking the sawmill. Defend it, and perhaps we will recruit you as a Squire of Light.",
+          "responses": [
+            { "text": "I will handle it.", "nextNode": "exit" }
+          ],
+          "triggerEvent": "CompleteQuest_lore_quest_1"
+        },
+        "greeting_defend_active": {
+          "text": "Why are you still here? The sawmill won't defend itself!",
+          "responses": [
+            { "text": "I'm on my way.", "nextNode": "exit" }
+          ]
         }
       }
     }

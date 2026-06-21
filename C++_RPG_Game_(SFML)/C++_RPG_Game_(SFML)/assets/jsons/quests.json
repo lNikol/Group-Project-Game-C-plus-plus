@@ -22,6 +22,34 @@
         "xp": 100,
         "gold": 50
       }
+    },
+    {
+      "id": "lore_quest_1",
+      "title": "The Light's Call",
+      "description": "The Light Order has arrived at the fort. Speak to their Commander.",
+      "objectives": [
+        {
+          "id": "obj_01",
+          "description": "Speak to the Commander",
+          "type": "DIALOG",
+          "targetId": "commander_intro"
+        }
+      ],
+      "nextQuestId": "lore_quest_2"
+    },
+    {
+      "id": "lore_quest_2",
+      "title": "Defend the Sawmill",
+      "description": "Defend the sawmill from the Darkness.",
+      "objectives": [
+        {
+          "id": "obj_01",
+          "description": "Defeat the Dark Monsters",
+          "type": "KILL_ENEMY",
+          "targetId": "dark_monster",
+          "requiredAmount": 5
+        }
+      ]
     }
   ]
 }

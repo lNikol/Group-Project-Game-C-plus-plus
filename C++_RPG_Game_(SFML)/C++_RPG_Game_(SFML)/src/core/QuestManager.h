@@ -32,6 +32,7 @@ namespace RPG {
         std::string title;
         std::string description;
         QuestStatus status = QuestStatus::NotStarted;
+        std::string nextQuestId = "";
         std::vector<QuestObjective> objectives;
         QuestReward rewards;
     };

@@ -124,6 +124,16 @@ namespace RPG {
         }
         testNpc->addComponent<DialogComponent>(1);
         mainMap->addGameObject(std::move(testNpc));
+
+        // --- TEST LIGHT COMMANDER NPC ---
+        auto commanderPos = spawnPos;
+        commanderPos.x += 64.f; // Place it a bit further to the right
+        auto commanderNpc = Factory::createNpc(AssetManager::getInstance(), commanderPos, FactionID::WhiteOrder);
+        if (auto* npcComp = commanderNpc->getComponent<NpcComponent>()) {
+            npcComp->setFactionLeader(true);
+        }
+        commanderNpc->addComponent<DialogComponent>(2);
+        mainMap->addGameObject(std::move(commanderNpc));
         // ---------------------------
 
         currentScene = std::make_unique<WorldScene>(*this, mainMap);

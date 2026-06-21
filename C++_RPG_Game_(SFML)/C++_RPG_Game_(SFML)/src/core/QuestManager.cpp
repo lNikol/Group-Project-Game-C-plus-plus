@@ -11,6 +11,7 @@ namespace RPG {
     QuestManager::QuestManager() {
         EventBus::getInstance().subscribe(EventType::EnemyDefeated, [this](const GameEvent& e) { this->handleEvent(e); });
         EventBus::getInstance().subscribe(EventType::ItemCollected, [this](const GameEvent& e) { this->handleEvent(e); });
+        EventBus::getInstance().subscribe(EventType::DialogObjective, [this](const GameEvent& e) { this->handleEvent(e); });
     }
 
     QuestManager& QuestManager::getInstance() {
@@ -45,6 +46,7 @@ namespace RPG {
             q.title = item.value("title", "Unnamed Quest");
             q.description = item.value("description", "");
             q.status = QuestStatus::NotStarted;
+            q.nextQuestId = item.value("nextQuestId", "");
 
             if (item.contains("objectives") && item["objectives"].is_array()) {
                 for (const auto& objJson : item["objectives"]) {
@@ -102,6 +104,12 @@ namespace RPG {
                     m_quests[id].rewards.xp, 
                     m_quests[id].rewards.gold
                 ));
+                
+                // Automatically start the next quest in chain, if one exists
+                if (!m_quests[id].nextQuestId.empty()) {
+                    startQuest(m_quests[id].nextQuestId);
+                }
+                
                 return true;
             } else if (m_quests[id].status == QuestStatus::Completed) {
                 // already completed
@@ -180,6 +188,14 @@ namespace RPG {
                             obj.currentAmount = obj.requiredAmount;
                             obj.isCompleted = true;
                         }
+                    }
+                }
+                
+                if (event.getType() == EventType::DialogObjective && obj.type == "DIALOG") {
+                    const auto& dialogEvent = static_cast<const DialogObjectiveEvent&>(event);
+                    if (obj.targetId == dialogEvent.objectiveId) {
+                        obj.currentAmount = 1;
+                        obj.isCompleted = true;
                     }
                 }
                 

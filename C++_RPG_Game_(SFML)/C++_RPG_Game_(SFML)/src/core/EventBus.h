@@ -12,7 +12,8 @@ namespace RPG {
         LocationReached,
         QuestCompleted,
         QuestStarted,
-        QuestReadyToTurnIn
+        QuestReadyToTurnIn,
+        DialogObjective
     };
 
     struct GameEvent {
@@ -52,6 +53,12 @@ namespace RPG {
         std::string questId;
         QuestReadyToTurnInEvent(const std::string& id) : questId(id) {}
         EventType getType() const override { return EventType::QuestReadyToTurnIn; }
+    };
+
+    struct DialogObjectiveEvent : public GameEvent {
+        std::string objectiveId;
+        DialogObjectiveEvent(const std::string& id) : objectiveId(id) {}
+        EventType getType() const override { return EventType::DialogObjective; }
     };
 
     class EventBus {
