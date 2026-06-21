@@ -23,7 +23,7 @@ namespace RPG {
          * @param manager Reference to the central BattleManager for state changes.
          * @param owner A pointer to the unit that possesses and casts this ability.
          */
-        CombatAbility(const AbilityDefinition* def, BattleManager& manager, Unit* owner);
+        CombatAbility(const AbilityDefinition* def, BattleManager* manager, Unit* owner);
         virtual ~CombatAbility() = default;
 
         // ==============================
@@ -61,7 +61,7 @@ namespace RPG {
         float getRadius() const { return m_def->radius; }
         TargetType getTargetType() const { return m_def->targetType; }
         void setOwner(Unit* newOwner) { m_owner = newOwner; }
-
+        void setBattleManager(BattleManager* manager) { m_manager = manager; }
     private:
         const AbilityDefinition* m_def; ///< Pointer to the shared blueprint data.
         
@@ -70,6 +70,6 @@ namespace RPG {
         int m_currentCooldown = 0;      ///< Turns remaining until the ability can be cast again.
         int m_currentCharges = -1;
     protected:
-        BattleManager& m_manager;       ///< Reference to the central game orchestrator.
+        BattleManager* m_manager;       ///< Reference to the central game orchestrator.
     };
 }

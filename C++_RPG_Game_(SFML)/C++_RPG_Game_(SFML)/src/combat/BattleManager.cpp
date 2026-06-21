@@ -40,7 +40,19 @@ namespace RPG {
         if (m_iconSet && m_font) {
             m_hud = std::make_unique<BattleHUD>(*m_iconSet, *m_font);
         }
+        if (m_iconSet && m_font) {
+            m_hud = std::make_unique<BattleHUD>(*m_iconSet, *m_font);
 
+            m_victoryWindow = std::make_unique<VictoryWindow>(*m_iconSet, *m_font, [this]() {
+                this->m_battleResult = BattleResult::Victory; // Officially end combat
+                });
+            m_victoryWindow->setPosition({ Window::WIDTH / 2.0, Window::HEIGHT / 2.0 });
+
+            m_defeatWindow = std::make_unique<DefeatWindow>(*m_font, [this]() {
+                this->m_battleResult = BattleResult::Defeat; // Officially end combat
+                });
+            m_defeatWindow->setPosition({ Window::WIDTH / 2.0, Window::HEIGHT / 2.0 });
+        }
         m_selector.setRadius(20.f);
         m_selector.setScale({ 1.f, 0.5f });
         m_selector.setOrigin({ 20.f, 20.f });
@@ -99,13 +111,35 @@ namespace RPG {
 
         // 3. Setup Deployment Zone and Loot Data
         m_deploymentZone = data.deploymentZone;
-        m_lootItemIds = data.lootItemIds;
+        m_lootDrops = data.lootDrops;
+        m_minGold = data.minGold;
+        m_maxGold = data.maxGold;
 
         auto endTurnAction = std::make_shared<EndTurnCommand>([this]() { this->endTurn(); });
         auto moveAction = std::make_shared<MoveCommand>(*this);
 
         // 4. Spawn Player Party intelligently
         auto& party = PartyData::getInstance();
+
+        for (auto& item : party.sharedInventory) {
+            if (auto ability = std::dynamic_pointer_cast<CombatAbility>(item)) {
+                ability->setBattleManager(this);
+            }
+        }
+
+        for (auto& profile : party.activeParty) {
+            if (!profile) continue;
+            for (auto& item : profile->hotbar) {
+                if (auto ability = std::dynamic_pointer_cast<CombatAbility>(item)) {
+                    ability->setBattleManager(this);
+                }
+            }
+            for (auto& [slot, item] : profile->equipment) {
+                if (auto ability = std::dynamic_pointer_cast<CombatAbility>(item)) {
+                    ability->setBattleManager(this);
+                }
+            }
+        }
         for (const auto& profile : party.activeParty) {
             if (!profile) continue;
 
@@ -273,7 +307,12 @@ namespace RPG {
 
         sf::View worldView = window.getView();
         window.setView(window.getDefaultView());
-
+        if (m_victoryWindow && m_victoryWindow->isVisible()) {
+            if (m_victoryWindow->handleEvent(window, event)) return;
+        }
+        if (m_defeatWindow && m_defeatWindow->isVisible()) {
+            if (m_defeatWindow->handleEvent(window, event)) return;
+        }
         bool uiCaptured = false;
         if (m_hud) {
             m_hud->handleEvent(window, event);
@@ -774,6 +813,14 @@ namespace RPG {
             m_hasInitializedHUD = true;
         }
         if (m_hud && m_state != GameState::PlacementMode) window.draw(*m_hud);
+        if (m_victoryWindow && m_victoryWindow->isVisible()) {
+            window.setView(window.getDefaultView());
+            window.draw(*m_victoryWindow);
+        }
+        if (m_defeatWindow && m_defeatWindow->isVisible()) {
+            window.setView(window.getDefaultView());
+            window.draw(*m_defeatWindow);
+        }
     }
 
     void BattleManager::startMovementMode() {
@@ -917,7 +964,10 @@ namespace RPG {
     }
 
     void BattleManager::checkBattleStatus() {
-        if (m_battleResult != BattleResult::Pending) return;
+        // Prevent triggering twice if windows are already open
+        if (m_battleResult != BattleResult::Pending ||
+            (m_victoryWindow && m_victoryWindow->isVisible()) ||
+            (m_defeatWindow && m_defeatWindow->isVisible())) return;
 
         bool playersAlive = false;
         bool enemiesAlive = false;
@@ -927,50 +977,56 @@ namespace RPG {
         }
 
         if (!enemiesAlive) {
-            m_battleResult = BattleResult::Victory;
-            finalizeBattle();
+            m_state = GameState::Busy; // Lock UI interactions
+            finalizeBattle(BattleResult::Victory);
         }
         else if (!playersAlive) {
-            m_battleResult = BattleResult::Defeat;
-            finalizeBattle();
+            m_state = GameState::Busy;
+            finalizeBattle(BattleResult::Defeat);
         }
     }
 
-    void BattleManager::finalizeBattle() {
+    void BattleManager::finalizeBattle(BattleResult result) {
         auto& party = PartyData::getInstance();
 
         for (auto& unit : m_participatingPlayers) {
             for (auto& profile : party.activeParty) {
                 if (profile && profile->id == unit->getName()) {
                     profile->currentVitals = unit->getVitals();
-                    if (m_battleResult == BattleResult::Defeat && profile->currentVitals.hp <= 0) {
+                    if (result == BattleResult::Defeat && profile->currentVitals.hp <= 0) {
                         profile->currentVitals.hp = 1.0f;
                     }
                 }
             }
         }
 
-        if (m_battleResult == BattleResult::Victory) {
-            party.gold += 50;
-            for (const auto& itemId : m_lootItemIds) {
-                auto rewardItem = AbilityFactory::getInstance().createAbility(itemId, *this, nullptr);
-                if (rewardItem) {
-                    if (party.addItem(rewardItem)) {
-                        if (m_playerUnit) spawnFloatingText(m_playerUnit->getRenderPosition(), "+ " + rewardItem->getTooltip(), sf::Color::Green, 18);
-                    }
-                    else {
-                        if (m_playerUnit) spawnFloatingText(m_playerUnit->getRenderPosition(), "Inventory Full!", sf::Color::Red, 20);
+        if (result == BattleResult::Victory) {
+            int goldReward = m_minGold;
+            if (m_maxGold > m_minGold) {
+                goldReward += rand() % ((m_maxGold - m_minGold) + 1);
+            }
+            party.gold += goldReward;
+
+            std::vector<std::shared_ptr<IAbility>> lootedItems;
+            for (const auto& drop : m_lootDrops) {
+                float roll = static_cast<float>(rand()) / static_cast<float>(RAND_MAX);
+                if (roll <= drop.chance) {
+                    auto rewardItem = AbilityFactory::getInstance().createAbility(drop.id, *this, nullptr);
+                    if (rewardItem && party.addItem(rewardItem)) {
+                        lootedItems.push_back(rewardItem);
                     }
                 }
             }
-            if (m_playerUnit) spawnFloatingText(m_playerUnit->getRenderPosition(), "VICTORY!", sf::Color::Yellow, 40, { 0.f, -20.f });
+
+            if (m_victoryWindow) m_victoryWindow->setResults(goldReward, lootedItems);
         }
         else {
-            party.gold = std::max(0, party.gold - 20);
-            if (m_playerUnit) spawnFloatingText(m_playerUnit->getRenderPosition(), "DEFEAT...", sf::Color::Red, 40, { 0.f, -10.f });
+            int penalty = std::min(party.gold, 20);
+            party.gold -= penalty;
+            if (m_defeatWindow) m_defeatWindow->setResults(penalty);
         }
+        party.clearConsumedItems();
     }
-
     void BattleManager::spawnFloatingText(sf::Vector2f location, std::string content, sf::Color color, int fontSize, sf::Vector2f velocity) {
         if (!m_font) return;
         FloatingText ft(*m_font);

@@ -14,42 +14,36 @@
       <Extensions>
         rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-
     <Filter Include="Pliki źródłowe\animation">
       <UniqueIdentifier>{bcc739db-2117-4500-9ba9-cc89bb150adb}</UniqueIdentifier>
     </Filter>
     <Filter Include="Pliki nagłówkowe\animation">
       <UniqueIdentifier>{7477fc85-5e14-421d-a187-eefbff078922}</UniqueIdentifier>
     </Filter>
-
     <Filter Include="Pliki źródłowe\combat">
       <UniqueIdentifier>{38138cb9-2af4-454f-b727-40abb29a2cf4}</UniqueIdentifier>
     </Filter>
     <Filter Include="Pliki nagłówkowe\combat">
       <UniqueIdentifier>{fd536323-b54a-4284-accb-811ccd16eb33}</UniqueIdentifier>
     </Filter>
-
     <Filter Include="Pliki źródłowe\core">
       <UniqueIdentifier>{d4f7cf84-f3f7-4761-ac98-379e2614b4cb}</UniqueIdentifier>
     </Filter>
     <Filter Include="Pliki nagłówkowe\core">
       <UniqueIdentifier>{cda53558-732e-402e-8c7b-1a48dba902ee}</UniqueIdentifier>
     </Filter>
-
     <Filter Include="Pliki źródłowe\drawable">
       <UniqueIdentifier>{2ac2f39f-67a7-45aa-81ca-5ccdfcc80cfe}</UniqueIdentifier>
     </Filter>
     <Filter Include="Pliki nagłówkowe\drawable">
       <UniqueIdentifier>{6b92cd02-f5fc-4b22-a6ba-6115cc9d23f8}</UniqueIdentifier>
     </Filter>
-
     <Filter Include="Pliki źródłowe\entities">
       <UniqueIdentifier>{5597866f-5626-449b-8b44-e85ff265e711}</UniqueIdentifier>
     </Filter>
     <Filter Include="Pliki nagłówkowe\entities">
       <UniqueIdentifier>{0a7b1098-0923-4ab2-9aa3-9dfd3685fea6}</UniqueIdentifier>
     </Filter>
-
     <Filter Include="Pliki źródłowe\game_objects">
       <UniqueIdentifier>{e1112223-3333-4444-5555-666666666666}</UniqueIdentifier>
     </Filter>
@@ -68,7 +62,6 @@
     <Filter Include="Pliki nagłówkowe\game_objects\systems">
       <UniqueIdentifier>{66b08050-b9fa-47f5-9c4a-513755ad4761}</UniqueIdentifier>
     </Filter>
-
     <Filter Include="Pliki źródłowe\GUI">
       <UniqueIdentifier>{05009786-89ac-4ce1-ba59-43b06db05596}</UniqueIdentifier>
     </Filter>
@@ -87,18 +80,15 @@
     <Filter Include="Pliki nagłówkowe\GUI\windows">
       <UniqueIdentifier>{8d71ccad-e4ec-4724-8ff9-c241afa08b6e}</UniqueIdentifier>
     </Filter>
-
     <Filter Include="Pliki nagłówkowe\interfaces">
       <UniqueIdentifier>{f09251d1-cc1f-4772-b817-19978d70d161}</UniqueIdentifier>
     </Filter>
-
     <Filter Include="Pliki źródłowe\scenes">
       <UniqueIdentifier>{70d0e4f5-47a5-43c0-9101-b27b56b7f5ff}</UniqueIdentifier>
     </Filter>
     <Filter Include="Pliki nagłówkowe\scenes">
       <UniqueIdentifier>{3c9233ae-58e7-4314-adbf-a961977caeb5}</UniqueIdentifier>
     </Filter>
-
     <Filter Include="Pliki źródłowe\worldmap">
       <UniqueIdentifier>{4a04ce87-f68e-41f1-ae14-6b8707cc58a2}</UniqueIdentifier>
     </Filter>
@@ -106,12 +96,10 @@
       <UniqueIdentifier>{628133e8-cd23-4545-8408-ebf3af674d99}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
-
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
       <Filter>Pliki źródłowe</Filter>
     </ClCompile>
-
     <ClCompile Include="src\animation\Animation.cpp">
       <Filter>Pliki źródłowe\animation</Filter>
     </ClCompile>
@@ -124,7 +112,6 @@
     <ClCompile Include="src\animation\AnimationManager.cpp">
       <Filter>Pliki źródłowe\animation</Filter>
     </ClCompile>
-
     <ClCompile Include="src\combat\AbilityFactory.cpp">
       <Filter>Pliki źródłowe\combat</Filter>
     </ClCompile>
@@ -155,31 +142,12 @@
     <ClCompile Include="src\combat\UnitFactory.cpp">
       <Filter>Pliki źródłowe\combat</Filter>
     </ClCompile>
-
     <ClCompile Include="src\core\GameManager.cpp">
       <Filter>Pliki źródłowe\core</Filter>
     </ClCompile>
-
     <ClCompile Include="src\drawable\IsoGrid.cpp">
       <Filter>Pliki źródłowe\drawable</Filter>
     </ClCompile>
-
-    <ClCompile Include="src\entities\AnimatedEntity.cpp">
-      <Filter>Pliki źródłowe\entities</Filter>
-    </ClCompile>
-    <ClCompile Include="src\entities\CollidingEntity.cpp">
-      <Filter>Pliki źródłowe\entities</Filter>
-    </ClCompile>
-    <ClCompile Include="src\entities\Monster.cpp">
-      <Filter>Pliki źródłowe\entities</Filter>
-    </ClCompile>
-    <ClCompile Include="src\entities\NPC.cpp">
-      <Filter>Pliki źródłowe\entities</Filter>
-    </ClCompile>
-    <ClCompile Include="src\entities\WorldObject.cpp">
-      <Filter>Pliki źródłowe\entities</Filter>
-    </ClCompile>
-
     <ClCompile Include="src\game_objects\GameObject.cpp">
       <Filter>Pliki źródłowe\game_objects</Filter>
     </ClCompile>
@@ -187,9 +155,6 @@
       <Filter>Pliki źródłowe\game_objects</Filter>
     </ClCompile>
     <ClCompile Include="src\game_objects\components\AnimationComponent.cpp">
-      <Filter>Pliki źródłowe\game_objects\components</Filter>
-    </ClCompile>
-    <ClCompile Include="src\game_objects\components\AnimationControllerComponent.cpp">
       <Filter>Pliki źródłowe\game_objects\components</Filter>
     </ClCompile>
     <ClCompile Include="src\game_objects\components\ColliderComponent.cpp">
@@ -204,13 +169,7 @@
     <ClCompile Include="src\game_objects\components\QuestGiverComponent.cpp">
       <Filter>Pliki źródłowe\game_objects\components</Filter>
     </ClCompile>
-    <ClCompile Include="src\game_objects\components\MovementComponent.cpp">
-      <Filter>Pliki źródłowe\game_objects\components</Filter>
-    </ClCompile>
     <ClCompile Include="src\game_objects\components\NpcComponent.cpp">
-      <Filter>Pliki źródłowe\game_objects\components</Filter>
-    </ClCompile>
-    <ClCompile Include="src\game_objects\components\PlayerInputComponent.cpp">
       <Filter>Pliki źródłowe\game_objects\components</Filter>
     </ClCompile>
     <ClCompile Include="src\game_objects\components\RenderComponent.cpp">
@@ -219,7 +178,6 @@
     <ClCompile Include="src\game_objects\components\StructureComponent.cpp">
       <Filter>Pliki źródłowe\game_objects\components</Filter>
     </ClCompile>
-
     <ClCompile Include="src\GUI\widgets\ActionSlot.cpp">
       <Filter>Pliki źródłowe\GUI\widgets</Filter>
     </ClCompile>
@@ -235,13 +193,9 @@
     <ClCompile Include="src\GUI\windows\JournalWindow.cpp">
       <Filter>Pliki źródłowe</Filter>
     </ClCompile>
-    <ClCompile Include="src\GUI\windows\StatBar.cpp">
-      <Filter>Pliki źródłowe\GUI\windows</Filter>
-    </ClCompile>
     <ClCompile Include="src\GUI\windows\WindowBase.cpp">
       <Filter>Pliki źródłowe\GUI\windows</Filter>
     </ClCompile>
-
     <ClCompile Include="src\scenes\BaseGameScene.cpp">
       <Filter>Pliki źródłowe\scenes</Filter>
     </ClCompile>
@@ -254,7 +208,6 @@
     <ClCompile Include="src\scenes\WorldScene.cpp">
       <Filter>Pliki źródłowe\scenes</Filter>
     </ClCompile>
-
     <ClCompile Include="src\worldmap\AssetManager.cpp">
       <Filter>Pliki źródłowe\worldmap</Filter>
     </ClCompile>
@@ -267,8 +220,34 @@
     <ClCompile Include="src\worldmap\WorldMapRenderer.cpp">
       <Filter>Pliki źródłowe\worldmap</Filter>
     </ClCompile>
+    <ClCompile Include="src\animation\AnimationLoader.h">
+      <Filter>Pliki nagłówkowe</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\QuestManager.cpp">
+      <Filter>Pliki źródłowe</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\EventBus.cpp">
+      <Filter>Pliki źródłowe</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GUI\widgets\NineSlice.cpp">
+      <Filter>Pliki źródłowe</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GUI\widgets\StatBar.cpp">
+      <Filter>Pliki źródłowe</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GUI\windows\SystemHUD.cpp">
+      <Filter>Pliki źródłowe</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GUI\widgets\TextWidget.cpp">
+      <Filter>Pliki źródłowe\GUI\widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GUI\windows\VictoryWindow.cpp">
+      <Filter>Pliki źródłowe\GUI\windows</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GUI\windows\DefeatWindow.cpp">
+      <Filter>Pliki źródłowe\GUI\windows</Filter>
+    </ClCompile>
   </ItemGroup>
-
   <ItemGroup>
     <ClInclude Include="src\animation\Animation.h">
       <Filter>Pliki nagłówkowe\animation</Filter>
@@ -276,13 +255,9 @@
     <ClInclude Include="src\animation\AnimationBuilder.h">
       <Filter>Pliki nagłówkowe\animation</Filter>
     </ClInclude>
-    <ClInclude Include="src\animation\AnimationLoader.h">
-      <Filter>Pliki nagłówkowe\animation</Filter>
-    </ClInclude>
     <ClInclude Include="src\animation\AnimationManager.h">
       <Filter>Pliki nagłówkowe\animation</Filter>
     </ClInclude>
-
     <ClInclude Include="src\combat\AbilityData.h">
       <Filter>Pliki nagłówkowe\combat</Filter>
     </ClInclude>
@@ -340,34 +315,15 @@
     <ClInclude Include="src\combat\UnitFactory.h">
       <Filter>Pliki nagłówkowe\combat</Filter>
     </ClInclude>
-
     <ClInclude Include="src\core\Constants.h">
       <Filter>Pliki nagłówkowe\core</Filter>
     </ClInclude>
     <ClInclude Include="src\core\GameManager.h">
       <Filter>Pliki nagłówkowe\core</Filter>
     </ClInclude>
-
     <ClInclude Include="src\drawable\IsoGrid.h">
       <Filter>Pliki nagłówkowe\drawable</Filter>
     </ClInclude>
-
-    <ClInclude Include="src\entities\AnimatedEntity.h">
-      <Filter>Pliki nagłówkowe\entities</Filter>
-    </ClInclude>
-    <ClInclude Include="src\entities\CollidingEntity.h">
-      <Filter>Pliki nagłówkowe\entities</Filter>
-    </ClInclude>
-    <ClInclude Include="src\entities\Monster.h">
-      <Filter>Pliki nagłówkowe\entities</Filter>
-    </ClInclude>
-    <ClInclude Include="src\entities\NPC.h">
-      <Filter>Pliki nagłówkowe\entities</Filter>
-    </ClInclude>
-    <ClInclude Include="src\entities\WorldObject.h">
-      <Filter>Pliki nagłówkowe\entities</Filter>
-    </ClInclude>
-
     <ClInclude Include="src\game_objects\GameObject.h">
       <Filter>Pliki nagłówkowe\game_objects</Filter>
     </ClInclude>
@@ -375,9 +331,6 @@
       <Filter>Pliki nagłówkowe\game_objects</Filter>
     </ClInclude>
     <ClInclude Include="src\game_objects\components\AnimationComponent.h">
-      <Filter>Pliki nagłówkowe\game_objects\components</Filter>
-    </ClInclude>
-    <ClInclude Include="src\game_objects\components\AnimationControllerComponent.h">
       <Filter>Pliki nagłówkowe\game_objects\components</Filter>
     </ClInclude>
     <ClInclude Include="src\game_objects\components\ColliderComponent.h">
@@ -425,7 +378,6 @@
     <ClInclude Include="src\game_objects\components\TriggerComponent.h">
       <Filter>Pliki nagłówkowe\game_objects\components</Filter>
     </ClInclude>
-
     <ClInclude Include="src\game_objects\systems\AnimationSystem.h">
       <Filter>Pliki nagłówkowe</Filter>
     </ClInclude>
@@ -453,7 +405,6 @@
     <ClInclude Include="src\game_objects\systems\TriggerSystem.h">
       <Filter>Pliki nagłówkowe\game_objects\systems</Filter>
     </ClInclude>
-
     <ClInclude Include="src\GUI\widgets\ActionSlot.h">
       <Filter>Pliki nagłówkowe\GUI\widgets</Filter>
     </ClInclude>
@@ -478,14 +429,12 @@
     <ClInclude Include="src\GUI\windows\WindowBase.h">
       <Filter>Pliki nagłówkowe\GUI\windows</Filter>
     </ClInclude>
-
     <ClInclude Include="src\interfaces\IAbility.h">
       <Filter>Pliki nagłówkowe\interfaces</Filter>
     </ClInclude>
     <ClInclude Include="src\interfaces\ICombatActor.h">
       <Filter>Pliki nagłówkowe\interfaces</Filter>
     </ClInclude>
-
     <ClInclude Include="src\scenes\BaseGameScene.h">
       <Filter>Pliki nagłówkowe\scenes</Filter>
     </ClInclude>
@@ -504,7 +453,6 @@
     <ClInclude Include="src\scenes\WorldScene.h">
       <Filter>Pliki nagłówkowe\scenes</Filter>
     </ClInclude>
-
     <ClInclude Include="src\worldmap\AssetManager.h">
       <Filter>Pliki nagłówkowe\worldmap</Filter>
     </ClInclude>
@@ -515,9 +463,6 @@
       <Filter>Pliki nagłówkowe\worldmap</Filter>
     </ClInclude>
     <ClInclude Include="src\worldmap\MapLoader.h">
-      <Filter>Pliki nagłówkowe\worldmap</Filter>
-    </ClInclude>
-    <ClInclude Include="src\worldmap\Player.h">
       <Filter>Pliki nagłówkowe\worldmap</Filter>
     </ClInclude>
     <ClInclude Include="src\worldmap\StructureDefinition.h">
@@ -532,8 +477,25 @@
     <ClInclude Include="src\worldmap\WorldMapRenderer.h">
       <Filter>Pliki nagłówkowe\worldmap</Filter>
     </ClInclude>
+    <ClInclude Include="src\core\QuestManager.h">
+      <Filter>Pliki nagłówkowe</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\EventBus.h">
+      <Filter>Pliki nagłówkowe</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GUI\windows\JournalWindow.h">
+      <Filter>Pliki nagłówkowe</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GUI\widgets\TextWidget.h">
+      <Filter>Pliki nagłówkowe\GUI\widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GUI\windows\DefeatWindow.h">
+      <Filter>Pliki nagłówkowe\GUI\windows</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GUI\windows\VictoryWindow.h">
+      <Filter>Pliki nagłówkowe\GUI\windows</Filter>
+    </ClInclude>
   </ItemGroup>
-
   <ItemGroup>
     <Image Include="assets\animations\npc.png">
       <Filter>Pliki zasobów</Filter>
@@ -559,8 +521,10 @@
     <Image Include="C:\Users\olsze\Downloads\box.png">
       <Filter>Pliki zasobów</Filter>
     </Image>
+    <Image Include="assets\textures\placeholders\UI_Window.png">
+      <Filter>Pliki zasobów</Filter>
+    </Image>
   </ItemGroup>
-
   <ItemGroup>
     <None Include="assets\animations\npc_animations.json" />
     <None Include="assets\animations\player_animations.json" />

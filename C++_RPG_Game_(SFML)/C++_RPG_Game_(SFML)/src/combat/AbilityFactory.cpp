@@ -119,8 +119,8 @@ namespace RPG {
         }
         auto& def = m_definitions[id];
         if (def.isConsumable) {
-            return std::make_shared<CombatItem>(&def, manager, owner);
+            return std::make_shared<CombatItem>(&def, &manager, owner);
         }
-        return std::make_shared<CombatAbility>(&def, manager, owner);
+        return std::make_shared<CombatAbility>(&def, &manager, owner);
     }
 }

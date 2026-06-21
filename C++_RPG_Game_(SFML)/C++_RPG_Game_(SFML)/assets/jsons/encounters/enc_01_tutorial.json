@@ -31,7 +31,13 @@
     { "id": "enemy_skeleton", "logicalX": 160.0, "logicalY": 64.0 },
     { "id": "enemy_skeleton", "logicalX": 224.0, "logicalY": 64.0 }
   ],
+"gold": {
+    "min": 150,
+    "max": 300
+  },
   "loot": [
-    "health_potion"
+    { "id": "health_potion", "chance": 1.0 },
+    { "id": "health_potion", "chance": 0.5 },
+    { "id": "scroll_of_fireball", "chance": 0.25 }
   ]
 }

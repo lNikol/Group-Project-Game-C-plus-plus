@@ -164,8 +164,11 @@
     <ClCompile Include="src\core\GameManager.cpp" />
     <ClCompile Include="src\core\QuestManager.cpp" />
     <ClCompile Include="src\core\EventBus.cpp" />
+    <ClCompile Include="src\GUI\widgets\TextWidget.cpp" />
+    <ClCompile Include="src\GUI\windows\DefeatWindow.cpp" />
     <ClCompile Include="src\GUI\windows\InventoryWindow.cpp" />
     <ClCompile Include="src\GUI\windows\JournalWindow.cpp" />
+    <ClCompile Include="src\GUI\windows\VictoryWindow.cpp" />
     <ClCompile Include="src\scenes\BaseGameScene.cpp" />
     <ClCompile Include="src\scenes\BattleScene.cpp" />
     <ClCompile Include="src\scenes\FactionScene.cpp" />
@@ -238,8 +241,11 @@
     <ClInclude Include="src\game_objects\systems\RenderSystem.h" />
     <ClInclude Include="src\game_objects\systems\SystemManager.h" />
     <ClInclude Include="src\game_objects\systems\TriggerSystem.h" />
+    <ClInclude Include="src\GUI\widgets\TextWidget.h" />
+    <ClInclude Include="src\GUI\windows\DefeatWindow.h" />
     <ClInclude Include="src\GUI\windows\InventoryWindow.h" />
     <ClInclude Include="src\GUI\windows\JournalWindow.h" />
+    <ClInclude Include="src\GUI\windows\VictoryWindow.h" />
     <ClInclude Include="src\scenes\BaseGameScene.h" />
     <ClInclude Include="src\scenes\BattleScene.h" />
     <ClInclude Include="src\scenes\FactionScene.h" />

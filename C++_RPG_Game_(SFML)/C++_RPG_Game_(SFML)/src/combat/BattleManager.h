@@ -14,7 +14,8 @@
 #include "CombatAbility.h"
 #include "worldmap/AssetManager.h"
 #include "EncounterLoader.h"
-
+#include "GUI/windows/VictoryWindow.h"
+#include "GUI/windows/DefeatWindow.h"
 namespace RPG {
 
     /**
@@ -120,7 +121,9 @@ namespace RPG {
         std::vector<std::shared_ptr<Unit>> m_participatingPlayers;
 
         std::vector<sf::Vector2f> m_deploymentZone;
-        std::vector<std::string> m_lootItemIds;
+        std::vector<LootDrop> m_lootDrops;
+        int m_minGold;
+        int m_maxGold;
         bool m_enemyActionPending = false;
 
         bool m_hasInitializedHUD = false;
@@ -137,7 +140,8 @@ namespace RPG {
 
         bool m_showDebug = false;
         std::vector<FloatingText> m_floatingTexts;
-
+        std::unique_ptr<VictoryWindow> m_victoryWindow;
+        std::unique_ptr<DefeatWindow> m_defeatWindow;
         // ==============================
         // Internal Mechanics
         // ==============================
@@ -156,6 +160,6 @@ namespace RPG {
         /**
          * @brief Synchronizes Unit vitals back to PartyData and applies loot/penalties.
          */
-        void finalizeBattle();
+        void finalizeBattle(BattleResult result);
     };
 }
