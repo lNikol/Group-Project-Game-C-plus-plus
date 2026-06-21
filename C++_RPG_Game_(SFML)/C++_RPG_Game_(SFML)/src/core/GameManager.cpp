@@ -8,6 +8,7 @@
 #include "combat/PartyData.h"
 #include "worldmap/MapLoader.h"
 #include "core/QuestManager.h"
+#include "core/DialogManager.h"
 #include "core/EventBus.h"
 #include "game_objects/components/components.h"
 
@@ -86,6 +87,9 @@ namespace RPG {
         if (!QuestManager::getInstance().loadFromJSON("assets/jsons/quests.json")) {
             std::cerr << "[GameManager] Warning: Failed to load quests.json\n";
         }
+        if (!DialogManager::getInstance().loadFromJSON("assets/jsons/dialogs.json")) {
+            std::cerr << "[GameManager] Warning: Failed to load dialogs.json\n";
+        }
 
         auto& party = PartyData::getInstance();
         if (party.activeParty.empty()) {
@@ -118,7 +122,7 @@ namespace RPG {
         if (auto* npcComp = testNpc->getComponent<NpcComponent>()) {
             npcComp->setFactionLeader(false);
         }
-        testNpc->addComponent<QuestGiverComponent>("quest_02_rats", "quest_02_rats");
+        testNpc->addComponent<DialogComponent>(1);
         mainMap->addGameObject(std::move(testNpc));
         // ---------------------------
 

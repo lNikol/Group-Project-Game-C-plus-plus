@@ -19,6 +19,7 @@ namespace RPG {
         m_inventoryWindow = std::make_unique<InventoryWindow>(iconSet, font);
         m_journalWindow = std::make_unique<JournalWindow>(font);
         m_bestiaryWindow = std::make_unique<WindowBase>(font, sf::Vector2f(500.f, 600.f), "Bestiary");
+        m_dialogWindow = std::make_unique<DialogWindow>(font);
 
         m_inventoryWindow->hide();
         m_journalWindow->hide();
@@ -99,6 +100,10 @@ namespace RPG {
                 (h - bstBounds.size.y) / 2.f
             });
         }
+        
+        if (m_dialogWindow) {
+            m_dialogWindow->onResize(newSize);
+        }
     }
 
     void SystemHUD::handleEvent(sf::RenderWindow& window, const sf::Event& event) {
@@ -139,6 +144,11 @@ namespace RPG {
                 }
             }
         }
+        
+        if (m_dialogWindow->handleEvent(window, event)) {
+            window.setView(oldView);
+            return;
+        }
 
         if (m_inventoryWindow->handleEvent(window, event)) {
             window.setView(oldView);
@@ -174,6 +184,7 @@ namespace RPG {
         m_inventoryWindow->update(dt);
         m_journalWindow->update(dt);
         m_bestiaryWindow->update(dt);
+        m_dialogWindow->update(dt);
         
         m_satchelBtn->update(dt);
         m_journalBtn->update(dt);
@@ -230,6 +241,7 @@ namespace RPG {
         target.draw(*m_inventoryWindow);
         target.draw(*m_journalWindow);
         target.draw(*m_bestiaryWindow);
+        target.draw(*m_dialogWindow);
 
         std::string tip = resolveTooltipText();
         if (!tip.empty()) {

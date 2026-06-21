@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -184,6 +184,8 @@
     <ClCompile Include="src\GUI\windows\WindowBase.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\game_objects\components\StructureComponent.cpp" />
+    <ClCompile Include="src\core\DialogManager.cpp" />
+    <ClCompile Include="src\GUI\windows\DialogWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\combat\AudioManager.h" />
@@ -265,6 +267,9 @@
     <ClInclude Include="src\interfaces\IAbility.h" />
     <ClInclude Include="src\interfaces\ICombatActor.h" />
     <ClInclude Include="src\game_objects\components\StructureComponent.h" />
+    <ClInclude Include="src\core\DialogManager.h" />
+    <ClInclude Include="src\game_objects\components\DialogComponent.h" />
+    <ClInclude Include="src\GUI\windows\DialogWindow.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="assets\animations\npc.png" />
@@ -288,7 +293,7 @@
   </ImportGroup>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
-      <ErrorText>Ten projekt zawiera odwołania do pakietów NuGet, których nie ma na tym komputerze. Użyj przywracania pakietów NuGet, aby je pobrać. Aby uzyskać więcej informacji, zobacz http://go.microsoft.com/fwlink/?LinkID=322105. Brakujący plik: {0}.</ErrorText>
+      <ErrorText>Ten projekt zawiera odwoĹ‚ania do pakietĂłw NuGet, ktĂłrych nie ma na tym komputerze. UĹĽyj przywracania pakietĂłw NuGet, aby je pobraÄ‡. Aby uzyskaÄ‡ wiÄ™cej informacji, zobacz http://go.microsoft.com/fwlink/?LinkID=322105. BrakujÄ…cy plik: {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\nlohmann.json.3.12.0\build\native\nlohmann.json.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\nlohmann.json.3.12.0\build\native\nlohmann.json.targets'))" />
   </Target>

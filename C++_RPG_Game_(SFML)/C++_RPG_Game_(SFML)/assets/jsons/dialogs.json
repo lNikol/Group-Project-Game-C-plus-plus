@@ -1,0 +1,30 @@
+{
+  "dialogs": {
+    "1": {
+      "npcName": "Mysterious Stranger",
+      "nodes": {
+        "start": {
+          "text": "Hello there, traveler. Are you seeking the Carrier of the Flame?",
+          "responses": [
+            { "text": "Who are you?", "nextNode": "who_are_you" },
+            { "text": "Yes, I am.", "nextNode": "yes_carrier" },
+            { "text": "Goodbye.", "nextNode": "exit" }
+          ]
+        },
+        "who_are_you": {
+          "text": "Just an observer in the darkness.",
+          "responses": [
+            { "text": "Return", "nextNode": "start" }
+          ]
+        },
+        "yes_carrier": {
+          "text": "Then you have a long path ahead. Beware the Darkness.",
+          "responses": [
+            { "text": "I will.", "nextNode": "exit" }
+          ],
+          "triggerEvent": "StartQuest_quest_02_rats"
+        }
+      }
+    }
+  }
+}

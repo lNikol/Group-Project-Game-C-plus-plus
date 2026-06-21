@@ -4,6 +4,7 @@
 #include "game_objects/components/MovementComponent.h"
 #include "game_objects/GameObject.h"
 #include "scenes/ISceneController.h"
+#include "core/DialogManager.h"
 #include <cmath>
 
 namespace RPG {
@@ -14,7 +15,7 @@ namespace RPG {
         InputSystem(const ISceneController& ctrl) : m_ctrl(ctrl) {}
 
         void update(float dt, std::vector<std::unique_ptr<GameObject>>& entities) override {
-            if (!m_ctrl.hasWindowFocus()) {
+            if (!m_ctrl.hasWindowFocus() || DialogManager::getInstance().isActive()) {
                 for (auto& entity : entities) {
                     if (!entity->hasComponent<PlayerInputComponent>()) continue;
                     if (auto* mov = entity->getComponent<MovementComponent>()) {

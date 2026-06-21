@@ -3,6 +3,7 @@
 #include "core/EventBus.h"
 #include "game_objects/components/components.h"
 #include "core/QuestManager.h"
+#include "core/DialogManager.h"
 
 namespace RPG {
 
@@ -134,6 +135,11 @@ namespace RPG {
     }
 
     void BaseGameScene::handleInteraction(GameObject* go) {
+        if (auto* dialogComp = go->getComponent<DialogComponent>()) {
+            DialogManager::getInstance().startDialog(dialogComp->dialogId);
+            return;
+        }
+
         if (auto* npc = go->getComponent<NpcComponent>()) {
             if (npc->isFactionLeader()) {
                 sceneController.changeScene(npc->getTargetFaction());

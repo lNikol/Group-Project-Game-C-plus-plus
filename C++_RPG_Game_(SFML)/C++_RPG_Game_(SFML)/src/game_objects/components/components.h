@@ -9,3 +9,5 @@
 #include "NpcComponent.h"
 #include "InteractionComponent.h"
 #include "QuestGiverComponent.h"
+#include "DialogComponent.h"
+#include "TriggerComponent.h"
