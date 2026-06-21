@@ -1,5 +1,5 @@
 #include "WorldMapRenderer.h"
-#include "core/GameConfig.h"
+#include "core/Constants.h"
 
 namespace RPG {
 
@@ -14,10 +14,12 @@ namespace RPG {
         if (!worldMap.getPlayer()) return;
 
         constexpr float zoomFactor = 2.0f;
-        sf::Vector2u    winSize    = window.getSize();
+        sf::Vector2f logicalSize = Window::getLogicalSize(window.getSize());
+        logicalSize.x /= zoomFactor;
+        logicalSize.y /= zoomFactor;
 
         sf::View view;
-        view.setSize({ winSize.x / zoomFactor, winSize.y / zoomFactor });
+        view.setSize(logicalSize);
         view.setCenter(worldMap.getPlayer()->getPosition());
         window.setView(view);
     }
@@ -66,7 +68,8 @@ namespace RPG {
         if (!worldMap.getPlayer()) return;
 
         sf::View savedView = window.getView();
-        window.setView(window.getDefaultView());
+        sf::View debugView = sf::View(sf::FloatRect({0.f, 0.f}, Window::getLogicalSize(window.getSize())));
+        window.setView(debugView);
 
         const sf::Font* font = AssetManager::getInstance().getFont("PixelFont");
         if (font) {

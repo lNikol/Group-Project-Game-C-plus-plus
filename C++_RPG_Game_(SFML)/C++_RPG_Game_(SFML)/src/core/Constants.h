@@ -12,6 +12,12 @@ namespace RPG {
 		const uint16_t HEIGHT = 800;
 		const std::string TITLE = "RPG GAME";
 		const uint8_t BASE_FPS = 60;
+
+		inline sf::Vector2f getLogicalSize(const sf::Vector2u& winSize) {
+			float logicalHeight = HEIGHT;
+			float logicalWidth = HEIGHT * (winSize.x / (float)winSize.y);
+			return {logicalWidth, logicalHeight};
+		}
 	}
 
 	namespace GameConfig {

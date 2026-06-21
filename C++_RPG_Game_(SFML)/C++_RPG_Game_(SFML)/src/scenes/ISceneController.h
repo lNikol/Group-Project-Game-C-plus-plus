@@ -14,5 +14,6 @@ namespace RPG {
 
         // Only the necessary methods for the Scene to call
         virtual void changeScene(FactionID target) = 0;
+        virtual bool hasWindowFocus() const = 0;
     };
 }

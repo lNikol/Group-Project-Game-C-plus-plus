@@ -14,7 +14,7 @@ namespace RPG {
     }
 
     void BaseGameScene::initSystems() {
-        systemManager.addSystem<InputSystem>();
+        systemManager.addSystem<InputSystem>(sceneController);
         systemManager.addSystem<MovementSystem>(*worldMap);
         systemManager.addSystem<AnimationSystem>();
 

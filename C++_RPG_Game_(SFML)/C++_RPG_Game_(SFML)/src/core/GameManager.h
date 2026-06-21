@@ -48,6 +48,7 @@ namespace RPG {
         GameManager();
         void run();
         void changeScene(FactionID targetFaction) override;
+        bool hasWindowFocus() const override;
         ~GameManager();
     };
 

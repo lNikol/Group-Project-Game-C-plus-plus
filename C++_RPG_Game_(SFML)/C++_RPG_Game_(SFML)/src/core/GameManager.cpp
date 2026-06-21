@@ -14,7 +14,7 @@
 namespace RPG {
 
     GameManager::GameManager()
-        : window(sf::VideoMode({ Window::WIDTH, Window::HEIGHT }), Window::TITLE),
+        : window(sf::VideoMode::getDesktopMode(), Window::TITLE, sf::State::Fullscreen),
           running(false)
     {
         lastWorldPosition = sf::Vector2f(-1.0f, -1.0f);
@@ -231,12 +231,9 @@ namespace RPG {
     void GameManager::handleEvents() {
         while (const std::optional event = window.pollEvent()) {
             sf::View sceneView = window.getView();
-            window.setView(window.getDefaultView());
 
             if (event->is<sf::Event::Closed>()) window.close();
             if (const auto* r = event->getIf<sf::Event::Resized>()) {
-                sf::Vector2f s = { (float)r->size.x, (float)r->size.y };
-                window.setView(sf::View(sf::FloatRect({ 0.f, 0.f }, s)));
                 if (m_systemHud) m_systemHud->onResize(r->size);
             }
 
@@ -280,6 +277,10 @@ namespace RPG {
         if (currentScene) currentScene->draw(window);
         if (m_systemHud) window.draw(*m_systemHud);
         window.display();
+    }
+
+    bool GameManager::hasWindowFocus() const {
+        return window.hasFocus();
     }
 
     GameManager::~GameManager() {}

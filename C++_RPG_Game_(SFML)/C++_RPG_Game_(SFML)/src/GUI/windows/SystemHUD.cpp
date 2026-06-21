@@ -2,6 +2,7 @@
 #include "OpenWindowCommand.h"
 #include "InventoryWindow.h"
 #include "JournalWindow.h"
+#include "core/Constants.h"
 #include <cmath>
 
 namespace RPG {
@@ -63,10 +64,11 @@ namespace RPG {
 
     void SystemHUD::onResize(const sf::Vector2u& newSize) {
         m_currentWindowSize = newSize;
-        m_uiView = sf::View(sf::FloatRect({0.f, 0.f}, {(float)newSize.x, (float)newSize.y}));
+        sf::Vector2f logicalSize = Window::getLogicalSize(newSize);
+        m_uiView = sf::View(sf::FloatRect({0.f, 0.f}, logicalSize));
 
-        float w = (float)newSize.x;
-        float h = (float)newSize.y;
+        float w = logicalSize.x;
+        float h = logicalSize.y;
 
         // Position Buttons Bottom-Right
         m_bestiaryBtn->setPosition(sf::Vector2f(w - 90.f, h - 90.f));

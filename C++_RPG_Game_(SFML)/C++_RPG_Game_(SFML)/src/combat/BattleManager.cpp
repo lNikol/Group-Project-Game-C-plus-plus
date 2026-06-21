@@ -1,4 +1,4 @@
-﻿// ==========================================
+// ==========================================
 // BattleManager.cpp
 // ==========================================
 #include "BattleManager.h"
@@ -523,7 +523,7 @@ namespace RPG {
         float midWorld = (gridSize * tileSize) / 2.0f;
         sf::Vector2f mapCenterScreen = Iso::worldToScreen({ midWorld, midWorld });
         sf::Vector2f windowSize = sf::Vector2f(window.getSize());
-        sf::View cameraView(mapCenterScreen, windowSize);
+        sf::View cameraView(mapCenterScreen, Window::getLogicalSize(window.getSize()));
         window.setView(cameraView);
 
         window.draw(*m_map);
@@ -740,7 +740,7 @@ namespace RPG {
             }
 
             sf::Vector2f currentWindowSize((float)window.getSize().x, (float)window.getSize().y);
-            sf::View uiView(sf::FloatRect({ 0.f, 0.f }, currentWindowSize));
+            sf::View uiView(sf::FloatRect({ 0.f, 0.f }, Window::getLogicalSize(window.getSize())));
             window.setView(uiView);
 
             std::stringstream ss;
