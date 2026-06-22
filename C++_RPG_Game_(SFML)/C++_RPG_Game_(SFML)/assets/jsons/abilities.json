@@ -41,7 +41,7 @@
           "baseValue": 30.0,
           "scalingStat": "Intellect",
           "scalingFactor": 2.0,
-          "baseCritChance": 0.10,
+          "baseCritChance": 0.1,
           "critMultiplier": 2.0
         }
       ]
@@ -93,7 +93,7 @@
           "baseValue": 25.0,
           "scalingStat": "Intellect",
           "scalingFactor": 1.5,
-          "baseCritChance": 0.20,
+          "baseCritChance": 0.2,
           "critMultiplier": 1.5
         }
       ]
@@ -155,6 +155,7 @@
       "radius": 0.0,
       "manaCost": 0.0,
       "staminaCost": 0.0,
+      "chestChance": 0.44,
       "isConsumable": true,
       "maxCharges": 3,
       "effects": [
@@ -178,6 +179,7 @@
       "radius": 45.0,
       "manaCost": 0.0,
       "staminaCost": 0.0,
+      "chestChance": 0.5,
       "isConsumable": true,
       "maxCharges": 1,
       "effects": [
@@ -186,7 +188,7 @@
           "baseValue": 30.0,
           "scalingStat": "Intellect",
           "scalingFactor": 2.0,
-          "baseCritChance": 0.10,
+          "baseCritChance": 0.1,
           "critMultiplier": 2.0
         }
       ]

@@ -107,6 +107,8 @@ namespace RPG {
         float manaCost = 0.f;
         float staminaCost = 0.f;
 
+        float chestChance = 0.0f;
+
         bool isConsumable = false;
         int maxCharges = -1;
         std::vector<EffectData> effects;

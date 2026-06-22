@@ -138,6 +138,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\combat\AudioManager.cpp" />
+    <ClCompile Include="src\combat\LootManager.cpp" />
     <ClCompile Include="src\game_objects\components\InteractionComponent.cpp" />
     <ClCompile Include="src\game_objects\components\NpcComponent.cpp" />
     <ClCompile Include="src\game_objects\components\QuestGiverComponent.cpp" />
@@ -190,6 +191,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\combat\AudioManager.h" />
+    <ClInclude Include="src\combat\LootManager.h" />
     <ClInclude Include="src\game_objects\components\components.h" />
     <ClInclude Include="src\game_objects\components\DialogTriggerHandler.h" />
     <ClInclude Include="src\game_objects\components\GameTriggerHandler.h" />
@@ -242,6 +244,7 @@
     <ClInclude Include="src\game_objects\systems\SystemManager.h" />
     <ClInclude Include="src\game_objects\systems\TriggerSystem.h" />
     <ClInclude Include="src\GUI\widgets\TextWidget.h" />
+    <ClInclude Include="src\GUI\windows\ChestWindow.h" />
     <ClInclude Include="src\GUI\windows\DefeatWindow.h" />
     <ClInclude Include="src\GUI\windows\InventoryWindow.h" />
     <ClInclude Include="src\GUI\windows\JournalWindow.h" />

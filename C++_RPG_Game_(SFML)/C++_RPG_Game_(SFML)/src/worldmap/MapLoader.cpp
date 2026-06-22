@@ -172,7 +172,6 @@ namespace RPG {
                     tc->action = mapTrigger(getStrProperty(obj, "action", ""));
                     tc->targetScene = mapFaction(getStrProperty(obj, "targetScene", "neutral"));
                     tc->dialogId = getIntProperty(obj, "dialogId", -1);
-                    tc->chestId =  getIntProperty(obj, "chestId", -1);
                     tc->oneShot =  getStrProperty(obj, "oneShot", "true") == "true";
 
                     map.addGameObject(std::move(triggerObj));

@@ -2,6 +2,7 @@
 // BattleManager.cpp
 // ==========================================
 #include "BattleManager.h"
+#include "LootManager.h"
 #include "AbilityFactory.h"
 #include "PropFactory.h"
 #include "UnitFactory.h"
@@ -1001,20 +1002,15 @@ namespace RPG {
         }
 
         if (result == BattleResult::Victory) {
-            int goldReward = m_minGold;
-            if (m_maxGold > m_minGold) {
-                goldReward += rand() % ((m_maxGold - m_minGold) + 1);
-            }
+            int goldReward = LootManager::rollGold(m_minGold, m_maxGold);
             party.gold += goldReward;
 
+            auto rolledItems = LootManager::rollLoot(m_lootDrops, *this);
             std::vector<std::shared_ptr<IAbility>> lootedItems;
-            for (const auto& drop : m_lootDrops) {
-                float roll = static_cast<float>(rand()) / static_cast<float>(RAND_MAX);
-                if (roll <= drop.chance) {
-                    auto rewardItem = AbilityFactory::getInstance().createAbility(drop.id, *this, nullptr);
-                    if (rewardItem && party.addItem(rewardItem)) {
-                        lootedItems.push_back(rewardItem);
-                    }
+
+            for (auto& item : rolledItems) {
+                if (party.addItem(item)) {
+                    lootedItems.push_back(item);
                 }
             }
 

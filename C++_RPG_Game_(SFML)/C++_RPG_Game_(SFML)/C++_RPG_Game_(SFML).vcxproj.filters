@@ -247,6 +247,9 @@
     <ClCompile Include="src\GUI\windows\DefeatWindow.cpp">
       <Filter>Pliki źródłowe\GUI\windows</Filter>
     </ClCompile>
+    <ClCompile Include="src\combat\LootManager.cpp">
+      <Filter>Pliki źródłowe</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\animation\Animation.h">
@@ -493,6 +496,12 @@
       <Filter>Pliki nagłówkowe\GUI\windows</Filter>
     </ClInclude>
     <ClInclude Include="src\GUI\windows\VictoryWindow.h">
+      <Filter>Pliki nagłówkowe\GUI\windows</Filter>
+    </ClInclude>
+    <ClInclude Include="src\combat\LootManager.h">
+      <Filter>Pliki nagłówkowe</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GUI\windows\ChestWindow.h">
       <Filter>Pliki nagłówkowe\GUI\windows</Filter>
     </ClInclude>
   </ItemGroup>

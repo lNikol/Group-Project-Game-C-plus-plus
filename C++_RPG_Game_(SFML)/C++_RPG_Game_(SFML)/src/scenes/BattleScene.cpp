@@ -40,7 +40,7 @@ namespace RPG {
                     m_controller.changeScene(FactionID::MainWorld);
                 }
                 else {
-                    m_controller.changeScene(FactionID::WhiteOrder);
+                    m_controller.changeScene(FactionID::MainWorld);
                 }
             }
         }
