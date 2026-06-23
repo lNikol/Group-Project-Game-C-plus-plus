@@ -1,0 +1,21 @@
+{
+  "spritesheet": "indicator.png",
+
+  "defaultFrameGap": 0,
+  "defaultFrameSize": [32, 32],
+
+  "animations": {
+    "far_hover": {
+      "frameCount": 6,
+      "startPos": [ 0, 0 ]
+    },
+    "transition": {
+      "frameCount": 5,
+      "startPos": [ 0, 32 ]
+    },
+    "close_hover": {
+      "frameCount": 4,
+      "startPos": [ 0, 64 ]
+    }
+  }
+}

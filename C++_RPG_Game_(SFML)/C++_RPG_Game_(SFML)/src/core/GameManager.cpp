@@ -25,6 +25,7 @@ namespace RPG {
         AssetManager::getInstance().init();
         AssetManager::getInstance().addSpritesheet("player", GameConfig::ANIMATIONS_PATH + "player.png");
         AssetManager::getInstance().addSpritesheet("npc",    GameConfig::ANIMATIONS_PATH + "npc.png");
+        AssetManager::getInstance().addSpritesheet("indicator", GameConfig::ANIMATIONS_PATH + "indicator.png");
         AssetManager::getInstance().addTexture("grass",      GameConfig::TEXTURES_PATH   + "grass.png");
 
         RPG::EventBus::getInstance().subscribe(EventType::QuestCompleted, [this](const RPG::GameEvent& e) {

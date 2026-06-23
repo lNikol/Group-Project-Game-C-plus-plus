@@ -1,5 +1,6 @@
 #include "BaseGameScene.h"
 #include <iostream>
+#include <cmath>
 #include "core/EventBus.h"
 #include "game_objects/components/components.h"
 #include "core/QuestManager.h"
@@ -48,6 +49,18 @@ namespace RPG {
         if (m_questIconJumpTimer > 0.f) {
             m_questIconJumpTimer -= dt;
             if (m_questIconJumpTimer < 0.f) m_questIconJumpTimer = 0.f;
+        }
+
+        // Update distances for interaction indicators
+        if (worldMap->getPlayer()) {
+            sf::Vector2f playerPos = worldMap->getPlayer()->getPosition();
+            for (auto& go : worldMap->getGameObjects()) {
+                if (auto* interaction = go->getComponent<InteractionComponent>()) {
+                    sf::Vector2f diff = playerPos - go->getPosition();
+                    float dist = std::sqrt(diff.x * diff.x + diff.y * diff.y);
+                    interaction->setDistanceToPlayer(dist);
+                }
+            }
         }
     }
 
