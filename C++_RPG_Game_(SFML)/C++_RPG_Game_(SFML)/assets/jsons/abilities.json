@@ -254,7 +254,7 @@
       "description": "A glowing ring that greatly enhances Intellect.",
       "iconIndex": 177,
       "isEquippable": true,
-      "equipSlot": "Ring1",
+      "equipSlot": "Ring",
       "statModifiers": {
         "Intellect": 15.0
       }
