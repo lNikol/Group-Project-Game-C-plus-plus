@@ -99,7 +99,14 @@ namespace RPG {
         }
     }
 
-    void SystemHUD::handleEvent(sf::RenderWindow& window, const sf::Event& event) {
+    void SystemHUD::handleEvent(sf::RenderWindow& window, const sf::Event& event, bool isBattleScene) {
+
+        if (m_inventoryWindow) {
+            if (auto* invWin = dynamic_cast<InventoryWindow*>(m_inventoryWindow.get())) {
+                invWin->setCombatMode(isBattleScene);
+            }
+        }
+
         // Convert mouse position to UI view coordinates
         if (event.is<sf::Event::MouseMoved>()) {
             auto* ev = event.getIf<sf::Event::MouseMoved>();

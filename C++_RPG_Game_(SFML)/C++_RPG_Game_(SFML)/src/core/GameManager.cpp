@@ -251,7 +251,7 @@ namespace RPG {
 
             bool uiConsumed = false;
             if (m_systemHud) {
-                m_systemHud->handleEvent(window, *event);
+                m_systemHud->handleEvent(window, *event, currentScene ? currentScene->isBattleScene() : false);
                 
                 // Only block mouse events from reaching the scene if hovering over UI
                 if (event->is<sf::Event::MouseMoved>() || 
