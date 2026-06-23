@@ -148,21 +148,6 @@
     <ClCompile Include="src\drawable\IsoGrid.cpp">
       <Filter>Pliki ĹşrĂłdĹ‚owe\drawable</Filter>
     </ClCompile>
-    <ClCompile Include="src\entities\AnimatedEntity.cpp">
-      <Filter>Pliki ĹşrĂłdĹ‚owe\entities</Filter>
-    </ClCompile>
-    <ClCompile Include="src\entities\CollidingEntity.cpp">
-      <Filter>Pliki ĹşrĂłdĹ‚owe\entities</Filter>
-    </ClCompile>
-    <ClCompile Include="src\entities\Monster.cpp">
-      <Filter>Pliki ĹşrĂłdĹ‚owe\entities</Filter>
-    </ClCompile>
-    <ClCompile Include="src\entities\NPC.cpp">
-      <Filter>Pliki ĹşrĂłdĹ‚owe\entities</Filter>
-    </ClCompile>
-    <ClCompile Include="src\entities\WorldObject.cpp">
-      <Filter>Pliki ĹşrĂłdĹ‚owe\entities</Filter>
-    </ClCompile>
     <ClCompile Include="src\game_objects\GameObject.cpp">
       <Filter>Pliki ĹşrĂłdĹ‚owe\game_objects</Filter>
     </ClCompile>
@@ -170,9 +155,6 @@
       <Filter>Pliki ĹşrĂłdĹ‚owe\game_objects</Filter>
     </ClCompile>
     <ClCompile Include="src\game_objects\components\AnimationComponent.cpp">
-      <Filter>Pliki ĹşrĂłdĹ‚owe\game_objects\components</Filter>
-    </ClCompile>
-    <ClCompile Include="src\game_objects\components\AnimationControllerComponent.cpp">
       <Filter>Pliki ĹşrĂłdĹ‚owe\game_objects\components</Filter>
     </ClCompile>
     <ClCompile Include="src\game_objects\components\ColliderComponent.cpp">
@@ -187,13 +169,7 @@
     <ClCompile Include="src\game_objects\components\QuestGiverComponent.cpp">
       <Filter>Pliki ĹşrĂłdĹ‚owe\game_objects\components</Filter>
     </ClCompile>
-    <ClCompile Include="src\game_objects\components\MovementComponent.cpp">
-      <Filter>Pliki ĹşrĂłdĹ‚owe\game_objects\components</Filter>
-    </ClCompile>
     <ClCompile Include="src\game_objects\components\NpcComponent.cpp">
-      <Filter>Pliki ĹşrĂłdĹ‚owe\game_objects\components</Filter>
-    </ClCompile>
-    <ClCompile Include="src\game_objects\components\PlayerInputComponent.cpp">
       <Filter>Pliki ĹşrĂłdĹ‚owe\game_objects\components</Filter>
     </ClCompile>
     <ClCompile Include="src\game_objects\components\RenderComponent.cpp">
@@ -216,9 +192,6 @@
     </ClCompile>
     <ClCompile Include="src\GUI\windows\JournalWindow.cpp">
       <Filter>Pliki ĹşrĂłdĹ‚owe</Filter>
-    </ClCompile>
-    <ClCompile Include="src\GUI\windows\StatBar.cpp">
-      <Filter>Pliki ĹşrĂłdĹ‚owe\GUI\windows</Filter>
     </ClCompile>
     <ClCompile Include="src\GUI\windows\WindowBase.cpp">
       <Filter>Pliki ĹşrĂłdĹ‚owe\GUI\windows</Filter>
@@ -247,11 +220,29 @@
     <ClCompile Include="src\worldmap\WorldMapRenderer.cpp">
       <Filter>Pliki ĹşrĂłdĹ‚owe\worldmap</Filter>
     </ClCompile>
+    <ClCompile Include="src\animation\AnimationLoader.h">
+      <Filter>Pliki nagĹ‚Ăłwkowe</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\QuestManager.cpp">
+      <Filter>Pliki ĹşrĂłdĹ‚owe</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\EventBus.cpp">
+      <Filter>Pliki ĹşrĂłdĹ‚owe</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GUI\widgets\NineSlice.cpp">
+      <Filter>Pliki ĹşrĂłdĹ‚owe</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GUI\widgets\StatBar.cpp">
+      <Filter>Pliki ĹşrĂłdĹ‚owe</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GUI\windows\SystemHUD.cpp">
+      <Filter>Pliki ĹşrĂłdĹ‚owe</Filter>
+    </ClCompile>
     <ClCompile Include="src\core\DialogManager.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Pliki ĹşrĂłdĹ‚owe</Filter>
     </ClCompile>
     <ClCompile Include="src\GUI\windows\DialogWindow.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Pliki ĹşrĂłdĹ‚owe</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -259,9 +250,6 @@
       <Filter>Pliki nagĹ‚Ăłwkowe\animation</Filter>
     </ClInclude>
     <ClInclude Include="src\animation\AnimationBuilder.h">
-      <Filter>Pliki nagĹ‚Ăłwkowe\animation</Filter>
-    </ClInclude>
-    <ClInclude Include="src\animation\AnimationLoader.h">
       <Filter>Pliki nagĹ‚Ăłwkowe\animation</Filter>
     </ClInclude>
     <ClInclude Include="src\animation\AnimationManager.h">
@@ -333,21 +321,6 @@
     <ClInclude Include="src\drawable\IsoGrid.h">
       <Filter>Pliki nagĹ‚Ăłwkowe\drawable</Filter>
     </ClInclude>
-    <ClInclude Include="src\entities\AnimatedEntity.h">
-      <Filter>Pliki nagĹ‚Ăłwkowe\entities</Filter>
-    </ClInclude>
-    <ClInclude Include="src\entities\CollidingEntity.h">
-      <Filter>Pliki nagĹ‚Ăłwkowe\entities</Filter>
-    </ClInclude>
-    <ClInclude Include="src\entities\Monster.h">
-      <Filter>Pliki nagĹ‚Ăłwkowe\entities</Filter>
-    </ClInclude>
-    <ClInclude Include="src\entities\NPC.h">
-      <Filter>Pliki nagĹ‚Ăłwkowe\entities</Filter>
-    </ClInclude>
-    <ClInclude Include="src\entities\WorldObject.h">
-      <Filter>Pliki nagĹ‚Ăłwkowe\entities</Filter>
-    </ClInclude>
     <ClInclude Include="src\game_objects\GameObject.h">
       <Filter>Pliki nagĹ‚Ăłwkowe\game_objects</Filter>
     </ClInclude>
@@ -355,9 +328,6 @@
       <Filter>Pliki nagĹ‚Ăłwkowe\game_objects</Filter>
     </ClInclude>
     <ClInclude Include="src\game_objects\components\AnimationComponent.h">
-      <Filter>Pliki nagĹ‚Ăłwkowe\game_objects\components</Filter>
-    </ClInclude>
-    <ClInclude Include="src\game_objects\components\AnimationControllerComponent.h">
       <Filter>Pliki nagĹ‚Ăłwkowe\game_objects\components</Filter>
     </ClInclude>
     <ClInclude Include="src\game_objects\components\ColliderComponent.h">
@@ -492,9 +462,6 @@
     <ClInclude Include="src\worldmap\MapLoader.h">
       <Filter>Pliki nagĹ‚Ăłwkowe\worldmap</Filter>
     </ClInclude>
-    <ClInclude Include="src\worldmap\Player.h">
-      <Filter>Pliki nagĹ‚Ăłwkowe\worldmap</Filter>
-    </ClInclude>
     <ClInclude Include="src\worldmap\StructureDefinition.h">
       <Filter>Pliki nagĹ‚Ăłwkowe\worldmap</Filter>
     </ClInclude>
@@ -507,14 +474,23 @@
     <ClInclude Include="src\worldmap\WorldMapRenderer.h">
       <Filter>Pliki nagĹ‚Ăłwkowe\worldmap</Filter>
     </ClInclude>
+    <ClInclude Include="src\core\QuestManager.h">
+      <Filter>Pliki nagĹ‚Ăłwkowe</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\EventBus.h">
+      <Filter>Pliki nagĹ‚Ăłwkowe</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GUI\windows\JournalWindow.h">
+      <Filter>Pliki nagĹ‚Ăłwkowe</Filter>
+    </ClInclude>
     <ClInclude Include="src\core\DialogManager.h">
-      <Filter>Header Files</Filter>
+      <Filter>Pliki nagĹ‚Ăłwkowe</Filter>
     </ClInclude>
     <ClInclude Include="src\game_objects\components\DialogComponent.h">
-      <Filter>Header Files</Filter>
+      <Filter>Pliki nagĹ‚Ăłwkowe</Filter>
     </ClInclude>
     <ClInclude Include="src\GUI\windows\DialogWindow.h">
-      <Filter>Header Files</Filter>
+      <Filter>Pliki nagĹ‚Ăłwkowe</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -540,6 +516,9 @@
       <Filter>Pliki zasobĂłw</Filter>
     </Image>
     <Image Include="C:\Users\olsze\Downloads\box.png">
+      <Filter>Pliki zasobĂłw</Filter>
+    </Image>
+    <Image Include="assets\textures\placeholders\UI_Window.png">
       <Filter>Pliki zasobĂłw</Filter>
     </Image>
   </ItemGroup>

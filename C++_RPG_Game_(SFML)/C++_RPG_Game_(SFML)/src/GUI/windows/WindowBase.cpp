@@ -9,7 +9,7 @@ namespace RPG {
         // Background NineSlice
         const sf::Texture* windowTex = AssetManager::getInstance().getTexture("ui_window");
         if (windowTex) {
-            m_background.setTexture(*windowTex, 32, 2.0f); // 32px corners, scaled 2x to 64px visually
+            m_background.setTexture(*windowTex, 32, 1.0f); // 32px corners, scaled 1x to 32px visually
         }
         m_background.setSize(size);
 

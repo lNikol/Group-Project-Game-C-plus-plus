@@ -64,7 +64,8 @@ namespace RPG {
         bool m_isSelected = false;
 
         // Visual Components
-        sf::RectangleShape m_background;
+        std::optional<sf::Sprite> m_background;
+        sf::Vector2f m_size;
         sf::RectangleShape m_border;     // Selection Highlight
         sf::RectangleShape m_overlay;    // Grey out if !canBeCast
         sf::Sprite m_icon;

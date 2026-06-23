@@ -31,14 +31,15 @@ namespace RPG {
     void BattleHUD::onResize(const sf::Vector2u& newSize) {
         m_currentWindowSize = newSize;
 
-        m_uiView.setSize({ (float)newSize.x, (float)newSize.y });
-        m_uiView.setCenter({ newSize.x / 2.f, newSize.y / 2.f });
+        sf::Vector2f logicalSize = Window::getLogicalSize(newSize);
+        m_uiView.setSize(logicalSize);
+        m_uiView.setCenter({ logicalSize.x / 2.f, logicalSize.y / 2.f });
 
         float padding = 10.f;
 
         // Anchor Vitals (Bottom Left)
         float barH = 120.f; //height
-        float startY = newSize.y - barH - padding;
+        float startY = logicalSize.y - barH - padding;
 
         m_hpBar->setPosition({ padding, startY });
         m_mpBar->setPosition({ padding + 25.f, startY });      // +25px offset
@@ -53,8 +54,8 @@ namespace RPG {
         float gridWidth = (cols * slotSize) + ((cols - 1) * spacing);
         float gridHeight = (2 * slotSize) + spacing;
 
-        float gridStartX = (newSize.x / 2.f) - (gridWidth / 2.f); // Center X
-        float gridStartY = newSize.y - gridHeight - padding;      // Bottom Y
+        float gridStartX = (logicalSize.x / 2.f) - (gridWidth / 2.f); // Center X
+        float gridStartY = logicalSize.y - gridHeight - padding;      // Bottom Y
 
         for (int i = 0; i < 18; ++i) {
             int r = i / cols; // Row (0 to 1)

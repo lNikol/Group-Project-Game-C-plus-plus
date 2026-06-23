@@ -102,8 +102,8 @@ namespace RPG {
         setLogicalPosition(currentPos.x + moveStep.x, currentPos.y + moveStep.y);
 
         if (m_sprite.has_value()) {
-            if (moveStep.x < -0.1f) m_sprite->setScale({ -2.f, 2.f });
-            else if (moveStep.x > 0.1f) m_sprite->setScale({ 2.f, 2.f });
+            if (moveStep.x < -0.1f) m_sprite->setScale({ -1.f, 1.f });
+            else if (moveStep.x > 0.1f) m_sprite->setScale({ 1.f, 1.f });
         }
 
         updateAnimation(dt);

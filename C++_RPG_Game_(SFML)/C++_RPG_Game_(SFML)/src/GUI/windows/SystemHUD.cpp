@@ -70,6 +70,8 @@ namespace RPG {
 
         float w = logicalSize.x;
         float h = logicalSize.y;
+        float maxW = w - 40.f;
+        float maxH = h - 40.f;
 
         // Position Buttons Bottom-Right
         m_bestiaryBtn->setPosition(sf::Vector2f(w - 90.f, h - 90.f));
@@ -86,6 +88,7 @@ namespace RPG {
         }
         
         if (m_journalWindow) {
+            m_journalWindow->setSize({ std::min(400.f, maxW), std::min(500.f, maxH) });
             sf::FloatRect jrnBounds = m_journalWindow->getGlobalBounds();
             m_journalWindow->setPosition({
                 (w - jrnBounds.size.x) / 2.f,
@@ -94,6 +97,7 @@ namespace RPG {
         }
         
         if (m_bestiaryWindow) {
+            m_bestiaryWindow->setSize({ std::min(500.f, maxW), std::min(600.f, maxH) });
             sf::FloatRect bstBounds = m_bestiaryWindow->getGlobalBounds();
             m_bestiaryWindow->setPosition({
                 (w - bstBounds.size.x) / 2.f,

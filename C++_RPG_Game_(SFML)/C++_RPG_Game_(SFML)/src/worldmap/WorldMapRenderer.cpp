@@ -13,13 +13,14 @@ namespace RPG {
     void WorldMapRenderer::setupView(sf::RenderWindow& window, const WorldMap& worldMap) {
         if (!worldMap.getPlayer()) return;
 
-        constexpr float zoomFactor = 2.0f;
+        constexpr float zoomFactor = 1.0f;
         sf::Vector2f logicalSize = Window::getLogicalSize(window.getSize());
         logicalSize.x /= zoomFactor;
         logicalSize.y /= zoomFactor;
 
         sf::View view;
         view.setSize(logicalSize);
+        
         view.setCenter(worldMap.getPlayer()->getPosition());
         window.setView(view);
     }

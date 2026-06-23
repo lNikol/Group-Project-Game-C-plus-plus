@@ -104,7 +104,7 @@ namespace RPG {
             m_sprite->setOrigin({ bounds.size.x / 2.f, bounds.size.y });
 
             // 3. Scale
-            m_sprite->setScale({ 2.0f, 2.0f });
+            m_sprite->setScale({ 1.0f, 1.0f });
 
             updateVisuals();
         }

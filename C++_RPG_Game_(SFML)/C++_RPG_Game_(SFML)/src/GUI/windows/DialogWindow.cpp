@@ -11,7 +11,7 @@ namespace RPG {
     {
         // Use a placeholder UI texture for NineSlice background
         if (const sf::Texture* tex = AssetManager::getInstance().getTexture("ui_window")) {
-            m_background.setTexture(*tex, 16);
+            m_background.setTexture(*tex, 32, 1.0f);
         }
 
         m_npcNameText.setCharacterSize(24);

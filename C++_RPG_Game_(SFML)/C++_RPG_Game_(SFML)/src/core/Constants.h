@@ -9,14 +9,16 @@ namespace RPG {
 
 	namespace Window {
 		const uint16_t WIDTH = 1200;
-		const uint16_t HEIGHT = 800;
+		const uint16_t HEIGHT = 540;
 		const std::string TITLE = "RPG GAME";
 		const uint8_t BASE_FPS = 60;
 
 		inline sf::Vector2f getLogicalSize(const sf::Vector2u& winSize) {
-			float logicalHeight = HEIGHT;
-			float logicalWidth = HEIGHT * (winSize.x / (float)winSize.y);
-			return {logicalWidth, logicalHeight};
+			// Find the closest integer scale factor that approximates the target HEIGHT
+			int scale = std::max(1, static_cast<int>(std::round((float)winSize.y / HEIGHT)));
+			
+			// Return a logical size that is a perfect integer division of the physical window
+			return {(float)winSize.x / scale, (float)winSize.y / scale};
 		}
 	}
 
