@@ -3,6 +3,7 @@
 #include "InventoryWindow.h"
 #include "JournalWindow.h"
 #include "core/Constants.h"
+#include "core/DialogManager.h"
 #include <cmath>
 
 namespace RPG {
@@ -193,6 +194,22 @@ namespace RPG {
         m_satchelBtn->update(dt);
         m_journalBtn->update(dt);
         m_bestiaryBtn->update(dt);
+
+        // Dialog dimming logic
+        const float DIM_SPEED = 255.f / 0.5f; // Same 0.5s fade
+        const float MAX_DIM = 180.f; // Max opacity (0-255)
+
+        if (DialogManager::getInstance().isActive()) {
+            if (m_dialogDimAlpha < MAX_DIM) {
+                m_dialogDimAlpha += DIM_SPEED * dt;
+                if (m_dialogDimAlpha > MAX_DIM) m_dialogDimAlpha = MAX_DIM;
+            }
+        } else {
+            if (m_dialogDimAlpha > 0.f) {
+                m_dialogDimAlpha -= DIM_SPEED * dt;
+                if (m_dialogDimAlpha < 0.f) m_dialogDimAlpha = 0.f;
+            }
+        }
         
         // Quest update highlight logic
         if (m_questHighlightTimer > 0.f) {
@@ -245,6 +262,15 @@ namespace RPG {
         target.draw(*m_inventoryWindow);
         target.draw(*m_journalWindow);
         target.draw(*m_bestiaryWindow);
+
+        // Draw Dialog Dim Overlay before drawing Dialog Window
+        if (m_dialogDimAlpha > 0.f) {
+            sf::Vector2f lSize = Window::getLogicalSize(target.getSize());
+            sf::RectangleShape overlay(lSize);
+            overlay.setFillColor(sf::Color(0, 0, 0, static_cast<std::uint8_t>(m_dialogDimAlpha)));
+            target.draw(overlay);
+        }
+
         target.draw(*m_dialogWindow);
 
         std::string tip = resolveTooltipText();

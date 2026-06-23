@@ -71,8 +71,9 @@ namespace RPG {
         }
 
 
-
-        changeScene(FactionID::MainWorld); 
+        executeSceneChange(FactionID::MainWorld); 
+        m_transitionState = TransitionState::FadingIn;
+        m_transitionAlpha = 255.f;
     }
 
     void GameManager::initGameData() {
@@ -173,6 +174,13 @@ namespace RPG {
     }
 
     void GameManager::changeScene(FactionID targetFaction) {
+        if (m_transitionState == TransitionState::None) {
+            m_pendingFaction = targetFaction;
+            m_transitionState = TransitionState::FadingOut;
+        }
+    }
+
+    void GameManager::executeSceneChange(FactionID targetFaction) {
         auto selectedMap = getOrLoadMap(targetFaction);
 
         std::unique_ptr<GameObject> player = nullptr;
@@ -248,6 +256,17 @@ namespace RPG {
             sf::View sceneView = window.getView();
 
             if (event->is<sf::Event::Closed>()) window.close();
+
+            // Block input events during transition
+            bool isInputBlocked = (m_transitionState != TransitionState::None);
+            if (isInputBlocked) {
+                if (event->is<sf::Event::KeyPressed>() || event->is<sf::Event::KeyReleased>() ||
+                    event->is<sf::Event::MouseMoved>() || event->is<sf::Event::MouseButtonPressed>() ||
+                    event->is<sf::Event::MouseButtonReleased>() || event->is<sf::Event::MouseWheelScrolled>()) 
+                {
+                    continue; // Drop the event entirely
+                }
+            }
             if (const auto* r = event->getIf<sf::Event::Resized>()) {
                 if (m_systemHud) m_systemHud->onResize(r->size);
             }
@@ -285,12 +304,43 @@ namespace RPG {
     void GameManager::update(float dt) {
         if (currentScene) currentScene->update(dt, window);
         if (m_systemHud) m_systemHud->update(dt);
+
+        const float TRANSITION_SPEED = 255.f / 0.5f; // 0.5 seconds fade
+
+        if (m_transitionState == TransitionState::FadingOut) {
+            m_transitionAlpha += TRANSITION_SPEED * dt;
+            if (m_transitionAlpha >= 255.f) {
+                m_transitionAlpha = 255.f;
+                executeSceneChange(m_pendingFaction);
+                m_transitionState = TransitionState::FadingIn;
+            }
+        }
+        else if (m_transitionState == TransitionState::FadingIn) {
+            m_transitionAlpha -= TRANSITION_SPEED * dt;
+            if (m_transitionAlpha <= 0.f) {
+                m_transitionAlpha = 0.f;
+                m_transitionState = TransitionState::None;
+            }
+        }
     }
 
     void GameManager::draw() {
         window.clear(sf::Color(0x606030FF));
         if (currentScene) currentScene->draw(window);
         if (m_systemHud) window.draw(*m_systemHud);
+
+        // Draw transition overlay
+        if (m_transitionAlpha > 0.f) {
+            sf::View oldView = window.getView();
+            window.setView(window.getDefaultView()); // Draw over entire physical window
+            
+            sf::RectangleShape overlay((sf::Vector2f)window.getSize());
+            overlay.setFillColor(sf::Color(0, 0, 0, static_cast<std::uint8_t>(m_transitionAlpha)));
+            window.draw(overlay);
+            
+            window.setView(oldView);
+        }
+
         window.display();
     }
 

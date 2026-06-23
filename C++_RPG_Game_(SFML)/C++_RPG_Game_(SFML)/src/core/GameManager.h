@@ -5,6 +5,7 @@
 #include <memory>
 
 #include "Constants.h"
+#include <cstdint>
 #include "SpritesheetManager.h"
 #include "worldmap/AssetManager.h"
 #include "worldmap/WorldMap.h"
@@ -19,9 +20,19 @@
 
 namespace RPG {
 
+    enum class TransitionState {
+        None,
+        FadingOut,
+        FadingIn
+    };
+
     class GameManager : public ISceneController {
         bool running;
         sf::RenderWindow window;
+
+        TransitionState m_transitionState = TransitionState::None;
+        float m_transitionAlpha = 0.f;
+        FactionID m_pendingFaction;
 
         std::map<FactionID, std::shared_ptr<WorldMap>> allMaps;
         std::shared_ptr<Unit> playerUnit;
@@ -43,6 +54,8 @@ namespace RPG {
 
         std::shared_ptr<WorldMap> getOrLoadMap(FactionID id);
         sf::Vector2u getMapSize(FactionID id);
+
+        void executeSceneChange(FactionID targetFaction);
 
     public:
         GameManager();

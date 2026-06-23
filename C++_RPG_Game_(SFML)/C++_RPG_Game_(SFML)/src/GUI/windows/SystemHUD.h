@@ -43,6 +43,8 @@ namespace RPG {
         std::unique_ptr<WindowBase> m_bestiaryWindow;
         std::unique_ptr<DialogWindow> m_dialogWindow;
 
+        float m_dialogDimAlpha = 0.f;
+
         // Internal State
         sf::View m_uiView;
         sf::Vector2u m_currentWindowSize;
