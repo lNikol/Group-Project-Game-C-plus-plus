@@ -26,7 +26,7 @@ namespace RPG {
 
             // Add collision & movement & player input 
             player->addComponent<ColliderComponent>(8, 2, -4, -4);
-            player->addComponent<MovementComponent>(worldmap, 200.f);
+            player->addComponent<MovementComponent>(worldmap, 140.f);
             player->addComponent<PlayerInputComponent>();
 
             return player;

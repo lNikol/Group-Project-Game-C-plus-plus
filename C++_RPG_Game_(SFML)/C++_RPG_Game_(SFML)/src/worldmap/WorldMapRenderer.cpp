@@ -47,7 +47,14 @@ namespace RPG {
         for (int32_t y = startY; y < endY; ++y) {
             for (int32_t x = startX; x < endX; ++x) {
                 const Tile& tile = worldMap.at(x, y);
-                const auto& def  = am.getDefinition(am.getDefinitionByType(tile.groundType));
+                std::string assetName = "";
+                if (tile.groundGid > 0) {
+                    assetName = am.getNameById(tile.groundGid - 1);
+                }
+                if (assetName.empty()) {
+                    assetName = am.getDefinitionByType(tile.groundType);
+                }
+                const auto& def  = am.getDefinition(assetName);
 
                 sprite.setTextureRect(sf::IntRect(
                     { static_cast<int>(def.textureStartPos.x),

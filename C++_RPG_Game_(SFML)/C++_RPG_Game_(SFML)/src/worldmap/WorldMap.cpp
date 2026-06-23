@@ -50,8 +50,10 @@ namespace RPG {
     void WorldMap::assignGroundType(uint32_t tx, uint32_t ty, uint32_t gid) {
         if (tx >= width || ty >= height) return;
         std::string name = AssetManager::getInstance().getNameById(gid - 1);
-        if (!name.empty())
+        if (!name.empty()) {
             at(tx, ty).groundType = AssetManager::getInstance().getDefinition(name).type;
+            at(tx, ty).groundGid = gid;
+        }
     }
 
     // ==============================

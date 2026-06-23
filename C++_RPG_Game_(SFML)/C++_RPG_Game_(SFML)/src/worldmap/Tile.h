@@ -16,6 +16,7 @@ namespace RPG {
     class Tile {
     public:
         StructureType       groundType    = StructureType::Grass;
+        uint32_t            groundGid     = 0;
         Position            pos           = { 0, 0, 0 };
         float               speedModifier = 1.f;
         float               localDangerLvl = 0.f;

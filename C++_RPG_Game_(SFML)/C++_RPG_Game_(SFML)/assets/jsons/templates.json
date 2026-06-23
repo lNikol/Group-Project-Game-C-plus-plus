@@ -36,7 +36,7 @@
       }
     },
     {
-      "prefixes": ["house", "tent", "hut"],
+      "prefixes": ["house", "tent", "hut", "spr_old_building", "mainlevbuild"],
       "type": "House",
       "layer": "Structure",
       "meta": {
@@ -81,7 +81,7 @@
     },
     {
       "comment": "--- DECOR (Non-blocking) ---",
-      "prefixes": ["flower", "bush_small", "pebbles", "IconSet"],
+      "prefixes": ["flower", "bush_small", "pebbles", "IconSet", "candleA", "candleB", "torch", "decorative", "spike"],
       "type": "Decoration",
       "layer": "Decoration",
       "meta": {

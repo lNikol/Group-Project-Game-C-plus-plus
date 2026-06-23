@@ -162,12 +162,22 @@ namespace RPG {
 
     const StructureDefinition& AssetManager::getDefinition(const std::string& name) const {
         auto it = structureLibrary.find(name);
-        return (it != structureLibrary.end()) ? it->second : structureLibrary.at(name);
+        if (it != structureLibrary.end()) return it->second;
+        
+        std::cerr << "[AssetManager] CRITICAL ERROR: Asset definition not found: " << name << "\n";
+        static StructureDefinition emptyDef;
+        emptyDef.name = "ERROR_MISSING";
+        return emptyDef;
     }
 
     StructureDefinition& AssetManager::getDefinition(const std::string& name) {
         auto it = structureLibrary.find(name);
-        return (it != structureLibrary.end()) ? it->second : structureLibrary.at(name);
+        if (it != structureLibrary.end()) return it->second;
+
+        std::cerr << "[AssetManager] CRITICAL ERROR: Asset definition not found: " << name << "\n";
+        static StructureDefinition emptyDef;
+        emptyDef.name = "ERROR_MISSING";
+        return emptyDef;
     }
 
     bool AssetManager::hasDefinition(const std::string& name) const {
@@ -245,8 +255,14 @@ namespace RPG {
         for (auto const& [name, def] : structureLibrary) {
             if (def.type == type) return name;
         }
-        std::cout << "Out of getdefbytype" << std::endl;
-        return "grass_0"; // default
+        // std::cout << "[AssetManager] Warning: Out of getdefbytype for type " << (int)type << std::endl;
+        if (structureLibrary.find("grass_0") != structureLibrary.end()) {
+            return "grass_0";
+        }
+        if (!structureLibrary.empty()) {
+            return structureLibrary.begin()->first;
+        }
+        return "";
     }
 
     // ==============================
