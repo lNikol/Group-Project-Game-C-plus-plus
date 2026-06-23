@@ -21,7 +21,12 @@ namespace RPG {
                 if (!mov) continue;
 
                 sf::Vector2f vel = mov->getVelocity() * dt;
-                if (vel.x == 0.f && vel.y == 0.f) continue;
+                if (vel.x == 0.f && vel.y == 0.f) {
+                    AudioManager::getInstance().setFootstepsLoop(false);
+                    continue;
+                }
+
+                AudioManager::getInstance().startFootsteps();
 
                 auto* col = entity->getComponent<ColliderComponent>();
                 if (!col) {

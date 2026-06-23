@@ -1,0 +1,16 @@
+{
+  "sounds": [
+    {
+      "id": "battle_music",
+      "filePath": "assets/music/battle-music.mp3"
+    },
+    {
+      "id": "world_music",
+      "filePath": "assets/music/world-music.mp3"
+    },
+    {
+      "id": "grass_sound",
+      "filePath": "assets/sounds/grass-sound.wav"
+    }
+  ]
+}

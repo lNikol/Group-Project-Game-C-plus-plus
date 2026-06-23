@@ -1,4 +1,4 @@
-﻿#include "scenes/BattleScene.h"
+#include "scenes/BattleScene.h"
 #include "combat/EncounterLoader.h"
 #include <iostream>
 
@@ -10,10 +10,8 @@ namespace RPG {
         auto encounterOpt = EncounterLoader::loadFromFile(encounterFilePath);
 
         // Stop old and play new music
-        RPG::AudioManager::getInstance().stopMusic();
-        RPG::AudioManager::getInstance().playMusic(
-            "assets/music/battle-music.mp3"
-        );
+        AudioManager::getInstance().stopMusic();
+        AudioManager::getInstance().playSound("battle_music", 50.0f, true);
         if (encounterOpt.has_value()) {
             const EncounterData& data = encounterOpt.value();
             m_encounterName = data.name;
