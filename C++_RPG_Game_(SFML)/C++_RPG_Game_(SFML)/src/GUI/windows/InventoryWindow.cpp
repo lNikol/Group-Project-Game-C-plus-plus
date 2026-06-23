@@ -235,6 +235,18 @@ namespace RPG {
         auto profile = partyData.activeParty[m_selectedCharIndex];
 
         if (targetSlot && targetSlot != m_dragSourceSlot) {
+
+            if (m_isCombatMode) {
+                if (m_dragSourceEquipSlot != EquipSlot::None || targetEquipSlot != EquipSlot::None) {
+
+                    // TODO: Add Error sound effect
+
+                    m_draggedItem = nullptr;
+                    m_dragSourceSlot = nullptr;
+                    return;
+                }
+            }
+
             std::shared_ptr<IAbility> targetItem = targetSlot->getAbility();
             bool canSwap = true;
 

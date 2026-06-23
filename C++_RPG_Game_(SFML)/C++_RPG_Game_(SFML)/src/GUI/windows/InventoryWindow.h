@@ -68,7 +68,7 @@ namespace RPG {
         sf::FloatRect m_nextHitbox;
         bool m_prevHovered = false;                          ///< Hover state for the previous button.
         bool m_nextHovered = false;                          ///< Hover state for the next button.
-        bool m_isCombatMode = false;
+        bool m_isCombatMode = true;
         sf::Vector2f m_lastMousePos;
         mutable Tooltip m_tooltip;
         std::vector<sf::Text> m_statsTexts;                  ///< Dynamic text objects for displaying calculated stats.

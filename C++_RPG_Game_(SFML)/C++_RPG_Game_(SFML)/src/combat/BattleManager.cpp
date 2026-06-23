@@ -174,7 +174,12 @@ namespace RPG {
                 if (hero) {
                     // Synchronize vitals from persistent profile
                     hero->setVitals(profile->currentVitals);
-
+                    hero->setBaseStats(profile->baseStats);
+                    for (const auto& [slot, item] : profile->equipment) {
+                        if (item) {
+                            hero->equipItem(slot, item);
+                        }
+                    }
                     hero->setHotbarAbility(9, moveAction);
                     hero->setHotbarAbility(17, endTurnAction);
 
