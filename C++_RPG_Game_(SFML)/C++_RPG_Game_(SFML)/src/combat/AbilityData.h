@@ -2,7 +2,7 @@
 #include <string>
 #include <vector>
 #include <array>
-
+#include<map>
 namespace RPG {
 
     // ==========================================
@@ -33,7 +33,9 @@ namespace RPG {
         AreaEnemy,
         AreaAlly
     };
-
+    enum class EquipSlot {
+        None, Head, Chest, MainHand, OffHand, Feet, Ring, Necklace
+    };
     // ==========================================
     // Stat Container
     // ==========================================
@@ -111,6 +113,10 @@ namespace RPG {
         int maxCharges = -1;
         std::vector<EffectData> effects;
 
-
+        // --- EQUIPMENT DATA ---
+        bool isEquippable = false;
+        EquipSlot equipSlot = EquipSlot::None;
+        std::map<StatType, float> statModifiers;
+        std::vector<std::string> grantedAbilities;
     };
 }

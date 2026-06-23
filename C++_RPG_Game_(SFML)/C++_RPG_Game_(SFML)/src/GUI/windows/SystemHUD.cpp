@@ -18,7 +18,6 @@ namespace RPG {
         m_inventoryWindow = std::make_unique<InventoryWindow>(iconSet, font);
         m_journalWindow = std::make_unique<JournalWindow>(font);
         m_bestiaryWindow = std::make_unique<WindowBase>(font, sf::Vector2f(500.f, 600.f), "Bestiary");
-
         m_inventoryWindow->hide();
         m_journalWindow->hide();
         m_bestiaryWindow->hide();
@@ -32,6 +31,7 @@ namespace RPG {
                     m_journalWindow->hide();
                     m_bestiaryWindow->hide();
                 }
+                
             }
         );
         m_satchelBtn->setAbility(openBag);
