@@ -18,11 +18,13 @@ namespace RPG {
         }
 
         void update(float dt, std::vector<std::unique_ptr<GameObject>>& entities) {
-            for (auto& sys : systems) sys->update(dt, entities);
+            if (systems.empty()) return;
+            for (auto& sys : systems) if (sys) sys->update(dt, entities);
         }
 
         void draw(sf::RenderWindow& window, std::vector<std::unique_ptr<GameObject>>& entities) {
-            for (auto& sys : systems) sys->draw(window, entities);
+            if (systems.empty()) return;
+            for (auto& sys : systems) if (sys) sys->draw(window, entities);
         }
     };
 

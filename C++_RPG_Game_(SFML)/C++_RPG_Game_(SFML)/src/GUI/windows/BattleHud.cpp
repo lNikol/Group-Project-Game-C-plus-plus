@@ -1,7 +1,9 @@
 #include "BattleHUD.h"
-#include "OpenWindowCommand.h" // If you made this earlier
+#include "OpenWindowCommand.h"
 #include <cmath>
 
+#include "InventoryWindow.h"
+#include "BestiaryWindow.h"
 namespace RPG {
 
     BattleHUD::BattleHUD(const Spritesheet& iconSet, const sf::Font& font)
@@ -18,10 +20,8 @@ namespace RPG {
         // 2 rows of 9 columns = 18 slots
         for (int i = 0; i < 18; ++i) {
             auto slot = std::make_unique<ActionSlot>(iconSet, font, sf::Vector2f(40.f, 40.f));
-            // You can configure dummy hotkeys or indices here
             m_actionGrid.push_back(std::move(slot));
         }
-
     }
 
     void BattleHUD::setCombatActor(ICombatActor* actor) {

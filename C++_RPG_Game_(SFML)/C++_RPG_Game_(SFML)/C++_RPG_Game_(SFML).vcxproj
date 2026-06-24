@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -139,6 +139,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\combat\AudioManager.cpp" />
+    <ClCompile Include="src\combat\LootManager.cpp" />
     <ClCompile Include="src\game_objects\components\InteractionComponent.cpp" />
     <ClCompile Include="src\game_objects\components\NpcComponent.cpp" />
     <ClCompile Include="src\game_objects\components\QuestGiverComponent.cpp" />
@@ -165,8 +166,12 @@
     <ClCompile Include="src\core\GameManager.cpp" />
     <ClCompile Include="src\core\QuestManager.cpp" />
     <ClCompile Include="src\core\EventBus.cpp" />
+    <ClCompile Include="src\GUI\widgets\TextWidget.cpp" />
+    <ClCompile Include="src\GUI\windows\DefeatWindow.cpp" />
+    <ClCompile Include="src\GUI\windows\BestiaryWindow.cpp" />
     <ClCompile Include="src\GUI\windows\InventoryWindow.cpp" />
     <ClCompile Include="src\GUI\windows\JournalWindow.cpp" />
+    <ClCompile Include="src\GUI\windows\VictoryWindow.cpp" />
     <ClCompile Include="src\scenes\BaseGameScene.cpp" />
     <ClCompile Include="src\scenes\BattleScene.cpp" />
     <ClCompile Include="src\scenes\FactionScene.cpp" />
@@ -190,6 +195,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\combat\AudioManager.h" />
+    <ClInclude Include="src\combat\LootManager.h" />
     <ClInclude Include="src\game_objects\components\components.h" />
     <ClInclude Include="src\game_objects\components\DialogTriggerHandler.h" />
     <ClInclude Include="src\game_objects\components\GameTriggerHandler.h" />
@@ -241,8 +247,13 @@
     <ClInclude Include="src\game_objects\systems\RenderSystem.h" />
     <ClInclude Include="src\game_objects\systems\SystemManager.h" />
     <ClInclude Include="src\game_objects\systems\TriggerSystem.h" />
+    <ClInclude Include="src\GUI\widgets\TextWidget.h" />
+    <ClInclude Include="src\GUI\windows\ChestWindow.h" />
+    <ClInclude Include="src\GUI\windows\DefeatWindow.h" />
+    <ClInclude Include="src\GUI\windows\BestiaryWindow.h" />
     <ClInclude Include="src\GUI\windows\InventoryWindow.h" />
     <ClInclude Include="src\GUI\windows\JournalWindow.h" />
+    <ClInclude Include="src\GUI\windows\VictoryWindow.h" />
     <ClInclude Include="src\scenes\BaseGameScene.h" />
     <ClInclude Include="src\scenes\BattleScene.h" />
     <ClInclude Include="src\scenes\FactionScene.h" />
@@ -307,7 +318,7 @@
   </ImportGroup>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
-      <ErrorText>Ten projekt zawiera odwoĹ‚ania do pakietĂłw NuGet, ktĂłrych nie ma na tym komputerze. UĹĽyj przywracania pakietĂłw NuGet, aby je pobraÄ‡. Aby uzyskaÄ‡ wiÄ™cej informacji, zobacz http://go.microsoft.com/fwlink/?LinkID=322105. BrakujÄ…cy plik: {0}.</ErrorText>
+      <ErrorText>Ten projekt zawiera odwołania do pakietów NuGet, których nie ma na tym komputerze. Użyj przywracania pakietów NuGet, aby je pobrać. Aby uzyskać więcej informacji, zobacz http://go.microsoft.com/fwlink/?LinkID=322105. Brakujący plik: {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\nlohmann.json.3.12.0\build\native\nlohmann.json.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\nlohmann.json.3.12.0\build\native\nlohmann.json.targets'))" />
   </Target>

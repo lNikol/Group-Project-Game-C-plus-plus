@@ -1,12 +1,13 @@
 #pragma once
 #include "game_objects/components/Component.h"
+#include "combat/EncounterLoader.h"
 #include <SFML/Graphics.hpp>
 #include <string>
-
+#include <vector>
 namespace RPG {
 
     enum class TriggerShape {
-        Circle, // radius — interation spheres, NPC, etc.
+        Circle, // radius — interaction spheres, NPC, etc.
         Rect    // square — doors, chests, entrances
     };
 
@@ -40,14 +41,14 @@ namespace RPG {
 
         TriggerAction action = TriggerAction::ChangeScene;
 
-        FactionID targetScene = FactionID::NeutralOrder; 
+        FactionID targetScene = FactionID::MainWorld; 
         int dialogId = -1; // for StartDialog
         int chestId = -1; // for OpenChest
         std::string questId = ""; // for UpdateQuest
         std::string encounterFile = ""; // for StartBattle
         std::string requiredQuestId = ""; // condition to activate trigger
         bool isCompletingQuest = false; // false = Start Quest, true = Complete Quest
-
+        
         bool oneShot = true;  // true = Activates once and disactivates
         bool active  = true;  // false = Trigger is offed
     };

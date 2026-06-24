@@ -3,7 +3,7 @@
 #include "core/IsoHelpers.h"
 #include <cmath>
 #include <iostream> 
-
+#include "AbilityFactory.h"
 namespace RPG {
 
     Unit::Unit(std::string id, std::string name, Team team, Vitals initialVitals)
@@ -60,7 +60,58 @@ namespace RPG {
     }
 
     void Unit::equipItem(EquipSlot slot, std::shared_ptr<IAbility> item) {
+        if (m_equipment.find(slot) != m_equipment.end() && m_equipment[slot] != nullptr) {
+            unequipItem(slot);
+        }
+
         m_equipment[slot] = item;
+        if (item) {
+            if (auto combatAbility = std::dynamic_pointer_cast<CombatAbility>(item)) {
+                if (const auto* def = combatAbility->getDefinition()) {
+                    auto* manager = combatAbility->getBattleManager();
+                    if (manager) {
+                        if (m_hotbar.size() < 18) {
+                            m_hotbar.resize(18, nullptr);
+                        }
+
+                        for (const auto& abilityId : def->grantedAbilities) {
+                            auto newAbility = AbilityFactory::getInstance().createAbility(abilityId, *manager, this);
+                            if (newAbility) {
+                                for (size_t i = 0; i < m_hotbar.size(); ++i) {
+                                    if (i == 9 || i == 17) continue;
+                                    if (m_hotbar[i] == nullptr) {
+                                        m_hotbar[i] = newAbility;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    std::shared_ptr<IAbility> Unit::unequipItem(EquipSlot slot) {
+        auto item = m_equipment[slot];
+        if (!item) return nullptr;
+        if (auto combatAbility = std::dynamic_pointer_cast<CombatAbility>(item)) {
+            if (const auto* def = combatAbility->getDefinition()) {
+                for (const auto& abilityId : def->grantedAbilities) {
+                    for (size_t i = 0; i < m_hotbar.size(); ++i) {
+                        if (auto hotbarAbility = std::dynamic_pointer_cast<CombatAbility>(m_hotbar[i])) {
+                            if (hotbarAbility->getDefinition() && hotbarAbility->getDefinition()->id == abilityId) {
+                                m_hotbar[i] = nullptr;
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        m_equipment[slot] = nullptr;
+        return item;
     }
 
     void Unit::setPath(const std::vector<sf::Vector2f>& path) {
@@ -89,7 +140,7 @@ namespace RPG {
 
             if (m_currentWaypoint >= m_path.size()) {
                 m_isMoving = false;
-                RPG:AudioManager::getInstance().setFootstepsLoop(false);
+                RPG::AudioManager::getInstance().setFootstepsLoop(false);
                 m_path.clear();
                 return false;
             }
@@ -127,6 +178,19 @@ namespace RPG {
             }
             else if (status.baseEffect.type == EffectType::Debuff && status.baseEffect.targetStat != StatType::None) {
                 current[status.baseEffect.targetStat] -= status.lockedPower;
+            }
+        }
+        for (const auto& [slot, item] : m_equipment) {
+            if (item) {
+                if (auto combatAbility = std::dynamic_pointer_cast<CombatAbility>(item)) {
+                    if (const auto* def = combatAbility->getDefinition()) {
+                        for (const auto& [stat, value] : def->statModifiers) {
+                            if (stat != StatType::None) {
+                                current[stat] += value;
+                            }
+                        }
+                    }
+                }
             }
         }
         return current;

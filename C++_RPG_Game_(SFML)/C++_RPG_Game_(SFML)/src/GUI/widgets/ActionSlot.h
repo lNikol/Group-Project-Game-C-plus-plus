@@ -54,7 +54,11 @@ namespace RPG {
         bool handleEvent(sf::RenderWindow& window, const sf::Event& event) override;
 
         sf::FloatRect getGlobalBounds() const override;
-
+        /**
+        * @brief Sets whether the slot can be clicked to execute its ability.
+        */
+        void setInteractive(bool interactive) { m_isInteractive = interactive; }
+        bool isInteractive() const { return m_isInteractive; }
     protected:
         void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 
@@ -69,7 +73,7 @@ namespace RPG {
         sf::RectangleShape m_border;     // Selection Highlight
         sf::RectangleShape m_overlay;    // Grey out if !canBeCast
         sf::Sprite m_icon;
-
+        bool m_isInteractive = true;
         // Text Components
         const sf::Font& m_font;
         sf::Text m_chargesText;

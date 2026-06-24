@@ -5,6 +5,7 @@
 #include "GUI/widgets/ActionSlot.h"
 #include "GUI/windows/WindowBase.h"
 #include "GUI/windows/DialogWindow.h"
+#include "GUI/windows/ChestWindow.h"
 #include "GUI/widgets/Tooltip.h"
 
 namespace RPG {
@@ -14,7 +15,7 @@ namespace RPG {
         SystemHUD(const Spritesheet& iconSet, const sf::Font& font);
         ~SystemHUD() = default;
 
-        void handleEvent(sf::RenderWindow& window, const sf::Event& event);
+        void handleEvent(sf::RenderWindow& window, const sf::Event& event, bool isBattleScene);
         void onResize(const sf::Vector2u& newSize);
         void update(float dt);
 
@@ -44,6 +45,8 @@ namespace RPG {
         std::unique_ptr<DialogWindow> m_dialogWindow;
 
         float m_dialogDimAlpha = 0.f;
+
+        WindowBase* m_chestWindow = nullptr;
 
         // Internal State
         sf::View m_uiView;

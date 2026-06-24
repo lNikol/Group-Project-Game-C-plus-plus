@@ -62,8 +62,29 @@ namespace RPG {
                 }
             }
 
+            // --- Gold Parsing ---
+            if (j.contains("gold")) {
+                data.minGold = j["gold"].value("min", 0);
+                data.maxGold = j["gold"].value("max", 0);
+            }
+
+            // --- Loot Parsing ---
             if (j.contains("loot") && j["loot"].is_array()) {
-                data.lootItemIds = j["loot"].get<std::vector<std::string>>();
+                for (const auto& item : j["loot"]) {
+                    if (item.is_string()) {
+                        // Backwards compatibility: assumes 100% drop rate for basic strings
+                        data.lootDrops.push_back({ item.get<std::string>(), 1.0f });
+                    }
+                    else if (item.is_object()) {
+                        //  parses ID and specific chance
+                        LootDrop drop;
+                        drop.id = item.value("id", "");
+                        drop.chance = item.value("chance", 1.0f);
+                        if (!drop.id.empty()) {
+                            data.lootDrops.push_back(drop);
+                        }
+                    }
+                }
             }
 
             return data;

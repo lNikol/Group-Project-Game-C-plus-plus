@@ -48,12 +48,12 @@
         },
         "world.tmx": {
             "expandedObjectLayers": [
-                6,
+                4,
                 2,
-                4
+                6
             ],
             "scale": 1.5,
-            "selectedLayer": 3,
+            "selectedLayer": 2,
             "viewCenter": {
                 "x": -256,
                 "y": 511.66666666666663
@@ -72,7 +72,7 @@
         "world.tmj"
     ],
     "project": "world.tiled-project",
-    "property.type": "string",
+    "property.type": "bool",
     "recentFiles": [
         "world.tmj",
         "neutral.tmj",

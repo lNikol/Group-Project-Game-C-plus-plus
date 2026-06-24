@@ -23,7 +23,10 @@ namespace RPG {
         float logicalX = 0.0f;
         float logicalY = 0.0f;
     };
-
+    struct LootDrop {
+        std::string id;
+        float chance = 1.0f; ///< 1.0 = 100% chance, 0.5 = 50% chance
+    };
     struct EncounterData {
         std::string encounterId;
         std::string name;
@@ -32,7 +35,9 @@ namespace RPG {
         std::vector<SpawnData> props;
         std::vector<SpawnData> enemies;
         std::vector<sf::Vector2f> deploymentZone;
-        std::vector<std::string> lootItemIds;
+        std::vector<LootDrop> lootDrops;
+        int minGold = 0;
+        int maxGold = 0;
     };
 
     class EncounterLoader {

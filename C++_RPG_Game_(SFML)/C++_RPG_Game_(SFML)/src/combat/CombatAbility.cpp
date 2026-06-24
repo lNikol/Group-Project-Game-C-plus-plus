@@ -6,7 +6,7 @@
 
 namespace RPG {
 
-    CombatAbility::CombatAbility(const AbilityDefinition* def, BattleManager& manager, Unit* owner)
+    CombatAbility::CombatAbility(const AbilityDefinition* def, BattleManager* manager, Unit* owner)
         : m_def(def), m_manager(manager), m_owner(owner) {
         m_currentCharges = def->maxCharges;
     }
@@ -32,7 +32,7 @@ namespace RPG {
 
     void CombatAbility::execute() {
         if (!canBeCast()) return;
-        m_manager.startTargeting(this);
+        m_manager->startTargeting(this);
     }
 
     void CombatAbility::resolve(const std::vector<std::shared_ptr<Unit>>& targets) {
@@ -50,7 +50,7 @@ namespace RPG {
         // 3. Process All Effects for ALL Targets
         for (auto& target : targets) {
             if (target) {
-                AbilityProcessor::processAbility(*m_def, *m_owner, *target, m_manager);
+                AbilityProcessor::processAbility(*m_def, *m_owner, *target, *m_manager);
             }
         }
     }

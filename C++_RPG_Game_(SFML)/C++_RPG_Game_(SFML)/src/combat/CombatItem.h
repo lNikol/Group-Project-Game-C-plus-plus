@@ -16,16 +16,16 @@ namespace RPG {
          */
         void execute() override {
             if (!canBeCast()) return;
-            auto activeUnit = m_manager.getActiveUnit();
+            auto activeUnit = m_manager->getActiveUnit();
             if (!activeUnit) return;
 
             setOwner(activeUnit.get());
 
             // 1. Close all UI windows through the manager/HUD
-            m_manager.getHUD()->closeAllWindows();
+            m_manager->getHUD()->closeAllWindows();
 
             // 2. Start standard targeting procedure inherited from CombatAbility
-            m_manager.startTargeting(this);
+            m_manager->startTargeting(this);
         }
     };
 }

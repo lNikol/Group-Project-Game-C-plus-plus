@@ -47,7 +47,7 @@ namespace RPG {
         void addToInventory(std::shared_ptr<IAbility> item);
         void setHotbarAbility(int index, std::shared_ptr<IAbility> ability);
         void equipItem(EquipSlot slot, std::shared_ptr<IAbility> item);
-
+        std::shared_ptr<IAbility> unequipItem(EquipSlot slot);
         // ==============================
         // Movement & Update
         // ==============================

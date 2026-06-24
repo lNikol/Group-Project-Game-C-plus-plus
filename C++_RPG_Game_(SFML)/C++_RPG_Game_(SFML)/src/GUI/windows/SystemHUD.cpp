@@ -4,7 +4,9 @@
 #include "JournalWindow.h"
 #include "core/Constants.h"
 #include "core/DialogManager.h"
+#include "worldmap/AssetManager.h"
 #include <cmath>
+#include "BestiaryWindow.h"
 
 namespace RPG {
 
@@ -19,12 +21,16 @@ namespace RPG {
         // Initialize Windows
         m_inventoryWindow = std::make_unique<InventoryWindow>(iconSet, font);
         m_journalWindow = std::make_unique<JournalWindow>(font);
-        m_bestiaryWindow = std::make_unique<WindowBase>(font, sf::Vector2f(500.f, 600.f), "Bestiary");
+        m_bestiaryWindow = std::make_unique<BestiaryWindow>(font);
         m_dialogWindow = std::make_unique<DialogWindow>(font);
-
         m_inventoryWindow->hide();
         m_journalWindow->hide();
         m_bestiaryWindow->hide();
+
+        m_chestWindow = &ChestWindow::getInstance();
+        m_chestWindow->hide();
+
+
 
         // Connect the Buttons to the Windows
         auto openBag = std::make_shared<OpenWindowCommand>(
@@ -35,6 +41,7 @@ namespace RPG {
                     m_journalWindow->hide();
                     m_bestiaryWindow->hide();
                 }
+                
             }
         );
         m_satchelBtn->setAbility(openBag);
@@ -62,6 +69,7 @@ namespace RPG {
             }
         );
         m_bestiaryBtn->setAbility(openBestiary);
+
     }
 
     void SystemHUD::onResize(const sf::Vector2u& newSize) {
@@ -111,7 +119,14 @@ namespace RPG {
         }
     }
 
-    void SystemHUD::handleEvent(sf::RenderWindow& window, const sf::Event& event) {
+    void SystemHUD::handleEvent(sf::RenderWindow& window, const sf::Event& event, bool isBattleScene) {
+
+        if (m_inventoryWindow) {
+            if (auto* invWin = dynamic_cast<InventoryWindow*>(m_inventoryWindow.get())) {
+                invWin->setCombatMode(isBattleScene);
+            }
+        }
+
         // Convert mouse position to UI view coordinates
         if (event.is<sf::Event::MouseMoved>()) {
             auto* ev = event.getIf<sf::Event::MouseMoved>();
@@ -167,6 +182,11 @@ namespace RPG {
             window.setView(oldView);
             return;
         }
+        if (m_chestWindow && m_chestWindow->handleEvent(window, event)) {
+            window.setView(oldView);
+            return;
+        }
+
 
         // Then buttons
         if (m_satchelBtn->handleEvent(window, event)) {
@@ -235,6 +255,7 @@ namespace RPG {
         if (m_inventoryWindow->isVisible() && m_inventoryWindow->getGlobalBounds().contains(m_mousePos)) return true;
         if (m_journalWindow->isVisible() && m_journalWindow->getGlobalBounds().contains(m_mousePos)) return true;
         if (m_bestiaryWindow->isVisible() && m_bestiaryWindow->getGlobalBounds().contains(m_mousePos)) return true;
+        if (m_chestWindow && m_chestWindow->isVisible() && m_chestWindow->getGlobalBounds().contains(m_mousePos)) return true;
 
         return false;
     }
@@ -278,6 +299,10 @@ namespace RPG {
             const_cast<Tooltip&>(m_tooltip).update(tip, m_mousePos, m_uiView.getSize());
             target.draw(m_tooltip);
         }
+
+
+        if (m_chestWindow) target.draw(*m_chestWindow);
+
 
         target.setView(oldView);
     }

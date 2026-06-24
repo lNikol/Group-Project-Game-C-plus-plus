@@ -16,10 +16,6 @@ namespace RPG {
         float stamina, maxStamina;
     };
 
-    enum class EquipSlot {
-        Head, Chest, MainHand, OffHand, Feet, Ring1, Ring2
-    };
-
     /**
      * @brief Interface for any entity (Player, Enemy, NPC) that can interact with the Combat System.
      * * The BattleHUD relies on this interface to pull data (HP, Skills, Inventory)

@@ -34,6 +34,17 @@ namespace RPG {
          */
         std::shared_ptr<CombatAbility> createAbility(const std::string& id, BattleManager& manager, Unit* owner);
 
+        /**
+         * @brief Creates an ability without a BattleManager (for chest loot).
+         * BattleManager will be assigned by BattleManager::loadEncounter
+         * when the item is found in PartyData::sharedInventory.
+         */
+        std::shared_ptr<CombatAbility> createAbility(const std::string& id);
+
+
+        const std::unordered_map<std::string, AbilityDefinition>& getDefinitions() const;
+
+
     private:
         AbilityFactory() = default;
         std::unordered_map<std::string, AbilityDefinition> m_definitions;
@@ -42,5 +53,6 @@ namespace RPG {
         StatType parseStatType(const std::string& str) const;
         EffectType parseEffectType(const std::string& str) const;
         TargetType parseTargetType(const std::string& str) const;
+        EquipSlot parseEquipSlot(const std::string& str) const;
     };
 }

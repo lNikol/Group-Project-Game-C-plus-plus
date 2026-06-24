@@ -416,13 +416,13 @@
                  "rotation":0,
                  "type":"trigger",
                  "visible":true,
-                 "width":45.3333333333333,
-                 "x":-694.666666666667,
-                 "y":45.3333333333333
+                 "width":45.3333,
+                 "x":-694.667,
+                 "y":45.3333
                 }, 
                 {
                  "ellipse":true,
-                 "height":98.0000000000001,
+                 "height":98,
                  "id":364,
                  "name":"trigger",
                  "opacity":1,
@@ -430,24 +430,75 @@
                         {
                          "name":"action",
                          "type":"string",
-                         "value":"startdialog"
-                        }, 
-                        {
-                         "name":"dialogId",
-                         "type":"int",
-                         "value":665
+                         "value":"ChangeScene"
                         }, 
                         {
                          "name":"oneShot",
                          "type":"string",
-                         "value":"false"
+                         "value":"true"
+                        }, 
+                        {
+                         "name":"targetScene",
+                         "type":"string",
+                         "value":"battle"
                         }],
                  "rotation":0,
                  "type":"trigger",
                  "visible":true,
-                 "width":97.9999999999998,
-                 "x":-986.666666666667,
-                 "y":122.666666666667
+                 "width":98,
+                 "x":-818.000333333333,
+                 "y":119.333666666667
+                }, 
+                {
+                 "height":38,
+                 "id":365,
+                 "name":"trigger",
+                 "opacity":1,
+                 "properties":[
+                        {
+                         "name":"action",
+                         "type":"string",
+                         "value":"openchest"
+                        }, 
+                        {
+                         "name":"oneShot",
+                         "type":"bool",
+                         "value":true
+                        }],
+                 "rotation":0,
+                 "type":"trigger",
+                 "visible":true,
+                 "width":45.3333,
+                 "x":-906.667,
+                 "y":318.333
+                }, 
+                {
+                 "height":38,
+                 "id":366,
+                 "name":"trigger",
+                 "opacity":1,
+                 "properties":[
+                        {
+                         "name":"action",
+                         "type":"string",
+                         "value":"ChangeScene"
+                        }, 
+                        {
+                         "name":"oneShot",
+                         "type":"bool",
+                         "value":true
+                        }, 
+                        {
+                         "name":"targetScene",
+                         "type":"string",
+                         "value":"battle"
+                        }],
+                 "rotation":0,
+                 "type":"trigger",
+                 "visible":true,
+                 "width":45.3333,
+                 "x":-959.333316666667,
+                 "y":145
                 }],
          "opacity":1,
          "properties":[
@@ -3124,7 +3175,7 @@
                  "visible":true,
                  "width":0,
                  "x":-462,
-                 "y":318.666666666667
+                 "y":318.667
                 }, 
                 {
                  "height":0,
@@ -3142,8 +3193,8 @@
                  "type":"npc_spawn",
                  "visible":true,
                  "width":0,
-                 "x":-464.666666666667,
-                 "y":255.333333333333
+                 "x":-464.667,
+                 "y":255.333
                 }],
          "opacity":1,
          "properties":[
@@ -3158,7 +3209,7 @@
          "y":0
         }],
  "nextlayerid":7,
- "nextobjectid":365,
+ "nextobjectid":367,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.12.0",

@@ -43,7 +43,7 @@ namespace RPG {
         m_chargesText.setOutlineThickness(1.f);
 
         // Setup Cooldown Text (Center Large)
-        m_cooldownText.setCharacterSize(16);
+        m_cooldownText.setCharacterSize(18);
         m_cooldownText.setFillColor(sf::Color::Yellow);
         m_cooldownText.setOutlineColor(sf::Color::Black);
         m_cooldownText.setOutlineThickness(2.f);
@@ -107,11 +107,11 @@ namespace RPG {
         if (const auto* mouseClick = event.getIf<sf::Event::MouseButtonPressed>()) {
             if (mouseClick->button == sf::Mouse::Button::Left && m_isHovered) {
                 updateHoverState(window, mouseClick->position);
-                if (m_ability != nullptr)
+                if (m_isInteractive && m_ability != nullptr)
                 {
                     m_ability->execute();
-                    return true;
                 }
+                return true;
             }
         }
         return false;

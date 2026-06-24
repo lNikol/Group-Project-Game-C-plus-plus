@@ -41,7 +41,7 @@
           "baseValue": 30.0,
           "scalingStat": "Intellect",
           "scalingFactor": 2.0,
-          "baseCritChance": 0.10,
+          "baseCritChance": 0.1,
           "critMultiplier": 2.0
         }
       ]
@@ -93,7 +93,7 @@
           "baseValue": 25.0,
           "scalingStat": "Intellect",
           "scalingFactor": 1.5,
-          "baseCritChance": 0.20,
+          "baseCritChance": 0.2,
           "critMultiplier": 1.5
         }
       ]
@@ -155,6 +155,7 @@
       "radius": 0.0,
       "manaCost": 0.0,
       "staminaCost": 0.0,
+      "chestChance": 0.33,
       "isConsumable": true,
       "maxCharges": 3,
       "effects": [
@@ -178,6 +179,7 @@
       "radius": 45.0,
       "manaCost": 0.0,
       "staminaCost": 0.0,
+      "chestChance": 0.35,
       "isConsumable": true,
       "maxCharges": 1,
       "effects": [
@@ -186,7 +188,7 @@
           "baseValue": 30.0,
           "scalingStat": "Intellect",
           "scalingFactor": 2.0,
-          "baseCritChance": 0.10,
+          "baseCritChance": 0.1,
           "critMultiplier": 2.0
         }
       ]
@@ -221,6 +223,44 @@
           "applyChance": 0.6
         }
       ]
+    },
+    {
+      "id": "iron_sword",
+      "name": "Iron Sword",
+      "description": "A sturdy iron blade. Increases Strength and grants the Slash ability.",
+      "iconIndex": 148,
+      "isEquippable": true,
+      "equipSlot": "MainHand",
+      "chestChance": 0.5,
+      "statModifiers": {
+        "Strength": 5.0
+      },
+      "grantedAbilities": ["slash"]
+    },
+    {
+      "id": "leather_armor",
+      "name": "Leather Armor",
+      "chestChance": 0.75,
+      "description": "Lightweight armor that slightly boosts Vitality and Dexterity.",
+      "iconIndex": 169,
+      "isEquippable": true,
+      "equipSlot": "Chest",
+      "statModifiers": {
+        "Vitality": 10.0,
+        "Dexterity": 2.0
+      }
+    },
+    {
+      "id": "ring_of_wisdom",
+      "name": "Ring of Wisdom",
+      "chestChance": 0.25,
+      "description": "A glowing ring that greatly enhances Intellect.",
+      "iconIndex": 177,
+      "isEquippable": true,
+      "equipSlot": "Ring",
+      "statModifiers": {
+        "Intellect": 15.0
+      }
     }
   ]
 }
