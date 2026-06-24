@@ -40,29 +40,62 @@ namespace RPG {
 
 	void InteractionComponent::update(float dt) {
 		m_animationTime += dt;
+
+		bool isClose = (m_distanceToPlayer <= interactionRadius);
+
+		if (isClose) {
+			if (m_currentState == "far_hover" || m_currentState == "") {
+				setAnimationState("transition");
+				if (m_currentAnim) {
+					m_currentAnim->setReversed(false);
+					m_currentAnim->reset();
+				}
+			} else if (m_currentState == "transition" && m_currentAnim && !m_currentAnim->isReversed()) {
+				if (m_currentAnim->isFinished()) {
+					setAnimationState("close_hover");
+				}
+			} else if (m_currentState == "transition" && m_currentAnim && m_currentAnim->isReversed()) {
+				// Walking away but came close again
+				m_currentAnim->setReversed(false);
+				m_currentAnim->setFinished(false);
+			} else if (m_currentState != "close_hover" && m_currentState != "transition") {
+				setAnimationState("close_hover");
+			}
+		} else {
+			if (m_currentState == "close_hover") {
+				setAnimationState("transition");
+				if (m_currentAnim) {
+					m_currentAnim->setReversed(true);
+					m_currentAnim->reset();
+				}
+			} else if (m_currentState == "transition" && m_currentAnim && m_currentAnim->isReversed()) {
+				if (m_currentAnim->isFinished()) {
+					setAnimationState("far_hover");
+				}
+			} else if (m_currentState == "transition" && m_currentAnim && !m_currentAnim->isReversed()) {
+				// Coming close but walked away
+				m_currentAnim->setReversed(true);
+				m_currentAnim->setFinished(false);
+			} else if (m_currentState != "far_hover" && m_currentState != "transition") {
+				setAnimationState("far_hover");
+			}
+		}
+
 		if (m_currentAnim) {
 			m_currentAnim->update(dt);
 		}
 	}
 
 	void InteractionComponent::draw(sf::RenderWindow& window) {
-		if (m_distanceToPlayer > 150.f || !owner) return;
-
-		// Determine state
-		if (m_distanceToPlayer <= interactionRadius) {
-			setAnimationState("close_hover");
-		} else {
-			setAnimationState("far_hover");
-		}
+		if (!owner) return;
 
 		if (!m_currentAnim || !m_sprite.has_value()) return;
 
 		sf::Vector2f pos = owner->getPosition();
 		
 		// Bouncing offset
-		float bounce = std::sin(m_animationTime * 5.f) * 5.f;
-		pos.y -= (40.f + bounce); // Hover above NPC
-		pos.x += GameConfig::TILE_SIZE / 2.f; // Center horizontally
+		float bounce = std::sin(m_animationTime * 3.f) * 3.f;
+		pos.y -= (50.f + bounce); // Hover above NPC
 
 		m_sprite->setTextureRect(m_currentAnim->getCurrentFrame());
 		

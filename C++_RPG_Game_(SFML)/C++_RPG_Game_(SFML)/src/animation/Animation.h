@@ -22,6 +22,7 @@ namespace RPG {
 		uint8_t currentFrameIndex;
 		sf::IntRect currentFrame;
 		bool finished;
+		bool reversed = false;
 
 	public:
 		Animation();
@@ -30,6 +31,10 @@ namespace RPG {
 
 		void update(float dt);
 		void reset();
+
+		void setReversed(bool rev);
+		bool isReversed() const;
+		void setFinished(bool fin);
 
 		const sf::IntRect& getCurrentFrame() const;
 		const Spritesheet* getSpritesheet() const;

@@ -59,6 +59,7 @@ namespace RPG {
                     sf::Vector2f diff = playerPos - go->getPosition();
                     float dist = std::sqrt(diff.x * diff.x + diff.y * diff.y);
                     interaction->setDistanceToPlayer(dist);
+                    interaction->update(dt);
                 }
             }
         }

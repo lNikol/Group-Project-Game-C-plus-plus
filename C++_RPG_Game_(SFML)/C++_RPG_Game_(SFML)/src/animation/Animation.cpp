@@ -25,26 +25,47 @@ namespace RPG {
         return AnimationBuilder();
     }
 
+    void Animation::setReversed(bool rev) {
+        reversed = rev;
+    }
+
+    bool Animation::isReversed() const {
+        return reversed;
+    }
+
+    void Animation::setFinished(bool fin) {
+        finished = fin;
+    }
+
     void Animation::update(float dt) {
         if (finished) return;
-
-        // std::cout << "Frame: " << (int)currentFrameIndex << "\n";
-
 
         timer += dt;
         if (timer >= frameDuration) {
 
             timer -= frameDuration;
-            currentFrameIndex++;
-
             
-            if (currentFrameIndex >= frameCount) {
-                if (looped) {
-                    currentFrameIndex = 0;
+            if (reversed) {
+                if (currentFrameIndex == 0) {
+                    if (looped) {
+                        currentFrameIndex = frameCount - 1;
+                    }
+                    else {
+                        finished = true;
+                    }
+                } else {
+                    currentFrameIndex--;
                 }
-                else {
-                    currentFrameIndex = frameCount - 1;
-                    finished = true;
+            } else {
+                currentFrameIndex++;
+                if (currentFrameIndex >= frameCount) {
+                    if (looped) {
+                        currentFrameIndex = 0;
+                    }
+                    else {
+                        currentFrameIndex = frameCount - 1;
+                        finished = true;
+                    }
                 }
             }
         }
@@ -57,9 +78,13 @@ namespace RPG {
         
     void Animation::reset() {
         timer = 0.0;
-        currentFrameIndex = 0;
         finished = false;
-        currentFrame.position.x = frameStartPos.x;
+        if (reversed && frameCount > 0) {
+            currentFrameIndex = frameCount - 1;
+        } else {
+            currentFrameIndex = 0;
+        }
+        currentFrame.position.x = frameStartPos.x + (currentFrameIndex * (frameSize.x + frameGap));
         currentFrame.position.y = frameStartPos.y;
     }
 
