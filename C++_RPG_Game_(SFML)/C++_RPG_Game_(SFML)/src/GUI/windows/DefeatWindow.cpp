@@ -30,14 +30,14 @@ namespace RPG {
         float currentY = 50.f;
         float centerX = getSize().x / 2.f;
 
-        auto lossText = std::make_unique<TextWidget>(m_font, "Your party has fallen.", 18, sf::Color(200, 50, 50));
+        auto lossText = std::make_unique<TextWidget>(m_font, "Your party has fallen.", 26, sf::Color(200, 50, 50));
         sf::FloatRect bounds1 = lossText->getGlobalBounds();
         lossText->setPosition({ centerX - (bounds1.size.x / 2.f), currentY });
         addChild(std::move(lossText));
 
         currentY += 30.f;
 
-        auto goldText = std::make_unique<TextWidget>(m_font, "Gold Lost: " + std::to_string(goldLost), 16, sf::Color(150, 150, 150));
+        auto goldText = std::make_unique<TextWidget>(m_font, "Gold Lost: " + std::to_string(goldLost), 22, sf::Color(150, 150, 150));
         sf::FloatRect bounds2 = goldText->getGlobalBounds();
         goldText->setPosition({ centerX - (bounds2.size.x / 2.f), currentY });
         addChild(std::move(goldText));

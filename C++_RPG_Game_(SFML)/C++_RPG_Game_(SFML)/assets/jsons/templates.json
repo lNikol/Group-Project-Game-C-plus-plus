@@ -1,8 +1,37 @@
 {
   "templates": [
     {
+      "comment": "--- GROUND & DECOR (Non-blocking) ---",
+      "prefixes": [
+        "grass",
+        "ground",
+        "TX Tileset Grass",
+        "TX Props_58",
+        "TX Props_72"
+      ],
+      "type": "Grass",
+      "layer": "Ground",
+      "meta": {
+        "blocksMovement": false,
+        "blocksPlacement": false,
+        "speedModifier": 1.0
+      }
+    },
+    {
+      "comment": "--- GROUND & DECOR (Non-blocking) ---",
+      "prefixes": ["sand"],
+      "type": "Sand",
+      "layer": "Ground",
+      "meta": {
+        "blocksMovement": false,
+        "blocksPlacement": false,
+        "speedModifier": 1.0
+      }
+    },
+
+    {
       "comment": "--- NATURE (Destructible, Medium HP) ---",
-      "prefixes": [ "tree", "pine", "oak", "TX Plant"],
+      "prefixes": ["tree", "pine", "oak", "TX Plant"],
       "type": "Tree",
       "layer": "Structure",
       "meta": {
@@ -33,7 +62,7 @@
       }
     },
     {
-      "prefixes": [ "rock", "stone", "boulder" ],
+      "prefixes": ["rock", "stone", "boulder"],
       "type": "Rock",
       "layer": "Structure",
       "meta": {
@@ -45,7 +74,7 @@
     },
     {
       "comment": "--- INFRASTRUCTURE (Tough, Often Indestructible) ---",
-      "prefixes": [ "wall", "fence" ],
+      "prefixes": ["wall", "fence"],
       "type": "Wall",
       "layer": "Structure",
       "meta": {
@@ -56,7 +85,15 @@
       }
     },
     {
-      "prefixes": [ "house", "tent", "hut", "spr_old_building", "TX Props", "TX Struct", "TX Tileset" ],
+      "prefixes": [
+        "house",
+        "tent",
+        "hut",
+        "spr_old_building",
+        "TX Props",
+        "TX Struct",
+        "TX Tileset"
+      ],
       "type": "House",
       "layer": "Structure",
       "meta": {
@@ -67,7 +104,7 @@
     },
     {
       "comment": "--- INTERACTIVES ---",
-      "prefixes": [ "chest", "barrel", "crate", "blue" ],
+      "prefixes": ["chest", "barrel", "crate", "blue"],
       "type": "IterativeObj",
       "layer": "Object",
       "meta": {
@@ -75,28 +112,6 @@
         "blocksPlacement": false,
         "isDestructible": true,
         "maxHealth": 30.0
-      }
-    },
-    {
-      "comment": "--- GROUND & DECOR (Non-blocking) ---",
-      "prefixes": [ "grass", "ground", "TX Tileset Grass" ],
-      "type": "Grass",
-      "layer": "Ground",
-      "meta": {
-        "blocksMovement": false,
-        "blocksPlacement": false,
-        "speedModifier": 1.0
-      }
-    },
-    {
-      "comment": "--- GROUND & DECOR (Non-blocking) ---",
-      "prefixes": [ "sand" ],
-      "type": "Sand",
-      "layer": "Ground",
-      "meta": {
-        "blocksMovement": false,
-        "blocksPlacement": false,
-        "speedModifier": 1.0
       }
     }
   ]

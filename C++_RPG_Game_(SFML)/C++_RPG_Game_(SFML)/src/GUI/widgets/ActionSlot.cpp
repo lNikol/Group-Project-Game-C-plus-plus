@@ -37,13 +37,13 @@ namespace RPG {
         m_icon.setPosition({ (size.x - scaledIconSize) / 2.f, (size.y - scaledIconSize) / 2.f });
 
         // Setup Charges Text (Bottom Right)
-        m_chargesText.setCharacterSize(16);
+        m_chargesText.setCharacterSize(24);
         m_chargesText.setFillColor(sf::Color::White);
         m_chargesText.setOutlineColor(sf::Color::Black);
         m_chargesText.setOutlineThickness(1.f);
 
         // Setup Cooldown Text (Center Large)
-        m_cooldownText.setCharacterSize(16);
+        m_cooldownText.setCharacterSize(22);
         m_cooldownText.setFillColor(sf::Color::Yellow);
         m_cooldownText.setOutlineColor(sf::Color::Black);
         m_cooldownText.setOutlineThickness(2.f);

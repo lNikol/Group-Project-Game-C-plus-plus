@@ -47,7 +47,6 @@
   "loot": [
     { "id": "health_potion", "chance": 1.0 },
     { "id": "health_potion", "chance": 0.5 },
-    { "id": "scroll_of_fireball", "chance": 0.5 },
     { "id": "iron_sword", "chance": 1.0 },
     { "id": "iron_sword", "chance": 1.0 },
     { "id": "leather_armor", "chance": 1.0 },

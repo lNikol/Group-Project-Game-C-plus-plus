@@ -15,7 +15,7 @@ namespace RPG {
 
         // Title Text
         m_titleText.setString(title);
-        m_titleText.setCharacterSize(16);
+        m_titleText.setCharacterSize(32);
         m_titleText.setFillColor(sf::Color::White);
         m_titleText.setPosition({ 10.f, 4.f });
 

@@ -36,8 +36,7 @@
     "max": 100
   },
   "loot": [
-    { "id": "health_potion", "chance": 0.35 },
-    { "id": "scroll_of_fireball", "chance": 0.35 },
+    { "id": "health_potion", "chance": 0.5 },
     { "id": "iron_sword", "chance": 0.9 },
     { "id": "leather_armor", "chance": 0.3 },
     { "id": "ring_of_wisdom", "chance": 0.75 }

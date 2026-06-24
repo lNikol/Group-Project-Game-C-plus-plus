@@ -788,6 +788,8 @@ namespace RPG {
             sf::Vector2f currentWindowSize((float)window.getSize().x, (float)window.getSize().y);
             sf::View uiView(sf::FloatRect({ 0.f, 0.f }, Window::getLogicalSize(window.getSize())));
             window.setView(uiView);
+            
+            sf::Vector2f mouseUiPos = window.mapPixelToCoords(mousePixel, uiView);
 
             std::stringstream ss;
             if (valid) ss << (int)cost << " STAMINA";
@@ -795,7 +797,7 @@ namespace RPG {
                 float dist = Iso::getDistance(m_selectedUnit->getLogicalPosition(), mouseLogic);
                 if (dist >= 10.0f) ss << "Blocked";
             }
-            m_movementTooltip.update(ss.str(), sf::Vector2f(mousePixel), windowSize);
+            m_movementTooltip.update(ss.str(), mouseUiPos + sf::Vector2f(15.f, 15.f), windowSize);
             window.draw(m_movementTooltip);
 
             window.setView(cameraView);

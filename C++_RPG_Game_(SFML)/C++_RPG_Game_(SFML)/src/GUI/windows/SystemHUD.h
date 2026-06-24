@@ -7,6 +7,9 @@
 #include "GUI/windows/DialogWindow.h"
 #include "GUI/windows/ChestWindow.h"
 #include "GUI/widgets/Tooltip.h"
+#include "InventoryWindow.h"
+#include "BestiaryWindow.h"
+#include "JournalWindow.h"
 
 namespace RPG {
 
@@ -39,9 +42,9 @@ namespace RPG {
         std::unique_ptr<ActionSlot> m_bestiaryBtn;
 
         // Windows
-        std::unique_ptr<WindowBase> m_inventoryWindow;
-        std::unique_ptr<WindowBase> m_journalWindow;
-        std::unique_ptr<WindowBase> m_bestiaryWindow;
+        std::unique_ptr<InventoryWindow> m_inventoryWindow;
+        std::unique_ptr<JournalWindow> m_journalWindow;
+        std::unique_ptr<BestiaryWindow> m_bestiaryWindow;
         std::unique_ptr<DialogWindow> m_dialogWindow;
 
         float m_dialogDimAlpha = 0.f;

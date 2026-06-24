@@ -12,6 +12,30 @@
 #include "core/EventBus.h"
 #include "game_objects/components/components.h"
 
+
+#include <array>
+#include <random>
+#include <chrono>
+
+static std::string pickRandomEncounter() {
+    static const std::array<std::string, 6> encounters = {
+        "assets/jsons/encounters/enc_01_tutorial.json",
+        "assets/jsons/encounters/enc_02_chokepoint.json",
+        "assets/jsons/encounters/enc_03_ambush.json",
+        "assets/jsons/encounters/enc_04_aoe_test.json",
+        "assets/jsons/encounters/enc_05_winter_maze.json",
+        "assets/jsons/encounters/enc_06_boss_battle.json"
+    };
+
+    auto seed = std::chrono::high_resolution_clock::now().time_since_epoch().count();
+    static std::mt19937 rng(static_cast<unsigned int>(seed));
+    static std::uniform_int_distribution<size_t> dist(0, encounters.size() - 1);
+
+    return encounters[dist(rng)];
+}
+
+
+
 namespace RPG {
 
     GameManager::GameManager()
@@ -111,11 +135,18 @@ namespace RPG {
         auto& party = PartyData::getInstance();
         if (party.activeParty.empty()) {
             auto defaultHero = std::make_shared<CharacterProfile>();
-            defaultHero->id = "player_fighter"; // Odwołanie do units.json
-            defaultHero->name = "player_fighter"; // Służy również jako klucz do preferredPositions
+            defaultHero->id = "player_fighter";
+            defaultHero->name = "Sir Tanksalot";
             defaultHero->currentVitals = { 200.0f, 200.0f, 50.0f, 50.0f, 120.0f, 120.0f };
-
+            defaultHero->baseStats.values = { 0.f, 18.0f, 10.0f, 5.0f, 20.0f };
             party.activeParty.push_back(defaultHero);
+
+            auto mageHero = std::make_shared<CharacterProfile>();
+            mageHero->id = "player_mage";
+            mageHero->name = "Merlin";
+            mageHero->currentVitals = { 90.0f, 90.0f, 200.0f, 200.0f, 60.0f, 60.0f };
+            mageHero->baseStats.values = { 0.f, 4.0f, 8.0f, 25.0f, 8.0f };
+            party.activeParty.push_back(mageHero);
         }
 
         // Shared player initialization
@@ -148,7 +179,7 @@ namespace RPG {
             case FactionID::WhiteOrder:   path = GameConfig::WORLD_PATH + "white_base.tmj";  break;
             case FactionID::DarkOrder:    path = GameConfig::WORLD_PATH + "dark_base.tmj";   break;
             case FactionID::NeutralOrder: path = GameConfig::WORLD_PATH + "neutral.tmj";     break;
-            default:                      path = GameConfig::WORLD_PATH + "neutral.tmj";     break;
+            default:                      path = GameConfig::WORLD_PATH + "world.tmj";       break;
         }
 
         std::cout << "[GameManager] Loading: " << path << "\n";
@@ -218,7 +249,7 @@ namespace RPG {
 
         switch (targetFaction) {
         case FactionID::BattleScene:
-            currentScene = std::make_unique<BattleScene>(*this, window, playerUnit, m_pendingEncounterFile.empty() ? "assets/jsons/encounters/enc_01_tutorial.json" : m_pendingEncounterFile);
+            currentScene = std::make_unique<BattleScene>(*this, window, playerUnit, m_pendingEncounterFile.empty() ? pickRandomEncounter() : m_pendingEncounterFile);
             m_pendingEncounterFile = "";
             break;
         case FactionID::MainWorld:

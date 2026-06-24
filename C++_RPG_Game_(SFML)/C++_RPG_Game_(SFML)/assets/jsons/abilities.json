@@ -155,7 +155,7 @@
       "radius": 0.0,
       "manaCost": 0.0,
       "staminaCost": 0.0,
-      "chestChance": 0.33,
+      "chestChance": 0.67,
       "isConsumable": true,
       "maxCharges": 3,
       "effects": [
@@ -179,7 +179,6 @@
       "radius": 45.0,
       "manaCost": 0.0,
       "staminaCost": 0.0,
-      "chestChance": 0.35,
       "isConsumable": true,
       "maxCharges": 1,
       "effects": [

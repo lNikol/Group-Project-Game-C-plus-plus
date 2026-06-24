@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.12.2" orientation="orthogonal" renderorder="right-down" width="30" height="20" tilewidth="32" tileheight="32" infinite="1" nextlayerid="7" nextobjectid="1534">
+<map version="1.10" tiledversion="1.12.0" orientation="orthogonal" renderorder="right-down" width="30" height="20" tilewidth="32" tileheight="32" infinite="1" nextlayerid="7" nextobjectid="1538">
  <editorsettings>
   <export target="world.tmj" format="json"/>
  </editorsettings>
@@ -1835,7 +1835,6 @@
   <properties>
    <property name="zIndex" value="main"/>
   </properties>
-  <object id="381" x="-724" y="-374"/>
   <object id="394" gid="12809" x="-96" y="512" width="26" height="66"/>
   <object id="395" gid="12809" x="-186" y="480.125" width="26" height="66"/>
   <object id="399" gid="12807" x="956.667" y="198.667" width="37" height="72"/>
@@ -2521,6 +2520,26 @@
     <property name="texture" value="ork_old"/>
    </properties>
    <point/>
+  </object>
+  <object id="1534" name="trigger" type="trigger" x="618.333" y="149.667" width="126.667" height="120">
+   <properties>
+    <property name="action" value="ChangeScene"/>
+    <property name="oneShot" value="true"/>
+    <property name="targetScene" value="battle"/>
+   </properties>
+   <ellipse/>
+  </object>
+  <object id="1535" name="trigger" type="trigger" x="1319.34" y="333" width="50.6666" height="52">
+   <properties>
+    <property name="action" value="openChest"/>
+    <property name="oneShot" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="1536" name="trigger" type="trigger" x="868" y="-211.334" width="47.9999" height="44">
+   <properties>
+    <property name="action" value="openChest"/>
+    <property name="oneShot" type="bool" value="true"/>
+   </properties>
   </object>
  </objectgroup>
 </map>
