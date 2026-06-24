@@ -6,8 +6,8 @@
 
 namespace RPG {
 
-    Unit::Unit(std::string name, Team team, Vitals initialVitals)
-        : m_name(name), m_team(team), m_vitals(initialVitals)
+    Unit::Unit(std::string id, std::string name, Team team, Vitals initialVitals)
+        : m_id(std::move(id)), m_name(std::move(name)), m_team(team), m_vitals(initialVitals)
     {
         setColliderSize(20.0f, 20.0f);
     }

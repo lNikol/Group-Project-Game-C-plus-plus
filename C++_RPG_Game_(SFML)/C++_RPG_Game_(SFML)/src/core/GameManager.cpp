@@ -29,6 +29,7 @@ namespace RPG {
         AssetManager::getInstance().addSpritesheet("ork", GameConfig::ANIMATIONS_PATH + "ork.png");
         AssetManager::getInstance().addSpritesheet("ork2", GameConfig::ANIMATIONS_PATH + "ork2.png");
         AssetManager::getInstance().addSpritesheet("ork3", GameConfig::ANIMATIONS_PATH + "ork3.png");
+        AssetManager::getInstance().addSpritesheet("ork_old", GameConfig::ANIMATIONS_PATH + "ork_old.png");
         AssetManager::getInstance().addSpritesheet("vampire", GameConfig::ANIMATIONS_PATH + "vampire.png");
         AssetManager::getInstance().addSpritesheet("indicator", GameConfig::ANIMATIONS_PATH + "indicator.png");
         AssetManager::getInstance().addTexture("grass",      GameConfig::TEXTURES_PATH   + "grass.png");
@@ -122,7 +123,7 @@ namespace RPG {
 
         // Shared player initialization
         Vitals startStats = { 100.f, 100.f, 50.f, 50.f, 100.f, 100.f }; // HP, MP, Stamina
-        playerUnit = std::make_shared<Unit>("Hero", Team::Player, startStats);
+        playerUnit = std::make_shared<Unit>("player_fighter", "Hero", Team::Player, startStats);
 
         auto mainMap = getOrLoadMap(activeFaction);
 

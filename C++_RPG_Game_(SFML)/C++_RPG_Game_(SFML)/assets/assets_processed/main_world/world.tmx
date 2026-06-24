@@ -2502,7 +2502,7 @@
    <properties>
     <property name="dialog_id" type="int" value="5"/>
     <property name="faction" value="dark"/>
-    <property name="texture" value="ork"/>
+    <property name="texture" value="ork_old"/>
    </properties>
    <point/>
   </object>
@@ -2518,7 +2518,7 @@
    <properties>
     <property name="dialog_id" type="int" value="7"/>
     <property name="faction" value="dark"/>
-    <property name="texture" value="ork"/>
+    <property name="texture" value="ork_old"/>
    </properties>
    <point/>
   </object>

@@ -539,6 +539,9 @@
     <Image Include="assets\animations\ork3.png">
       <Filter>Pliki zasobĂłw</Filter>
     </Image>
+    <Image Include="assets\animations\ork_old.png">
+      <Filter>Pliki zasobĂłw</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <None Include="assets\animations\npc_animations.json" />
@@ -549,5 +552,6 @@
     <None Include="assets\animations\vampire_animations.json" />
     <None Include="assets\animations\ork2_animations.json" />
     <None Include="assets\animations\ork3_animations.json" />
+    <None Include="assets\animations\ork_old_animations.json" />
   </ItemGroup>
 </Project>

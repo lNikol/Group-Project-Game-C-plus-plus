@@ -64,7 +64,7 @@ namespace RPG {
                 if (portraitTex && portraitTex->getSize().x > 0) {
                     m_npcPortrait.emplace(*portraitTex);
                     sf::Vector2i offset = {0, 0};
-                    if (tree->npcPortrait == "vampire" || tree->npcPortrait == "ork" || tree->npcPortrait == "ork2" || tree->npcPortrait == "ork3" || tree->npcPortrait == "knight" || tree->npcPortrait == "player") {
+                    if (tree->npcPortrait == "vampire" || tree->npcPortrait == "ork" || tree->npcPortrait == "ork2" || tree->npcPortrait == "ork3" || tree->npcPortrait == "ork_old" || tree->npcPortrait == "knight" || tree->npcPortrait == "player") {
                         offset = {16, 16};
                     } else if (tree->npcPortrait == "npc") {
                         offset = {8, 16};

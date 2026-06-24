@@ -1,5 +1,5 @@
 {
-  "spritesheet": "ork3.png",
+  "spritesheet": "ork_old.png",
   "defaultFrameGap": 32,
   "animations": {
     "idle_bottom": {

@@ -27,12 +27,13 @@ namespace RPG {
      */
     class Unit : public CombatWorldObject, public ICombatActor {
     public:
-        Unit(std::string name, Team team, Vitals initialVitals);
+        Unit(std::string id, std::string name, Team team, Vitals initialVitals);
         virtual ~Unit() = default;
 
         // ==============================
         // Game Logic Methods
         // ==============================
+        const std::string& getId() const { return m_id; }
         void takeDamage(float amount);
         void heal(float amount);
         bool consumeMana(float amount);
@@ -113,6 +114,7 @@ namespace RPG {
         float getDoubleTurnChance() const { return m_doubleTurnChance; }
 
     private:
+        std::string m_id;
         std::string m_name;
         Team m_team;
         Vitals m_vitals;

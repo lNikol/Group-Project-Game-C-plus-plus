@@ -11,6 +11,7 @@
 #include "MoveCommand.h"
 #include "PartyData.h"
 #include "core/Constants.h"
+#include "core/EventBus.h"
 
 #include <iostream>
 #include <algorithm> 
@@ -824,6 +825,11 @@ namespace RPG {
 
     void BattleManager::onUnitDeath(std::shared_ptr<Unit> deadUnit) {
         std::cout << deadUnit->getName() << " has died!" << std::endl;
+
+        if (deadUnit->getTeam() == Team::Enemy) {
+            EventBus::getInstance().publish(EnemyDefeatedEvent(deadUnit->getId()));
+        }
+
         m_map->removeObject(deadUnit);
         auto it = std::remove(m_turnQueue.begin(), m_turnQueue.end(), deadUnit);
         m_turnQueue.erase(it, m_turnQueue.end());

@@ -13355,7 +13355,7 @@
                         {
                          "name":"texture",
                          "type":"string",
-                         "value":"ork"
+                         "value":"ork_old"
                         }],
                  "rotation":0,
                  "type":"npc_spawn",
@@ -13413,7 +13413,7 @@
                         {
                          "name":"texture",
                          "type":"string",
-                         "value":"ork"
+                         "value":"ork_old"
                         }],
                  "rotation":0,
                  "type":"npc_spawn",

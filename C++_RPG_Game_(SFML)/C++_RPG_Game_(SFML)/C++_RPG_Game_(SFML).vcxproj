@@ -278,6 +278,7 @@
     <Image Include="assets\animations\ork.png" />
     <Image Include="assets\animations\ork2.png" />
     <Image Include="assets\animations\ork3.png" />
+    <Image Include="assets\animations\ork_old.png" />
     <Image Include="assets\animations\player.png" />
     <Image Include="assets\animations\vampire.png" />
     <Image Include="assets\textures\box.png" />
@@ -295,6 +296,7 @@
     <None Include="assets\animations\ork2_animations.json" />
     <None Include="assets\animations\ork3_animations.json" />
     <None Include="assets\animations\ork_animations.json" />
+    <None Include="assets\animations\ork_old_animations.json" />
     <None Include="assets\animations\player_animations.json" />
     <None Include="assets\animations\vampire_animations.json" />
     <None Include="packages.config" />

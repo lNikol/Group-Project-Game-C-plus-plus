@@ -96,7 +96,7 @@ namespace RPG {
         const auto& def = m_definitions[id];
 
         // 1. Create the base unit
-        auto unit = std::make_shared<Unit>(def.name, team, def.baseVitals);
+        auto unit = std::make_shared<Unit>(def.id, def.name, team, def.baseVitals);
         unit->setBaseStats(def.baseStats);
         unit->setInitiative(def.baseInitiative);
         unit->setCritChance(def.baseCritChance);
