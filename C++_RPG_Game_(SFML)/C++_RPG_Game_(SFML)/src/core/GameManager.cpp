@@ -286,8 +286,9 @@ namespace RPG {
                 if (key->scancode == sf::Keyboard::Scancode::Escape) running = false;
 
                 if (key->scancode == sf::Keyboard::Scancode::F3) {
+                    debugSystem.toggle();
                     for (auto& [id, map] : allMaps)
-                        debugSystem.toggle(map->getGameObjects());
+                        debugSystem.applyTo(map->getGameObjects());
                 }
             }
 
