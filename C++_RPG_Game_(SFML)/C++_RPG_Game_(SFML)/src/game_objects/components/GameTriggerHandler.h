@@ -53,8 +53,10 @@ namespace RPG {
                         std::cout << "[Chest] Inventory full, dropped: " << item << "\n";
                     }
                 }
-
+                
+                
                 ChestWindow::getInstance().setResults(addedItems);
+
 
                 return true;
             }

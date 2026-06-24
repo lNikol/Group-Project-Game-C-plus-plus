@@ -4,6 +4,7 @@
 #include "JournalWindow.h"
 #include "worldmap/AssetManager.h"
 #include <cmath>
+#include "BestiaryWindow.h"
 
 namespace RPG {
 
@@ -18,7 +19,7 @@ namespace RPG {
         // Initialize Windows
         m_inventoryWindow = std::make_unique<InventoryWindow>(iconSet, font);
         m_journalWindow = std::make_unique<JournalWindow>(font);
-        m_bestiaryWindow = std::make_unique<WindowBase>(font, sf::Vector2f(500.f, 600.f), "Bestiary");
+        m_bestiaryWindow = std::make_unique<BestiaryWindow>(font);
         m_inventoryWindow->hide();
         m_journalWindow->hide();
         m_bestiaryWindow->hide();
@@ -65,8 +66,6 @@ namespace RPG {
             }
         );
         m_bestiaryBtn->setAbility(openBestiary);
-
-
 
     }
 
