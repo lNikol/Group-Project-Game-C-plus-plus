@@ -430,24 +430,24 @@
                         {
                          "name":"action",
                          "type":"string",
-                         "value":"startdialog"
-                        }, 
-                        {
-                         "name":"dialogId",
-                         "type":"int",
-                         "value":665
+                         "value":"ChangeScene"
                         }, 
                         {
                          "name":"oneShot",
                          "type":"string",
-                         "value":"false"
+                         "value":"true"
+                        }, 
+                        {
+                         "name":"targetScene",
+                         "type":"string",
+                         "value":"battle"
                         }],
                  "rotation":0,
                  "type":"trigger",
                  "visible":true,
                  "width":98,
-                 "x":-986.667,
-                 "y":122.667
+                 "x":-818.000333333333,
+                 "y":119.333666666667
                 }, 
                 {
                  "height":38,
@@ -469,8 +469,36 @@
                  "type":"trigger",
                  "visible":true,
                  "width":45.3333,
-                 "x":-906.66665,
-                 "y":318.333333333333
+                 "x":-906.667,
+                 "y":318.333
+                }, 
+                {
+                 "height":38,
+                 "id":366,
+                 "name":"trigger",
+                 "opacity":1,
+                 "properties":[
+                        {
+                         "name":"action",
+                         "type":"string",
+                         "value":"ChangeScene"
+                        }, 
+                        {
+                         "name":"oneShot",
+                         "type":"bool",
+                         "value":true
+                        }, 
+                        {
+                         "name":"targetScene",
+                         "type":"string",
+                         "value":"battle"
+                        }],
+                 "rotation":0,
+                 "type":"trigger",
+                 "visible":true,
+                 "width":45.3333,
+                 "x":-959.333316666667,
+                 "y":145
                 }],
          "opacity":1,
          "properties":[
@@ -3181,7 +3209,7 @@
          "y":0
         }],
  "nextlayerid":7,
- "nextobjectid":366,
+ "nextobjectid":367,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.12.0",

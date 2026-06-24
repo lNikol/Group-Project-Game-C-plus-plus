@@ -167,7 +167,7 @@ namespace RPG {
             case FactionID::WhiteOrder:   path = GameConfig::WORLD_PATH + "white_base.tmj";  break;
             case FactionID::DarkOrder:    path = GameConfig::WORLD_PATH + "dark_base.tmj";   break;
             case FactionID::NeutralOrder: path = GameConfig::WORLD_PATH + "neutral.tmj";     break;
-            default:                      path = GameConfig::WORLD_PATH + "neutral.tmj";     break;
+            default:                      path = GameConfig::WORLD_PATH + "world.tmj";     break;
         }
 
         std::cout << "[GameManager] Loading: " << path << "\n";
@@ -187,6 +187,11 @@ namespace RPG {
     }
 
     void GameManager::changeScene(FactionID targetFaction) {
+        m_pendingSceneChange = targetFaction;
+    }
+
+
+    void GameManager::executeChangeScene(FactionID targetFaction) {
         auto selectedMap = getOrLoadMap(targetFaction);
 
         std::unique_ptr<GameObject> player = nullptr;
@@ -218,14 +223,14 @@ namespace RPG {
 
             GameObject* ptr = player.get();
             selectedMap->addGameObject(std::move(player));
-            selectedMap->setPlayerReference(ptr); 
+            selectedMap->setPlayerReference(ptr);
         }
         else {
             std::cerr << "[GameManager] WARNING: No player — spawning new one.\n";
             auto newPlayer = Factory::createPlayer(AssetManager::getInstance(), selectedMap.get(), newPos);
             GameObject* ptr = newPlayer.get();
             selectedMap->addGameObject(std::move(newPlayer));
-            selectedMap->setPlayerReference(ptr); 
+            selectedMap->setPlayerReference(ptr);
         }
 
         switch (targetFaction) {
@@ -242,7 +247,7 @@ namespace RPG {
 
         activeFaction = targetFaction;
         std::cout << "[GameManager] Scene -> " << (int)targetFaction
-                  << " | cache: " << allMaps.size() << "\n";
+            << " | cache: " << allMaps.size() << "\n";
     }
 
     void GameManager::run() {
@@ -300,8 +305,15 @@ namespace RPG {
     }
 
     void GameManager::update(float dt) {
+        if (m_pendingSceneChange.has_value()) {
+            FactionID target = m_pendingSceneChange.value();
+            m_pendingSceneChange.reset();
+            executeChangeScene(target);
+        }
+
         if (currentScene) currentScene->update(dt, window);
         if (m_systemHud) m_systemHud->update(dt);
+
     }
 
     void GameManager::draw() {

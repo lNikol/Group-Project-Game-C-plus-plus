@@ -46,16 +46,19 @@ namespace RPG {
             sf::Vector2f playerFeet = Physics::getFeetPosition(player);
 
             for (auto& entity : entities) {
+                if (entity == nullptr) continue;
+
                 auto* trigger = entity->getComponent<TriggerComponent>();
                 if (!trigger || !trigger->active) continue;
 
                 if (!isInside(*trigger, entity->getPosition(), playerFeet)) continue;
 
+                if (trigger->oneShot) trigger->active = false;
+
                 for (auto& handler : handlers) {
                     if (handler->handle(*trigger, entity.get())) break;
                 }
 
-                if (trigger->oneShot) trigger->active = false;
             }
         }
 

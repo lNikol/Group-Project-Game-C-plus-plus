@@ -30,6 +30,8 @@ namespace RPG {
         const Spritesheet* m_iconSet = nullptr;
         const sf::Font* m_globalFont = nullptr;
 
+        std::optional<FactionID> m_pendingSceneChange;
+
         std::unique_ptr<Scene> currentScene;
         FactionID activeFaction;
         sf::Vector2f lastWorldPosition;
@@ -48,6 +50,7 @@ namespace RPG {
         GameManager();
         void run();
         void changeScene(FactionID targetFaction) override;
+        void executeChangeScene(FactionID targetFaction);
         ~GameManager();
     };
 

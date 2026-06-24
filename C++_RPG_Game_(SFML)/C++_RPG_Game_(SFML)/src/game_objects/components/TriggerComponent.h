@@ -40,7 +40,7 @@ namespace RPG {
 
         TriggerAction action = TriggerAction::ChangeScene;
 
-        FactionID targetScene = FactionID::NeutralOrder; 
+        FactionID targetScene = FactionID::MainWorld; 
         int dialogId = -1; // for StartDialog
         std::string questId = ""; // for UpdateQuest
         bool isCompletingQuest = false; // false = Start Quest, true = Complete Quest

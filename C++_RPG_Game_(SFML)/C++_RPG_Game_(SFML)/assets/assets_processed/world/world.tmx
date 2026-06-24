@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.12.0" orientation="orthogonal" renderorder="right-down" width="30" height="20" tilewidth="32" tileheight="32" infinite="1" nextlayerid="7" nextobjectid="366">
+<map version="1.10" tiledversion="1.12.0" orientation="orthogonal" renderorder="right-down" width="30" height="20" tilewidth="32" tileheight="32" infinite="1" nextlayerid="7" nextobjectid="367">
  <editorsettings>
   <export target="world.tmj" format="json"/>
  </editorsettings>
@@ -151,11 +151,11 @@
     <property name="targetScene" value="neutral"/>
    </properties>
   </object>
-  <object id="364" name="trigger" type="trigger" x="-986.667" y="122.667" width="98" height="98">
+  <object id="364" name="trigger" type="trigger" x="-818" y="119.334" width="98" height="98">
    <properties>
-    <property name="action" value="startdialog"/>
-    <property name="dialogId" type="int" value="665"/>
-    <property name="oneShot" value="false"/>
+    <property name="action" value="ChangeScene"/>
+    <property name="oneShot" value="true"/>
+    <property name="targetScene" value="battle"/>
    </properties>
    <ellipse/>
   </object>
@@ -163,6 +163,13 @@
    <properties>
     <property name="action" value="openchest"/>
     <property name="oneShot" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="366" name="trigger" type="trigger" x="-959.333" y="145" width="45.3333" height="38">
+   <properties>
+    <property name="action" value="ChangeScene"/>
+    <property name="oneShot" type="bool" value="true"/>
+    <property name="targetScene" value="battle"/>
    </properties>
   </object>
  </objectgroup>

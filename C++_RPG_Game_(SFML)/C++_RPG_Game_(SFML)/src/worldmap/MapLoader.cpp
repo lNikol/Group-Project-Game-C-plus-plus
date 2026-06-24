@@ -170,7 +170,7 @@ namespace RPG {
                     }
 
                     tc->action = mapTrigger(getStrProperty(obj, "action", ""));
-                    tc->targetScene = mapFaction(getStrProperty(obj, "targetScene", "neutral"));
+                    tc->targetScene = mapFaction(getStrProperty(obj, "targetScene", "main"));
                     tc->dialogId = getIntProperty(obj, "dialogId", -1);
                     tc->oneShot =  getStrProperty(obj, "oneShot", "true") == "true";
 
