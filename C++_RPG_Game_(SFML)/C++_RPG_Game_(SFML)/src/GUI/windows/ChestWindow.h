@@ -86,7 +86,7 @@ namespace RPG {
                     auto slot = std::make_unique<ActionSlot>(
                         *m_iconSet, *m_font, sf::Vector2f(slotSize, slotSize));
                     slot->setAbility(lootedItems[i]);
-                    slot->setPosition({ startX + i * (slotSize + spacing), currentY });
+                    slot->setPosition({ startX + i * (slotSize + spacing) - 30.f, currentY });
                     slot->setInteractive(false);
                     addChild(std::move(slot));
                 }

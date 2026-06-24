@@ -13,11 +13,14 @@
             "scaleInDock": 1
         },
         "E:/PG/Semestr 5/Group Project/Code/Group-Project-Game-C-plus-plus/C++_RPG_Game_(SFML)/C++_RPG_Game_(SFML)/assets/assets_processed/main_world/world.tmx": {
+            "expandedObjectLayers": [
+                6
+            ],
             "scale": 1.5,
             "selectedLayer": 4,
             "viewCenter": {
-                "x": 659,
-                "y": 186
+                "x": 1180.3333333333335,
+                "y": 155.33333333333331
             }
         },
         "collection.tsx": {
@@ -72,7 +75,7 @@
             }
         }
     },
-    "last.exportedFilePath": "E:/PG/Semestr 5/Group Project/Code/Group-Project-Game-C-plus-plus/C++_RPG_Game_(SFML)/C++_RPG_Game_(SFML)/assets/assets_processed/world",
+    "last.exportedFilePath": "E:/PG/Semestr 5/Group Project/Code/Group-Project-Game-C-plus-plus/C++_RPG_Game_(SFML)/C++_RPG_Game_(SFML)/assets/assets_processed/main_world",
     "last.externalTilesetPath": "E:/PG/Semestr 5/Group Project/Code/Group-Project-Game-C-plus-plus/C++_RPG_Game_(SFML)/C++_RPG_Game_(SFML)/assets/assets_processed/world",
     "map.fixedSize": false,
     "map.lastUsedExportFilter": "JSON map files (*.tmj *.json)",
@@ -86,9 +89,9 @@
     "project": "world.tiled-project",
     "property.type": "bool",
     "recentFiles": [
-        "world.tmj",
-        "neutral.tmj",
         "collection.tsx",
+        "neutral.tmj",
+        "world.tmj",
         "world.tmx"
     ],
     "tileset.lastUsedFilter": "Tiled tileset files (*.tsx *.xml)"
