@@ -11,6 +11,28 @@
 #include "core/EventBus.h"
 #include "game_objects/components/components.h"
 
+#include <array>
+#include <random>
+#include <chrono>
+
+static std::string pickRandomEncounter() {
+    static const std::array<std::string, 6> encounters = {
+        "assets/jsons/encounters/enc_01_tutorial.json",
+        "assets/jsons/encounters/enc_02_chokepoint.json",
+        "assets/jsons/encounters/enc_03_ambush.json",
+        "assets/jsons/encounters/enc_04_aoe_test.json",
+        "assets/jsons/encounters/enc_05_winter_maze.json",
+        "assets/jsons/encounters/enc_06_boss_battle.json"
+    };
+
+    auto seed = std::chrono::high_resolution_clock::now().time_since_epoch().count();
+    static std::mt19937 rng(static_cast<unsigned int>(seed));
+    static std::uniform_int_distribution<size_t> dist(0, encounters.size() - 1);
+
+    return encounters[dist(rng)];
+}
+
+
 namespace RPG {
 
     GameManager::GameManager()
@@ -208,7 +230,7 @@ namespace RPG {
 
         switch (targetFaction) {
         case FactionID::BattleScene:
-            currentScene = std::make_unique<BattleScene>(*this, window, playerUnit, "assets/jsons/encounters/enc_01_tutorial.json");
+            currentScene = std::make_unique<BattleScene>(*this, window, playerUnit, pickRandomEncounter());
             break;
         case FactionID::MainWorld:
             currentScene = std::make_unique<WorldScene>(*this, selectedMap);
