@@ -78,8 +78,7 @@ namespace RPG {
         sf::Text m_titleText;
 
         // Close Button
-        sf::RectangleShape m_closeBtnRect;
-        sf::Text m_closeBtnText;
+        std::optional<sf::Sprite> m_closeBtnSprite;
         bool m_closeBtnHovered = false;
 
         // State

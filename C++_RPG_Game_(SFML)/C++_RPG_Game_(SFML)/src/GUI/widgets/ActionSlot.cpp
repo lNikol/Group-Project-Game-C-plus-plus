@@ -31,8 +31,10 @@ namespace RPG {
         m_overlay.setFillColor(sf::Color(0, 0, 0, 180)); // Darker fade
 
         // Setup Icon
-        float scale = size.x / ICON_SIZE;
+        float scale = (size.x / ICON_SIZE) * 0.7f;
         m_icon.setScale({ scale, scale });
+        float scaledIconSize = ICON_SIZE * scale;
+        m_icon.setPosition({ (size.x - scaledIconSize) / 2.f, (size.y - scaledIconSize) / 2.f });
 
         // Setup Charges Text (Bottom Right)
         m_chargesText.setCharacterSize(10);

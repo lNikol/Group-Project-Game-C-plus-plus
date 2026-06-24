@@ -281,7 +281,8 @@ namespace RPG {
             return;
         }
 
-        fontMap.emplace(name, std::move(font));
+        font.setSmooth(false);
+        fontMap[name] = std::move(font);
     }
 
     const sf::Font* AssetManager::getFont(const std::string& name) const {

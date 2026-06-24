@@ -55,6 +55,7 @@ namespace RPG {
         AssetManager::getInstance().addSpritesheet("AbilityIcons",  GameConfig::TEXTURES_PATH + "placeholders/IconSet.png");
         AssetManager::getInstance().addTexture("ui_window",         GameConfig::TEXTURES_PATH + "placeholders/UI_Window.png");
         AssetManager::getInstance().addTexture("ui_slot",           GameConfig::TEXTURES_PATH + "placeholders/ui_slot.png");
+        AssetManager::getInstance().addTexture("close_button",      GameConfig::TEXTURES_PATH + "placeholders/close_button.png");
         AssetManager::getInstance().addFont("PixelFont",            GameConfig::ASSETS_PATH   + "fonts/m5x7.ttf");
         AssetManager::getInstance().addSpritesheet("BattleChars",   GameConfig::TEXTURES_PATH + "placeholders/characters1.png");
         AssetManager::getInstance().addSpritesheet("BattleEnemies", GameConfig::TEXTURES_PATH + "placeholders/Monster1.png");

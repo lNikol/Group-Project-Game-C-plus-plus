@@ -12,9 +12,9 @@ namespace RPG {
         : m_iconSet(iconSet), m_font(font), m_tooltip(font)
     {
         // Initialize System Buttons
-        m_satchelBtn = std::make_unique<ActionSlot>(iconSet, font, sf::Vector2f(80.f, 80.f));
-        m_journalBtn = std::make_unique<ActionSlot>(iconSet, font, sf::Vector2f(80.f, 80.f));
-        m_bestiaryBtn = std::make_unique<ActionSlot>(iconSet, font, sf::Vector2f(80.f, 80.f));
+        m_satchelBtn = std::make_unique<ActionSlot>(iconSet, font, sf::Vector2f(50.f, 50.f));
+        m_journalBtn = std::make_unique<ActionSlot>(iconSet, font, sf::Vector2f(50.f, 50.f));
+        m_bestiaryBtn = std::make_unique<ActionSlot>(iconSet, font, sf::Vector2f(50.f, 50.f));
 
         // Initialize Windows
         m_inventoryWindow = std::make_unique<InventoryWindow>(iconSet, font);
@@ -75,9 +75,9 @@ namespace RPG {
         float maxH = h - 40.f;
 
         // Position Buttons Bottom-Right
-        m_bestiaryBtn->setPosition(sf::Vector2f(w - 90.f, h - 90.f));
-        m_journalBtn->setPosition(sf::Vector2f(w - 180.f, h - 90.f));
-        m_satchelBtn->setPosition(sf::Vector2f(w - 270.f, h - 90.f));
+        m_bestiaryBtn->setPosition(sf::Vector2f(w - 60.f, h - 60.f));
+        m_journalBtn->setPosition(sf::Vector2f(w - 110.f, h - 60.f));
+        m_satchelBtn->setPosition(sf::Vector2f(w - 160.f, h - 60.f));
 
         // Center Windows
         if (m_inventoryWindow) {

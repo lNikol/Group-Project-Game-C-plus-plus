@@ -4,7 +4,7 @@
 namespace RPG {
 
     WindowBase::WindowBase(const sf::Font& font, const sf::Vector2f& size, const std::string& title)
-        : m_titleText(font), m_closeBtnText(font)
+        : m_titleText(font)
     {
         // Background NineSlice
         const sf::Texture* windowTex = AssetManager::getInstance().getTexture("ui_window");
@@ -20,28 +20,27 @@ namespace RPG {
         m_titleText.setPosition({ 10.f, 4.f });
 
         // Close Button (Top Right)
+        const sf::Texture* closeTex = AssetManager::getInstance().getTexture("close_button");
+        if (closeTex) {
+            m_closeBtnSprite.emplace(*closeTex);
+        }
         float btnSize = 24.f;
-        m_closeBtnRect.setSize({ btnSize, btnSize });
-        m_closeBtnRect.setFillColor(sf::Color(150, 50, 50)); // Red
-        m_closeBtnRect.setOutlineColor(sf::Color::White);
-        m_closeBtnRect.setOutlineThickness(1.f);
-        m_closeBtnRect.setPosition({ size.x - btnSize - 4.f, 3.f }); // 4px padding
-
-        m_closeBtnText.setString("X");
-        m_closeBtnText.setCharacterSize(16);
-        m_closeBtnText.setFillColor(sf::Color::White);
-        // Center 'X'
-        sf::FloatRect textBounds = m_closeBtnText.getLocalBounds();
-        m_closeBtnText.setOrigin(textBounds.position + textBounds.size / 2.f);
-        m_closeBtnText.setPosition(m_closeBtnRect.getPosition() + sf::Vector2f(btnSize / 2.f, btnSize / 2.f));
+        if (m_closeBtnSprite.has_value()) {
+            sf::FloatRect texBounds = m_closeBtnSprite->getLocalBounds();
+            if (texBounds.size.x > 0) {
+                m_closeBtnSprite->setScale({ btnSize / texBounds.size.x, btnSize / texBounds.size.y });
+            }
+            m_closeBtnSprite->setPosition({ size.x - btnSize - 4.f, 3.f }); // 4px padding
+        }
     }
 
     void WindowBase::setSize(const sf::Vector2f& size) {
         m_background.setSize(size);
         
         float btnSize = 24.f;
-        m_closeBtnRect.setPosition({ size.x - btnSize - 4.f, 3.f });
-        m_closeBtnText.setPosition(m_closeBtnRect.getPosition() + sf::Vector2f(btnSize / 2.f, btnSize / 2.f));
+        if (m_closeBtnSprite.has_value()) {
+            m_closeBtnSprite->setPosition({ size.x - btnSize - 4.f, 3.f });
+        }
     }
 
     sf::Vector2f WindowBase::getSize() const {
@@ -78,9 +77,15 @@ namespace RPG {
             mousePos = window.mapPixelToCoords(move->position);
 
             // Check Hover on Close Button
-            sf::FloatRect closeGlobal = getTransform().transformRect(m_closeBtnRect.getGlobalBounds());
-            m_closeBtnHovered = closeGlobal.contains(mousePos);
-            m_closeBtnRect.setFillColor(m_closeBtnHovered ? sf::Color(200, 50, 50) : sf::Color(150, 50, 50));
+            if (m_closeBtnSprite.has_value()) {
+                sf::FloatRect closeGlobal = getTransform().transformRect(m_closeBtnSprite->getGlobalBounds());
+                m_closeBtnHovered = closeGlobal.contains(mousePos);
+                if (m_closeBtnHovered) {
+                    m_closeBtnSprite->setColor(sf::Color(200, 200, 200));
+                } else {
+                    m_closeBtnSprite->setColor(sf::Color::White);
+                }
+            }
         }
         else if (const auto* click = event.getIf<sf::Event::MouseButtonPressed>()) {
             mousePos = window.mapPixelToCoords(click->position);
@@ -134,8 +139,9 @@ namespace RPG {
         target.draw(m_titleText, states);
 
         // Draw Close Button
-        target.draw(m_closeBtnRect, states);
-        target.draw(m_closeBtnText, states);
+        if (m_closeBtnSprite.has_value()) {
+            target.draw(*m_closeBtnSprite, states);
+        }
 
         // Draw Children (Buttons, Slots)
         for (const auto& child : m_children) {
