@@ -35,8 +35,8 @@ namespace RPG {
         m_charNameText.setPosition({ charStartX + 25.f, charStartY + 2.f });
 
         float eqBaseX = 30.f;
-        float eqBaseY = 80.f;
-        float slotSize = 40.f;
+        float eqBaseY = 90.f;
+        float slotSize = 39.f;
         float sp = 10.f;
 
         auto addEquipSlot = [&](EquipSlot type, float xOffset, float yOffset) {
