@@ -155,7 +155,7 @@
       "radius": 0.0,
       "manaCost": 0.0,
       "staminaCost": 0.0,
-      "chestChance": 0.44,
+      "chestChance": 0.33,
       "isConsumable": true,
       "maxCharges": 3,
       "effects": [
@@ -179,7 +179,7 @@
       "radius": 45.0,
       "manaCost": 0.0,
       "staminaCost": 0.0,
-      "chestChance": 0.5,
+      "chestChance": 0.35,
       "isConsumable": true,
       "maxCharges": 1,
       "effects": [
@@ -231,16 +231,16 @@
       "iconIndex": 148,
       "isEquippable": true,
       "equipSlot": "MainHand",
+      "chestChance": 0.5,
       "statModifiers": {
         "Strength": 5.0
       },
-      "grantedAbilities": [
-        "slash"
-      ]
+      "grantedAbilities": ["slash"]
     },
     {
       "id": "leather_armor",
       "name": "Leather Armor",
+      "chestChance": 0.75,
       "description": "Lightweight armor that slightly boosts Vitality and Dexterity.",
       "iconIndex": 169,
       "isEquippable": true,
@@ -253,6 +253,7 @@
     {
       "id": "ring_of_wisdom",
       "name": "Ring of Wisdom",
+      "chestChance": 0.25,
       "description": "A glowing ring that greatly enhances Intellect.",
       "iconIndex": 177,
       "isEquippable": true,

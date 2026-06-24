@@ -286,9 +286,6 @@ namespace RPG {
         window.clear(sf::Color(0x606030FF));
         if (currentScene) currentScene->draw(window);
         if (m_systemHud) window.draw(*m_systemHud);
-        if (ChestWindow::getInstance().isVisible()) {
-            window.draw(ChestWindow::getInstance());
-        }
 
         window.display();
     }

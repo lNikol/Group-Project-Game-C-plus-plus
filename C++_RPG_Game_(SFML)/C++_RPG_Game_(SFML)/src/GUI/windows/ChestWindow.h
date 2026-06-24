@@ -1,30 +1,45 @@
 #pragma once
 #include "GUI/windows/WindowBase.h"
-#include "GUI/widgets/TextWidget.h"
 #include "GUI/widgets/ActionSlot.h"
+#include "GUI/widgets/TextWidget.h"
 #include "Interfaces/IAbility.h"
 #include "worldmap/AssetManager.h"
-#include <SFML/Graphics.hpp>
+#include "core/Constants.h"
 #include <vector>
 #include <memory>
 #include <functional>
 
 namespace RPG {
 
+    /**
+     * @brief Modal window shown when the player opens a chest.
+     * Mirrors VictoryWindow layout but without gold — shows items only.
+     * Singleton: access via ChestWindow::getInstance().
+     */
     class ChestWindow : public WindowBase {
     public:
-        ChestWindow(const ChestWindow&) = delete;
-        ChestWindow& operator=(const ChestWindow&) = delete;
-
         static ChestWindow& getInstance() {
             static ChestWindow instance;
             return instance;
         }
 
-        void showResults(const std::vector<std::shared_ptr<IAbility>>& lootedItems) {
+        /**
+         * @brief Populates the window with looted items, centers it, and shows it.
+         * Pass addedItems (only what actually fit into inventory).
+         */
+        void setResults(const std::vector<std::shared_ptr<IAbility>>& lootedItems) {
             buildLayout(lootedItems);
-            centerOnScreen();
+            sf::Vector2f size = getSize();
+            setPosition({
+                (Window::WIDTH - size.x) / 2.f,
+                (Window::HEIGHT - size.y) / 2.f
+                });
+
             show();
+        }
+
+        bool handleEvent(sf::RenderWindow& window, const sf::Event& event) override {
+            return WindowBase::handleEvent(window, event);
         }
 
     private:
@@ -33,8 +48,8 @@ namespace RPG {
 
         ChestWindow()
             : WindowBase(
-                *AssetManager::getInstance().getFont("PixelFont"), 
-                { 300.f, 200.f },
+                *AssetManager::getInstance().getFont("PixelFont"),
+                sf::Vector2f(300.f, 250.f),
                 "Chest Opened!"
             )
         {
@@ -42,25 +57,27 @@ namespace RPG {
             m_iconSet = AssetManager::getInstance().getSpritesheet("AbilityIcons");
         }
 
-
         void buildLayout(const std::vector<std::shared_ptr<IAbility>>& lootedItems) {
             m_children.clear();
-            float currentY = 400.f;
-            float centerX = getSize().x / 2.f;
 
             if (!m_font || !m_iconSet) return;
 
-            if (!lootedItems.empty()) {
-                auto lootLabel = std::make_unique<TextWidget>(
-                    *m_font, "Items Found:", 18, sf::Color::White);
-                sf::FloatRect lb = lootLabel->getGlobalBounds();
-                lootLabel->setPosition({ centerX - lb.size.x / 2.f, currentY });
-                addChild(std::move(lootLabel));
-                currentY += 30.f;
+            float currentY = 40.f;
+            float centerX = getSize().x / 2.f;
 
+            if (!lootedItems.empty()) {
+                // Header
+                auto header = std::make_unique<TextWidget>(
+                    *m_font, "You got loot!", 20, sf::Color::Yellow);
+                sf::FloatRect hb = header->getGlobalBounds();
+                header->setPosition({ centerX - hb.size.x / 2.f, currentY });
+                addChild(std::move(header));
+                currentY += 40.f;
+
+                // Item icon row — centered, same as VictoryWindow
                 const float slotSize = 40.f;
                 const float spacing = 10.f;
-                int count = static_cast<int>(lootedItems.size());
+                int   count = static_cast<int>(lootedItems.size());
                 float totalWidth = count * slotSize + (count - 1) * spacing;
                 float startX = centerX - totalWidth / 2.f;
 
@@ -75,22 +92,16 @@ namespace RPG {
             }
             else {
                 auto emptyLabel = std::make_unique<TextWidget>(
-                    *m_font, "The chest was empty.", 18, sf::Color(150, 150, 150));
+                    *m_font, "The chest was empty.", 16, sf::Color(150, 150, 150));
                 sf::FloatRect lb = emptyLabel->getGlobalBounds();
                 emptyLabel->setPosition({ centerX - lb.size.x / 2.f, currentY });
                 addChild(std::move(emptyLabel));
                 currentY += 30.f;
-            }
+            };
 
-            setSize({ getSize().x, currentY + 10.f });
-        }
-
-        void centerOnScreen() {
-            float windowX = getSize().x;
-            float windowY = getSize().y;
-
-            setPosition({ (Window::WIDTH - windowX) / 2.f, (Window::HEIGHT - windowY) / 2.f });
+            setSize({ getSize().x, getSize().y });
         }
 
     };
+
 }

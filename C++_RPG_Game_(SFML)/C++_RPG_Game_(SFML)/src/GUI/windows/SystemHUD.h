@@ -4,6 +4,7 @@
 #include <memory>
 #include "GUI/widgets/ActionSlot.h"
 #include "GUI/windows/WindowBase.h"
+#include "GUI/windows/ChestWindow.h"
 #include "GUI/widgets/Tooltip.h"
 
 namespace RPG {
@@ -40,6 +41,8 @@ namespace RPG {
         std::unique_ptr<WindowBase> m_inventoryWindow;
         std::unique_ptr<WindowBase> m_journalWindow;
         std::unique_ptr<WindowBase> m_bestiaryWindow;
+
+        WindowBase* m_chestWindow = nullptr;
 
         // Internal State
         sf::View m_uiView;

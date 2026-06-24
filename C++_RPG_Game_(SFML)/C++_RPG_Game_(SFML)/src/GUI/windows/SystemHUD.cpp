@@ -2,6 +2,7 @@
 #include "OpenWindowCommand.h"
 #include "InventoryWindow.h"
 #include "JournalWindow.h"
+#include "worldmap/AssetManager.h"
 #include <cmath>
 
 namespace RPG {
@@ -21,6 +22,11 @@ namespace RPG {
         m_inventoryWindow->hide();
         m_journalWindow->hide();
         m_bestiaryWindow->hide();
+
+        m_chestWindow = &ChestWindow::getInstance();
+        m_chestWindow->hide();
+
+
 
         // Connect the Buttons to the Windows
         auto openBag = std::make_shared<OpenWindowCommand>(
@@ -59,6 +65,9 @@ namespace RPG {
             }
         );
         m_bestiaryBtn->setAbility(openBestiary);
+
+
+
     }
 
     void SystemHUD::onResize(const sf::Vector2u& newSize) {
@@ -157,6 +166,11 @@ namespace RPG {
             window.setView(oldView);
             return;
         }
+        if (m_chestWindow && m_chestWindow->handleEvent(window, event)) {
+            window.setView(oldView);
+            return;
+        }
+
 
         // Then buttons
         if (m_satchelBtn->handleEvent(window, event)) {
@@ -208,6 +222,7 @@ namespace RPG {
         if (m_inventoryWindow->isVisible() && m_inventoryWindow->getGlobalBounds().contains(m_mousePos)) return true;
         if (m_journalWindow->isVisible() && m_journalWindow->getGlobalBounds().contains(m_mousePos)) return true;
         if (m_bestiaryWindow->isVisible() && m_bestiaryWindow->getGlobalBounds().contains(m_mousePos)) return true;
+        if (m_chestWindow && m_chestWindow->isVisible() && m_chestWindow->getGlobalBounds().contains(m_mousePos)) return true;
 
         return false;
     }
@@ -241,6 +256,10 @@ namespace RPG {
             const_cast<Tooltip&>(m_tooltip).update(tip, m_mousePos, m_uiView.getSize());
             target.draw(m_tooltip);
         }
+
+
+        if (m_chestWindow) target.draw(*m_chestWindow);
+
 
         target.setView(oldView);
     }
