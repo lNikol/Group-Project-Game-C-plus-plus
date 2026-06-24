@@ -99,11 +99,11 @@ namespace RPG {
         if (const auto* mouseClick = event.getIf<sf::Event::MouseButtonPressed>()) {
             if (mouseClick->button == sf::Mouse::Button::Left && m_isHovered) {
                 updateHoverState(window, mouseClick->position);
-                if (m_ability != nullptr)
+                if (m_isInteractive && m_ability != nullptr)
                 {
                     m_ability->execute();
-                    return true;
                 }
+                return true;
             }
         }
         return false;

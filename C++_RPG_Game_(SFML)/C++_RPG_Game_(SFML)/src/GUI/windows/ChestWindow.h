@@ -40,6 +40,7 @@ namespace RPG {
 
         bool handleEvent(sf::RenderWindow& window, const sf::Event& event) override {
             return WindowBase::handleEvent(window, event);
+            return true;
         }
 
     private:
@@ -86,6 +87,7 @@ namespace RPG {
                         *m_iconSet, *m_font, sf::Vector2f(slotSize, slotSize));
                     slot->setAbility(lootedItems[i]);
                     slot->setPosition({ startX + i * (slotSize + spacing), currentY });
+                    slot->setInteractive(false);
                     addChild(std::move(slot));
                 }
                 currentY += slotSize + 20.f;

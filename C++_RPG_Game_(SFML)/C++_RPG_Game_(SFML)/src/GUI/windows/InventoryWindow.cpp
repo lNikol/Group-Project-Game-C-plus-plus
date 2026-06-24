@@ -159,6 +159,7 @@ namespace RPG {
 
                 for (auto* slot : m_bagSlots) {
                     if (slot->getGlobalBounds().contains(mousePos) && slot->getAbility()) {
+                        hide();
                         slot->getAbility()->execute();
                         return true;
                     }
