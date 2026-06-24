@@ -25,6 +25,9 @@ namespace RPG {
         void update(float dt, const sf::RenderWindow& window) override;
         void draw(sf::RenderWindow& window) override;
 
+        bool isBattleScene() const override;
+
+
     private:
         ISceneController&              m_controller;
         std::unique_ptr<BattleManager> m_battleManager;

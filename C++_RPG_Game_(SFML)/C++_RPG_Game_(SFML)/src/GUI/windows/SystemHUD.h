@@ -13,7 +13,7 @@ namespace RPG {
         SystemHUD(const Spritesheet& iconSet, const sf::Font& font);
         ~SystemHUD() = default;
 
-        void handleEvent(sf::RenderWindow& window, const sf::Event& event);
+        void handleEvent(sf::RenderWindow& window, const sf::Event& event, bool isBattleScene);
         void onResize(const sf::Vector2u& newSize);
         void update(float dt);
 

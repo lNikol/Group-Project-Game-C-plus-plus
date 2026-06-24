@@ -41,7 +41,16 @@ namespace RPG {
         if (str == "AreaAlly") return TargetType::AreaAlly;
         return TargetType::SingleEnemy; // Default
     }
-
+    EquipSlot AbilityFactory::parseEquipSlot(const std::string& str) const {
+        if (str == "Head") return EquipSlot::Head;
+        if (str == "Chest") return EquipSlot::Chest;
+        if (str == "MainHand") return EquipSlot::MainHand;
+        if (str == "OffHand") return EquipSlot::OffHand;
+        if (str == "Feet") return EquipSlot::Feet;
+        if (str == "Ring") return EquipSlot::Ring;
+        if (str == "Necklace") return EquipSlot::Necklace;
+        return EquipSlot::None;
+    }
     // ==========================================
     // JSON Loading Logic
     // ==========================================
@@ -84,6 +93,20 @@ namespace RPG {
             def.chestChance = item.value("chestChance", 0.0f);
             def.isConsumable = item.value("isConsumable", false);
             def.maxCharges = item.value("maxCharges", -1);
+
+            def.isEquippable = item.value("isEquippable", false);
+            def.equipSlot = parseEquipSlot(item.value("equipSlot", "None"));
+
+            if (item.contains("statModifiers") && item["statModifiers"].is_object()) {
+                for (auto& [key, val] : item["statModifiers"].items()) {
+                    def.statModifiers[parseStatType(key)] = val.get<float>();
+                }
+            }
+
+            if (item.contains("grantedAbilities") && item["grantedAbilities"].is_array()) {
+                def.grantedAbilities = item["grantedAbilities"].get<std::vector<std::string>>();
+            }
+
             if (item.contains("effects") && item["effects"].is_array()) {
                 for (const auto& eff : item["effects"]) {
                     EffectData effectData;

@@ -53,5 +53,6 @@ namespace RPG {
         StatType parseStatType(const std::string& str) const;
         EffectType parseEffectType(const std::string& str) const;
         TargetType parseTargetType(const std::string& str) const;
+        EquipSlot parseEquipSlot(const std::string& str) const;
     };
 }

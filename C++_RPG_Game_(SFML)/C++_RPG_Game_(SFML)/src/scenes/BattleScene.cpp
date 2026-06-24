@@ -49,4 +49,6 @@ namespace RPG {
     void BattleScene::draw(sf::RenderWindow& window) {
         if (m_battleManager) m_battleManager->render(window);
     }
+
+    bool BattleScene::isBattleScene() const { return true; }
 }

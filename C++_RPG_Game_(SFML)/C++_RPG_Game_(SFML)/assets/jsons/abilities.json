@@ -223,6 +223,43 @@
           "applyChance": 0.6
         }
       ]
+    },
+    {
+      "id": "iron_sword",
+      "name": "Iron Sword",
+      "description": "A sturdy iron blade. Increases Strength and grants the Slash ability.",
+      "iconIndex": 148,
+      "isEquippable": true,
+      "equipSlot": "MainHand",
+      "statModifiers": {
+        "Strength": 5.0
+      },
+      "grantedAbilities": [
+        "slash"
+      ]
+    },
+    {
+      "id": "leather_armor",
+      "name": "Leather Armor",
+      "description": "Lightweight armor that slightly boosts Vitality and Dexterity.",
+      "iconIndex": 169,
+      "isEquippable": true,
+      "equipSlot": "Chest",
+      "statModifiers": {
+        "Vitality": 10.0,
+        "Dexterity": 2.0
+      }
+    },
+    {
+      "id": "ring_of_wisdom",
+      "name": "Ring of Wisdom",
+      "description": "A glowing ring that greatly enhances Intellect.",
+      "iconIndex": 177,
+      "isEquippable": true,
+      "equipSlot": "Ring",
+      "statModifiers": {
+        "Intellect": 15.0
+      }
     }
   ]
 }

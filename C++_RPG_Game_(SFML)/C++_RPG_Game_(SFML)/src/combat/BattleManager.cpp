@@ -175,7 +175,12 @@ namespace RPG {
                 if (hero) {
                     // Synchronize vitals from persistent profile
                     hero->setVitals(profile->currentVitals);
-
+                    hero->setBaseStats(profile->baseStats);
+                    for (const auto& [slot, item] : profile->equipment) {
+                        if (item) {
+                            hero->equipItem(slot, item);
+                        }
+                    }
                     hero->setHotbarAbility(9, moveAction);
                     hero->setHotbarAbility(17, endTurnAction);
 
@@ -1040,5 +1045,31 @@ namespace RPG {
         ft.lifetime = 1.2f;
         ft.maxLifetime = 1.2f;
         m_floatingTexts.push_back(ft);
+    }
+
+    BattleManager::~BattleManager() {
+        auto& party = PartyData::getInstance();
+
+        auto cleanPointers = [](std::shared_ptr<IAbility> ability) {
+            if (auto combatAbility = std::dynamic_pointer_cast<CombatAbility>(ability)) {
+                combatAbility->setOwner(nullptr);
+                combatAbility->setBattleManager(nullptr);
+            }
+            };
+
+        for (auto& item : party.sharedInventory) {
+            if (item) cleanPointers(item);
+        }
+
+        for (auto& profile : party.activeParty) {
+            if (!profile) continue;
+
+            for (auto& ability : profile->hotbar) {
+                if (ability) cleanPointers(ability);
+            }
+            for (auto& [slot, equipment] : profile->equipment) {
+                if (equipment) cleanPointers(equipment);
+            }
+        }
     }
 }

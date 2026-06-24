@@ -90,11 +90,18 @@ namespace RPG {
         auto& party = PartyData::getInstance();
         if (party.activeParty.empty()) {
             auto defaultHero = std::make_shared<CharacterProfile>();
-            defaultHero->id = "player_fighter"; // Odwołanie do units.json
-            defaultHero->name = "player_fighter"; // Służy również jako klucz do preferredPositions
+            defaultHero->id = "player_fighter";
+            defaultHero->name = "Sir Tanksalot";
             defaultHero->currentVitals = { 200.0f, 200.0f, 50.0f, 50.0f, 120.0f, 120.0f };
-
+            defaultHero->baseStats.values = { 0.f, 18.0f, 10.0f, 5.0f, 20.0f };
             party.activeParty.push_back(defaultHero);
+
+            auto mageHero = std::make_shared<CharacterProfile>();
+            mageHero->id = "player_mage";
+            mageHero->name = "Merlin";
+            mageHero->currentVitals = { 90.0f, 90.0f, 200.0f, 200.0f, 60.0f, 60.0f };
+            mageHero->baseStats.values = { 0.f, 4.0f, 8.0f, 25.0f, 8.0f };
+            party.activeParty.push_back(mageHero);
         }
 
         // Shared player initialization
@@ -244,7 +251,7 @@ namespace RPG {
 
             bool uiConsumed = false;
             if (m_systemHud) {
-                m_systemHud->handleEvent(window, *event);
+                m_systemHud->handleEvent(window, *event, currentScene ? currentScene->isBattleScene() : false);
                 
                 // Only block mouse events from reaching the scene if hovering over UI
                 if (event->is<sf::Event::MouseMoved>() || 

@@ -1,6 +1,6 @@
 #pragma once
 #include <SFML/Graphics.hpp>
-#include "../worldmap/AssetManager.h"
+#include "worldmap/AssetManager.h"
 
 namespace RPG {
 
@@ -37,5 +37,11 @@ namespace RPG {
          * @param window The target SFML RenderWindow.
          */
         virtual void draw(sf::RenderWindow& window) = 0;
+
+        /**
+         * @brief Sends info if it's battle scene.
+         */
+        virtual bool isBattleScene() const { return false; }
+
     };
 }

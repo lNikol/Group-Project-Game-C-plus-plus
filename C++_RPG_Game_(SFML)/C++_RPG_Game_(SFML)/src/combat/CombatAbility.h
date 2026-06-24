@@ -62,6 +62,8 @@ namespace RPG {
         TargetType getTargetType() const { return m_def->targetType; }
         void setOwner(Unit* newOwner) { m_owner = newOwner; }
         void setBattleManager(BattleManager* manager) { m_manager = manager; }
+        const AbilityDefinition* getDefinition() const { return m_def; }
+        BattleManager* getBattleManager() const { return m_manager; }
     private:
         const AbilityDefinition* m_def; ///< Pointer to the shared blueprint data.
         
