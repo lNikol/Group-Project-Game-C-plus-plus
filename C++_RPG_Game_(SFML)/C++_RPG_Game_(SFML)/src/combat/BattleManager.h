@@ -52,7 +52,7 @@ namespace RPG {
          * @param player The persistent player object from the GameManager.
          */
         BattleManager(std::shared_ptr<Unit> player);
-        ~BattleManager() = default;
+        ~BattleManager();
 
         /**
          * @brief Loads the map layout, props, and enemies from parsed EncounterData.

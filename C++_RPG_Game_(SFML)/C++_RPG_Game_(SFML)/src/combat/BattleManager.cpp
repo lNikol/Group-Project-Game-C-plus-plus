@@ -1050,4 +1050,30 @@ namespace RPG {
         ft.maxLifetime = 1.2f;
         m_floatingTexts.push_back(ft);
     }
+
+    BattleManager::~BattleManager() {
+        auto& party = PartyData::getInstance();
+
+        auto cleanPointers = [](std::shared_ptr<IAbility> ability) {
+            if (auto combatAbility = std::dynamic_pointer_cast<CombatAbility>(ability)) {
+                combatAbility->setOwner(nullptr);
+                combatAbility->setBattleManager(nullptr);
+            }
+            };
+
+        for (auto& item : party.sharedInventory) {
+            if (item) cleanPointers(item);
+        }
+
+        for (auto& profile : party.activeParty) {
+            if (!profile) continue;
+
+            for (auto& ability : profile->hotbar) {
+                if (ability) cleanPointers(ability);
+            }
+            for (auto& [slot, equipment] : profile->equipment) {
+                if (equipment) cleanPointers(equipment);
+            }
+        }
+    }
 }
