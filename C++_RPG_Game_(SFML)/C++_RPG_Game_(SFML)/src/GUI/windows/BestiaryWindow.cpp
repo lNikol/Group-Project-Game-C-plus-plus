@@ -99,7 +99,7 @@ namespace RPG {
             // --- Name ---
             sf::Text nameText(m_font);
             nameText.setString(entry.name);
-            nameText.setCharacterSize(18);
+            nameText.setCharacterSize(16);
             nameText.setPosition({ startX + 80.f, yOffset });
             target.draw(nameText, states);
 
@@ -111,7 +111,7 @@ namespace RPG {
                 << "  Stam: " << static_cast<int>(entry.stamina)
                 << "  Init: " << entry.initiative;
             statsText.setString(ss.str());
-            statsText.setCharacterSize(14);
+            statsText.setCharacterSize(16);
             statsText.setPosition({ startX + 80.f, yOffset + 24.f });
             target.draw(statsText, states);
 
@@ -125,7 +125,7 @@ namespace RPG {
                     abs << entry.abilities[i];
                 }
                 abilityText.setString(abs.str());
-                abilityText.setCharacterSize(13);
+                abilityText.setCharacterSize(16);
                 abilityText.setFillColor(sf::Color(200, 200, 200)); // light gray
                 abilityText.setPosition({ startX + 80.f, yOffset + 42.f });
                 target.draw(abilityText, states);
@@ -140,7 +140,7 @@ namespace RPG {
                 ext << "Crit: " << entry.critChance * 100 << "%"
                     << "  DblTurn: " << entry.doubleTurnChance * 100 << "%";
                 extraText.setString(ext.str());
-                extraText.setCharacterSize(13);
+                extraText.setCharacterSize(16);
                 extraText.setFillColor(sf::Color(200, 200, 200));
                 // Position below abilities (if any) or below stats
                 float yPos = yOffset + 42.f;

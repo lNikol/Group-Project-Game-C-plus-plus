@@ -43,7 +43,7 @@ namespace RPG {
         m_chargesText.setOutlineThickness(1.f);
 
         // Setup Cooldown Text (Center Large)
-        m_cooldownText.setCharacterSize(18);
+        m_cooldownText.setCharacterSize(16);
         m_cooldownText.setFillColor(sf::Color::Yellow);
         m_cooldownText.setOutlineColor(sf::Color::Black);
         m_cooldownText.setOutlineThickness(2.f);

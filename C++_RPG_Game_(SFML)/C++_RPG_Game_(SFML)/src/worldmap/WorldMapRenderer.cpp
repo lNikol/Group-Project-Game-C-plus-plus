@@ -87,7 +87,7 @@ namespace RPG {
                 "X: " + std::to_string(static_cast<int>(pos.x / GameConfig::TILE_SIZE)) +
                 "  Y: " + std::to_string(static_cast<int>(pos.y / GameConfig::TILE_SIZE))
             );
-            text.setCharacterSize(24);
+            text.setCharacterSize(16);
             text.setFillColor(sf::Color::White);
             text.setOutlineColor(sf::Color::Black);
             text.setOutlineThickness(1.f);
