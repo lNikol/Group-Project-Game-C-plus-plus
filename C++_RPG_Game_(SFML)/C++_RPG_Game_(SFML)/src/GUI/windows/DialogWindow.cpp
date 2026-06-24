@@ -53,8 +53,9 @@ namespace RPG {
             }
             float maxWidth = m_size.x - textStartX - 20.f; // 20.f right margin
             
-            std::string wrappedText = wrapText(node->text, maxWidth);
-            m_dialogText.setString(sf::String::fromUtf8(wrappedText.begin(), wrappedText.end()));
+            sf::String utf8Text = sf::String::fromUtf8(node->text.begin(), node->text.end());
+            sf::String wrappedText = wrapText(utf8Text, maxWidth);
+            m_dialogText.setString(wrappedText);
 
             if (!tree->npcPortrait.empty()) {
                 const Spritesheet* portraitTex = AssetManager::getInstance().getSpritesheet(tree->npcPortrait);
@@ -84,8 +85,9 @@ namespace RPG {
                 t.setCharacterSize(16);
                 t.setFillColor(sf::Color(200, 200, 200));
                 std::string prefix = std::to_string(i + 1) + ". ";
-                std::string wrappedResp = wrapText(prefix + node->responses[i].text, maxWidth);
-                t.setString(sf::String::fromUtf8(wrappedResp.begin(), wrappedResp.end()));
+                sf::String utf8Resp = sf::String::fromUtf8(prefix.begin(), prefix.end()) + sf::String::fromUtf8(node->responses[i].text.begin(), node->responses[i].text.end());
+                sf::String wrappedResp = wrapText(utf8Resp, maxWidth);
+                t.setString(wrappedResp);
                 m_responseTexts.push_back(t);
             }
         }
@@ -107,24 +109,24 @@ namespace RPG {
         }
     }
 
-    std::string DialogWindow::wrapText(const std::string& text, float maxWidth) {
-        std::string result;
-        std::string currentLine;
-        std::string currentWord;
+    sf::String DialogWindow::wrapText(const sf::String& text, float maxWidth) {
+        sf::String result;
+        sf::String currentLine;
+        sf::String currentWord;
         
         sf::Text temp(m_font);
         temp.setCharacterSize(m_dialogText.getCharacterSize());
         
-        auto checkWidth = [&](const std::string& str) {
-            temp.setString(sf::String::fromUtf8(str.begin(), str.end()));
+        auto checkWidth = [&](const sf::String& str) {
+            temp.setString(str);
             return temp.getLocalBounds().size.x;
         };
 
-        for (size_t i = 0; i < text.size(); ++i) {
-            char c = text[i];
+        for (size_t i = 0; i < text.getSize(); ++i) {
+            auto c = text[i];
             if (c == ' ' || c == '\n') {
                 if (checkWidth(currentLine + currentWord) > maxWidth) {
-                    if (!currentLine.empty()) {
+                    if (!currentLine.isEmpty()) {
                         result += currentLine + "\n";
                         currentLine = currentWord + (c == ' ' ? " " : "");
                     } else {
@@ -145,9 +147,9 @@ namespace RPG {
             }
         }
         
-        if (!currentWord.empty() || !currentLine.empty()) {
+        if (!currentWord.isEmpty() || !currentLine.isEmpty()) {
             if (checkWidth(currentLine + currentWord) > maxWidth) {
-                if (!currentLine.empty()) {
+                if (!currentLine.isEmpty()) {
                     result += currentLine + "\n" + currentWord;
                 } else {
                     result += currentWord;
