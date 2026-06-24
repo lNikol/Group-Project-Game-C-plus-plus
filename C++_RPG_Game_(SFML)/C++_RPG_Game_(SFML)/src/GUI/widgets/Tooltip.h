@@ -1,6 +1,8 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include <string>
+#include <optional>
+#include "NineSlice.h"
 
 namespace RPG {
 
@@ -27,11 +29,11 @@ namespace RPG {
 
     private:
         sf::Text m_text;
-        sf::RectangleShape m_background;
+        std::optional<NineSlice> m_background;
 
         bool m_isVisible = false;
 
-        const float PADDING = 5.f;
+        const float PADDING = 15.f;
         const float OFFSET = 15.f;
     };
 }
