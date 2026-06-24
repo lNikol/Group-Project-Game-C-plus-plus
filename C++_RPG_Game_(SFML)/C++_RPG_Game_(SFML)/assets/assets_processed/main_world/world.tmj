@@ -13412,7 +13412,7 @@
                 }, 
                 {
                  "ellipse":true,
-                 "height":90.6667,
+                 "height":120.000033333333,
                  "id":1534,
                  "name":"trigger",
                  "opacity":1,
@@ -13435,9 +13435,9 @@
                  "rotation":0,
                  "type":"trigger",
                  "visible":true,
-                 "width":92.6667,
-                 "x":648.333,
-                 "y":165.667
+                 "width":126.6667,
+                 "x":618.333,
+                 "y":149.667
                 }, 
                 {
                  "height":52.0000333333333,

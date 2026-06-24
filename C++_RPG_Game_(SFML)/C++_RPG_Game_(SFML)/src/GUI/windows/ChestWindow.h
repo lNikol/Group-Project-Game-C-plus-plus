@@ -86,7 +86,7 @@ namespace RPG {
                     auto slot = std::make_unique<ActionSlot>(
                         *m_iconSet, *m_font, sf::Vector2f(slotSize, slotSize));
                     slot->setAbility(lootedItems[i]);
-                    slot->setPosition({ startX + i * (slotSize + spacing) - 30.f, currentY });
+                    slot->setPosition({ startX + i * (slotSize + spacing), currentY });
                     slot->setInteractive(false);
                     addChild(std::move(slot));
                 }
@@ -94,7 +94,7 @@ namespace RPG {
             }
             else {
                 auto emptyLabel = std::make_unique<TextWidget>(
-                    *m_font, "The chest was empty.", 24, sf::Color::Red);
+                    *m_font, "The chest was empty.", 32, sf::Color::Red);
                 sf::FloatRect lb = emptyLabel->getGlobalBounds();
                 emptyLabel->setPosition({ centerX - lb.size.x / 2.f, currentY });
                 addChild(std::move(emptyLabel));

@@ -55,7 +55,7 @@ namespace RPG {
         addEquipSlot(EquipSlot::Necklace, (slotSize + sp) * 2, (slotSize + sp) * 2);
 
         float bagStartX = 260.f;
-        float bagStartY = 40.f;
+        float bagStartY = 50.f;
         float bagSpacing = 5.f;
 
         for (int i = 0; i < INVENTORY_SIZE; ++i) {
@@ -96,7 +96,7 @@ namespace RPG {
         auto addStatText = [&](const std::string& label, float value) {
             sf::Text t(m_font);
             t.setCharacterSize(16);
-            t.setFillColor(sf::Color::Black);
+            t.setFillColor(sf::Color::White);
             std::stringstream ss;
             ss << label << ": " << std::fixed << std::setprecision(0) << value;
             t.setString(ss.str());

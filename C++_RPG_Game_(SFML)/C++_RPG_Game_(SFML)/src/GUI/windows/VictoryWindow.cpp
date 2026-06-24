@@ -2,7 +2,7 @@
 
 namespace RPG {
     VictoryWindow::VictoryWindow(const Spritesheet& iconSet, const sf::Font& font, std::function<void()> onCloseCallback)
-        : WindowBase(font, sf::Vector2f(300.f, 250.f), "Victory!"),
+        : WindowBase(font, sf::Vector2f(400.f, 650.f), "Victory!"),
         m_iconSet(iconSet),
         m_font(font),
         m_onCloseCallback(onCloseCallback)
@@ -35,26 +35,26 @@ namespace RPG {
 
         // 1. Add Gold Display
         std::string goldStr = "+ " + std::to_string(goldReward) + " Gold";
-        auto goldText = std::make_unique<TextWidget>(m_font, goldStr, 20, sf::Color::Yellow);
+        auto goldText = std::make_unique<TextWidget>(m_font, goldStr, 32, sf::Color::Yellow);
 
         sf::FloatRect textBounds = goldText->getGlobalBounds();
         goldText->setPosition({ centerX - (textBounds.size.x / 2.f), currentY });
         addChild(std::move(goldText));
 
-        currentY += 40.f;
+        currentY += 50.f;
 
         // 2. Add Loot Display
         if (!lootedItems.empty()) {
-            auto lootLabel = std::make_unique<TextWidget>(m_font, "Loot Acquired:", 16, sf::Color::White);
+            auto lootLabel = std::make_unique<TextWidget>(m_font, "Loot Acquired:", 32, sf::Color::Black);
             sf::FloatRect labelBounds = lootLabel->getGlobalBounds();
             lootLabel->setPosition({ centerX - (labelBounds.size.x / 2.f), currentY });
             addChild(std::move(lootLabel));
 
-            currentY += 30.f;
+            currentY += 50.f;
 
             // Generate Action Slots dynamically
-            float slotSize = 40.f;
-            float spacing = 10.f;
+            float slotSize = 64.f;
+            float spacing = 15.f;
             int itemsCount = lootedItems.size();
 
             // Calculate starting X to keep the row perfectly centered
@@ -71,11 +71,11 @@ namespace RPG {
         }
         else {
             // Edge case: No loot dropped
-            auto noLootLabel = std::make_unique<TextWidget>(m_font, "No items dropped.", 16, sf::Color(150, 150, 150));
+            auto noLootLabel = std::make_unique<TextWidget>(m_font, "No items dropped.", 32, sf::Color::Red);
             sf::FloatRect labelBounds = noLootLabel->getGlobalBounds();
             noLootLabel->setPosition({ centerX - (labelBounds.size.x / 2.f), currentY });
             addChild(std::move(noLootLabel));
-            currentY += 30.f;
+            currentY += 50.f;
         }
 
         // Dynamically shrink/grow window based on total height

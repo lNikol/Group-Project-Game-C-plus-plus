@@ -2521,7 +2521,7 @@
    </properties>
    <point/>
   </object>
-  <object id="1534" name="trigger" type="trigger" x="648.333" y="165.667" width="92.6667" height="90.6667">
+  <object id="1534" name="trigger" type="trigger" x="618.333" y="149.667" width="126.667" height="120">
    <properties>
     <property name="action" value="ChangeScene"/>
     <property name="oneShot" value="true"/>

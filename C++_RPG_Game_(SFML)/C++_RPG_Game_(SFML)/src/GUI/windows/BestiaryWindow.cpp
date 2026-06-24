@@ -84,7 +84,7 @@ namespace RPG {
 
         const sf::FloatRect bounds = getGlobalBounds();
         float startX = bounds.position.x + 10.f;
-        float startY = bounds.position.y + 40.f;
+        float startY = bounds.position.y + 55.f;
         const float spacing = 120.f;
 
         float yOffset = startY;
