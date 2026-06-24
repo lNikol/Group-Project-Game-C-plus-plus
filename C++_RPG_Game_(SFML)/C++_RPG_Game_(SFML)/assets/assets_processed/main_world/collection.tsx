@@ -1,19 +1,5 @@
 <?xml version="1.0" ?>
-<tileset version="1.10" tiledversion="1.10.2" name="main_world_collection" tilecount="653" columns="0">
-  <tile id="1">
-    <tileoffset x="-40" y="0"/>
-    <image source="images/mainlevbuild_6.png" width="80" height="169"/>
-    <properties>
-      <property name="name" value="mainlevbuild_6"/>
-    </properties>
-  </tile>
-  <tile id="2">
-    <tileoffset x="-134" y="0"/>
-    <image source="images/mainlevbuild_9.png" width="268" height="147"/>
-    <properties>
-      <property name="name" value="mainlevbuild_9"/>
-    </properties>
-  </tile>
+<tileset version="1.10" tiledversion="1.10.2" name="main_world_collection" tilecount="716" columns="0">
   <tile id="3">
     <tileoffset x="-57" y="0"/>
     <image source="images/spr_old_building_2_0.png" width="115" height="119"/>
@@ -22,8 +8,8 @@
     </properties>
   </tile>
   <tile id="4">
-    <tileoffset x="-57" y="0"/>
-    <image source="images/spr_old_building_7_0.png" width="115" height="119"/>
+    <tileoffset x="-48" y="0"/>
+    <image source="images/spr_old_building_7_0.png" width="97" height="84"/>
     <properties>
       <property name="name" value="spr_old_building_7_0"/>
     </properties>
@@ -49,20 +35,6 @@
       <property name="name" value="spr_old_building_6_0"/>
     </properties>
   </tile>
-  <tile id="8">
-    <tileoffset x="-32" y="0"/>
-    <image source="images/mainlevbuild_1.png" width="64" height="105"/>
-    <properties>
-      <property name="name" value="mainlevbuild_1"/>
-    </properties>
-  </tile>
-  <tile id="9">
-    <tileoffset x="-40" y="0"/>
-    <image source="images/mainlevbuild_0.png" width="80" height="96"/>
-    <properties>
-      <property name="name" value="mainlevbuild_0"/>
-    </properties>
-  </tile>
   <tile id="10">
     <tileoffset x="-54" y="0"/>
     <image source="images/spr_old_building_5_0.png" width="108" height="91"/>
@@ -70,970 +42,11 @@
       <property name="name" value="spr_old_building_5_0"/>
     </properties>
   </tile>
-  <tile id="11">
-    <tileoffset x="-40" y="0"/>
-    <image source="images/mainlevbuild_7.png" width="80" height="89"/>
-    <properties>
-      <property name="name" value="mainlevbuild_7"/>
-    </properties>
-  </tile>
   <tile id="12">
     <tileoffset x="-64" y="0"/>
     <image source="images/spr_old_building_3_0.png" width="126" height="85"/>
     <properties>
       <property name="name" value="spr_old_building_3_0"/>
-    </properties>
-  </tile>
-  <tile id="13">
-    <tileoffset x="-64" y="0"/>
-    <image source="images/mainlevbuild_8.png" width="128" height="80"/>
-    <properties>
-      <property name="name" value="mainlevbuild_8"/>
-    </properties>
-  </tile>
-  <tile id="14">
-    <tileoffset x="-8" y="0"/>
-    <image source="images/mainlevbuild_12.png" width="16" height="80"/>
-    <properties>
-      <property name="name" value="mainlevbuild_12"/>
-    </properties>
-  </tile>
-  <tile id="15">
-    <tileoffset x="-8" y="0"/>
-    <image source="images/mainlevbuild_14.png" width="16" height="80"/>
-    <properties>
-      <property name="name" value="mainlevbuild_14"/>
-    </properties>
-  </tile>
-  <tile id="16">
-    <tileoffset x="-8" y="0"/>
-    <image source="images/mainlevbuild_15.png" width="16" height="80"/>
-    <properties>
-      <property name="name" value="mainlevbuild_15"/>
-    </properties>
-  </tile>
-  <tile id="17">
-    <tileoffset x="-41" y="0"/>
-    <image source="images/mainlevbuild_21.png" width="82" height="79"/>
-    <properties>
-      <property name="name" value="mainlevbuild_21"/>
-    </properties>
-  </tile>
-  <tile id="18">
-    <tileoffset x="-102" y="0"/>
-    <image source="images/mainlevbuild_20.png" width="204" height="78"/>
-    <properties>
-      <property name="name" value="mainlevbuild_20"/>
-    </properties>
-  </tile>
-  <tile id="19">
-    <tileoffset x="-102" y="0"/>
-    <image source="images/mainlevbuild_52.png" width="204" height="78"/>
-    <properties>
-      <property name="name" value="mainlevbuild_52"/>
-    </properties>
-  </tile>
-  <tile id="20">
-    <tileoffset x="-102" y="0"/>
-    <image source="images/mainlevbuild_68.png" width="204" height="78"/>
-    <properties>
-      <property name="name" value="mainlevbuild_68"/>
-    </properties>
-  </tile>
-  <tile id="21">
-    <tileoffset x="-8" y="0"/>
-    <image source="images/mainlevbuild_13.png" width="16" height="75"/>
-    <properties>
-      <property name="name" value="mainlevbuild_13"/>
-    </properties>
-  </tile>
-  <tile id="22">
-    <tileoffset x="-37" y="0"/>
-    <image source="images/mainlevbuild_31.png" width="74" height="74"/>
-    <properties>
-      <property name="name" value="mainlevbuild_31"/>
-    </properties>
-  </tile>
-  <tile id="23">
-    <tileoffset x="-11" y="0"/>
-    <image source="images/mainlevbuild_51.png" width="22" height="73"/>
-    <properties>
-      <property name="name" value="mainlevbuild_51"/>
-    </properties>
-  </tile>
-  <tile id="24">
-    <tileoffset x="-11" y="0"/>
-    <image source="images/mainlevbuild_53.png" width="22" height="73"/>
-    <properties>
-      <property name="name" value="mainlevbuild_53"/>
-    </properties>
-  </tile>
-  <tile id="25">
-    <tileoffset x="-32" y="0"/>
-    <image source="images/mainlevbuild_65.png" width="64" height="64"/>
-    <properties>
-      <property name="name" value="mainlevbuild_65"/>
-    </properties>
-  </tile>
-  <tile id="26">
-    <tileoffset x="-32" y="0"/>
-    <image source="images/mainlevbuild_69.png" width="64" height="64"/>
-    <properties>
-      <property name="name" value="mainlevbuild_69"/>
-    </properties>
-  </tile>
-  <tile id="27">
-    <tileoffset x="-32" y="0"/>
-    <image source="images/mainlevbuild_70.png" width="64" height="64"/>
-    <properties>
-      <property name="name" value="mainlevbuild_70"/>
-    </properties>
-  </tile>
-  <tile id="28">
-    <tileoffset x="-32" y="0"/>
-    <image source="images/mainlevbuild_71.png" width="64" height="64"/>
-    <properties>
-      <property name="name" value="mainlevbuild_71"/>
-    </properties>
-  </tile>
-  <tile id="29">
-    <tileoffset x="-16" y="0"/>
-    <image source="images/mainlevbuild_17.png" width="32" height="57"/>
-    <properties>
-      <property name="name" value="mainlevbuild_17"/>
-    </properties>
-  </tile>
-  <tile id="30">
-    <tileoffset x="-20" y="0"/>
-    <image source="images/mainlevbuild_10.png" width="41" height="50"/>
-    <properties>
-      <property name="name" value="mainlevbuild_10"/>
-    </properties>
-  </tile>
-  <tile id="31">
-    <tileoffset x="-20" y="0"/>
-    <image source="images/mainlevbuild_11.png" width="41" height="50"/>
-    <properties>
-      <property name="name" value="mainlevbuild_11"/>
-    </properties>
-  </tile>
-  <tile id="32">
-    <tileoffset x="-80" y="0"/>
-    <image source="images/mainlevbuild_34.png" width="160" height="49"/>
-    <properties>
-      <property name="name" value="mainlevbuild_34"/>
-    </properties>
-  </tile>
-  <tile id="33">
-    <tileoffset x="-6" y="0"/>
-    <image source="images/decorative_0.png" width="14" height="48"/>
-    <properties>
-      <property name="name" value="decorative_0"/>
-    </properties>
-  </tile>
-  <tile id="34">
-    <tileoffset x="-6" y="0"/>
-    <image source="images/decorative_1.png" width="13" height="48"/>
-    <properties>
-      <property name="name" value="decorative_1"/>
-    </properties>
-  </tile>
-  <tile id="35">
-    <tileoffset x="-8" y="0"/>
-    <image source="images/mainlevbuild_18.png" width="16" height="48"/>
-    <properties>
-      <property name="name" value="mainlevbuild_18"/>
-    </properties>
-  </tile>
-  <tile id="36">
-    <tileoffset x="-16" y="0"/>
-    <image source="images/mainlevbuild_19.png" width="32" height="48"/>
-    <properties>
-      <property name="name" value="mainlevbuild_19"/>
-    </properties>
-  </tile>
-  <tile id="37">
-    <tileoffset x="-40" y="0"/>
-    <image source="images/mainlevbuild_22.png" width="80" height="48"/>
-    <properties>
-      <property name="name" value="mainlevbuild_22"/>
-    </properties>
-  </tile>
-  <tile id="38">
-    <tileoffset x="-32" y="0"/>
-    <image source="images/mainlevbuild_23.png" width="64" height="48"/>
-    <properties>
-      <property name="name" value="mainlevbuild_23"/>
-    </properties>
-  </tile>
-  <tile id="39">
-    <tileoffset x="-16" y="0"/>
-    <image source="images/mainlevbuild_24.png" width="32" height="48"/>
-    <properties>
-      <property name="name" value="mainlevbuild_24"/>
-    </properties>
-  </tile>
-  <tile id="40">
-    <tileoffset x="-16" y="0"/>
-    <image source="images/mainlevbuild_25.png" width="32" height="48"/>
-    <properties>
-      <property name="name" value="mainlevbuild_25"/>
-    </properties>
-  </tile>
-  <tile id="41">
-    <tileoffset x="-16" y="0"/>
-    <image source="images/mainlevbuild_26.png" width="32" height="48"/>
-    <properties>
-      <property name="name" value="mainlevbuild_26"/>
-    </properties>
-  </tile>
-  <tile id="42">
-    <tileoffset x="-16" y="0"/>
-    <image source="images/mainlevbuild_27.png" width="32" height="48"/>
-    <properties>
-      <property name="name" value="mainlevbuild_27"/>
-    </properties>
-  </tile>
-  <tile id="43">
-    <tileoffset x="-16" y="0"/>
-    <image source="images/mainlevbuild_28.png" width="32" height="48"/>
-    <properties>
-      <property name="name" value="mainlevbuild_28"/>
-    </properties>
-  </tile>
-  <tile id="44">
-    <tileoffset x="-16" y="0"/>
-    <image source="images/mainlevbuild_29.png" width="32" height="48"/>
-    <properties>
-      <property name="name" value="mainlevbuild_29"/>
-    </properties>
-  </tile>
-  <tile id="45">
-    <tileoffset x="-16" y="0"/>
-    <image source="images/mainlevbuild_30.png" width="32" height="48"/>
-    <properties>
-      <property name="name" value="mainlevbuild_30"/>
-    </properties>
-  </tile>
-  <tile id="46">
-    <tileoffset x="-32" y="0"/>
-    <image source="images/mainlevbuild_32.png" width="64" height="48"/>
-    <properties>
-      <property name="name" value="mainlevbuild_32"/>
-    </properties>
-  </tile>
-  <tile id="47">
-    <tileoffset x="-32" y="0"/>
-    <image source="images/mainlevbuild_33.png" width="64" height="48"/>
-    <properties>
-      <property name="name" value="mainlevbuild_33"/>
-    </properties>
-  </tile>
-  <tile id="48">
-    <tileoffset x="-32" y="0"/>
-    <image source="images/mainlevbuild_54.png" width="64" height="48"/>
-    <properties>
-      <property name="name" value="mainlevbuild_54"/>
-    </properties>
-  </tile>
-  <tile id="49">
-    <tileoffset x="-32" y="0"/>
-    <image source="images/mainlevbuild_55.png" width="64" height="48"/>
-    <properties>
-      <property name="name" value="mainlevbuild_55"/>
-    </properties>
-  </tile>
-  <tile id="50">
-    <tileoffset x="-32" y="0"/>
-    <image source="images/mainlevbuild_66.png" width="64" height="48"/>
-    <properties>
-      <property name="name" value="mainlevbuild_66"/>
-    </properties>
-  </tile>
-  <tile id="51">
-    <tileoffset x="-32" y="0"/>
-    <image source="images/mainlevbuild_67.png" width="64" height="48"/>
-    <properties>
-      <property name="name" value="mainlevbuild_67"/>
-    </properties>
-  </tile>
-  <tile id="52">
-    <tileoffset x="-32" y="0"/>
-    <image source="images/mainlevbuild_72.png" width="64" height="48"/>
-    <properties>
-      <property name="name" value="mainlevbuild_72"/>
-    </properties>
-  </tile>
-  <tile id="53">
-    <tileoffset x="-32" y="0"/>
-    <image source="images/mainlevbuild_73.png" width="64" height="48"/>
-    <properties>
-      <property name="name" value="mainlevbuild_73"/>
-    </properties>
-  </tile>
-  <tile id="54">
-    <tileoffset x="-6" y="0"/>
-    <image source="images/decorative_8.png" width="13" height="44"/>
-    <properties>
-      <property name="name" value="decorative_8"/>
-    </properties>
-  </tile>
-  <tile id="55">
-    <tileoffset x="-9" y="0"/>
-    <image source="images/decorative_22.png" width="18" height="43"/>
-    <properties>
-      <property name="name" value="decorative_22"/>
-    </properties>
-  </tile>
-  <tile id="56">
-    <tileoffset x="-9" y="0"/>
-    <image source="images/decorative_23.png" width="18" height="43"/>
-    <properties>
-      <property name="name" value="decorative_23"/>
-    </properties>
-  </tile>
-  <tile id="57">
-    <tileoffset x="-6" y="0"/>
-    <image source="images/decorative_14.png" width="13" height="42"/>
-    <properties>
-      <property name="name" value="decorative_14"/>
-    </properties>
-  </tile>
-  <tile id="58">
-    <tileoffset x="-8" y="0"/>
-    <image source="images/decorative_24.png" width="16" height="41"/>
-    <properties>
-      <property name="name" value="decorative_24"/>
-    </properties>
-  </tile>
-  <tile id="59">
-    <tileoffset x="-8" y="0"/>
-    <image source="images/decorative_25.png" width="16" height="41"/>
-    <properties>
-      <property name="name" value="decorative_25"/>
-    </properties>
-  </tile>
-  <tile id="60">
-    <tileoffset x="-9" y="0"/>
-    <image source="images/decorative_31.png" width="18" height="38"/>
-    <properties>
-      <property name="name" value="decorative_31"/>
-    </properties>
-  </tile>
-  <tile id="61">
-    <tileoffset x="-16" y="0"/>
-    <image source="images/mainlevbuild_35.png" width="32" height="32"/>
-    <properties>
-      <property name="name" value="mainlevbuild_35"/>
-    </properties>
-  </tile>
-  <tile id="62">
-    <tileoffset x="-16" y="0"/>
-    <image source="images/mainlevbuild_36.png" width="32" height="32"/>
-    <properties>
-      <property name="name" value="mainlevbuild_36"/>
-    </properties>
-  </tile>
-  <tile id="63">
-    <tileoffset x="-16" y="0"/>
-    <image source="images/mainlevbuild_37.png" width="32" height="32"/>
-    <properties>
-      <property name="name" value="mainlevbuild_37"/>
-    </properties>
-  </tile>
-  <tile id="64">
-    <tileoffset x="-16" y="0"/>
-    <image source="images/mainlevbuild_38.png" width="32" height="32"/>
-    <properties>
-      <property name="name" value="mainlevbuild_38"/>
-    </properties>
-  </tile>
-  <tile id="65">
-    <tileoffset x="-16" y="0"/>
-    <image source="images/mainlevbuild_39.png" width="32" height="32"/>
-    <properties>
-      <property name="name" value="mainlevbuild_39"/>
-    </properties>
-  </tile>
-  <tile id="66">
-    <tileoffset x="-16" y="0"/>
-    <image source="images/mainlevbuild_40.png" width="32" height="32"/>
-    <properties>
-      <property name="name" value="mainlevbuild_40"/>
-    </properties>
-  </tile>
-  <tile id="67">
-    <tileoffset x="-16" y="0"/>
-    <image source="images/mainlevbuild_41.png" width="32" height="32"/>
-    <properties>
-      <property name="name" value="mainlevbuild_41"/>
-    </properties>
-  </tile>
-  <tile id="68">
-    <tileoffset x="-8" y="0"/>
-    <image source="images/mainlevbuild_42.png" width="16" height="32"/>
-    <properties>
-      <property name="name" value="mainlevbuild_42"/>
-    </properties>
-  </tile>
-  <tile id="69">
-    <tileoffset x="-8" y="0"/>
-    <image source="images/mainlevbuild_43.png" width="16" height="32"/>
-    <properties>
-      <property name="name" value="mainlevbuild_43"/>
-    </properties>
-  </tile>
-  <tile id="70">
-    <tileoffset x="-8" y="0"/>
-    <image source="images/mainlevbuild_44.png" width="16" height="32"/>
-    <properties>
-      <property name="name" value="mainlevbuild_44"/>
-    </properties>
-  </tile>
-  <tile id="71">
-    <tileoffset x="-16" y="0"/>
-    <image source="images/mainlevbuild_45.png" width="32" height="32"/>
-    <properties>
-      <property name="name" value="mainlevbuild_45"/>
-    </properties>
-  </tile>
-  <tile id="72">
-    <tileoffset x="-16" y="0"/>
-    <image source="images/mainlevbuild_46.png" width="32" height="32"/>
-    <properties>
-      <property name="name" value="mainlevbuild_46"/>
-    </properties>
-  </tile>
-  <tile id="73">
-    <tileoffset x="-16" y="0"/>
-    <image source="images/mainlevbuild_47.png" width="32" height="32"/>
-    <properties>
-      <property name="name" value="mainlevbuild_47"/>
-    </properties>
-  </tile>
-  <tile id="74">
-    <tileoffset x="-16" y="0"/>
-    <image source="images/mainlevbuild_48.png" width="32" height="32"/>
-    <properties>
-      <property name="name" value="mainlevbuild_48"/>
-    </properties>
-  </tile>
-  <tile id="75">
-    <tileoffset x="-16" y="0"/>
-    <image source="images/mainlevbuild_49.png" width="32" height="32"/>
-    <properties>
-      <property name="name" value="mainlevbuild_49"/>
-    </properties>
-  </tile>
-  <tile id="76">
-    <tileoffset x="-16" y="0"/>
-    <image source="images/mainlevbuild_50.png" width="32" height="32"/>
-    <properties>
-      <property name="name" value="mainlevbuild_50"/>
-    </properties>
-  </tile>
-  <tile id="77">
-    <tileoffset x="-16" y="0"/>
-    <image source="images/mainlevbuild_56.png" width="32" height="32"/>
-    <properties>
-      <property name="name" value="mainlevbuild_56"/>
-    </properties>
-  </tile>
-  <tile id="78">
-    <tileoffset x="-8" y="0"/>
-    <image source="images/mainlevbuild_57.png" width="16" height="32"/>
-    <properties>
-      <property name="name" value="mainlevbuild_57"/>
-    </properties>
-  </tile>
-  <tile id="79">
-    <tileoffset x="-16" y="0"/>
-    <image source="images/mainlevbuild_59.png" width="32" height="32"/>
-    <properties>
-      <property name="name" value="mainlevbuild_59"/>
-    </properties>
-  </tile>
-  <tile id="80">
-    <tileoffset x="-16" y="0"/>
-    <image source="images/mainlevbuild_60.png" width="32" height="32"/>
-    <properties>
-      <property name="name" value="mainlevbuild_60"/>
-    </properties>
-  </tile>
-  <tile id="81">
-    <tileoffset x="-16" y="0"/>
-    <image source="images/mainlevbuild_61.png" width="32" height="32"/>
-    <properties>
-      <property name="name" value="mainlevbuild_61"/>
-    </properties>
-  </tile>
-  <tile id="82">
-    <tileoffset x="-16" y="0"/>
-    <image source="images/mainlevbuild_62.png" width="32" height="32"/>
-    <properties>
-      <property name="name" value="mainlevbuild_62"/>
-    </properties>
-  </tile>
-  <tile id="83">
-    <tileoffset x="-16" y="0"/>
-    <image source="images/mainlevbuild_63.png" width="32" height="32"/>
-    <properties>
-      <property name="name" value="mainlevbuild_63"/>
-    </properties>
-  </tile>
-  <tile id="84">
-    <tileoffset x="-16" y="0"/>
-    <image source="images/mainlevbuild_64.png" width="32" height="32"/>
-    <properties>
-      <property name="name" value="mainlevbuild_64"/>
-    </properties>
-  </tile>
-  <tile id="85">
-    <tileoffset x="-3" y="0"/>
-    <image source="images/decorative_6.png" width="7" height="30"/>
-    <properties>
-      <property name="name" value="decorative_6"/>
-    </properties>
-  </tile>
-  <tile id="86">
-    <tileoffset x="-6" y="0"/>
-    <image source="images/decorative_20.png" width="13" height="28"/>
-    <properties>
-      <property name="name" value="decorative_20"/>
-    </properties>
-  </tile>
-  <tile id="87">
-    <tileoffset x="-18" y="0"/>
-    <image source="images/decorative_21.png" width="37" height="27"/>
-    <properties>
-      <property name="name" value="decorative_21"/>
-    </properties>
-  </tile>
-  <tile id="88">
-    <tileoffset x="-18" y="0"/>
-    <image source="images/decorative_30.png" width="37" height="27"/>
-    <properties>
-      <property name="name" value="decorative_30"/>
-    </properties>
-  </tile>
-  <tile id="89">
-    <tileoffset x="-18" y="0"/>
-    <image source="images/decorative_43.png" width="37" height="27"/>
-    <properties>
-      <property name="name" value="decorative_43"/>
-    </properties>
-  </tile>
-  <tile id="90">
-    <tileoffset x="-18" y="0"/>
-    <image source="images/decorative_51.png" width="37" height="27"/>
-    <properties>
-      <property name="name" value="decorative_51"/>
-    </properties>
-  </tile>
-  <tile id="91">
-    <tileoffset x="-18" y="0"/>
-    <image source="images/decorative_37.png" width="37" height="24"/>
-    <properties>
-      <property name="name" value="decorative_37"/>
-    </properties>
-  </tile>
-  <tile id="92">
-    <tileoffset x="-18" y="0"/>
-    <image source="images/decorative_55.png" width="37" height="24"/>
-    <properties>
-      <property name="name" value="decorative_55"/>
-    </properties>
-  </tile>
-  <tile id="93">
-    <tileoffset x="-7" y="0"/>
-    <image source="images/decorative_4.png" width="14" height="22"/>
-    <properties>
-      <property name="name" value="decorative_4"/>
-    </properties>
-  </tile>
-  <tile id="94">
-    <tileoffset x="-3" y="0"/>
-    <image source="images/decorative_5.png" width="7" height="22"/>
-    <properties>
-      <property name="name" value="decorative_5"/>
-    </properties>
-  </tile>
-  <tile id="95">
-    <tileoffset x="-6" y="0"/>
-    <image source="images/decorative_26.png" width="12" height="21"/>
-    <properties>
-      <property name="name" value="decorative_26"/>
-    </properties>
-  </tile>
-  <tile id="96">
-    <tileoffset x="-6" y="0"/>
-    <image source="images/decorative_27.png" width="12" height="21"/>
-    <properties>
-      <property name="name" value="decorative_27"/>
-    </properties>
-  </tile>
-  <tile id="97">
-    <tileoffset x="-8" y="0"/>
-    <image source="images/decorative_32.png" width="16" height="20"/>
-    <properties>
-      <property name="name" value="decorative_32"/>
-    </properties>
-  </tile>
-  <tile id="98">
-    <tileoffset x="-8" y="0"/>
-    <image source="images/decorative_44.png" width="16" height="20"/>
-    <properties>
-      <property name="name" value="decorative_44"/>
-    </properties>
-  </tile>
-  <tile id="99">
-    <tileoffset x="-7" y="0"/>
-    <image source="images/decorative_2.png" width="14" height="17"/>
-    <properties>
-      <property name="name" value="decorative_2"/>
-    </properties>
-  </tile>
-  <tile id="100">
-    <tileoffset x="-7" y="0"/>
-    <image source="images/decorative_3.png" width="14" height="17"/>
-    <properties>
-      <property name="name" value="decorative_3"/>
-    </properties>
-  </tile>
-  <tile id="101">
-    <tileoffset x="-3" y="0"/>
-    <image source="images/candleA_03_0.png" width="7" height="16"/>
-    <properties>
-      <property name="name" value="candleA_03_0"/>
-    </properties>
-  </tile>
-  <tile id="102">
-    <tileoffset x="-3" y="0"/>
-    <image source="images/candleB_01_0.png" width="7" height="16"/>
-    <properties>
-      <property name="name" value="candleB_01_0"/>
-    </properties>
-  </tile>
-  <tile id="103">
-    <tileoffset x="-6" y="0"/>
-    <image source="images/decorative_33.png" width="12" height="16"/>
-    <properties>
-      <property name="name" value="decorative_33"/>
-    </properties>
-  </tile>
-  <tile id="104">
-    <tileoffset x="-6" y="0"/>
-    <image source="images/decorative_45.png" width="12" height="16"/>
-    <properties>
-      <property name="name" value="decorative_45"/>
-    </properties>
-  </tile>
-  <tile id="105">
-    <tileoffset x="-16" y="0"/>
-    <image source="images/mainlevbuild_2.png" width="32" height="16"/>
-    <properties>
-      <property name="name" value="mainlevbuild_2"/>
-    </properties>
-  </tile>
-  <tile id="106">
-    <tileoffset x="-8" y="0"/>
-    <image source="images/mainlevbuild_3.png" width="16" height="16"/>
-    <properties>
-      <property name="name" value="mainlevbuild_3"/>
-    </properties>
-  </tile>
-  <tile id="107">
-    <tileoffset x="-8" y="0"/>
-    <image source="images/mainlevbuild_4.png" width="16" height="16"/>
-    <properties>
-      <property name="name" value="mainlevbuild_4"/>
-    </properties>
-  </tile>
-  <tile id="108">
-    <tileoffset x="-16" y="0"/>
-    <image source="images/mainlevbuild_5.png" width="32" height="16"/>
-    <properties>
-      <property name="name" value="mainlevbuild_5"/>
-    </properties>
-  </tile>
-  <tile id="109">
-    <tileoffset x="-32" y="0"/>
-    <image source="images/mainlevbuild_16.png" width="64" height="16"/>
-    <properties>
-      <property name="name" value="mainlevbuild_16"/>
-    </properties>
-  </tile>
-  <tile id="110">
-    <tileoffset x="-15" y="0"/>
-    <image source="images/mainlevbuild_58.png" width="32" height="16"/>
-    <properties>
-      <property name="name" value="mainlevbuild_58"/>
-    </properties>
-  </tile>
-  <tile id="111">
-    <tileoffset x="-8" y="0"/>
-    <image source="images/torch_1_0.png" width="16" height="16"/>
-    <properties>
-      <property name="name" value="torch_1_0"/>
-    </properties>
-  </tile>
-  <tile id="112">
-    <tileoffset x="-8" y="0"/>
-    <image source="images/torch_4_0.png" width="16" height="16"/>
-    <properties>
-      <property name="name" value="torch_4_0"/>
-    </properties>
-  </tile>
-  <tile id="113">
-    <tileoffset x="-3" y="0"/>
-    <image source="images/candleA_02_0.png" width="7" height="15"/>
-    <properties>
-      <property name="name" value="candleA_02_0"/>
-    </properties>
-  </tile>
-  <tile id="114">
-    <tileoffset x="-3" y="0"/>
-    <image source="images/candleB_04_0.png" width="7" height="15"/>
-    <properties>
-      <property name="name" value="candleB_04_0"/>
-    </properties>
-  </tile>
-  <tile id="115">
-    <tileoffset x="-7" y="0"/>
-    <image source="images/decorative_18.png" width="14" height="15"/>
-    <properties>
-      <property name="name" value="decorative_18"/>
-    </properties>
-  </tile>
-  <tile id="116">
-    <tileoffset x="-7" y="0"/>
-    <image source="images/decorative_19.png" width="14" height="15"/>
-    <properties>
-      <property name="name" value="decorative_19"/>
-    </properties>
-  </tile>
-  <tile id="117">
-    <tileoffset x="-6" y="0"/>
-    <image source="images/decorative_28.png" width="12" height="15"/>
-    <properties>
-      <property name="name" value="decorative_28"/>
-    </properties>
-  </tile>
-  <tile id="118">
-    <tileoffset x="-6" y="0"/>
-    <image source="images/decorative_29.png" width="12" height="15"/>
-    <properties>
-      <property name="name" value="decorative_29"/>
-    </properties>
-  </tile>
-  <tile id="119">
-    <tileoffset x="-4" y="0"/>
-    <image source="images/decorative_34.png" width="9" height="15"/>
-    <properties>
-      <property name="name" value="decorative_34"/>
-    </properties>
-  </tile>
-  <tile id="120">
-    <tileoffset x="-4" y="0"/>
-    <image source="images/decorative_46.png" width="9" height="15"/>
-    <properties>
-      <property name="name" value="decorative_46"/>
-    </properties>
-  </tile>
-  <tile id="121">
-    <tileoffset x="-8" y="0"/>
-    <image source="images/torch_2_0.png" width="16" height="15"/>
-    <properties>
-      <property name="name" value="torch_2_0"/>
-    </properties>
-  </tile>
-  <tile id="122">
-    <tileoffset x="-8" y="0"/>
-    <image source="images/torch_3_0.png" width="16" height="15"/>
-    <properties>
-      <property name="name" value="torch_3_0"/>
-    </properties>
-  </tile>
-  <tile id="123">
-    <tileoffset x="-3" y="0"/>
-    <image source="images/candleA_01_0.png" width="7" height="14"/>
-    <properties>
-      <property name="name" value="candleA_01_0"/>
-    </properties>
-  </tile>
-  <tile id="124">
-    <tileoffset x="-3" y="0"/>
-    <image source="images/candleA_04_0.png" width="7" height="14"/>
-    <properties>
-      <property name="name" value="candleA_04_0"/>
-    </properties>
-  </tile>
-  <tile id="125">
-    <tileoffset x="-3" y="0"/>
-    <image source="images/candleB_02_0.png" width="7" height="14"/>
-    <properties>
-      <property name="name" value="candleB_02_0"/>
-    </properties>
-  </tile>
-  <tile id="126">
-    <tileoffset x="-3" y="0"/>
-    <image source="images/candleB_03_0.png" width="7" height="14"/>
-    <properties>
-      <property name="name" value="candleB_03_0"/>
-    </properties>
-  </tile>
-  <tile id="127">
-    <tileoffset x="-8" y="0"/>
-    <image source="images/decorative_38.png" width="16" height="13"/>
-    <properties>
-      <property name="name" value="decorative_38"/>
-    </properties>
-  </tile>
-  <tile id="128">
-    <tileoffset x="-8" y="0"/>
-    <image source="images/decorative_49.png" width="16" height="13"/>
-    <properties>
-      <property name="name" value="decorative_49"/>
-    </properties>
-  </tile>
-  <tile id="129">
-    <tileoffset x="-8" y="0"/>
-    <image source="images/decorative_10.png" width="16" height="12"/>
-    <properties>
-      <property name="name" value="decorative_10"/>
-    </properties>
-  </tile>
-  <tile id="130">
-    <tileoffset x="-4" y="0"/>
-    <image source="images/decorative_35.png" width="8" height="12"/>
-    <properties>
-      <property name="name" value="decorative_35"/>
-    </properties>
-  </tile>
-  <tile id="131">
-    <tileoffset x="-6" y="0"/>
-    <image source="images/decorative_39.png" width="12" height="12"/>
-    <properties>
-      <property name="name" value="decorative_39"/>
-    </properties>
-  </tile>
-  <tile id="132">
-    <tileoffset x="-4" y="0"/>
-    <image source="images/decorative_47.png" width="8" height="12"/>
-    <properties>
-      <property name="name" value="decorative_47"/>
-    </properties>
-  </tile>
-  <tile id="133">
-    <tileoffset x="-6" y="0"/>
-    <image source="images/decorative_50.png" width="12" height="12"/>
-    <properties>
-      <property name="name" value="decorative_50"/>
-    </properties>
-  </tile>
-  <tile id="134">
-    <tileoffset x="-4" y="0"/>
-    <image source="images/decorative_12.png" width="8" height="11"/>
-    <properties>
-      <property name="name" value="decorative_12"/>
-    </properties>
-  </tile>
-  <tile id="135">
-    <tileoffset x="-4" y="0"/>
-    <image source="images/decorative_36.png" width="8" height="11"/>
-    <properties>
-      <property name="name" value="decorative_36"/>
-    </properties>
-  </tile>
-  <tile id="136">
-    <tileoffset x="-4" y="0"/>
-    <image source="images/decorative_48.png" width="8" height="11"/>
-    <properties>
-      <property name="name" value="decorative_48"/>
-    </properties>
-  </tile>
-  <tile id="137">
-    <tileoffset x="-2" y="0"/>
-    <image source="images/candleB_02_1.png" width="5" height="10"/>
-    <properties>
-      <property name="name" value="candleB_02_1"/>
-    </properties>
-  </tile>
-  <tile id="138">
-    <tileoffset x="-4" y="0"/>
-    <image source="images/decorative_40.png" width="9" height="10"/>
-    <properties>
-      <property name="name" value="decorative_40"/>
-    </properties>
-  </tile>
-  <tile id="139">
-    <tileoffset x="-4" y="0"/>
-    <image source="images/decorative_52.png" width="9" height="10"/>
-    <properties>
-      <property name="name" value="decorative_52"/>
-    </properties>
-  </tile>
-  <tile id="140">
-    <tileoffset x="-2" y="0"/>
-    <image source="images/candleB_01_1.png" width="5" height="9"/>
-    <properties>
-      <property name="name" value="candleB_01_1"/>
-    </properties>
-  </tile>
-  <tile id="141">
-    <tileoffset x="-2" y="0"/>
-    <image source="images/candleB_03_1.png" width="5" height="9"/>
-    <properties>
-      <property name="name" value="candleB_03_1"/>
-    </properties>
-  </tile>
-  <tile id="142">
-    <tileoffset x="-2" y="0"/>
-    <image source="images/candleB_04_1.png" width="5" height="9"/>
-    <properties>
-      <property name="name" value="candleB_04_1"/>
-    </properties>
-  </tile>
-  <tile id="143">
-    <tileoffset x="-2" y="0"/>
-    <image source="images/decorative_11.png" width="5" height="9"/>
-    <properties>
-      <property name="name" value="decorative_11"/>
-    </properties>
-  </tile>
-  <tile id="144">
-    <tileoffset x="-2" y="0"/>
-    <image source="images/decorative_13.png" width="5" height="9"/>
-    <properties>
-      <property name="name" value="decorative_13"/>
-    </properties>
-  </tile>
-  <tile id="145">
-    <tileoffset x="-4" y="0"/>
-    <image source="images/decorative_41.png" width="8" height="9"/>
-    <properties>
-      <property name="name" value="decorative_41"/>
-    </properties>
-  </tile>
-  <tile id="146">
-    <tileoffset x="-4" y="0"/>
-    <image source="images/decorative_53.png" width="8" height="9"/>
-    <properties>
-      <property name="name" value="decorative_53"/>
-    </properties>
-  </tile>
-  <tile id="147">
-    <tileoffset x="-4" y="0"/>
-    <image source="images/decorative_42.png" width="8" height="8"/>
-    <properties>
-      <property name="name" value="decorative_42"/>
-    </properties>
-  </tile>
-  <tile id="148">
-    <tileoffset x="-4" y="0"/>
-    <image source="images/decorative_54.png" width="8" height="8"/>
-    <properties>
-      <property name="name" value="decorative_54"/>
     </properties>
   </tile>
   <tile id="149">
@@ -1050,60 +63,11 @@
       <property name="name" value="spr_old_building_6_5"/>
     </properties>
   </tile>
-  <tile id="151">
-    <tileoffset x="-2" y="0"/>
-    <image source="images/decorative_15.png" width="5" height="5"/>
-    <properties>
-      <property name="name" value="decorative_15"/>
-    </properties>
-  </tile>
-  <tile id="152">
-    <tileoffset x="-2" y="0"/>
-    <image source="images/decorative_16.png" width="5" height="5"/>
-    <properties>
-      <property name="name" value="decorative_16"/>
-    </properties>
-  </tile>
-  <tile id="153">
-    <tileoffset x="-2" y="0"/>
-    <image source="images/decorative_17.png" width="5" height="5"/>
-    <properties>
-      <property name="name" value="decorative_17"/>
-    </properties>
-  </tile>
-  <tile id="154">
-    <tileoffset x="-2" y="0"/>
-    <image source="images/spike_4_1.png" width="4" height="5"/>
-    <properties>
-      <property name="name" value="spike_4_1"/>
-    </properties>
-  </tile>
-  <tile id="155">
-    <tileoffset x="-2" y="0"/>
-    <image source="images/spike_4_2.png" width="4" height="5"/>
-    <properties>
-      <property name="name" value="spike_4_2"/>
-    </properties>
-  </tile>
-  <tile id="156">
-    <tileoffset x="-2" y="0"/>
-    <image source="images/spike_4_3.png" width="4" height="5"/>
-    <properties>
-      <property name="name" value="spike_4_3"/>
-    </properties>
-  </tile>
   <tile id="157">
     <tileoffset x="-4" y="0"/>
     <image source="images/spr_old_building_1_1.png" width="8" height="5"/>
     <properties>
       <property name="name" value="spr_old_building_1_1"/>
-    </properties>
-  </tile>
-  <tile id="158">
-    <tileoffset x="-2" y="0"/>
-    <image source="images/spike_4_0.png" width="4" height="4"/>
-    <properties>
-      <property name="name" value="spike_4_0"/>
     </properties>
   </tile>
   <tile id="159">
@@ -1134,41 +98,6 @@
       <property name="name" value="spr_old_building_5_1"/>
     </properties>
   </tile>
-  <tile id="163">
-    <tileoffset x="0" y="0"/>
-    <image source="images/decorative_7.png" width="1" height="3"/>
-    <properties>
-      <property name="name" value="decorative_7"/>
-    </properties>
-  </tile>
-  <tile id="164">
-    <tileoffset x="-2" y="0"/>
-    <image source="images/spike_3_0.png" width="4" height="3"/>
-    <properties>
-      <property name="name" value="spike_3_0"/>
-    </properties>
-  </tile>
-  <tile id="165">
-    <tileoffset x="-2" y="0"/>
-    <image source="images/spike_3_1.png" width="4" height="3"/>
-    <properties>
-      <property name="name" value="spike_3_1"/>
-    </properties>
-  </tile>
-  <tile id="166">
-    <tileoffset x="-2" y="0"/>
-    <image source="images/spike_3_2.png" width="4" height="3"/>
-    <properties>
-      <property name="name" value="spike_3_2"/>
-    </properties>
-  </tile>
-  <tile id="167">
-    <tileoffset x="-2" y="0"/>
-    <image source="images/spike_3_3.png" width="4" height="3"/>
-    <properties>
-      <property name="name" value="spike_3_3"/>
-    </properties>
-  </tile>
   <tile id="168">
     <tileoffset x="-2" y="0"/>
     <image source="images/spr_old_building_1_3.png" width="4" height="3"/>
@@ -1195,97 +124,6 @@
     <image source="images/spr_old_building_5_2.png" width="4" height="3"/>
     <properties>
       <property name="name" value="spr_old_building_5_2"/>
-    </properties>
-  </tile>
-  <tile id="172">
-    <tileoffset x="0" y="0"/>
-    <image source="images/decorative_9.png" width="1" height="2"/>
-    <properties>
-      <property name="name" value="decorative_9"/>
-    </properties>
-  </tile>
-  <tile id="173">
-    <tileoffset x="-2" y="0"/>
-    <image source="images/spike_0_0.png" width="4" height="2"/>
-    <properties>
-      <property name="name" value="spike_0_0"/>
-    </properties>
-  </tile>
-  <tile id="174">
-    <tileoffset x="-2" y="0"/>
-    <image source="images/spike_0_1.png" width="4" height="2"/>
-    <properties>
-      <property name="name" value="spike_0_1"/>
-    </properties>
-  </tile>
-  <tile id="175">
-    <tileoffset x="-2" y="0"/>
-    <image source="images/spike_0_2.png" width="4" height="2"/>
-    <properties>
-      <property name="name" value="spike_0_2"/>
-    </properties>
-  </tile>
-  <tile id="176">
-    <tileoffset x="-2" y="0"/>
-    <image source="images/spike_0_3.png" width="4" height="2"/>
-    <properties>
-      <property name="name" value="spike_0_3"/>
-    </properties>
-  </tile>
-  <tile id="177">
-    <tileoffset x="-2" y="0"/>
-    <image source="images/spike_1_0.png" width="4" height="2"/>
-    <properties>
-      <property name="name" value="spike_1_0"/>
-    </properties>
-  </tile>
-  <tile id="178">
-    <tileoffset x="-2" y="0"/>
-    <image source="images/spike_1_1.png" width="4" height="2"/>
-    <properties>
-      <property name="name" value="spike_1_1"/>
-    </properties>
-  </tile>
-  <tile id="179">
-    <tileoffset x="-2" y="0"/>
-    <image source="images/spike_1_2.png" width="4" height="2"/>
-    <properties>
-      <property name="name" value="spike_1_2"/>
-    </properties>
-  </tile>
-  <tile id="180">
-    <tileoffset x="-2" y="0"/>
-    <image source="images/spike_1_3.png" width="4" height="2"/>
-    <properties>
-      <property name="name" value="spike_1_3"/>
-    </properties>
-  </tile>
-  <tile id="181">
-    <tileoffset x="-2" y="0"/>
-    <image source="images/spike_2_0.png" width="4" height="2"/>
-    <properties>
-      <property name="name" value="spike_2_0"/>
-    </properties>
-  </tile>
-  <tile id="182">
-    <tileoffset x="-2" y="0"/>
-    <image source="images/spike_2_1.png" width="4" height="2"/>
-    <properties>
-      <property name="name" value="spike_2_1"/>
-    </properties>
-  </tile>
-  <tile id="183">
-    <tileoffset x="-2" y="0"/>
-    <image source="images/spike_2_2.png" width="4" height="2"/>
-    <properties>
-      <property name="name" value="spike_2_2"/>
-    </properties>
-  </tile>
-  <tile id="184">
-    <tileoffset x="-2" y="0"/>
-    <image source="images/spike_2_3.png" width="4" height="2"/>
-    <properties>
-      <property name="name" value="spike_2_3"/>
     </properties>
   </tile>
   <tile id="185">
@@ -4569,6 +3407,1609 @@
     <image source="images/IconSet_356.png" width="1" height="1"/>
     <properties>
       <property name="name" value="IconSet_356"/>
+    </properties>
+  </tile>
+  <tile id="12785">
+    <tileoffset x="-192" y="0"/>
+    <image source="images/TX Tileset Stone Ground_0.png" width="256" height="256"/>
+    <properties>
+      <property name="name" value="TX Tileset Stone Ground_0"/>
+    </properties>
+  </tile>
+  <tile id="12786">
+    <tileoffset x="-58" y="0"/>
+    <image source="images/TX Plant_0.png" width="113" height="139"/>
+    <properties>
+      <property name="name" value="TX Plant_0"/>
+    </properties>
+  </tile>
+  <tile id="12787">
+    <tileoffset x="-47" y="0"/>
+    <image source="images/TX Plant_1.png" width="95" height="136"/>
+    <properties>
+      <property name="name" value="TX Plant_1"/>
+    </properties>
+  </tile>
+  <tile id="12788">
+    <tileoffset x="-48" y="0"/>
+    <image source="images/TX Tileset Wall_0.png" width="96" height="128"/>
+    <properties>
+      <property name="name" value="TX Tileset Wall_0"/>
+    </properties>
+  </tile>
+  <tile id="12789">
+    <tileoffset x="-38" y="0"/>
+    <image source="images/TX Plant_2.png" width="79" height="120"/>
+    <properties>
+      <property name="name" value="TX Plant_2"/>
+    </properties>
+  </tile>
+  <tile id="12790">
+    <tileoffset x="-57" y="0"/>
+    <image source="images/TX Tileset Wall_1.png" width="114" height="104"/>
+    <properties>
+      <property name="name" value="TX Tileset Wall_1"/>
+    </properties>
+  </tile>
+  <tile id="12791">
+    <tileoffset x="-32" y="0"/>
+    <image source="images/TX Struct_1.png" width="64" height="96"/>
+    <properties>
+      <property name="name" value="TX Struct_1"/>
+    </properties>
+  </tile>
+  <tile id="12792">
+    <tileoffset x="-32" y="0"/>
+    <image source="images/TX Struct_2.png" width="65" height="96"/>
+    <properties>
+      <property name="name" value="TX Struct_2"/>
+    </properties>
+  </tile>
+  <tile id="12793">
+    <tileoffset x="-32" y="0"/>
+    <image source="images/TX Struct_3.png" width="65" height="96"/>
+    <properties>
+      <property name="name" value="TX Struct_3"/>
+    </properties>
+  </tile>
+  <tile id="12794">
+    <tileoffset x="-32" y="0"/>
+    <image source="images/TX Struct_5.png" width="64" height="96"/>
+    <properties>
+      <property name="name" value="TX Struct_5"/>
+    </properties>
+  </tile>
+  <tile id="12795">
+    <tileoffset x="-32" y="0"/>
+    <image source="images/TX Struct_6.png" width="65" height="96"/>
+    <properties>
+      <property name="name" value="TX Struct_6"/>
+    </properties>
+  </tile>
+  <tile id="12796">
+    <tileoffset x="-32" y="0"/>
+    <image source="images/TX Struct_7.png" width="65" height="96"/>
+    <properties>
+      <property name="name" value="TX Struct_7"/>
+    </properties>
+  </tile>
+  <tile id="12797">
+    <tileoffset x="-45" y="0"/>
+    <image source="images/TX Struct_8.png" width="90" height="96"/>
+    <properties>
+      <property name="name" value="TX Struct_8"/>
+    </properties>
+  </tile>
+  <tile id="12798">
+    <tileoffset x="-45" y="0"/>
+    <image source="images/TX Struct_9.png" width="90" height="96"/>
+    <properties>
+      <property name="name" value="TX Struct_9"/>
+    </properties>
+  </tile>
+  <tile id="12799">
+    <tileoffset x="-44" y="0"/>
+    <image source="images/TX Struct_10.png" width="88" height="96"/>
+    <properties>
+      <property name="name" value="TX Struct_10"/>
+    </properties>
+  </tile>
+  <tile id="12800">
+    <tileoffset x="-44" y="0"/>
+    <image source="images/TX Struct_11.png" width="88" height="96"/>
+    <properties>
+      <property name="name" value="TX Struct_11"/>
+    </properties>
+  </tile>
+  <tile id="12801">
+    <tileoffset x="-48" y="0"/>
+    <image source="images/TX Tileset Stone Ground_1.png" width="96" height="96"/>
+    <properties>
+      <property name="name" value="TX Tileset Stone Ground_1"/>
+    </properties>
+  </tile>
+  <tile id="12802">
+    <tileoffset x="-5" y="0"/>
+    <image source="images/TX Tileset Wall_2.png" width="10" height="96"/>
+    <properties>
+      <property name="name" value="TX Tileset Wall_2"/>
+    </properties>
+  </tile>
+  <tile id="12803">
+    <tileoffset x="-4" y="0"/>
+    <image source="images/TX Tileset Wall_3.png" width="8" height="96"/>
+    <properties>
+      <property name="name" value="TX Tileset Wall_3"/>
+    </properties>
+  </tile>
+  <tile id="12804">
+    <tileoffset x="-32" y="0"/>
+    <image source="images/TX Tileset Wall_5.png" width="64" height="96"/>
+    <properties>
+      <property name="name" value="TX Tileset Wall_5"/>
+    </properties>
+  </tile>
+  <tile id="12805">
+    <tileoffset x="-16" y="0"/>
+    <image source="images/TX Props_61.png" width="32" height="77"/>
+    <properties>
+      <property name="name" value="TX Props_61"/>
+    </properties>
+  </tile>
+  <tile id="12806">
+    <tileoffset x="-18" y="0"/>
+    <image source="images/TX Props_5.png" width="37" height="72"/>
+    <properties>
+      <property name="name" value="TX Props_5"/>
+    </properties>
+  </tile>
+  <tile id="12807">
+    <tileoffset x="-47" y="0"/>
+    <image source="images/TX Props_80.png" width="94" height="72"/>
+    <properties>
+      <property name="name" value="TX Props_80"/>
+    </properties>
+  </tile>
+  <tile id="12808">
+    <tileoffset x="-13" y="0"/>
+    <image source="images/TX Props_26.png" width="26" height="66"/>
+    <properties>
+      <property name="name" value="TX Props_26"/>
+    </properties>
+  </tile>
+  <tile id="12809">
+    <tileoffset x="-40" y="0"/>
+    <image source="images/TX Struct_0.png" width="80" height="64"/>
+    <properties>
+      <property name="name" value="TX Struct_0"/>
+    </properties>
+  </tile>
+  <tile id="12810">
+    <tileoffset x="-32" y="0"/>
+    <image source="images/TX Struct_4.png" width="64" height="64"/>
+    <properties>
+      <property name="name" value="TX Struct_4"/>
+    </properties>
+  </tile>
+  <tile id="12811">
+    <tileoffset x="-64" y="0"/>
+    <image source="images/TX Tileset Wall_6.png" width="128" height="64"/>
+    <properties>
+      <property name="name" value="TX Tileset Wall_6"/>
+    </properties>
+  </tile>
+  <tile id="12812">
+    <tileoffset x="-16" y="0"/>
+    <image source="images/TX Tileset Wall_7.png" width="32" height="64"/>
+    <properties>
+      <property name="name" value="TX Tileset Wall_7"/>
+    </properties>
+  </tile>
+  <tile id="12813">
+    <tileoffset x="-32" y="0"/>
+    <image source="images/TX Tileset Wall_8.png" width="64" height="64"/>
+    <properties>
+      <property name="name" value="TX Tileset Wall_8"/>
+    </properties>
+  </tile>
+  <tile id="12814">
+    <tileoffset x="-32" y="0"/>
+    <image source="images/TX Tileset Wall_9.png" width="64" height="64"/>
+    <properties>
+      <property name="name" value="TX Tileset Wall_9"/>
+    </properties>
+  </tile>
+  <tile id="12815">
+    <tileoffset x="-13" y="0"/>
+    <image source="images/TX Props_0.png" width="27" height="61"/>
+    <properties>
+      <property name="name" value="TX Props_0"/>
+    </properties>
+  </tile>
+  <tile id="12816">
+    <tileoffset x="-13" y="0"/>
+    <image source="images/TX Props_27.png" width="27" height="61"/>
+    <properties>
+      <property name="name" value="TX Props_27"/>
+    </properties>
+  </tile>
+  <tile id="12817">
+    <tileoffset x="-16" y="0"/>
+    <image source="images/TX Props_57.png" width="32" height="57"/>
+    <properties>
+      <property name="name" value="TX Props_57"/>
+    </properties>
+  </tile>
+  <tile id="12818">
+    <tileoffset x="-16" y="0"/>
+    <image source="images/TX Props_63.png" width="32" height="57"/>
+    <properties>
+      <property name="name" value="TX Props_63"/>
+    </properties>
+  </tile>
+  <tile id="12819">
+    <tileoffset x="-4" y="0"/>
+    <image source="images/TX Props_59.png" width="9" height="53"/>
+    <properties>
+      <property name="name" value="TX Props_59"/>
+    </properties>
+  </tile>
+  <tile id="12820">
+    <tileoffset x="-4" y="0"/>
+    <image source="images/TX Props_60.png" width="9" height="53"/>
+    <properties>
+      <property name="name" value="TX Props_60"/>
+    </properties>
+  </tile>
+  <tile id="12821">
+    <tileoffset x="-13" y="0"/>
+    <image source="images/TX Props_1.png" width="26" height="52"/>
+    <properties>
+      <property name="name" value="TX Props_1"/>
+    </properties>
+  </tile>
+  <tile id="12822">
+    <tileoffset x="-18" y="0"/>
+    <image source="images/TX Props_28.png" width="37" height="50"/>
+    <properties>
+      <property name="name" value="TX Props_28"/>
+    </properties>
+  </tile>
+  <tile id="12823">
+    <tileoffset x="-16" y="0"/>
+    <image source="images/TX Props_23.png" width="32" height="49"/>
+    <properties>
+      <property name="name" value="TX Props_23"/>
+    </properties>
+  </tile>
+  <tile id="12824">
+    <tileoffset x="-27" y="0"/>
+    <image source="images/TX Props_97.png" width="55" height="49"/>
+    <properties>
+      <property name="name" value="TX Props_97"/>
+    </properties>
+  </tile>
+  <tile id="12825">
+    <tileoffset x="-10" y="0"/>
+    <image source="images/TX Player_0.png" width="21" height="48"/>
+    <properties>
+      <property name="name" value="TX Player_0"/>
+    </properties>
+  </tile>
+  <tile id="12826">
+    <tileoffset x="-16" y="0"/>
+    <image source="images/TX Props_2.png" width="32" height="46"/>
+    <properties>
+      <property name="name" value="TX Props_2"/>
+    </properties>
+  </tile>
+  <tile id="12827">
+    <tileoffset x="-16" y="0"/>
+    <image source="images/TX Props_3.png" width="32" height="46"/>
+    <properties>
+      <property name="name" value="TX Props_3"/>
+    </properties>
+  </tile>
+  <tile id="12828">
+    <tileoffset x="-16" y="0"/>
+    <image source="images/TX Props_95.png" width="32" height="46"/>
+    <properties>
+      <property name="name" value="TX Props_95"/>
+    </properties>
+  </tile>
+  <tile id="12829">
+    <tileoffset x="-19" y="0"/>
+    <image source="images/TX Plant_4.png" width="39" height="45"/>
+    <properties>
+      <property name="name" value="TX Plant_4"/>
+    </properties>
+  </tile>
+  <tile id="12830">
+    <tileoffset x="-10" y="0"/>
+    <image source="images/TX Player_1.png" width="21" height="45"/>
+    <properties>
+      <property name="name" value="TX Player_1"/>
+    </properties>
+  </tile>
+  <tile id="12831">
+    <tileoffset x="-10" y="0"/>
+    <image source="images/TX Player_2.png" width="21" height="44"/>
+    <properties>
+      <property name="name" value="TX Player_2"/>
+    </properties>
+  </tile>
+  <tile id="12832">
+    <tileoffset x="-23" y="0"/>
+    <image source="images/TX Plant_3.png" width="47" height="42"/>
+    <properties>
+      <property name="name" value="TX Plant_3"/>
+    </properties>
+  </tile>
+  <tile id="12833">
+    <tileoffset x="-28" y="0"/>
+    <image source="images/TX Props_98.png" width="57" height="42"/>
+    <properties>
+      <property name="name" value="TX Props_98"/>
+    </properties>
+  </tile>
+  <tile id="12834">
+    <tileoffset x="-28" y="0"/>
+    <image source="images/TX Props_4.png" width="56" height="41"/>
+    <properties>
+      <property name="name" value="TX Props_4"/>
+    </properties>
+  </tile>
+  <tile id="12835">
+    <tileoffset x="-15" y="0"/>
+    <image source="images/TX Props_73.png" width="30" height="41"/>
+    <properties>
+      <property name="name" value="TX Props_73"/>
+    </properties>
+  </tile>
+  <tile id="12836">
+    <tileoffset x="-13" y="0"/>
+    <image source="images/TX Props_94.png" width="26" height="40"/>
+    <properties>
+      <property name="name" value="TX Props_94"/>
+    </properties>
+  </tile>
+  <tile id="12837">
+    <tileoffset x="-13" y="0"/>
+    <image source="images/TX Props_24.png" width="26" height="39"/>
+    <properties>
+      <property name="name" value="TX Props_24"/>
+    </properties>
+  </tile>
+  <tile id="12838">
+    <tileoffset x="-13" y="0"/>
+    <image source="images/TX Props_62.png" width="26" height="38"/>
+    <properties>
+      <property name="name" value="TX Props_62"/>
+    </properties>
+  </tile>
+  <tile id="12839">
+    <tileoffset x="-11" y="0"/>
+    <image source="images/TX Props_36.png" width="22" height="37"/>
+    <properties>
+      <property name="name" value="TX Props_36"/>
+    </properties>
+  </tile>
+  <tile id="12840">
+    <tileoffset x="-32" y="0"/>
+    <image source="images/TX Props_25.png" width="64" height="36"/>
+    <properties>
+      <property name="name" value="TX Props_25"/>
+    </properties>
+  </tile>
+  <tile id="12841">
+    <tileoffset x="-14" y="0"/>
+    <image source="images/TX Props_56.png" width="28" height="36"/>
+    <properties>
+      <property name="name" value="TX Props_56"/>
+    </properties>
+  </tile>
+  <tile id="12842">
+    <tileoffset x="-20" y="0"/>
+    <image source="images/TX Plant_6.png" width="40" height="35"/>
+    <properties>
+      <property name="name" value="TX Plant_6"/>
+    </properties>
+  </tile>
+  <tile id="12843">
+    <tileoffset x="-10" y="0"/>
+    <image source="images/TX Props_71.png" width="21" height="34"/>
+    <properties>
+      <property name="name" value="TX Props_71"/>
+    </properties>
+  </tile>
+  <tile id="12844">
+    <tileoffset x="-19" y="0"/>
+    <image source="images/TX Plant_5.png" width="38" height="32"/>
+    <properties>
+      <property name="name" value="TX Plant_5"/>
+    </properties>
+  </tile>
+  <tile id="12845">
+    <tileoffset x="-12" y="0"/>
+    <image source="images/TX Props_58.png" width="27" height="32"/>
+    <properties>
+      <property name="name" value="TX Props_58"/>
+    </properties>
+  </tile>
+  <tile id="12846">
+    <tileoffset x="-15" y="0"/>
+    <image source="images/TX Props_72.png" width="27" height="32"/>
+    <properties>
+      <property name="name" value="TX Props_72"/>
+    </properties>
+  </tile>
+  <tile id="12847">
+    <tileoffset x="-10" y="0"/>
+    <image source="images/TX Props_96.png" width="21" height="32"/>
+    <properties>
+      <property name="name" value="TX Props_96"/>
+    </properties>
+  </tile>
+  <tile id="12848">
+    <tileoffset x="-16" y="0"/>
+    <image source="images/TX Tileset Grass_0.png" width="32" height="32"/>
+    <properties>
+      <property name="name" value="TX Tileset Grass_0"/>
+    </properties>
+  </tile>
+  <tile id="12849">
+    <tileoffset x="-16" y="0"/>
+    <image source="images/TX Tileset Grass_1.png" width="32" height="32"/>
+    <properties>
+      <property name="name" value="TX Tileset Grass_1"/>
+    </properties>
+  </tile>
+  <tile id="12850">
+    <tileoffset x="-16" y="0"/>
+    <image source="images/TX Tileset Grass_2.png" width="32" height="32"/>
+    <properties>
+      <property name="name" value="TX Tileset Grass_2"/>
+    </properties>
+  </tile>
+  <tile id="12851">
+    <tileoffset x="-16" y="0"/>
+    <image source="images/TX Tileset Grass_3.png" width="32" height="32"/>
+    <properties>
+      <property name="name" value="TX Tileset Grass_3"/>
+    </properties>
+  </tile>
+  <tile id="12852">
+    <tileoffset x="-16" y="0"/>
+    <image source="images/TX Tileset Grass_4.png" width="32" height="32"/>
+    <properties>
+      <property name="name" value="TX Tileset Grass_4"/>
+    </properties>
+  </tile>
+  <tile id="12853">
+    <tileoffset x="-16" y="0"/>
+    <image source="images/TX Tileset Grass_5.png" width="32" height="32"/>
+    <properties>
+      <property name="name" value="TX Tileset Grass_5"/>
+    </properties>
+  </tile>
+  <tile id="12854">
+    <tileoffset x="-16" y="0"/>
+    <image source="images/TX Tileset Grass_6.png" width="32" height="32"/>
+    <properties>
+      <property name="name" value="TX Tileset Grass_6"/>
+    </properties>
+  </tile>
+  <tile id="12855">
+    <tileoffset x="-16" y="0"/>
+    <image source="images/TX Tileset Grass_7.png" width="32" height="32"/>
+    <properties>
+      <property name="name" value="TX Tileset Grass_7"/>
+    </properties>
+  </tile>
+  <tile id="12856">
+    <tileoffset x="-16" y="0"/>
+    <image source="images/TX Tileset Grass_8.png" width="32" height="32"/>
+    <properties>
+      <property name="name" value="TX Tileset Grass_8"/>
+    </properties>
+  </tile>
+  <tile id="12857">
+    <tileoffset x="-16" y="0"/>
+    <image source="images/TX Tileset Grass_9.png" width="32" height="32"/>
+    <properties>
+      <property name="name" value="TX Tileset Grass_9"/>
+    </properties>
+  </tile>
+  <tile id="12858">
+    <tileoffset x="-16" y="0"/>
+    <image source="images/TX Tileset Grass_10.png" width="32" height="32"/>
+    <properties>
+      <property name="name" value="TX Tileset Grass_10"/>
+    </properties>
+  </tile>
+  <tile id="12859">
+    <tileoffset x="-16" y="0"/>
+    <image source="images/TX Tileset Grass_11.png" width="32" height="32"/>
+    <properties>
+      <property name="name" value="TX Tileset Grass_11"/>
+    </properties>
+  </tile>
+  <tile id="12860">
+    <tileoffset x="-16" y="0"/>
+    <image source="images/TX Tileset Grass_12.png" width="32" height="32"/>
+    <properties>
+      <property name="name" value="TX Tileset Grass_12"/>
+    </properties>
+  </tile>
+  <tile id="12861">
+    <tileoffset x="-16" y="0"/>
+    <image source="images/TX Tileset Grass_13.png" width="32" height="32"/>
+    <properties>
+      <property name="name" value="TX Tileset Grass_13"/>
+    </properties>
+  </tile>
+  <tile id="12862">
+    <tileoffset x="-16" y="0"/>
+    <image source="images/TX Tileset Grass_14.png" width="32" height="32"/>
+    <properties>
+      <property name="name" value="TX Tileset Grass_14"/>
+    </properties>
+  </tile>
+  <tile id="12863">
+    <tileoffset x="-16" y="0"/>
+    <image source="images/TX Tileset Grass_15.png" width="32" height="32"/>
+    <properties>
+      <property name="name" value="TX Tileset Grass_15"/>
+    </properties>
+  </tile>
+  <tile id="12864">
+    <tileoffset x="-16" y="0"/>
+    <image source="images/TX Tileset Grass_16.png" width="32" height="32"/>
+    <properties>
+      <property name="name" value="TX Tileset Grass_16"/>
+    </properties>
+  </tile>
+  <tile id="12865">
+    <tileoffset x="-16" y="0"/>
+    <image source="images/TX Tileset Grass_17.png" width="32" height="32"/>
+    <properties>
+      <property name="name" value="TX Tileset Grass_17"/>
+    </properties>
+  </tile>
+  <tile id="12866">
+    <tileoffset x="-16" y="0"/>
+    <image source="images/TX Tileset Grass_18.png" width="32" height="32"/>
+    <properties>
+      <property name="name" value="TX Tileset Grass_18"/>
+    </properties>
+  </tile>
+  <tile id="12867">
+    <tileoffset x="-16" y="0"/>
+    <image source="images/TX Tileset Grass_19.png" width="32" height="32"/>
+    <properties>
+      <property name="name" value="TX Tileset Grass_19"/>
+    </properties>
+  </tile>
+  <tile id="12868">
+    <tileoffset x="-16" y="0"/>
+    <image source="images/TX Tileset Grass_20.png" width="32" height="32"/>
+    <properties>
+      <property name="name" value="TX Tileset Grass_20"/>
+    </properties>
+  </tile>
+  <tile id="12869">
+    <tileoffset x="-16" y="0"/>
+    <image source="images/TX Tileset Grass_21.png" width="32" height="32"/>
+    <properties>
+      <property name="name" value="TX Tileset Grass_21"/>
+    </properties>
+  </tile>
+  <tile id="12870">
+    <tileoffset x="-16" y="0"/>
+    <image source="images/TX Tileset Grass_22.png" width="32" height="32"/>
+    <properties>
+      <property name="name" value="TX Tileset Grass_22"/>
+    </properties>
+  </tile>
+  <tile id="12871">
+    <tileoffset x="-16" y="0"/>
+    <image source="images/TX Tileset Grass_23.png" width="32" height="32"/>
+    <properties>
+      <property name="name" value="TX Tileset Grass_23"/>
+    </properties>
+  </tile>
+  <tile id="12872">
+    <tileoffset x="-16" y="0"/>
+    <image source="images/TX Tileset Grass_24.png" width="32" height="32"/>
+    <properties>
+      <property name="name" value="TX Tileset Grass_24"/>
+    </properties>
+  </tile>
+  <tile id="12873">
+    <tileoffset x="-16" y="0"/>
+    <image source="images/TX Tileset Grass_25.png" width="32" height="32"/>
+    <properties>
+      <property name="name" value="TX Tileset Grass_25"/>
+    </properties>
+  </tile>
+  <tile id="12874">
+    <tileoffset x="-16" y="0"/>
+    <image source="images/TX Tileset Grass_26.png" width="32" height="32"/>
+    <properties>
+      <property name="name" value="TX Tileset Grass_26"/>
+    </properties>
+  </tile>
+  <tile id="12875">
+    <tileoffset x="-16" y="0"/>
+    <image source="images/TX Tileset Grass_27.png" width="32" height="32"/>
+    <properties>
+      <property name="name" value="TX Tileset Grass_27"/>
+    </properties>
+  </tile>
+  <tile id="12876">
+    <tileoffset x="-16" y="0"/>
+    <image source="images/TX Tileset Grass_28.png" width="32" height="32"/>
+    <properties>
+      <property name="name" value="TX Tileset Grass_28"/>
+    </properties>
+  </tile>
+  <tile id="12877">
+    <tileoffset x="-16" y="0"/>
+    <image source="images/TX Tileset Grass_29.png" width="32" height="32"/>
+    <properties>
+      <property name="name" value="TX Tileset Grass_29"/>
+    </properties>
+  </tile>
+  <tile id="12878">
+    <tileoffset x="-16" y="0"/>
+    <image source="images/TX Tileset Grass_30.png" width="32" height="32"/>
+    <properties>
+      <property name="name" value="TX Tileset Grass_30"/>
+    </properties>
+  </tile>
+  <tile id="12879">
+    <tileoffset x="-16" y="0"/>
+    <image source="images/TX Tileset Grass_31.png" width="32" height="32"/>
+    <properties>
+      <property name="name" value="TX Tileset Grass_31"/>
+    </properties>
+  </tile>
+  <tile id="12880">
+    <tileoffset x="-16" y="0"/>
+    <image source="images/TX Tileset Grass_32.png" width="32" height="32"/>
+    <properties>
+      <property name="name" value="TX Tileset Grass_32"/>
+    </properties>
+  </tile>
+  <tile id="12881">
+    <tileoffset x="-16" y="0"/>
+    <image source="images/TX Tileset Grass_33.png" width="32" height="32"/>
+    <properties>
+      <property name="name" value="TX Tileset Grass_33"/>
+    </properties>
+  </tile>
+  <tile id="12882">
+    <tileoffset x="-16" y="0"/>
+    <image source="images/TX Tileset Grass_34.png" width="32" height="32"/>
+    <properties>
+      <property name="name" value="TX Tileset Grass_34"/>
+    </properties>
+  </tile>
+  <tile id="12883">
+    <tileoffset x="-16" y="0"/>
+    <image source="images/TX Tileset Grass_35.png" width="32" height="32"/>
+    <properties>
+      <property name="name" value="TX Tileset Grass_35"/>
+    </properties>
+  </tile>
+  <tile id="12884">
+    <tileoffset x="-16" y="0"/>
+    <image source="images/TX Tileset Grass_36.png" width="32" height="32"/>
+    <properties>
+      <property name="name" value="TX Tileset Grass_36"/>
+    </properties>
+  </tile>
+  <tile id="12885">
+    <tileoffset x="-16" y="0"/>
+    <image source="images/TX Tileset Grass_37.png" width="32" height="32"/>
+    <properties>
+      <property name="name" value="TX Tileset Grass_37"/>
+    </properties>
+  </tile>
+  <tile id="12886">
+    <tileoffset x="-16" y="0"/>
+    <image source="images/TX Tileset Grass_38.png" width="32" height="32"/>
+    <properties>
+      <property name="name" value="TX Tileset Grass_38"/>
+    </properties>
+  </tile>
+  <tile id="12887">
+    <tileoffset x="-16" y="0"/>
+    <image source="images/TX Tileset Grass_39.png" width="32" height="32"/>
+    <properties>
+      <property name="name" value="TX Tileset Grass_39"/>
+    </properties>
+  </tile>
+  <tile id="12888">
+    <tileoffset x="-16" y="0"/>
+    <image source="images/TX Tileset Grass_40.png" width="32" height="32"/>
+    <properties>
+      <property name="name" value="TX Tileset Grass_40"/>
+    </properties>
+  </tile>
+  <tile id="12889">
+    <tileoffset x="-16" y="0"/>
+    <image source="images/TX Tileset Grass_41.png" width="32" height="32"/>
+    <properties>
+      <property name="name" value="TX Tileset Grass_41"/>
+    </properties>
+  </tile>
+  <tile id="12890">
+    <tileoffset x="-16" y="0"/>
+    <image source="images/TX Tileset Grass_42.png" width="32" height="32"/>
+    <properties>
+      <property name="name" value="TX Tileset Grass_42"/>
+    </properties>
+  </tile>
+  <tile id="12891">
+    <tileoffset x="-16" y="0"/>
+    <image source="images/TX Tileset Grass_43.png" width="32" height="32"/>
+    <properties>
+      <property name="name" value="TX Tileset Grass_43"/>
+    </properties>
+  </tile>
+  <tile id="12892">
+    <tileoffset x="-16" y="0"/>
+    <image source="images/TX Tileset Grass_44.png" width="32" height="32"/>
+    <properties>
+      <property name="name" value="TX Tileset Grass_44"/>
+    </properties>
+  </tile>
+  <tile id="12893">
+    <tileoffset x="-16" y="0"/>
+    <image source="images/TX Tileset Grass_45.png" width="32" height="32"/>
+    <properties>
+      <property name="name" value="TX Tileset Grass_45"/>
+    </properties>
+  </tile>
+  <tile id="12894">
+    <tileoffset x="-16" y="0"/>
+    <image source="images/TX Tileset Grass_46.png" width="32" height="32"/>
+    <properties>
+      <property name="name" value="TX Tileset Grass_46"/>
+    </properties>
+  </tile>
+  <tile id="12895">
+    <tileoffset x="-16" y="0"/>
+    <image source="images/TX Tileset Grass_47.png" width="32" height="32"/>
+    <properties>
+      <property name="name" value="TX Tileset Grass_47"/>
+    </properties>
+  </tile>
+  <tile id="12896">
+    <tileoffset x="-16" y="0"/>
+    <image source="images/TX Tileset Grass_48.png" width="32" height="32"/>
+    <properties>
+      <property name="name" value="TX Tileset Grass_48"/>
+    </properties>
+  </tile>
+  <tile id="12897">
+    <tileoffset x="-16" y="0"/>
+    <image source="images/TX Tileset Grass_49.png" width="32" height="32"/>
+    <properties>
+      <property name="name" value="TX Tileset Grass_49"/>
+    </properties>
+  </tile>
+  <tile id="12898">
+    <tileoffset x="-16" y="0"/>
+    <image source="images/TX Tileset Grass_50.png" width="32" height="32"/>
+    <properties>
+      <property name="name" value="TX Tileset Grass_50"/>
+    </properties>
+  </tile>
+  <tile id="12899">
+    <tileoffset x="-16" y="0"/>
+    <image source="images/TX Tileset Grass_51.png" width="32" height="32"/>
+    <properties>
+      <property name="name" value="TX Tileset Grass_51"/>
+    </properties>
+  </tile>
+  <tile id="12900">
+    <tileoffset x="-16" y="0"/>
+    <image source="images/TX Tileset Grass_52.png" width="32" height="32"/>
+    <properties>
+      <property name="name" value="TX Tileset Grass_52"/>
+    </properties>
+  </tile>
+  <tile id="12901">
+    <tileoffset x="-16" y="0"/>
+    <image source="images/TX Tileset Grass_53.png" width="32" height="32"/>
+    <properties>
+      <property name="name" value="TX Tileset Grass_53"/>
+    </properties>
+  </tile>
+  <tile id="12902">
+    <tileoffset x="-16" y="0"/>
+    <image source="images/TX Tileset Grass_54.png" width="32" height="32"/>
+    <properties>
+      <property name="name" value="TX Tileset Grass_54"/>
+    </properties>
+  </tile>
+  <tile id="12903">
+    <tileoffset x="-16" y="0"/>
+    <image source="images/TX Tileset Grass_55.png" width="32" height="32"/>
+    <properties>
+      <property name="name" value="TX Tileset Grass_55"/>
+    </properties>
+  </tile>
+  <tile id="12904">
+    <tileoffset x="-16" y="0"/>
+    <image source="images/TX Tileset Grass_56.png" width="32" height="32"/>
+    <properties>
+      <property name="name" value="TX Tileset Grass_56"/>
+    </properties>
+  </tile>
+  <tile id="12905">
+    <tileoffset x="-16" y="0"/>
+    <image source="images/TX Tileset Grass_57.png" width="32" height="32"/>
+    <properties>
+      <property name="name" value="TX Tileset Grass_57"/>
+    </properties>
+  </tile>
+  <tile id="12906">
+    <tileoffset x="-16" y="0"/>
+    <image source="images/TX Tileset Grass_58.png" width="32" height="32"/>
+    <properties>
+      <property name="name" value="TX Tileset Grass_58"/>
+    </properties>
+  </tile>
+  <tile id="12907">
+    <tileoffset x="-16" y="0"/>
+    <image source="images/TX Tileset Grass_59.png" width="32" height="32"/>
+    <properties>
+      <property name="name" value="TX Tileset Grass_59"/>
+    </properties>
+  </tile>
+  <tile id="12908">
+    <tileoffset x="-16" y="0"/>
+    <image source="images/TX Tileset Grass_60.png" width="32" height="32"/>
+    <properties>
+      <property name="name" value="TX Tileset Grass_60"/>
+    </properties>
+  </tile>
+  <tile id="12909">
+    <tileoffset x="-16" y="0"/>
+    <image source="images/TX Tileset Grass_61.png" width="32" height="32"/>
+    <properties>
+      <property name="name" value="TX Tileset Grass_61"/>
+    </properties>
+  </tile>
+  <tile id="12910">
+    <tileoffset x="-16" y="0"/>
+    <image source="images/TX Tileset Grass_62.png" width="32" height="32"/>
+    <properties>
+      <property name="name" value="TX Tileset Grass_62"/>
+    </properties>
+  </tile>
+  <tile id="12911">
+    <tileoffset x="-16" y="0"/>
+    <image source="images/TX Tileset Grass_63.png" width="32" height="32"/>
+    <properties>
+      <property name="name" value="TX Tileset Grass_63"/>
+    </properties>
+  </tile>
+  <tile id="12912">
+    <tileoffset x="-16" y="0"/>
+    <image source="images/TX Props_7.png" width="32" height="31"/>
+    <properties>
+      <property name="name" value="TX Props_7"/>
+    </properties>
+  </tile>
+  <tile id="12913">
+    <tileoffset x="-15" y="0"/>
+    <image source="images/TX Props_74.png" width="30" height="29"/>
+    <properties>
+      <property name="name" value="TX Props_74"/>
+    </properties>
+  </tile>
+  <tile id="12914">
+    <tileoffset x="-13" y="0"/>
+    <image source="images/TX Player_3.png" width="27" height="28"/>
+    <properties>
+      <property name="name" value="TX Player_3"/>
+    </properties>
+  </tile>
+  <tile id="12915">
+    <tileoffset x="-12" y="0"/>
+    <image source="images/TX Props_93.png" width="25" height="27"/>
+    <properties>
+      <property name="name" value="TX Props_93"/>
+    </properties>
+  </tile>
+  <tile id="12916">
+    <tileoffset x="-13" y="0"/>
+    <image source="images/TX Props_99.png" width="27" height="27"/>
+    <properties>
+      <property name="name" value="TX Props_99"/>
+    </properties>
+  </tile>
+  <tile id="12917">
+    <tileoffset x="-13" y="0"/>
+    <image source="images/TX Plant_7.png" width="27" height="25"/>
+    <properties>
+      <property name="name" value="TX Plant_7"/>
+    </properties>
+  </tile>
+  <tile id="12918">
+    <tileoffset x="-13" y="0"/>
+    <image source="images/TX Props_100.png" width="27" height="22"/>
+    <properties>
+      <property name="name" value="TX Props_100"/>
+    </properties>
+  </tile>
+  <tile id="12919">
+    <tileoffset x="-11" y="0"/>
+    <image source="images/TX Plant_8.png" width="22" height="19"/>
+    <properties>
+      <property name="name" value="TX Plant_8"/>
+    </properties>
+  </tile>
+  <tile id="12920">
+    <tileoffset x="-15" y="0"/>
+    <image source="images/TX Props_101.png" width="31" height="19"/>
+    <properties>
+      <property name="name" value="TX Props_101"/>
+    </properties>
+  </tile>
+  <tile id="12921">
+    <tileoffset x="-12" y="0"/>
+    <image source="images/TX Props_102.png" width="24" height="19"/>
+    <properties>
+      <property name="name" value="TX Props_102"/>
+    </properties>
+  </tile>
+  <tile id="12922">
+    <tileoffset x="-12" y="0"/>
+    <image source="images/TX Props_103.png" width="24" height="19"/>
+    <properties>
+      <property name="name" value="TX Props_103"/>
+    </properties>
+  </tile>
+  <tile id="12923">
+    <tileoffset x="-9" y="0"/>
+    <image source="images/TX Props_104.png" width="19" height="16"/>
+    <properties>
+      <property name="name" value="TX Props_104"/>
+    </properties>
+  </tile>
+  <tile id="12924">
+    <tileoffset x="-8" y="0"/>
+    <image source="images/TX Props_105.png" width="18" height="16"/>
+    <properties>
+      <property name="name" value="TX Props_105"/>
+    </properties>
+  </tile>
+  <tile id="12925">
+    <tileoffset x="-8" y="0"/>
+    <image source="images/TX Props_106.png" width="16" height="14"/>
+    <properties>
+      <property name="name" value="TX Props_106"/>
+    </properties>
+  </tile>
+  <tile id="12926">
+    <tileoffset x="-7" y="0"/>
+    <image source="images/TX Plant_12.png" width="15" height="11"/>
+    <properties>
+      <property name="name" value="TX Plant_12"/>
+    </properties>
+  </tile>
+  <tile id="12927">
+    <tileoffset x="-5" y="0"/>
+    <image source="images/TX Plant_22.png" width="10" height="11"/>
+    <properties>
+      <property name="name" value="TX Plant_22"/>
+    </properties>
+  </tile>
+  <tile id="12928">
+    <tileoffset x="-7" y="0"/>
+    <image source="images/TX Plant_10.png" width="16" height="10"/>
+    <properties>
+      <property name="name" value="TX Plant_10"/>
+    </properties>
+  </tile>
+  <tile id="12929">
+    <tileoffset x="-7" y="0"/>
+    <image source="images/TX Plant_11.png" width="15" height="10"/>
+    <properties>
+      <property name="name" value="TX Plant_11"/>
+    </properties>
+  </tile>
+  <tile id="12930">
+    <tileoffset x="-5" y="0"/>
+    <image source="images/TX Plant_13.png" width="12" height="10"/>
+    <properties>
+      <property name="name" value="TX Plant_13"/>
+    </properties>
+  </tile>
+  <tile id="12931">
+    <tileoffset x="-5" y="0"/>
+    <image source="images/TX Plant_17.png" width="12" height="10"/>
+    <properties>
+      <property name="name" value="TX Plant_17"/>
+    </properties>
+  </tile>
+  <tile id="12932">
+    <tileoffset x="-6" y="0"/>
+    <image source="images/TX Plant_19.png" width="14" height="10"/>
+    <properties>
+      <property name="name" value="TX Plant_19"/>
+    </properties>
+  </tile>
+  <tile id="12933">
+    <tileoffset x="-5" y="0"/>
+    <image source="images/TX Plant_21.png" width="10" height="10"/>
+    <properties>
+      <property name="name" value="TX Plant_21"/>
+    </properties>
+  </tile>
+  <tile id="12934">
+    <tileoffset x="-5" y="0"/>
+    <image source="images/TX Props_107.png" width="11" height="10"/>
+    <properties>
+      <property name="name" value="TX Props_107"/>
+    </properties>
+  </tile>
+  <tile id="12935">
+    <tileoffset x="-8" y="0"/>
+    <image source="images/TX Plant_9.png" width="17" height="9"/>
+    <properties>
+      <property name="name" value="TX Plant_9"/>
+    </properties>
+  </tile>
+  <tile id="12936">
+    <tileoffset x="-6" y="0"/>
+    <image source="images/TX Plant_14.png" width="13" height="9"/>
+    <properties>
+      <property name="name" value="TX Plant_14"/>
+    </properties>
+  </tile>
+  <tile id="12937">
+    <tileoffset x="-6" y="0"/>
+    <image source="images/TX Plant_15.png" width="13" height="9"/>
+    <properties>
+      <property name="name" value="TX Plant_15"/>
+    </properties>
+  </tile>
+  <tile id="12938">
+    <tileoffset x="-5" y="0"/>
+    <image source="images/TX Plant_20.png" width="12" height="9"/>
+    <properties>
+      <property name="name" value="TX Plant_20"/>
+    </properties>
+  </tile>
+  <tile id="12939">
+    <tileoffset x="-6" y="0"/>
+    <image source="images/TX Plant_18.png" width="12" height="8"/>
+    <properties>
+      <property name="name" value="TX Plant_18"/>
+    </properties>
+  </tile>
+  <tile id="12940">
+    <tileoffset x="-4" y="0"/>
+    <image source="images/TX Plant_23.png" width="8" height="8"/>
+    <properties>
+      <property name="name" value="TX Plant_23"/>
+    </properties>
+  </tile>
+  <tile id="12941">
+    <tileoffset x="-48" y="0"/>
+    <image source="images/TX Tileset Wall_4.png" width="96" height="8"/>
+    <properties>
+      <property name="name" value="TX Tileset Wall_4"/>
+    </properties>
+  </tile>
+  <tile id="12942">
+    <tileoffset x="-7" y="0"/>
+    <image source="images/TX Plant_16.png" width="14" height="7"/>
+    <properties>
+      <property name="name" value="TX Plant_16"/>
+    </properties>
+  </tile>
+  <tile id="12943">
+    <tileoffset x="-3" y="0"/>
+    <image source="images/TX Plant_24.png" width="6" height="5"/>
+    <properties>
+      <property name="name" value="TX Plant_24"/>
+    </properties>
+  </tile>
+  <tile id="12944">
+    <tileoffset x="-1" y="0"/>
+    <image source="images/TX Props_6.png" width="3" height="5"/>
+    <properties>
+      <property name="name" value="TX Props_6"/>
+    </properties>
+  </tile>
+  <tile id="12945">
+    <tileoffset x="0" y="0"/>
+    <image source="images/TX Props_34.png" width="2" height="5"/>
+    <properties>
+      <property name="name" value="TX Props_34"/>
+    </properties>
+  </tile>
+  <tile id="12946">
+    <tileoffset x="-2" y="0"/>
+    <image source="images/TX Props_40.png" width="5" height="5"/>
+    <properties>
+      <property name="name" value="TX Props_40"/>
+    </properties>
+  </tile>
+  <tile id="12947">
+    <tileoffset x="-1" y="0"/>
+    <image source="images/TX Props_42.png" width="5" height="5"/>
+    <properties>
+      <property name="name" value="TX Props_42"/>
+    </properties>
+  </tile>
+  <tile id="12948">
+    <tileoffset x="-1" y="0"/>
+    <image source="images/TX Props_51.png" width="2" height="5"/>
+    <properties>
+      <property name="name" value="TX Props_51"/>
+    </properties>
+  </tile>
+  <tile id="12949">
+    <tileoffset x="-2" y="0"/>
+    <image source="images/TX Props_76.png" width="5" height="5"/>
+    <properties>
+      <property name="name" value="TX Props_76"/>
+    </properties>
+  </tile>
+  <tile id="12950">
+    <tileoffset x="-1" y="0"/>
+    <image source="images/TX Props_85.png" width="3" height="5"/>
+    <properties>
+      <property name="name" value="TX Props_85"/>
+    </properties>
+  </tile>
+  <tile id="12951">
+    <tileoffset x="-4" y="0"/>
+    <image source="images/spr_old_building_7_3.png" width="8" height="5"/>
+    <properties>
+      <property name="name" value="spr_old_building_7_3"/>
+    </properties>
+  </tile>
+  <tile id="12952">
+    <tileoffset x="-1" y="0"/>
+    <image source="images/TX Props_11.png" width="3" height="4"/>
+    <properties>
+      <property name="name" value="TX Props_11"/>
+    </properties>
+  </tile>
+  <tile id="12953">
+    <tileoffset x="-1" y="0"/>
+    <image source="images/TX Props_65.png" width="3" height="4"/>
+    <properties>
+      <property name="name" value="TX Props_65"/>
+    </properties>
+  </tile>
+  <tile id="12954">
+    <tileoffset x="-1" y="0"/>
+    <image source="images/TX Props_12.png" width="3" height="3"/>
+    <properties>
+      <property name="name" value="TX Props_12"/>
+    </properties>
+  </tile>
+  <tile id="12955">
+    <tileoffset x="0" y="0"/>
+    <image source="images/TX Props_47.png" width="1" height="3"/>
+    <properties>
+      <property name="name" value="TX Props_47"/>
+    </properties>
+  </tile>
+  <tile id="12956">
+    <tileoffset x="0" y="0"/>
+    <image source="images/TX Props_48.png" width="1" height="3"/>
+    <properties>
+      <property name="name" value="TX Props_48"/>
+    </properties>
+  </tile>
+  <tile id="12957">
+    <tileoffset x="-2" y="0"/>
+    <image source="images/TX Props_68.png" width="3" height="3"/>
+    <properties>
+      <property name="name" value="TX Props_68"/>
+    </properties>
+  </tile>
+  <tile id="12958">
+    <tileoffset x="-1" y="0"/>
+    <image source="images/TX Props_69.png" width="3" height="3"/>
+    <properties>
+      <property name="name" value="TX Props_69"/>
+    </properties>
+  </tile>
+  <tile id="12959">
+    <tileoffset x="0" y="0"/>
+    <image source="images/TX Props_77.png" width="1" height="3"/>
+    <properties>
+      <property name="name" value="TX Props_77"/>
+    </properties>
+  </tile>
+  <tile id="12960">
+    <tileoffset x="0" y="0"/>
+    <image source="images/TX Props_78.png" width="1" height="3"/>
+    <properties>
+      <property name="name" value="TX Props_78"/>
+    </properties>
+  </tile>
+  <tile id="12961">
+    <tileoffset x="-1" y="0"/>
+    <image source="images/TX Props_87.png" width="3" height="3"/>
+    <properties>
+      <property name="name" value="TX Props_87"/>
+    </properties>
+  </tile>
+  <tile id="12962">
+    <tileoffset x="-1" y="0"/>
+    <image source="images/TX Props_19.png" width="2" height="2"/>
+    <properties>
+      <property name="name" value="TX Props_19"/>
+    </properties>
+  </tile>
+  <tile id="12963">
+    <tileoffset x="0" y="0"/>
+    <image source="images/TX Props_20.png" width="2" height="2"/>
+    <properties>
+      <property name="name" value="TX Props_20"/>
+    </properties>
+  </tile>
+  <tile id="12964">
+    <tileoffset x="-1" y="0"/>
+    <image source="images/TX Props_21.png" width="2" height="2"/>
+    <properties>
+      <property name="name" value="TX Props_21"/>
+    </properties>
+  </tile>
+  <tile id="12965">
+    <tileoffset x="-1" y="0"/>
+    <image source="images/TX Props_22.png" width="2" height="2"/>
+    <properties>
+      <property name="name" value="TX Props_22"/>
+    </properties>
+  </tile>
+  <tile id="12966">
+    <tileoffset x="-2" y="0"/>
+    <image source="images/TX Props_29.png" width="5" height="2"/>
+    <properties>
+      <property name="name" value="TX Props_29"/>
+    </properties>
+  </tile>
+  <tile id="12967">
+    <tileoffset x="0" y="0"/>
+    <image source="images/TX Props_32.png" width="1" height="2"/>
+    <properties>
+      <property name="name" value="TX Props_32"/>
+    </properties>
+  </tile>
+  <tile id="12968">
+    <tileoffset x="0" y="0"/>
+    <image source="images/TX Props_33.png" width="1" height="2"/>
+    <properties>
+      <property name="name" value="TX Props_33"/>
+    </properties>
+  </tile>
+  <tile id="12969">
+    <tileoffset x="0" y="0"/>
+    <image source="images/TX Props_39.png" width="1" height="2"/>
+    <properties>
+      <property name="name" value="TX Props_39"/>
+    </properties>
+  </tile>
+  <tile id="12970">
+    <tileoffset x="0" y="0"/>
+    <image source="images/TX Props_66.png" width="1" height="2"/>
+    <properties>
+      <property name="name" value="TX Props_66"/>
+    </properties>
+  </tile>
+  <tile id="12971">
+    <tileoffset x="-1" y="0"/>
+    <image source="images/spr_old_building_7_4.png" width="2" height="2"/>
+    <properties>
+      <property name="name" value="spr_old_building_7_4"/>
+    </properties>
+  </tile>
+  <tile id="12972">
+    <tileoffset x="-1" y="0"/>
+    <image source="images/TX Props_8.png" width="2" height="1"/>
+    <properties>
+      <property name="name" value="TX Props_8"/>
+    </properties>
+  </tile>
+  <tile id="12973">
+    <tileoffset x="-1" y="0"/>
+    <image source="images/TX Props_9.png" width="2" height="1"/>
+    <properties>
+      <property name="name" value="TX Props_9"/>
+    </properties>
+  </tile>
+  <tile id="12974">
+    <tileoffset x="-1" y="0"/>
+    <image source="images/TX Props_10.png" width="2" height="1"/>
+    <properties>
+      <property name="name" value="TX Props_10"/>
+    </properties>
+  </tile>
+  <tile id="12975">
+    <tileoffset x="-1" y="0"/>
+    <image source="images/TX Props_13.png" width="3" height="1"/>
+    <properties>
+      <property name="name" value="TX Props_13"/>
+    </properties>
+  </tile>
+  <tile id="12976">
+    <tileoffset x="0" y="0"/>
+    <image source="images/TX Props_14.png" width="1" height="1"/>
+    <properties>
+      <property name="name" value="TX Props_14"/>
+    </properties>
+  </tile>
+  <tile id="12977">
+    <tileoffset x="0" y="0"/>
+    <image source="images/TX Props_15.png" width="1" height="1"/>
+    <properties>
+      <property name="name" value="TX Props_15"/>
+    </properties>
+  </tile>
+  <tile id="12978">
+    <tileoffset x="-1" y="0"/>
+    <image source="images/TX Props_16.png" width="2" height="1"/>
+    <properties>
+      <property name="name" value="TX Props_16"/>
+    </properties>
+  </tile>
+  <tile id="12979">
+    <tileoffset x="0" y="0"/>
+    <image source="images/TX Props_17.png" width="1" height="1"/>
+    <properties>
+      <property name="name" value="TX Props_17"/>
+    </properties>
+  </tile>
+  <tile id="12980">
+    <tileoffset x="-1" y="0"/>
+    <image source="images/TX Props_18.png" width="3" height="1"/>
+    <properties>
+      <property name="name" value="TX Props_18"/>
+    </properties>
+  </tile>
+  <tile id="12981">
+    <tileoffset x="0" y="0"/>
+    <image source="images/TX Props_30.png" width="1" height="1"/>
+    <properties>
+      <property name="name" value="TX Props_30"/>
+    </properties>
+  </tile>
+  <tile id="12982">
+    <tileoffset x="0" y="0"/>
+    <image source="images/TX Props_31.png" width="1" height="1"/>
+    <properties>
+      <property name="name" value="TX Props_31"/>
+    </properties>
+  </tile>
+  <tile id="12983">
+    <tileoffset x="0" y="0"/>
+    <image source="images/TX Props_35.png" width="1" height="1"/>
+    <properties>
+      <property name="name" value="TX Props_35"/>
+    </properties>
+  </tile>
+  <tile id="12984">
+    <tileoffset x="0" y="0"/>
+    <image source="images/TX Props_37.png" width="1" height="1"/>
+    <properties>
+      <property name="name" value="TX Props_37"/>
+    </properties>
+  </tile>
+  <tile id="12985">
+    <tileoffset x="0" y="0"/>
+    <image source="images/TX Props_38.png" width="1" height="1"/>
+    <properties>
+      <property name="name" value="TX Props_38"/>
+    </properties>
+  </tile>
+  <tile id="12986">
+    <tileoffset x="-1" y="0"/>
+    <image source="images/TX Props_41.png" width="3" height="1"/>
+    <properties>
+      <property name="name" value="TX Props_41"/>
+    </properties>
+  </tile>
+  <tile id="12987">
+    <tileoffset x="0" y="0"/>
+    <image source="images/TX Props_43.png" width="1" height="1"/>
+    <properties>
+      <property name="name" value="TX Props_43"/>
+    </properties>
+  </tile>
+  <tile id="12988">
+    <tileoffset x="0" y="0"/>
+    <image source="images/TX Props_44.png" width="1" height="1"/>
+    <properties>
+      <property name="name" value="TX Props_44"/>
+    </properties>
+  </tile>
+  <tile id="12989">
+    <tileoffset x="0" y="0"/>
+    <image source="images/TX Props_45.png" width="1" height="1"/>
+    <properties>
+      <property name="name" value="TX Props_45"/>
+    </properties>
+  </tile>
+  <tile id="12990">
+    <tileoffset x="-1" y="0"/>
+    <image source="images/TX Props_46.png" width="3" height="1"/>
+    <properties>
+      <property name="name" value="TX Props_46"/>
+    </properties>
+  </tile>
+  <tile id="12991">
+    <tileoffset x="0" y="0"/>
+    <image source="images/TX Props_49.png" width="1" height="1"/>
+    <properties>
+      <property name="name" value="TX Props_49"/>
+    </properties>
+  </tile>
+  <tile id="12992">
+    <tileoffset x="-1" y="0"/>
+    <image source="images/TX Props_50.png" width="3" height="1"/>
+    <properties>
+      <property name="name" value="TX Props_50"/>
+    </properties>
+  </tile>
+  <tile id="12993">
+    <tileoffset x="0" y="0"/>
+    <image source="images/TX Props_52.png" width="1" height="1"/>
+    <properties>
+      <property name="name" value="TX Props_52"/>
+    </properties>
+  </tile>
+  <tile id="12994">
+    <tileoffset x="-1" y="0"/>
+    <image source="images/TX Props_53.png" width="2" height="1"/>
+    <properties>
+      <property name="name" value="TX Props_53"/>
+    </properties>
+  </tile>
+  <tile id="12995">
+    <tileoffset x="-1" y="0"/>
+    <image source="images/TX Props_54.png" width="2" height="1"/>
+    <properties>
+      <property name="name" value="TX Props_54"/>
+    </properties>
+  </tile>
+  <tile id="12996">
+    <tileoffset x="0" y="0"/>
+    <image source="images/TX Props_55.png" width="1" height="1"/>
+    <properties>
+      <property name="name" value="TX Props_55"/>
+    </properties>
+  </tile>
+  <tile id="12997">
+    <tileoffset x="0" y="0"/>
+    <image source="images/TX Props_64.png" width="1" height="1"/>
+    <properties>
+      <property name="name" value="TX Props_64"/>
+    </properties>
+  </tile>
+  <tile id="12998">
+    <tileoffset x="0" y="0"/>
+    <image source="images/TX Props_67.png" width="1" height="1"/>
+    <properties>
+      <property name="name" value="TX Props_67"/>
+    </properties>
+  </tile>
+  <tile id="12999">
+    <tileoffset x="0" y="0"/>
+    <image source="images/TX Props_70.png" width="1" height="1"/>
+    <properties>
+      <property name="name" value="TX Props_70"/>
+    </properties>
+  </tile>
+  <tile id="13000">
+    <tileoffset x="-1" y="0"/>
+    <image source="images/TX Props_75.png" width="3" height="1"/>
+    <properties>
+      <property name="name" value="TX Props_75"/>
+    </properties>
+  </tile>
+  <tile id="13001">
+    <tileoffset x="0" y="0"/>
+    <image source="images/TX Props_79.png" width="1" height="1"/>
+    <properties>
+      <property name="name" value="TX Props_79"/>
+    </properties>
+  </tile>
+  <tile id="13002">
+    <tileoffset x="-1" y="0"/>
+    <image source="images/TX Props_81.png" width="3" height="1"/>
+    <properties>
+      <property name="name" value="TX Props_81"/>
+    </properties>
+  </tile>
+  <tile id="13003">
+    <tileoffset x="-1" y="0"/>
+    <image source="images/TX Props_82.png" width="3" height="1"/>
+    <properties>
+      <property name="name" value="TX Props_82"/>
+    </properties>
+  </tile>
+  <tile id="13004">
+    <tileoffset x="0" y="0"/>
+    <image source="images/TX Props_83.png" width="1" height="1"/>
+    <properties>
+      <property name="name" value="TX Props_83"/>
+    </properties>
+  </tile>
+  <tile id="13005">
+    <tileoffset x="0" y="0"/>
+    <image source="images/TX Props_84.png" width="1" height="1"/>
+    <properties>
+      <property name="name" value="TX Props_84"/>
+    </properties>
+  </tile>
+  <tile id="13006">
+    <tileoffset x="-1" y="0"/>
+    <image source="images/TX Props_86.png" width="3" height="1"/>
+    <properties>
+      <property name="name" value="TX Props_86"/>
+    </properties>
+  </tile>
+  <tile id="13007">
+    <tileoffset x="0" y="0"/>
+    <image source="images/TX Props_88.png" width="1" height="1"/>
+    <properties>
+      <property name="name" value="TX Props_88"/>
+    </properties>
+  </tile>
+  <tile id="13008">
+    <tileoffset x="0" y="0"/>
+    <image source="images/TX Props_89.png" width="1" height="1"/>
+    <properties>
+      <property name="name" value="TX Props_89"/>
+    </properties>
+  </tile>
+  <tile id="13009">
+    <tileoffset x="-1" y="0"/>
+    <image source="images/TX Props_90.png" width="3" height="1"/>
+    <properties>
+      <property name="name" value="TX Props_90"/>
+    </properties>
+  </tile>
+  <tile id="13010">
+    <tileoffset x="0" y="0"/>
+    <image source="images/TX Props_91.png" width="1" height="1"/>
+    <properties>
+      <property name="name" value="TX Props_91"/>
+    </properties>
+  </tile>
+  <tile id="13011">
+    <tileoffset x="0" y="0"/>
+    <image source="images/TX Props_92.png" width="1" height="1"/>
+    <properties>
+      <property name="name" value="TX Props_92"/>
+    </properties>
+  </tile>
+  <tile id="13012">
+    <tileoffset x="0" y="0"/>
+    <image source="images/spr_old_building_7_1.png" width="1" height="1"/>
+    <properties>
+      <property name="name" value="spr_old_building_7_1"/>
+    </properties>
+  </tile>
+  <tile id="13013">
+    <tileoffset x="0" y="0"/>
+    <image source="images/spr_old_building_7_2.png" width="1" height="1"/>
+    <properties>
+      <property name="name" value="spr_old_building_7_2"/>
     </properties>
   </tile>
 </tileset>

@@ -84,10 +84,6 @@ namespace RPG {
 
             for (int32_t y = sy; y <= ey; ++y)
                 for (int32_t x = sx; x <= ex; ++x)
-                    if (!map.at(x, y).canAccept(def.layer)) return false;
-
-            for (int32_t y = sy; y <= ey; ++y)
-                for (int32_t x = sx; x <= ex; ++x)
                     map.at(x, y).blocksPlacement |= def.meta.blocksPlacement;
         }
         else {
