@@ -13,7 +13,7 @@ namespace RPG {
 	namespace Factory {
 
 		std::unique_ptr<GameObject> createPlayer(AssetManager& am, WorldMap* worldmap, sf::Vector2f pos);
-		std::unique_ptr<GameObject> createNpc(AssetManager& am, sf::Vector2f pos, FactionID factionId);
+		std::unique_ptr<GameObject> createNpc(AssetManager& am, sf::Vector2f pos, FactionID factionId, const std::string& textureId = "npc", int dialogId = -1, bool isLeader = false);
 		std::unique_ptr<GameObject> createBox(AssetManager& am, sf::Vector2f pos);
 
 		std::unique_ptr<GameObject> createDynamicObject(AssetManager& am, const std::string& assetName, sf::Vector2f pos);

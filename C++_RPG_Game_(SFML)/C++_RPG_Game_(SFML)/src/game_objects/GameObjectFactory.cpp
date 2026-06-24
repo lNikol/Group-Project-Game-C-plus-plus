@@ -32,10 +32,10 @@ namespace RPG {
             return player;
         }
 
-        std::unique_ptr<GameObject> createNpc(AssetManager& am, sf::Vector2f pos, FactionID factionId) {
-            const Spritesheet& spritesheet = am.getTest("npc");
+        std::unique_ptr<GameObject> createNpc(AssetManager& am, sf::Vector2f pos, FactionID factionId, const std::string& textureId, int dialogId, bool isLeader) {
+            const Spritesheet& spritesheet = am.getTest(textureId);
             auto animations = AnimationLoader::loadAnimations(
-                GameConfig::ANIMATIONS_PATH + "npc_animations.json",
+                GameConfig::ANIMATIONS_PATH + textureId + "_animations.json",
                 &spritesheet
             );
 
@@ -45,7 +45,11 @@ namespace RPG {
 
             npc->addComponent<InteractionComponent>(32.f);
             auto npcComponent = npc->addComponent<NpcComponent>(factionId);
-            npcComponent->setFactionLeader(true);
+            npcComponent->setFactionLeader(isLeader);
+
+            if (dialogId > 0) {
+                npc->addComponent<DialogComponent>(dialogId);
+            }
 
             npc->addComponent<RenderComponent>(spritesheet);
             auto animation = npc->addComponent<AnimationComponent>();

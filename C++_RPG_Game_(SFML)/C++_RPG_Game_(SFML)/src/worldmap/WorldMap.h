@@ -71,7 +71,7 @@ namespace RPG {
         void reshape(uint32_t newWidth, uint32_t newHeight, int32_t offX, int32_t offY);
 
         // Spawning helpers — called by MapLoader
-        void spawnNPC(float x, float y, FactionID faction);
+        void spawnNPC(float x, float y, FactionID faction, const std::string& textureId = "npc", int dialogId = -1, bool isLeader = false);
         void addTriggerZone(float x, float y, float w, float h, int interactionId);
 
         void generateObstacles(float density, uint8_t playerSafeRadius = 2) {} 

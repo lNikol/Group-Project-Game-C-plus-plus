@@ -25,6 +25,9 @@ namespace RPG {
         AssetManager::getInstance().init();
         AssetManager::getInstance().addSpritesheet("player", GameConfig::ANIMATIONS_PATH + "player.png");
         AssetManager::getInstance().addSpritesheet("npc",    GameConfig::ANIMATIONS_PATH + "npc.png");
+        AssetManager::getInstance().addSpritesheet("knight", GameConfig::ANIMATIONS_PATH + "knight.png");
+        AssetManager::getInstance().addSpritesheet("ork", GameConfig::ANIMATIONS_PATH + "ork.png");
+        AssetManager::getInstance().addSpritesheet("vampire", GameConfig::ANIMATIONS_PATH + "vampire.png");
         AssetManager::getInstance().addSpritesheet("indicator", GameConfig::ANIMATIONS_PATH + "indicator.png");
         AssetManager::getInstance().addTexture("grass",      GameConfig::TEXTURES_PATH   + "grass.png");
 
@@ -118,27 +121,6 @@ namespace RPG {
         GameObject* playerPtr = player.get();
         mainMap->addGameObject(std::move(player));
         mainMap->setPlayerReference(playerPtr);
-
-        // --- TEST NPC WITH QUEST ---
-        auto spawnPos = mainMap->getSpawnPoint();
-        spawnPos.x += 64.f; // Place it a bit to the right of the player
-        auto testNpc = Factory::createNpc(AssetManager::getInstance(), spawnPos, FactionID::NeutralOrder);
-        if (auto* npcComp = testNpc->getComponent<NpcComponent>()) {
-            npcComp->setFactionLeader(false);
-        }
-        testNpc->addComponent<DialogComponent>(1);
-        mainMap->addGameObject(std::move(testNpc));
-
-        // --- TEST LIGHT COMMANDER NPC ---
-        auto commanderPos = spawnPos;
-        commanderPos.x += 64.f; // Place it a bit further to the right
-        auto commanderNpc = Factory::createNpc(AssetManager::getInstance(), commanderPos, FactionID::WhiteOrder);
-        if (auto* npcComp = commanderNpc->getComponent<NpcComponent>()) {
-            npcComp->setFactionLeader(true);
-        }
-        commanderNpc->addComponent<DialogComponent>(2);
-        mainMap->addGameObject(std::move(commanderNpc));
-        // ---------------------------
 
         currentScene = std::make_unique<WorldScene>(*this, mainMap);
         std::cout << "[GameManager] Init done. Map: " << (int)activeFaction << "\n";

@@ -8,7 +8,7 @@ namespace RPG {
         : m_text(font)
     {
         // 1. Text Setup
-        m_text.setCharacterSize(14);
+        m_text.setCharacterSize(16);
         m_text.setFillColor(sf::Color::White);
 
         // 2. Background Setup

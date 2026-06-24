@@ -1,0 +1,38 @@
+{
+  "spritesheet": "ork.png",
+  "defaultFrameGap": 32,
+  "animations": {
+    "idle_bottom": {
+      "startPos": [ 16, 16 ],
+      "frameCount": 4
+    },
+    "idle_top": {
+      "startPos": [ 16, 48 ],
+      "frameCount": 4
+    },
+    "idle_left": {
+      "startPos": [ 16, 80 ],
+      "frameCount": 4
+    },
+    "idle_right": {
+      "startPos": [ 16, 112 ],
+      "frameCount": 4
+    },
+    "run_bottom": {
+      "startPos": [ 16, 144 ],
+      "frameCount": 6
+    },
+    "run_top": {
+      "startPos": [ 16, 176 ],
+      "frameCount": 6
+    },
+    "run_left": {
+      "startPos": [ 16, 208 ],
+      "frameCount": 6
+    },
+    "run_right": {
+      "startPos": [ 16, 240 ],
+      "frameCount": 6
+    }
+  }
+}

@@ -102,8 +102,8 @@ namespace RPG {
     // Spawning helpers 
     // ==============================
 
-    void WorldMap::spawnNPC(float x, float y, FactionID faction) {
-        auto npc = Factory::createNpc(AssetManager::getInstance(), { x, y }, faction);
+    void WorldMap::spawnNPC(float x, float y, FactionID faction, const std::string& textureId, int dialogId, bool isLeader) {
+        auto npc = Factory::createNpc(AssetManager::getInstance(), { x, y }, faction, textureId, dialogId, isLeader);
         addGameObject(std::move(npc));
     }
 

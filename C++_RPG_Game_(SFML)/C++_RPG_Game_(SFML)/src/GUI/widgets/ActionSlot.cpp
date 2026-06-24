@@ -37,7 +37,7 @@ namespace RPG {
         m_icon.setPosition({ (size.x - scaledIconSize) / 2.f, (size.y - scaledIconSize) / 2.f });
 
         // Setup Charges Text (Bottom Right)
-        m_chargesText.setCharacterSize(10);
+        m_chargesText.setCharacterSize(16);
         m_chargesText.setFillColor(sf::Color::White);
         m_chargesText.setOutlineColor(sf::Color::Black);
         m_chargesText.setOutlineThickness(1.f);

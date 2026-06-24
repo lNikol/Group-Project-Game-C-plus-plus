@@ -45,6 +45,7 @@ namespace RPG {
                 continue;
             }
             tree.npcName = val.value("npcName", "Unknown");
+            tree.npcPortrait = val.value("npcPortrait", "");
 
             if (val.contains("nodes") && val["nodes"].is_object()) {
                 for (auto& [nodeKey, nodeVal] : val["nodes"].items()) {
@@ -142,6 +143,7 @@ namespace RPG {
             m_currentNodeId = resp.nextNode;
             
             if (m_currentNodeId == "exit" || m_currentNodeId == "") {
+                markExhausted(m_currentDialogId);
                 endDialog();
             } else {
                 processCurrentNode();
@@ -158,6 +160,14 @@ namespace RPG {
             return &m_dialogs.at(m_currentDialogId);
         }
         return nullptr;
+    }
+
+    bool DialogManager::isExhausted(int dialogId) const {
+        return m_exhaustedDialogs.find(dialogId) != m_exhaustedDialogs.end();
+    }
+
+    void DialogManager::markExhausted(int dialogId) {
+        m_exhaustedDialogs.insert(dialogId);
     }
 
     const DialogNode* DialogManager::getCurrentNode() const {

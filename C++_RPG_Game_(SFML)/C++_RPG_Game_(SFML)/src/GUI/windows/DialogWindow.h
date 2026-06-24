@@ -3,6 +3,7 @@
 #include "GUI/widgets/NineSlice.h"
 #include <SFML/Graphics.hpp>
 #include <vector>
+#include <optional>
 
 namespace RPG {
 
@@ -21,6 +22,7 @@ namespace RPG {
 
     private:
         NineSlice m_background;
+        std::optional<sf::Sprite> m_npcPortrait;
         sf::Text m_npcNameText;
         sf::Text m_dialogText;
         std::vector<sf::Text> m_responseTexts;

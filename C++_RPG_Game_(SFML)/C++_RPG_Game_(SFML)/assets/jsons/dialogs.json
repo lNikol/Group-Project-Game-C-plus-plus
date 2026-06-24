@@ -2,6 +2,7 @@
   "dialogs": {
     "1": {
       "npcName": "Mysterious Stranger",
+      "npcPortrait": "knight",
       "nodes": {
         "start": {
           "text": "Hello there, traveler. Are you seeking the Carrier of the Flame?",
@@ -14,7 +15,7 @@
         "who_are_you": {
           "text": "Just an observer in the darkness.",
           "responses": [
-            { "text": "Return", "nextNode": "start" }
+            { "text": "Goodbye.", "nextNode": "exit" }
           ]
         },
         "yes_carrier": {
@@ -28,6 +29,7 @@
     },
     "2": {
       "npcName": "Light Commander",
+      "npcPortrait": "knight",
       "nodes": {
         "start": {
           "questCondition": {

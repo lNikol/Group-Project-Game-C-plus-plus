@@ -43,6 +43,7 @@ namespace RPG {
         static TriggerAction mapTrigger(std::string name);
         static std::string getStrProperty(const nlohmann::json& el, const std::string& name, const std::string& def);
         static int getIntProperty(const nlohmann::json& el, const std::string& name, int def);
+        static bool getBoolProperty(const nlohmann::json& el, const std::string& name, bool def);
         static uint8_t determineZIndex(const nlohmann::json& layer);
 
         static int32_t offsetX;

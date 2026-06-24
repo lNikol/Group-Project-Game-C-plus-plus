@@ -1,4 +1,5 @@
 #include "JournalWindow.h"
+#include "worldmap/AssetManager.h"
 #include <sstream>
 
 namespace RPG {
@@ -23,76 +24,91 @@ namespace RPG {
 
     void JournalWindow::refreshQuestList() {
         m_questTexts.clear();
+        m_questCards.clear();
         
         float startY = 40.f;
         float startX = 20.f;
         float currentY = startY;
         float availableWidth = getSize().x - startX - 20.f;
 
-        // Active Quests
+        const sf::Texture* uiTex = AssetManager::getInstance().getTexture("ui_window");
+
+        // Active Quests Title
         auto activeTitle = std::make_unique<sf::Text>(m_font);
-        activeTitle->setString("--- Active Quests ---");
-        activeTitle->setCharacterSize(24);
-        activeTitle->setFillColor(sf::Color::Yellow);
+        activeTitle->setString("Active Quests");
+        activeTitle->setCharacterSize(32);
+        activeTitle->setFillColor(sf::Color::White);
         activeTitle->setPosition({startX, currentY});
+        currentY += 40.f;
         m_questTexts.push_back(std::move(activeTitle));
-        currentY += 30.f;
 
         auto activeQuests = QuestManager::getInstance().getActiveQuests();
         if (activeQuests.empty()) {
             auto text = std::make_unique<sf::Text>(m_font);
             text->setString("No active quests.");
-            text->setCharacterSize(20);
+            text->setCharacterSize(16);
             text->setFillColor(sf::Color(200, 200, 200));
             text->setPosition({startX, currentY});
             m_questTexts.push_back(std::move(text));
             currentY += 25.f;
         } else {
             for (const auto* q : activeQuests) {
+                QuestCard card;
+                if (uiTex) {
+                    card.background.setTexture(*uiTex, 32, 0.5f);
+                    card.background.setColor(sf::Color(160, 160, 160, 255));
+                }
+
+                float cardStartY = currentY;
+                float cardContentY = cardStartY + 10.f;
+                float cardContentX = startX + 15.f;
+                float cardWidth = availableWidth;
+
                 auto title = std::make_unique<sf::Text>(m_font);
                 title->setString(q->title);
-                title->setCharacterSize(22);
+                title->setCharacterSize(16);
                 title->setFillColor(sf::Color::White);
-                title->setPosition({startX, currentY});
-                m_questTexts.push_back(std::move(title));
-                currentY += 25.f;
+                title->setPosition({cardContentX, cardContentY});
+                cardContentY += 16.f;
+                card.texts.push_back(std::move(title));
 
                 auto desc = std::make_unique<sf::Text>(m_font);
-                std::string wrappedDesc = wrapText(q->description, availableWidth - 10.f, 18);
+                std::string wrappedDesc = wrapText(q->description, cardWidth - 30.f, 16);
                 desc->setString(wrappedDesc);
-                desc->setCharacterSize(18);
-                desc->setFillColor(sf::Color(180, 180, 180));
-                desc->setPosition({startX + 10.f, currentY});
-                
-                // Advance currentY by the actual height of the text block + padding
-                currentY += desc->getLocalBounds().size.y + 10.f;
-                m_questTexts.push_back(std::move(desc));
+                desc->setCharacterSize(16);
+                desc->setFillColor(sf::Color(220, 220, 220));
+                desc->setPosition({cardContentX, cardContentY});
+                cardContentY += desc->getLocalBounds().size.y + 10.f;
+                card.texts.push_back(std::move(desc));
 
-                // Objectives
                 for (const auto& obj : q->objectives) {
                     auto objText = std::make_unique<sf::Text>(m_font);
                     std::string progressStr = obj.isCompleted ? " (Done)" : " (" + std::to_string(obj.currentAmount) + "/" + std::to_string(obj.requiredAmount) + ")";
-                    std::string objWrapped = wrapText("- " + obj.description + progressStr, availableWidth - 20.f, 16);
+                    std::string objWrapped = wrapText("- " + obj.description + progressStr, cardWidth - 30.f, 16);
                     objText->setString(objWrapped);
                     objText->setCharacterSize(16);
-                    objText->setFillColor(obj.isCompleted ? sf::Color(100, 255, 100) : sf::Color(200, 200, 150));
-                    objText->setPosition({startX + 20.f, currentY});
-                    
-                    currentY += objText->getLocalBounds().size.y + 10.f;
-                    m_questTexts.push_back(std::move(objText));
+                    objText->setFillColor(obj.isCompleted ? sf::Color(100, 255, 100) : sf::Color::White);
+                    objText->setPosition({cardContentX + 10.f, cardContentY});
+                    cardContentY += objText->getLocalBounds().size.y + 10.f;
+                    card.texts.push_back(std::move(objText));
                 }
-                
+
                 if (q->status == QuestStatus::ReadyToTurnIn) {
                     auto readyText = std::make_unique<sf::Text>(m_font);
                     readyText->setString("Ready to turn in!");
                     readyText->setCharacterSize(16);
                     readyText->setFillColor(sf::Color::Cyan);
-                    readyText->setPosition({startX + 20.f, currentY});
-                    currentY += 25.f;
-                    m_questTexts.push_back(std::move(readyText));
+                    readyText->setPosition({cardContentX + 10.f, cardContentY});
+                    cardContentY += 20.f;
+                    card.texts.push_back(std::move(readyText));
                 }
 
-                currentY += 10.f;
+                cardContentY += 10.f; // Bottom padding
+                card.background.setPosition({startX, cardStartY});
+                card.background.setSize({cardWidth, cardContentY - cardStartY});
+
+                m_questCards.push_back(std::move(card));
+                currentY = cardContentY + 15.f; // Space between cards
             }
         }
 
@@ -100,31 +116,49 @@ namespace RPG {
 
         // Completed Quests
         auto completedTitle = std::make_unique<sf::Text>(m_font);
-        completedTitle->setString("--- Completed Quests ---");
-        completedTitle->setCharacterSize(24);
-        completedTitle->setFillColor(sf::Color::Green);
+        completedTitle->setString("Completed Quests");
+        completedTitle->setCharacterSize(32);
+        completedTitle->setFillColor(sf::Color::White);
         completedTitle->setPosition({startX, currentY});
+        currentY += 40.f;
         m_questTexts.push_back(std::move(completedTitle));
-        currentY += 30.f;
 
         auto completedQuests = QuestManager::getInstance().getCompletedQuests();
         if (completedQuests.empty()) {
             auto text = std::make_unique<sf::Text>(m_font);
             text->setString("No completed quests.");
-            text->setCharacterSize(20);
+            text->setCharacterSize(16);
             text->setFillColor(sf::Color(200, 200, 200));
             text->setPosition({startX, currentY});
             m_questTexts.push_back(std::move(text));
             currentY += 25.f;
         } else {
             for (const auto* q : completedQuests) {
+                QuestCard card;
+                if (uiTex) {
+                    card.background.setTexture(*uiTex, 32, 0.5f);
+                    card.background.setColor(sf::Color(80, 80, 80, 255));
+                }
+
+                float cardStartY = currentY;
+                float cardContentY = cardStartY + 10.f;
+                float cardContentX = startX + 15.f;
+                float cardWidth = availableWidth;
+
                 auto title = std::make_unique<sf::Text>(m_font);
                 title->setString(q->title);
-                title->setCharacterSize(22);
-                title->setFillColor(sf::Color(150, 150, 150));
-                title->setPosition({startX, currentY});
-                m_questTexts.push_back(std::move(title));
-                currentY += 25.f;
+                title->setCharacterSize(16);
+                title->setFillColor(sf::Color::White);
+                title->setPosition({cardContentX, cardContentY});
+                cardContentY += 16.f;
+                card.texts.push_back(std::move(title));
+
+                cardContentY += 10.f; // Bottom padding
+                card.background.setPosition({startX, cardStartY});
+                card.background.setSize({cardWidth, cardContentY - cardStartY});
+
+                m_questCards.push_back(std::move(card));
+                currentY = cardContentY + 15.f;
             }
         }
     }
@@ -163,7 +197,15 @@ namespace RPG {
 
         if (isVisible()) {
             states.transform *= getTransform();
-            // Draw all quest texts relative to window position
+            
+            for (const auto& card : m_questCards) {
+                target.draw(card.background, states);
+                for (const auto& text : card.texts) {
+                    target.draw(*text, states);
+                }
+            }
+
+            // Draw floating texts
             for (const auto& text : m_questTexts) {
                 target.draw(*text, states);
             }

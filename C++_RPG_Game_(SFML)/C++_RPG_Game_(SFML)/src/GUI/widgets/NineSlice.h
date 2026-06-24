@@ -24,6 +24,9 @@ namespace RPG {
         sf::Vector2f getSize() const;
         sf::FloatRect getLocalBounds() const;
 
+        void setColor(const sf::Color& color);
+        const sf::Color& getColor() const;
+
     protected:
         void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 
@@ -34,6 +37,7 @@ namespace RPG {
         int m_cornerSize = 0;
         float m_scale = 1.0f;
         sf::Vector2f m_size;
+        sf::Color m_color = sf::Color::White;
 
         sf::VertexArray m_vertices{sf::PrimitiveType::Triangles};
     };

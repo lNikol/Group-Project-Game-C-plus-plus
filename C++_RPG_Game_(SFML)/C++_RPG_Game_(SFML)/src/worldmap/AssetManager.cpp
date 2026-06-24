@@ -224,7 +224,8 @@ namespace RPG {
         }
 
         std::cout << "Failed to load spritesheet \"" + name + "\"\n";
-        return Spritesheet();
+        static Spritesheet dummy;
+        return dummy;
     }
 
     // ==============================

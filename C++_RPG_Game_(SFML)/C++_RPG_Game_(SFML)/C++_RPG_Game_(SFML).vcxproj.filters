@@ -521,10 +521,22 @@
     <Image Include="assets\textures\placeholders\UI_Window.png">
       <Filter>Pliki zasobĂłw</Filter>
     </Image>
+    <Image Include="assets\animations\knight.png">
+      <Filter>Pliki zasobĂłw</Filter>
+    </Image>
+    <Image Include="assets\animations\ork.png">
+      <Filter>Pliki zasobĂłw</Filter>
+    </Image>
+    <Image Include="assets\animations\vampire.png">
+      <Filter>Pliki zasobĂłw</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <None Include="assets\animations\npc_animations.json" />
     <None Include="assets\animations\player_animations.json" />
     <None Include="packages.config" />
+    <None Include="assets\animations\knight_animations.json" />
+    <None Include="assets\animations\ork_animations.json" />
+    <None Include="assets\animations\vampire_animations.json" />
   </ItemGroup>
 </Project>

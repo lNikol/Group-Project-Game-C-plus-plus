@@ -148,7 +148,11 @@ namespace RPG {
                 }
                 else if (type == "npc_spawn") {
                     FactionID faction = mapFaction(getStrProperty(obj, "faction", "neutral"));
-                    map.spawnNPC(rx, ry, faction);
+                    std::string texture = getStrProperty(obj, "texture", "npc");
+                    int dialogId = getIntProperty(obj, "dialog_id", -1);
+                    bool isLeader = getBoolProperty(obj, "is_leader", false);
+                    
+                    map.spawnNPC(rx, ry, faction, texture, dialogId, isLeader);
                 }
                 else if (type == "trigger") {
                     float rw = obj.value("width", 64.f);
@@ -237,4 +241,11 @@ namespace RPG {
         return def;
     }
 
+    bool MapLoader::getBoolProperty(const nlohmann::json& el, const std::string& name, bool def) {
+        if (el.contains("properties"))
+            for (const auto& p : el["properties"])
+                if (p["name"] == name && p["value"].is_boolean())
+                    return p["value"].get<bool>();
+        return def;
+    }
 }

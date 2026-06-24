@@ -273,8 +273,11 @@
     <ClInclude Include="src\GUI\windows\DialogWindow.h" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="assets\animations\knight.png" />
     <Image Include="assets\animations\npc.png" />
+    <Image Include="assets\animations\ork.png" />
     <Image Include="assets\animations\player.png" />
+    <Image Include="assets\animations\vampire.png" />
     <Image Include="assets\textures\box.png" />
     <Image Include="assets\textures\grass.png" />
     <Image Include="assets\textures\house.png" />
@@ -284,8 +287,11 @@
     <Image Include="C:\Users\olsze\Downloads\box.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="assets\animations\knight_animations.json" />
     <None Include="assets\animations\npc_animations.json" />
+    <None Include="assets\animations\ork_animations.json" />
     <None Include="assets\animations\player_animations.json" />
+    <None Include="assets\animations\vampire_animations.json" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

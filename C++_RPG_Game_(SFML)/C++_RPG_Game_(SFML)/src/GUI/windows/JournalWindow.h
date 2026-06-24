@@ -17,6 +17,11 @@ namespace RPG {
         void refreshQuestList();
         std::string wrapText(const std::string& str, float width, unsigned int charSize);
 
+        struct QuestCard {
+            NineSlice background;
+            std::vector<std::unique_ptr<sf::Text>> texts;
+        };
+        std::vector<QuestCard> m_questCards;
         std::vector<std::unique_ptr<sf::Text>> m_questTexts;
     protected:
         void draw(sf::RenderTarget& target, sf::RenderStates states) const override;

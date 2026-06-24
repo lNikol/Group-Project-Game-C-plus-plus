@@ -2,6 +2,7 @@
 #include <string>
 #include <vector>
 #include <unordered_map>
+#include <set>
 
 namespace RPG {
 
@@ -27,6 +28,7 @@ namespace RPG {
     struct DialogTree {
         int id;
         std::string npcName;
+        std::string npcPortrait;
         std::unordered_map<std::string, DialogNode> nodes;
     };
 
@@ -43,6 +45,10 @@ namespace RPG {
         bool isActive() const;
         const DialogTree* getCurrentDialog() const;
         const DialogNode* getCurrentNode() const;
+        const DialogTree* getCurrentTree() const;
+        
+        bool isExhausted(int dialogId) const;
+        void markExhausted(int dialogId);
 
     private:
         DialogManager();
@@ -53,6 +59,8 @@ namespace RPG {
         
         int m_currentDialogId = -1;
         std::string m_currentNodeId = "";
+        
+        std::set<int> m_exhaustedDialogs;
     };
 
 }
