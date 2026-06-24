@@ -530,6 +530,15 @@
     <Image Include="assets\animations\vampire.png">
       <Filter>Pliki zasobĂłw</Filter>
     </Image>
+    <Image Include="C:\Users\olsze\Downloads\craftpix-net-363992-free-top-down-orc-game-character-pixel-art\PNG\Orc2\Without_shadow\orc2_idle_without_shadow.png">
+      <Filter>Pliki zasobĂłw</Filter>
+    </Image>
+    <Image Include="assets\animations\ork2.png">
+      <Filter>Pliki zasobĂłw</Filter>
+    </Image>
+    <Image Include="assets\animations\ork3.png">
+      <Filter>Pliki zasobĂłw</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <None Include="assets\animations\npc_animations.json" />
@@ -538,5 +547,7 @@
     <None Include="assets\animations\knight_animations.json" />
     <None Include="assets\animations\ork_animations.json" />
     <None Include="assets\animations\vampire_animations.json" />
+    <None Include="assets\animations\ork2_animations.json" />
+    <None Include="assets\animations\ork3_animations.json" />
   </ItemGroup>
 </Project>

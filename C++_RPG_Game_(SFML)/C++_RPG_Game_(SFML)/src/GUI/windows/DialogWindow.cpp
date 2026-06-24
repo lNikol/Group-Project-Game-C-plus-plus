@@ -46,7 +46,15 @@ namespace RPG {
 
         if (tree && node) {
             m_npcNameText.setString(tree->npcName);
-            m_dialogText.setString(node->text);
+            
+            float textStartX = 20.f;
+            if (!tree->npcPortrait.empty()) {
+                textStartX = 168.f;
+            }
+            float maxWidth = m_size.x - textStartX - 20.f; // 20.f right margin
+            
+            std::string wrappedText = wrapText(node->text, maxWidth);
+            m_dialogText.setString(sf::String::fromUtf8(wrappedText.begin(), wrappedText.end()));
 
             if (!tree->npcPortrait.empty()) {
                 const Spritesheet* portraitTex = AssetManager::getInstance().getSpritesheet(tree->npcPortrait);
@@ -56,7 +64,7 @@ namespace RPG {
                 if (portraitTex && portraitTex->getSize().x > 0) {
                     m_npcPortrait.emplace(*portraitTex);
                     sf::Vector2i offset = {0, 0};
-                    if (tree->npcPortrait == "vampire" || tree->npcPortrait == "ork" || tree->npcPortrait == "knight" || tree->npcPortrait == "player") {
+                    if (tree->npcPortrait == "vampire" || tree->npcPortrait == "ork" || tree->npcPortrait == "ork2" || tree->npcPortrait == "ork3" || tree->npcPortrait == "knight" || tree->npcPortrait == "player") {
                         offset = {16, 16};
                     } else if (tree->npcPortrait == "npc") {
                         offset = {8, 16};
@@ -76,7 +84,8 @@ namespace RPG {
                 t.setCharacterSize(16);
                 t.setFillColor(sf::Color(200, 200, 200));
                 std::string prefix = std::to_string(i + 1) + ". ";
-                t.setString(prefix + node->responses[i].text);
+                std::string wrappedResp = wrapText(prefix + node->responses[i].text, maxWidth);
+                t.setString(sf::String::fromUtf8(wrappedResp.begin(), wrappedResp.end()));
                 m_responseTexts.push_back(t);
             }
         }
@@ -91,11 +100,64 @@ namespace RPG {
         m_npcNameText.setPosition({textStartX, 15.f});
         m_dialogText.setPosition({textStartX, 50.f});
 
-        float currentY = 100.f;
+        float currentY = 50.f + m_dialogText.getLocalBounds().size.y + 20.f;
         for (auto& t : m_responseTexts) {
             t.setPosition({textStartX, currentY});
-            currentY += 24.f;
+            currentY += t.getLocalBounds().size.y + 8.f; // spacing between responses
         }
+    }
+
+    std::string DialogWindow::wrapText(const std::string& text, float maxWidth) {
+        std::string result;
+        std::string currentLine;
+        std::string currentWord;
+        
+        sf::Text temp(m_font);
+        temp.setCharacterSize(m_dialogText.getCharacterSize());
+        
+        auto checkWidth = [&](const std::string& str) {
+            temp.setString(sf::String::fromUtf8(str.begin(), str.end()));
+            return temp.getLocalBounds().size.x;
+        };
+
+        for (size_t i = 0; i < text.size(); ++i) {
+            char c = text[i];
+            if (c == ' ' || c == '\n') {
+                if (checkWidth(currentLine + currentWord) > maxWidth) {
+                    if (!currentLine.empty()) {
+                        result += currentLine + "\n";
+                        currentLine = currentWord + (c == ' ' ? " " : "");
+                    } else {
+                        result += currentWord + "\n";
+                        currentLine = "";
+                    }
+                } else {
+                    currentLine += currentWord + (c == ' ' ? " " : "");
+                }
+                
+                if (c == '\n') {
+                    result += currentLine + "\n";
+                    currentLine = "";
+                }
+                currentWord = "";
+            } else {
+                currentWord += c;
+            }
+        }
+        
+        if (!currentWord.empty() || !currentLine.empty()) {
+            if (checkWidth(currentLine + currentWord) > maxWidth) {
+                if (!currentLine.empty()) {
+                    result += currentLine + "\n" + currentWord;
+                } else {
+                    result += currentWord;
+                }
+            } else {
+                result += currentLine + currentWord;
+            }
+        }
+        
+        return result;
     }
 
     bool DialogWindow::handleEvent(sf::RenderWindow& window, const sf::Event& event) {

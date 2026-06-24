@@ -27,6 +27,8 @@ namespace RPG {
         AssetManager::getInstance().addSpritesheet("npc",    GameConfig::ANIMATIONS_PATH + "npc.png");
         AssetManager::getInstance().addSpritesheet("knight", GameConfig::ANIMATIONS_PATH + "knight.png");
         AssetManager::getInstance().addSpritesheet("ork", GameConfig::ANIMATIONS_PATH + "ork.png");
+        AssetManager::getInstance().addSpritesheet("ork2", GameConfig::ANIMATIONS_PATH + "ork2.png");
+        AssetManager::getInstance().addSpritesheet("ork3", GameConfig::ANIMATIONS_PATH + "ork3.png");
         AssetManager::getInstance().addSpritesheet("vampire", GameConfig::ANIMATIONS_PATH + "vampire.png");
         AssetManager::getInstance().addSpritesheet("indicator", GameConfig::ANIMATIONS_PATH + "indicator.png");
         AssetManager::getInstance().addTexture("grass",      GameConfig::TEXTURES_PATH   + "grass.png");
@@ -43,6 +45,13 @@ namespace RPG {
             if (m_systemHud) {
                 m_systemHud->notifyQuestUpdated();
             }
+        });
+
+        RPG::EventBus::getInstance().subscribe(EventType::TriggerBattle, [this](const RPG::GameEvent& e) {
+            const auto& battleEvent = static_cast<const TriggerBattleEvent&>(e);
+            std::cout << "[GameManager] Received TriggerBattleEvent for: " << battleEvent.encounterFile << "\n";
+            m_pendingEncounterFile = battleEvent.encounterFile;
+            changeScene(FactionID::BattleScene);
         });
 
         RPG::EventBus::getInstance().subscribe(EventType::QuestStarted, [this](const RPG::GameEvent& e) {
@@ -208,7 +217,8 @@ namespace RPG {
 
         switch (targetFaction) {
         case FactionID::BattleScene:
-            currentScene = std::make_unique<BattleScene>(*this, window, playerUnit, "assets/jsons/encounters/enc_01_tutorial.json");
+            currentScene = std::make_unique<BattleScene>(*this, window, playerUnit, m_pendingEncounterFile.empty() ? "assets/jsons/encounters/enc_01_tutorial.json" : m_pendingEncounterFile);
+            m_pendingEncounterFile = "";
             break;
         case FactionID::MainWorld:
             currentScene = std::make_unique<WorldScene>(*this, selectedMap);

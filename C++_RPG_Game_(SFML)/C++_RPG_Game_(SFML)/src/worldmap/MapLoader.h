@@ -40,7 +40,7 @@ namespace RPG {
         static void processTileLayer(const nlohmann::json& layer, WorldMap& map);
         static void processObjectLayer(const nlohmann::json& layer, WorldMap& map);
         static FactionID mapFaction(std::string name);
-        static TriggerAction mapTrigger(std::string name);
+        static TriggerAction mapTrigger(const std::string& str);
         static std::string getStrProperty(const nlohmann::json& el, const std::string& name, const std::string& def);
         static int getIntProperty(const nlohmann::json& el, const std::string& name, int def);
         static bool getBoolProperty(const nlohmann::json& el, const std::string& name, bool def);

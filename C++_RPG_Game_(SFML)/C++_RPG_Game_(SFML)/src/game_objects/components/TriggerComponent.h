@@ -15,7 +15,8 @@ namespace RPG {
         OpenChest,    
         StartDialog,  
         SaveGame,
-        UpdateQuest
+        UpdateQuest,
+        StartBattle
     };
 
     /**
@@ -43,6 +44,8 @@ namespace RPG {
         int dialogId = -1; // for StartDialog
         int chestId = -1; // for OpenChest
         std::string questId = ""; // for UpdateQuest
+        std::string encounterFile = ""; // for StartBattle
+        std::string requiredQuestId = ""; // condition to activate trigger
         bool isCompletingQuest = false; // false = Start Quest, true = Complete Quest
 
         bool oneShot = true;  // true = Activates once and disactivates

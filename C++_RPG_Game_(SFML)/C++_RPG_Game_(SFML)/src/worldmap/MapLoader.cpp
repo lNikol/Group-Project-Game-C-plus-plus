@@ -173,6 +173,9 @@ namespace RPG {
                     tc->targetScene = mapFaction(getStrProperty(obj, "targetScene", "neutral"));
                     tc->dialogId = getIntProperty(obj, "dialogId", -1);
                     tc->chestId =  getIntProperty(obj, "chestId", -1);
+                    tc->questId =  getStrProperty(obj, "questId", "");
+                    tc->requiredQuestId = getStrProperty(obj, "requiredQuestId", "");
+                    tc->encounterFile = getStrProperty(obj, "encounterFile", "");
                     tc->oneShot =  getStrProperty(obj, "oneShot", "true") == "true";
 
                     map.addGameObject(std::move(triggerObj));
@@ -195,16 +198,13 @@ namespace RPG {
     }
 
 
-    TriggerAction MapLoader::mapTrigger(std::string name) {
-        std::transform(name.begin(), name.end(), name.begin(), ::tolower);
-        static const std::unordered_map<std::string, TriggerAction> m = {
-            {"changescene", TriggerAction::ChangeScene},
-            {"openchest",   TriggerAction::OpenChest},
-            {"startdialog", TriggerAction::StartDialog},
-            {"savegame",    TriggerAction::SaveGame}
-        };
-        auto it = m.find(name);
-        return (it != m.end()) ? it->second : TriggerAction::ChangeScene;
+    TriggerAction MapLoader::mapTrigger(const std::string& str) {
+        if (str == "changeScene") return TriggerAction::ChangeScene;
+        if (str == "startDialog") return TriggerAction::StartDialog;
+        if (str == "openChest")   return TriggerAction::OpenChest;
+        if (str == "updateQuest") return TriggerAction::UpdateQuest;
+        if (str == "startBattle") return TriggerAction::StartBattle;
+        return TriggerAction::ChangeScene;
     }
 
     uint8_t MapLoader::determineZIndex(const nlohmann::json& layer) {

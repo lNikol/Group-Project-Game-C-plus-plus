@@ -1,0 +1,22 @@
+{
+  "spritesheet": "ork3.png",
+  "defaultFrameGap": 32,
+  "animations": {
+    "idle_bottom": {
+      "startPos": [ 16, 16 ],
+      "frameCount": 4
+    },
+    "idle_top": {
+      "startPos": [ 16, 48 ],
+      "frameCount": 4
+    },
+    "idle_left": {
+      "startPos": [ 16, 80 ],
+      "frameCount": 4
+    },
+    "idle_right": {
+      "startPos": [ 16, 112 ],
+      "frameCount": 4
+    }
+  }
+}

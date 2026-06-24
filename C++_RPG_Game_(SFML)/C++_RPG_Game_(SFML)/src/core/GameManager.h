@@ -33,6 +33,7 @@ namespace RPG {
         TransitionState m_transitionState = TransitionState::None;
         float m_transitionAlpha = 0.f;
         FactionID m_pendingFaction;
+        std::string m_pendingEncounterFile;
 
         std::map<FactionID, std::shared_ptr<WorldMap>> allMaps;
         std::shared_ptr<Unit> playerUnit;

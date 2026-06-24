@@ -3,6 +3,7 @@
 #include "scenes/ISceneController.h"
 #include "worldmap/enums.h"
 #include "core/QuestManager.h"
+#include "core/EventBus.h"
 #include <iostream>
 
 namespace RPG {
@@ -41,6 +42,19 @@ namespace RPG {
                     QuestManager::getInstance().startQuest(trigger.questId);
                 }
                 return true;
+
+            case TriggerAction::StartBattle:
+                if (!trigger.requiredQuestId.empty()) {
+                    if (QuestManager::getInstance().getQuestStatus(trigger.requiredQuestId) != QuestStatus::Active) {
+                        return false;
+                    }
+                }
+                if (!trigger.encounterFile.empty()) {
+                    TriggerBattleEvent event(trigger.encounterFile);
+                    EventBus::getInstance().publish(event);
+                    return true;
+                }
+                return false;
 
             default:
                 return false; // StartDialog — oddaj do DialogTriggerHandler

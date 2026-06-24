@@ -3210,8 +3210,8 @@
                  "type":"",
                  "visible":true,
                  "width":47,
-                 "x":-230,
-                 "y":999
+                 "x":-289,
+                 "y":1028.5
                 }, 
                 {
                  "gid":12845,
@@ -3223,8 +3223,8 @@
                  "type":"",
                  "visible":true,
                  "width":38,
-                 "x":-198.667,
-                 "y":1010
+                 "x":-257.667,
+                 "y":1039.5
                 }, 
                 {
                  "gid":12845,
@@ -4961,24 +4961,29 @@
                         {
                          "name":"action",
                          "type":"string",
-                         "value":"startdialog"
+                         "value":"startBattle"
                         }, 
                         {
-                         "name":"dialogId",
-                         "type":"int",
-                         "value":665
+                         "name":"encounterFile",
+                         "type":"string",
+                         "value":"assets\/jsons\/encounters\/enc_03_ambush.json"
                         }, 
                         {
                          "name":"oneShot",
                          "type":"string",
-                         "value":"false"
+                         "value":"true"
+                        }, 
+                        {
+                         "name":"requiredQuestId",
+                         "type":"string",
+                         "value":"hermit_quest"
                         }],
                  "rotation":0,
                  "type":"trigger",
                  "visible":true,
                  "width":98,
-                 "x":2670.18,
-                 "y":-344.242
+                 "x":-623.82,
+                 "y":-211.454121212121
                 }, 
                 {
                  "gid":12806,
@@ -13185,6 +13190,19 @@
                  "width":26,
                  "x":1012.33,
                  "y":-653.333
+                }, 
+                {
+                 "gid":12835,
+                 "height":41,
+                 "id":1532,
+                 "name":"",
+                 "opacity":1,
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":56,
+                 "x":-192,
+                 "y":960
                 }],
          "opacity":1,
          "properties":[
@@ -13213,8 +13231,8 @@
                  "type":"player_spawn",
                  "visible":true,
                  "width":0,
-                 "x":-703.235,
-                 "y":342.204
+                 "x":-711.219848484849,
+                 "y":344.658545454545
                 }, 
                 {
                  "height":0,
@@ -13226,24 +13244,24 @@
                         {
                          "name":"dialog_id",
                          "type":"int",
-                         "value":1
+                         "value":4
                         }, 
                         {
                          "name":"faction",
                          "type":"string",
-                         "value":"battle"
+                         "value":"dark"
                         }, 
                         {
                          "name":"texture",
                          "type":"string",
-                         "value":"knight"
+                         "value":"ork2"
                         }],
                  "rotation":0,
                  "type":"npc_spawn",
                  "visible":true,
                  "width":0,
-                 "x":434.091,
-                 "y":222.683
+                 "x":427.424333333333,
+                 "y":230.683
                 }, 
                 {
                  "height":0,
@@ -13253,9 +13271,14 @@
                  "point":true,
                  "properties":[
                         {
+                         "name":"dialog_id",
+                         "type":"int",
+                         "value":3
+                        }, 
+                        {
                          "name":"faction",
                          "type":"string",
-                         "value":"neutral"
+                         "value":"dark"
                         }, 
                         {
                          "name":"texture",
@@ -13266,8 +13289,8 @@
                  "type":"npc_spawn",
                  "visible":true,
                  "width":0,
-                 "x":-81.4997,
-                 "y":433.728
+                 "x":-93.2497,
+                 "y":431.978
                 }, 
                 {
                  "height":0,
@@ -13311,6 +13334,93 @@
                  "width":0,
                  "x":2533.52,
                  "y":-290.848
+                }, 
+                {
+                 "height":0,
+                 "id":1528,
+                 "name":"npc_spawn",
+                 "opacity":1,
+                 "point":true,
+                 "properties":[
+                        {
+                         "name":"dialog_id",
+                         "type":"int",
+                         "value":5
+                        }, 
+                        {
+                         "name":"faction",
+                         "type":"string",
+                         "value":"dark"
+                        }, 
+                        {
+                         "name":"texture",
+                         "type":"string",
+                         "value":"ork"
+                        }],
+                 "rotation":0,
+                 "type":"npc_spawn",
+                 "visible":true,
+                 "width":0,
+                 "x":1494,
+                 "y":239.333333333333
+                }, 
+                {
+                 "height":0,
+                 "id":1529,
+                 "name":"npc_spawn",
+                 "opacity":1,
+                 "point":true,
+                 "properties":[
+                        {
+                         "name":"dialog_id",
+                         "type":"int",
+                         "value":6
+                        }, 
+                        {
+                         "name":"faction",
+                         "type":"string",
+                         "value":"dark"
+                        }, 
+                        {
+                         "name":"texture",
+                         "type":"string",
+                         "value":"ork3"
+                        }],
+                 "rotation":0,
+                 "type":"npc_spawn",
+                 "visible":true,
+                 "width":0,
+                 "x":1085.18181818182,
+                 "y":-527.136363636364
+                }, 
+                {
+                 "height":0,
+                 "id":1531,
+                 "name":"npc_spawn",
+                 "opacity":1,
+                 "point":true,
+                 "properties":[
+                        {
+                         "name":"dialog_id",
+                         "type":"int",
+                         "value":7
+                        }, 
+                        {
+                         "name":"faction",
+                         "type":"string",
+                         "value":"dark"
+                        }, 
+                        {
+                         "name":"texture",
+                         "type":"string",
+                         "value":"ork"
+                        }],
+                 "rotation":0,
+                 "type":"npc_spawn",
+                 "visible":true,
+                 "width":0,
+                 "x":-163.916666666667,
+                 "y":970.083333333333
                 }],
          "opacity":1,
          "properties":[
@@ -13325,7 +13435,7 @@
          "y":0
         }],
  "nextlayerid":7,
- "nextobjectid":1528,
+ "nextobjectid":1534,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.12.2",

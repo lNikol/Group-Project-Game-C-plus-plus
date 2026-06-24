@@ -50,6 +50,41 @@
           "requiredAmount": 5
         }
       ]
+    },
+    {
+      "id": "guard_quest_1",
+      "title": "A Lonely City",
+      "description": "The Gate Guard asked you to speak with a gloomy civilian nearby.",
+      "objectives": [
+        {
+          "id": "obj_1",
+          "description": "Speak to the lonely civilian",
+          "type": "DIALOG",
+          "targetId": "speak_to_civilian"
+        }
+      ],
+      "rewards": {
+        "xp": 100,
+        "gold": 50
+      }
+    },
+    {
+      "id": "hermit_quest",
+      "title": "Pest Control",
+      "description": "An old hermit's supplies are being attacked by Shadow Lurkers.",
+      "objectives": [
+        {
+          "id": "obj_1",
+          "description": "Kill 3 Shadow Lurkers in the cave",
+          "type": "KILL_ENEMY",
+          "targetId": "enemy_shadow",
+          "requiredAmount": 3
+        }
+      ],
+      "rewards": {
+        "xp": 150,
+        "gold": 75
+      }
     }
   ]
 }

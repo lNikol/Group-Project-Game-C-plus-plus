@@ -31,6 +31,7 @@ namespace RPG {
         sf::Vector2f m_size;
         
         void refreshContent();
+        std::string wrapText(const std::string& text, float maxWidth);
     };
 
 }

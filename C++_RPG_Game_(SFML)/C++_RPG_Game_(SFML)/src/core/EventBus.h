@@ -13,7 +13,8 @@ namespace RPG {
         QuestCompleted,
         QuestStarted,
         QuestReadyToTurnIn,
-        DialogObjective
+        DialogObjective,
+        TriggerBattle
     };
 
     struct GameEvent {
@@ -59,6 +60,12 @@ namespace RPG {
         std::string objectiveId;
         DialogObjectiveEvent(const std::string& id) : objectiveId(id) {}
         EventType getType() const override { return EventType::DialogObjective; }
+    };
+
+    struct TriggerBattleEvent : public GameEvent {
+        std::string encounterFile;
+        TriggerBattleEvent(const std::string& file) : encounterFile(file) {}
+        EventType getType() const override { return EventType::TriggerBattle; }
     };
 
     class EventBus {

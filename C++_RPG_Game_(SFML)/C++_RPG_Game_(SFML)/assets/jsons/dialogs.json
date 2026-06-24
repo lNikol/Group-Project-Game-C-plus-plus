@@ -7,21 +7,36 @@
         "start": {
           "text": "Hello there, traveler. Are you seeking the Carrier of the Flame?",
           "responses": [
-            { "text": "Who are you?", "nextNode": "who_are_you" },
-            { "text": "Yes, I am.", "nextNode": "yes_carrier" },
-            { "text": "Goodbye.", "nextNode": "exit" }
+            {
+              "text": "Who are you?",
+              "nextNode": "who_are_you"
+            },
+            {
+              "text": "Yes, I am.",
+              "nextNode": "yes_carrier"
+            },
+            {
+              "text": "Goodbye.",
+              "nextNode": "exit"
+            }
           ]
         },
         "who_are_you": {
           "text": "Just an observer in the darkness.",
           "responses": [
-            { "text": "Goodbye.", "nextNode": "exit" }
+            {
+              "text": "Goodbye.",
+              "nextNode": "exit"
+            }
           ]
         },
         "yes_carrier": {
           "text": "Then you have a long path ahead. Beware the Darkness.",
           "responses": [
-            { "text": "I will.", "nextNode": "exit" }
+            {
+              "text": "I will.",
+              "nextNode": "exit"
+            }
           ],
           "triggerEvent": "StartQuest_lore_quest_1"
         }
@@ -50,28 +65,364 @@
         "greeting_default": {
           "text": "Stand back, civilian. The Light Order is securing this fort.",
           "responses": [
-            { "text": "Understood.", "nextNode": "exit" }
+            {
+              "text": "Understood.",
+              "nextNode": "exit"
+            }
           ]
         },
         "greeting_quest_active": {
           "text": "Ah, you must be the mercenary. We need your help immediately.",
           "responses": [
-            { "text": "What do you need?", "nextNode": "give_orders" }
+            {
+              "text": "What do you need?",
+              "nextNode": "give_orders"
+            }
           ],
           "triggerEvent": "Objective_commander_intro"
         },
         "give_orders": {
           "text": "The Darkness is attacking the sawmill. Defend it, and perhaps we will recruit you as a Squire of Light.",
           "responses": [
-            { "text": "I will handle it.", "nextNode": "exit" }
+            {
+              "text": "I will handle it.",
+              "nextNode": "exit"
+            }
           ],
           "triggerEvent": "CompleteQuest_lore_quest_1"
         },
         "greeting_defend_active": {
           "text": "Why are you still here? The sawmill won't defend itself!",
           "responses": [
-            { "text": "I'm on my way.", "nextNode": "exit" }
+            {
+              "text": "I'm on my way.",
+              "nextNode": "exit"
+            }
           ]
+        }
+      }
+    },
+    "3": {
+      "npcName": "Traveling Ork",
+      "npcPortrait": "ork",
+      "nodes": {
+        "start": {
+          "text": "A traveler? You're brave to walk these roads. This city used to be full of life...",
+          "responses": [
+            {
+              "text": "What happened here?",
+              "nextNode": "what_happened"
+            },
+            {
+              "text": "I'm just passing through.",
+              "nextNode": "exit"
+            }
+          ]
+        },
+        "what_happened": {
+          "text": "War. Disease. The usual blights that strike our kind. The grand bazaar is now just dust and broken stalls. Even the proud warriors have abandoned their posts.",
+          "responses": [
+            {
+              "text": "Is anyone left?",
+              "nextNode": "anyone_left"
+            },
+            {
+              "text": "A tragic tale. Farewell.",
+              "nextNode": "exit"
+            }
+          ]
+        },
+        "anyone_left": {
+          "text": "Only ghosts, hermits, and a few stubborn fools holding onto the past. You might find some at the gates or sulking in the alleys.",
+          "responses": [
+            {
+              "text": "Thank you for the warning.",
+              "nextNode": "exit"
+            }
+          ]
+        }
+      }
+    },
+    "4": {
+      "npcName": "Gate Guard",
+      "npcPortrait": "ork2",
+      "nodes": {
+        "start": {
+          "questCondition": {
+            "questId": "guard_quest_1",
+            "status": "Completed",
+            "trueNode": "already_done",
+            "falseNode": "check_ready"
+          }
+        },
+        "check_ready": {
+          "questCondition": {
+            "questId": "guard_quest_1",
+            "status": "ReadyToTurnIn",
+            "trueNode": "completed",
+            "falseNode": "check_active"
+          }
+        },
+        "check_active": {
+          "questCondition": {
+            "questId": "guard_quest_1",
+            "status": "Active",
+            "trueNode": "active",
+            "falseNode": "default"
+          }
+        },
+        "already_done": {
+          "text": "Thank you again for speaking with him. The city feels a little less cold.",
+          "responses": [
+            {
+              "text": "Take care.",
+              "nextNode": "exit"
+            }
+          ]
+        },
+        "default": {
+          "text": "Halt! State your business. Not many wanderers come to the ruined Ork city.",
+          "responses": [
+            {
+              "text": "Just exploring.",
+              "nextNode": "exploring"
+            },
+            {
+              "text": "None of your concern.",
+              "nextNode": "rude"
+            }
+          ]
+        },
+        "exploring": {
+          "text": "Fine. Keep your weapons sheathed while you're inside. By the way... there's a civilian nearby who looks rather grim. The loneliness takes its toll.",
+          "responses": [
+            {
+              "text": "I can talk to him.",
+              "nextNode": "give_quest"
+            }
+          ]
+        },
+        "rude": {
+          "text": "Watch your tongue. You're allowed in, but don't cause trouble. Also, if you have a shred of decency, check on the lonely civilian nearby.",
+          "responses": [
+            {
+              "text": "I might.",
+              "nextNode": "give_quest"
+            }
+          ]
+        },
+        "give_quest": {
+          "text": "I appreciate it. It's hard enough guarding empty ruins without having to worry about those who remain losing their minds.",
+          "responses": [
+            {
+              "text": "I will go now.",
+              "nextNode": "exit"
+            }
+          ],
+          "triggerEvent": "StartQuest_guard_quest_1"
+        },
+        "active": {
+          "text": "Have you spoken to the civilian yet?",
+          "responses": [
+            {
+              "text": "Not yet.",
+              "nextNode": "exit"
+            }
+          ]
+        },
+        "completed": {
+          "text": "Ah, you spoke to him? Good to know someone still cares. Here's a reward for your time.",
+          "responses": [
+            {
+              "text": "Thank you.",
+              "nextNode": "exit"
+            }
+          ],
+          "triggerEvent": "CompleteQuest_guard_quest_1"
+        }
+      }
+    },
+    "5": {
+      "npcName": "Lonely Civilian",
+      "npcPortrait": "ork",
+      "nodes": {
+        "start": {
+          "text": "Oh, hello. Not many outsiders visit what's left of our Ork city. The clan has scattered, and only a few of us stubbornly remain.",
+          "responses": [
+            {
+              "text": "The guard sent me.",
+              "nextNode": "guard_sent"
+            },
+            {
+              "text": "It's very quiet here.",
+              "nextNode": "quiet"
+            }
+          ]
+        },
+        "guard_sent": {
+          "text": "Did he? He's a good Ork, still trying to uphold order when there's nothing left to protect. Thank you for listening to an old Ork's sorrow.",
+          "responses": [
+            {
+              "text": "Stay strong.",
+              "nextNode": "exit"
+            }
+          ],
+          "triggerEvent": "Objective_speak_to_civilian"
+        },
+        "quiet": {
+          "text": "Too quiet. It gives you too much time to think about those who are gone. But thank you for the company, it helps.",
+          "responses": [
+            {
+              "text": "Take care.",
+              "nextNode": "exit"
+            }
+          ],
+          "triggerEvent": "Objective_speak_to_civilian"
+        }
+      }
+    },
+    "6": {
+      "npcName": "Royal Guard",
+      "npcPortrait": "ork3",
+      "nodes": {
+        "start": {
+          "text": "Halt! You dare approach the Royal District? This area is forbidden to outsiders!",
+          "responses": [
+            {
+              "text": "I go where I please.",
+              "nextNode": "defiant"
+            },
+            {
+              "text": "Why is it forbidden?",
+              "nextNode": "inquire"
+            },
+            {
+              "text": "My apologies, I'll leave.",
+              "nextNode": "exit"
+            }
+          ]
+        },
+        "inquire": {
+          "text": "The Royal Family's grounds are sacred. Only the Elite are permitted. Leave now, or face the consequences.",
+          "responses": [
+            {
+              "text": "I'm not leaving.",
+              "nextNode": "defiant"
+            },
+            {
+              "text": "Okay, I'm leaving.",
+              "nextNode": "exit"
+            }
+          ]
+        },
+        "defiant": {
+          "text": "Foolish arrogance. We will teach you the price of defying the Royal Guard. Draw your weapon!",
+          "responses": [
+            {
+              "text": "[Draw weapon]",
+              "nextNode": "fight"
+            }
+          ]
+        },
+        "fight": {
+          "text": "For the King!",
+          "responses": [
+            {
+              "text": "[Combat begins]",
+              "nextNode": "exit"
+            }
+          ],
+          "triggerEvent": "Battle_enc_02_chokepoint"
+        }
+      }
+    },
+    "7": {
+      "npcName": "Old Hermit",
+      "npcPortrait": "ork",
+      "nodes": {
+        "start": {
+          "questCondition": {
+            "questId": "hermit_quest",
+            "status": "Completed",
+            "trueNode": "already_done",
+            "falseNode": "check_ready"
+          }
+        },
+        "check_ready": {
+          "questCondition": {
+            "questId": "hermit_quest",
+            "status": "ReadyToTurnIn",
+            "trueNode": "completed",
+            "falseNode": "check_active"
+          }
+        },
+        "check_active": {
+          "questCondition": {
+            "questId": "hermit_quest",
+            "status": "Active",
+            "trueNode": "active",
+            "falseNode": "default"
+          }
+        },
+        "already_done": {
+          "text": "My supplies are finally safe. You have my gratitude, warrior.",
+          "responses": [
+            {
+              "text": "You're welcome.",
+              "nextNode": "exit"
+            }
+          ]
+        },
+        "default": {
+          "text": "You there! Stop dawdling and help an old Ork! Curse those shadows!",
+          "responses": [
+            {
+              "text": "What shadows?",
+              "nextNode": "explain"
+            },
+            {
+              "text": "I don't have time.",
+              "nextNode": "exit"
+            }
+          ]
+        },
+        "explain": {
+          "text": "Lurkers from the swamp! They've been sneaking into my cellar and ruining my food supplies! I've lost three barrels of salted meat already!",
+          "responses": [
+            {
+              "text": "I can drive them off.",
+              "nextNode": "give_quest"
+            }
+          ]
+        },
+        "give_quest": {
+          "text": "Ha! Brave words. They are hiding in the old storage cave just north of here. Go in there, find them, and wipe them out. Don't come back until it's done!",
+          "responses": [
+            {
+              "text": "Consider it done.",
+              "nextNode": "exit"
+            }
+          ],
+          "triggerEvent": "StartQuest_hermit_quest"
+        },
+        "active": {
+          "text": "Did you kill them all? Remember, the cave is just north of here. Go inside and exterminate them!",
+          "responses": [
+            {
+              "text": "I'm on it.",
+              "nextNode": "exit"
+            }
+          ]
+        },
+        "completed": {
+          "text": "You did it! I can't thank you enough. Here, take this gold for your trouble!",
+          "responses": [
+            {
+              "text": "Thank you.",
+              "nextNode": "exit"
+            }
+          ],
+          "triggerEvent": "CompleteQuest_hermit_quest"
         }
       }
     }

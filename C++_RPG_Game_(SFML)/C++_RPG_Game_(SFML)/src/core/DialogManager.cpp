@@ -129,6 +129,9 @@ namespace RPG {
             } else if (node->triggerEvent.rfind("Objective_", 0) == 0) {
                 std::string objectiveId = node->triggerEvent.substr(10);
                 EventBus::getInstance().publish(DialogObjectiveEvent(objectiveId));
+            } else if (node->triggerEvent.rfind("Battle_", 0) == 0) {
+                std::string enc = "assets/jsons/encounters/" + node->triggerEvent.substr(7) + ".json";
+                EventBus::getInstance().publish(TriggerBattleEvent(enc));
             }
         }
     }

@@ -51,11 +51,15 @@ namespace RPG {
 
                 if (!isInside(*trigger, entity->getPosition(), playerFeet)) continue;
 
+                bool handled = false;
                 for (auto& handler : handlers) {
-                    if (handler->handle(*trigger, entity.get())) break;
+                    if (handler->handle(*trigger, entity.get())) {
+                        handled = true;
+                        break;
+                    }
                 }
 
-                if (trigger->oneShot) trigger->active = false;
+                if (handled && trigger->oneShot) trigger->active = false;
             }
         }
 
