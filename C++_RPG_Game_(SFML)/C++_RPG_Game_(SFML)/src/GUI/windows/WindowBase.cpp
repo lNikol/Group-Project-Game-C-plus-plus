@@ -15,7 +15,7 @@ namespace RPG {
 
         // Title Text
         m_titleText.setString(title);
-        m_titleText.setCharacterSize(18);
+        m_titleText.setCharacterSize(20);
         m_titleText.setFillColor(sf::Color::White);
         m_titleText.setPosition({ 10.f, 4.f });
 
@@ -28,7 +28,7 @@ namespace RPG {
         m_closeBtnRect.setPosition({ size.x - btnSize - 4.f, 3.f }); // 4px padding
 
         m_closeBtnText.setString("X");
-        m_closeBtnText.setCharacterSize(16);
+        m_closeBtnText.setCharacterSize(18);
         m_closeBtnText.setFillColor(sf::Color::White);
         // Center 'X'
         sf::FloatRect textBounds = m_closeBtnText.getLocalBounds();

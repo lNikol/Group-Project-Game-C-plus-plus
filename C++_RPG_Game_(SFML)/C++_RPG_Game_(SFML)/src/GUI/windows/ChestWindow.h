@@ -68,7 +68,7 @@ namespace RPG {
             if (!lootedItems.empty()) {
                 // Header
                 auto header = std::make_unique<TextWidget>(
-                    *m_font, "You got loot!", 20, sf::Color::Yellow);
+                    *m_font, "You got loot!", 24, sf::Color::Black);
                 sf::FloatRect hb = header->getGlobalBounds();
                 header->setPosition({ centerX - hb.size.x / 2.f, currentY });
                 addChild(std::move(header));
@@ -92,7 +92,7 @@ namespace RPG {
             }
             else {
                 auto emptyLabel = std::make_unique<TextWidget>(
-                    *m_font, "The chest was empty.", 16, sf::Color(150, 150, 150));
+                    *m_font, "The chest was empty.", 24, sf::Color::Red);
                 sf::FloatRect lb = emptyLabel->getGlobalBounds();
                 emptyLabel->setPosition({ centerX - lb.size.x / 2.f, currentY });
                 addChild(std::move(emptyLabel));

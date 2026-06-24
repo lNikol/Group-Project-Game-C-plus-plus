@@ -22,15 +22,15 @@ namespace RPG {
         float charStartY = 40.f;
 
         m_prevBtn.setString("<");
-        m_prevBtn.setCharacterSize(20);
+        m_prevBtn.setCharacterSize(24);
         m_prevBtn.setPosition({ charStartX, charStartY });
 
         m_nextBtn.setString(">");
-        m_nextBtn.setCharacterSize(20);
+        m_nextBtn.setCharacterSize(24);
         m_nextBtn.setPosition({ charStartX + 180.f, charStartY });
         m_prevHitbox = sf::FloatRect({ charStartX - 10.f, charStartY - 5.f }, { 40.f, 40.f });
         m_nextHitbox = sf::FloatRect({ charStartX + 180.f - 10.f, charStartY - 5.f }, { 40.f, 40.f });
-        m_charNameText.setCharacterSize(18);
+        m_charNameText.setCharacterSize(22);
         m_charNameText.setFillColor(sf::Color::Black);
         m_charNameText.setPosition({ charStartX + 25.f, charStartY + 2.f });
 
@@ -95,7 +95,7 @@ namespace RPG {
         float statX = 30.f;
         auto addStatText = [&](const std::string& label, float value) {
             sf::Text t(m_font);
-            t.setCharacterSize(14);
+            t.setCharacterSize(18);
             t.setFillColor(sf::Color::Black);
             std::stringstream ss;
             ss << label << ": " << std::fixed << std::setprecision(0) << value;
