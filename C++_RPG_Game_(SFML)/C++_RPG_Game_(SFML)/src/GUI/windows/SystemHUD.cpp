@@ -18,6 +18,11 @@ namespace RPG {
         m_journalBtn = std::make_unique<ActionSlot>(iconSet, font, sf::Vector2f(50.f, 50.f));
         m_bestiaryBtn = std::make_unique<ActionSlot>(iconSet, font, sf::Vector2f(50.f, 50.f));
 
+        // Center origin so scaling animations scale from the center
+        m_satchelBtn->setOrigin({ 25.f, 25.f });
+        m_journalBtn->setOrigin({ 25.f, 25.f });
+        m_bestiaryBtn->setOrigin({ 25.f, 25.f });
+
         // Initialize Windows
         m_inventoryWindow = std::make_unique<InventoryWindow>(iconSet, font);
         m_journalWindow = std::make_unique<JournalWindow>(font);
@@ -82,10 +87,10 @@ namespace RPG {
         float maxW = w - 40.f;
         float maxH = h - 40.f;
 
-        // Position Buttons Bottom-Right
-        m_bestiaryBtn->setPosition(sf::Vector2f(w - 60.f, h - 60.f));
-        m_journalBtn->setPosition(sf::Vector2f(w - 110.f, h - 60.f));
-        m_satchelBtn->setPosition(sf::Vector2f(w - 160.f, h - 60.f));
+        // Position Buttons Bottom-Right (origin is center 25.f, 25.f)
+        m_bestiaryBtn->setPosition(sf::Vector2f(w - 35.f, h - 35.f));
+        m_journalBtn->setPosition(sf::Vector2f(w - 85.f, h - 35.f));
+        m_satchelBtn->setPosition(sf::Vector2f(w - 135.f, h - 35.f));
 
         // Center Windows
         if (m_inventoryWindow) {
