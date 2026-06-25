@@ -702,8 +702,8 @@ namespace RPG {
         }
 
         if (m_state != GameState::PlacementMode) {
-            float startX = -580.0f;
-            float startY = -150.0f;
+            float startX = -440.0f;
+            float startY = 0.0f;
             float spacing = 60.0f;
             for (size_t i = 0; i < m_turnQueue.size(); i++)
             {
